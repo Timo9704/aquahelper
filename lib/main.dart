@@ -1,11 +1,19 @@
 import 'package:aquahelper/screens/create_or_edit_aquarium.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/widget/aquarium_item.dart';
 import 'package:flutter/material.dart';
+
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
 
 import 'model/aquarium.dart';
 
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DBHelper.db.initDB();
+  await DBHelper.db.insertAquarium();
   runApp(const AquaHelper());
 }
 
@@ -35,16 +43,24 @@ class AquaHelperStartPage extends StatefulWidget {
 }
 
 class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
-  List<Aquarium> aquariums = []; // Liste zum Speichern von Aquarien
+  List<Aquarium> aquariums = [];
 
-  void _addAquarium() {
+  void initState() {
+    super.initState();
+    loadAquariums();
+  }
+
+  void loadAquariums() async {
+    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
     setState(() {
-      aquariums.add(Aquarium());
+      aquariums = dbAquariums;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("AquaHelper"),
@@ -95,13 +111,12 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
             ),
           ),
           SizedBox(
-            height: 200,
+            height: 500,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: 1,
+              itemCount: aquariums.length,
               itemBuilder: (context, index) {
-                return
-                    const AquariumItem();
+                return AquariumItem(aquarium: aquariums.elementAt(index));
               },
             ),
           )
