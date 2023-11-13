@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
+import '../model/aquarium.dart';
 import '../widget/measurement_item.dart';
 import 'measurement_form.dart';
 
 class AquariumOverview extends StatelessWidget{
-  const AquariumOverview({super.key});
+  final Aquarium aquarium;
+
+  AquariumOverview({super.key, required this.aquarium});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Alpen 60P"),
+        title: Text(aquarium.name),
         backgroundColor: Colors.lightGreen,
       ),
       body: Column(
