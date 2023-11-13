@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../screens/aquarium_overview.dart';
+import '../model/aquarium.dart';
 
 class AquariumItem extends StatelessWidget{
+  final Aquarium aquarium;
+  
   const AquariumItem({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class AquariumItem extends StatelessWidget{
                   borderRadius: BorderRadius.circular(10.0),
                   image: const DecorationImage(
                     image: NetworkImage(
-                        'https://aquaristik-kosmos.de/wp-content/uploads/2022/12/Aquarium_weboptimiert_720p_low.jpg'),
+                        ${aquarium.imageUrl}),
                     // Bild von URL
                     fit: BoxFit.cover,
                   ),
@@ -35,7 +37,7 @@ class AquariumItem extends StatelessWidget{
               color: Colors.black54,
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text("Alpen 60P",
+                child: Text(${aquarium.name},
                     style: TextStyle(fontSize: 24, color: Colors.white)),
               ),
             ),
