@@ -1,11 +1,11 @@
 class Aquarium {
-  int id;
+  int aquariumId;
   String name;
   int liter;
   String imageUrl;
 
   Aquarium(
-    this.id,
+    this.aquariumId,
     this.name,
     this.liter,
     this.imageUrl,
@@ -13,7 +13,7 @@ class Aquarium {
 
   factory Aquarium.fromMap(Map<String, dynamic> json){
     return Aquarium(
-        json["id"],
+        json["aquariumId"],
         json["name"],
         json["liter"],
         json["imageUrl"]
@@ -22,7 +22,7 @@ class Aquarium {
 
     Map<String, dynamic> toMap() {
       return {
-        'id': id,
+        'aquariumId': aquariumId,
         'name': name,
         'liter': liter,
         'imageUrl': imageUrl,
