@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../model/aquarium.dart';
 import '../screens/aquarium_overview.dart';
+import '../screens/create_or_edit_aquarium.dart';
 
 class AquariumItem extends StatelessWidget{
   final Aquarium aquarium;
@@ -35,14 +36,32 @@ class AquariumItem extends StatelessWidget{
             ),
             Container(
               width: double.infinity,
-              color: Colors.black54,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+                color: Colors.black54,
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(aquarium.name,
-                    style: const TextStyle(fontSize: 24, color: Colors.white)),
-              ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                        Text(aquarium.name,
+                          style: const TextStyle(fontSize: 24, color: Colors.white)),
+                        IconButton(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const CreateOrEditAquarium()),
+                          ),
+                          icon: const Icon(Icons.edit,
+                            color: Colors.white,
+                          ),
+                        ),
+            ])
             ),
-          ],
+            )],
         ),
       );
   }
