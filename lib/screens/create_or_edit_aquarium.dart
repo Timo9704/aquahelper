@@ -1,4 +1,16 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as img;
+
+import '../model/aquarium.dart';
+import 'package:aquahelper/util/dbhelper.dart';
+
 
 class CreateOrEditAquarium extends StatefulWidget {
   const CreateOrEditAquarium({Key? key}) : super(key: key);
@@ -11,80 +23,185 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _literController = TextEditingController();
-  String imageUrl =
-      'https://m.media-amazon.com/images/I/81yqxPIhllL.__AC_SX300_SY300_QL70_ML2_.jpg';
+  int selectedOption = 1;
+  String imagePath = "assets/images/aquarium.jpg";
+
+  Future<void> getImage({required BuildContext context}) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      final croppedImage = await ImageCropper().cropImage(
+        sourcePath: image!.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Bild zuschneiden',
+              toolbarColor: Colors.lightGreen,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'Cropper',
+          ),
+          WebUiSettings(
+            context: context,
+          ),
+        ],
+      );
+
+      GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
+      setState(() {
+        imagePath = croppedImage!.path;
+      });
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Neues Aquarium'),
-      ),
-      body: Padding(
-          padding: const EdgeInsets.all(10.0),
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          title: const Text('Neues Aquarium'),
+        ),
+        body: SingleChildScrollView(child: Container(
+          padding: const EdgeInsets.all(0),
           child: Form(
             key: _formKey,
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
-                  ),
-                ],
+            child:
+            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              GestureDetector(
+                onTap: () => {
+                  getImage(context: context)
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
               ),
-              child:Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 150.0,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
+                  child: imagePath == 'assets/images/aquarium.jpg'
+                    ? Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                          Image.asset(imagePath,
+                            fit: BoxFit.fill
+                          ), // Standard-Bild
+                          Icon(Icons.camera_alt, size: 100, color: Colors.white), // Kamera-Icon
+                      ],
+                    )
+                    : Image.file(File(imagePath!), fit: BoxFit.fill, height: 250)
+              ),),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Art des Aquariums",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: ListTile(
+                                  title: const Text('Süßwasser'),
+                                  leading: Radio<int>(
+                                    value: 1,
+                                    groupValue: selectedOption,
+                                    onChanged: (int? value) {
+                                      setState(() {
+                                        selectedOption = value!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListTile(
+                                  title: const Text('Salzwasser'),
+                                  leading: Radio<int>(
+                                    value: 2,
+                                    groupValue: selectedOption,
+                                    onChanged: (int? value) {
+                                      setState(() {
+                                        selectedOption = value!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                          'https://aquaristik-kosmos.de/wp-content/uploads/2022/12/Aquarium_weboptimiert_720p_low.jpg'),
-                      // Bild von URL
-                      fit: BoxFit.cover,
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Wie heißt das Aquarium?",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              )),
+                          TextFormField(
+                            keyboardType: TextInputType.text,
+                            textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.center,
+                            controller: _nameController,
+                            style: const TextStyle(fontSize: 20),
+                            decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              fillColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: const Text('Erstellen/bearbeiten:',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey,
-                  ),
-                  child: Column(
-                    children: [
-                      const Text("Wie heißt das Aquarium?",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                          )),
-                      TextFormField(
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Wie viel Liter hat das Aquarium?",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              )),
+                          TextFormField(
                             keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
+                            controller: _literController,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
@@ -94,49 +211,39 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                             ),
                           ),
                         ],
-                    ),
-                ),
-                const SizedBox(height:10),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey,
-                  ),
-                  child: Column(
-                    children: [
-                      const Text("Wie viel Liter hat das Aquarium?",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                          )),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        textAlignVertical: TextAlignVertical.center,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 20),
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          fillColor: Colors.grey,
-                        ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(onPressed: () => {}, child: const Text("Löschen")),
-                    ElevatedButton(onPressed: () => {}, child: const Text("Speichern"))
+                    ),
+                    const SizedBox(height: 10),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: 180,
+                          child: ElevatedButton(
+                            onPressed: () => {},
+                            child: const Text("Löschen"),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 180,
+                          child: ElevatedButton(
+                              onPressed: () => {
+                              },
+                              child: const Text("Speichern")),
+                        )
+                      ],
+                    )
                   ],
-                )
-              ],
+                ),
+              )
+            ],
             ),
-          )),
-    ));
+          ),
+        ),
+        ));
   }
 }
