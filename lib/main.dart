@@ -13,7 +13,7 @@ import 'model/aquarium.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DBHelper.db.initDB();
-  await DBHelper.db.insertAquarium();
+  await DBHelper.db.insertAquarien();
   runApp(const AquaHelper());
 }
 
@@ -26,7 +26,7 @@ class AquaHelper extends StatelessWidget {
       title: 'AquaHelper',
       theme: ThemeData(
         primarySwatch: Colors.lightGreen,
-          scaffoldBackgroundColor: const Color(0xFF343434)
+          //scaffoldBackgroundColor: const Color(0xFF343434)
       ),
       home: const AquaHelperStartPage(title: 'AquaHelper'),
     );
@@ -97,7 +97,7 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                const Text('Alle Aquarien:', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800)),
+                const Text('Alle Aquarien:', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800)),
                 IconButton(
                     onPressed: () => Navigator.push(
                       context,
