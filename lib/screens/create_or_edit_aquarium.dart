@@ -6,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
 
+import '../main.dart';
 import '../model/aquarium.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 
 
 class CreateOrEditAquarium extends StatefulWidget {
-  const CreateOrEditAquarium({Key? key}) : super(key: key);
+  final Aquarium? aquarium;
+
+  const CreateOrEditAquarium({Key? key, this.aquarium}) : super(key: key);
 
   @override
   _CreateOrEditAquariumState createState() => _CreateOrEditAquariumState();
@@ -23,8 +26,34 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _literController = TextEditingController();
-  int selectedOption = 1;
+  int waterType = 0;
+  bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
+  late Aquarium aquarium;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.aquarium != null) {
+      aquarium = widget.aquarium!;
+      _nameController.text = aquarium.name;
+      _literController.text = aquarium.liter.toString();
+      waterType = aquarium.waterType;
+      createMode = false;
+      print("Set createMode false");
+    }
+  }
+
+  void syncValuesToObject(){
+    if(widget.aquarium == null){
+      aquarium = new Aquarium(3, _nameController.text, int.parse(_literController.text), waterType, imagePath);
+    }else{
+      aquarium.name = _nameController.text;
+      aquarium.liter = int.parse(_literController.text);
+      aquarium.imageUrl = imagePath;
+    }
+  }
 
   Future<void> getImage({required BuildContext context}) async {
     final ImagePicker _picker = ImagePicker();
@@ -51,12 +80,22 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           ),
         ],
       );
+      //GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
+      final directory = await getExternalStorageDirectory();
+      final newImagePath = '${directory?.path}/images/AquaAffin';
+      final newImage = File('$newImagePath/test1.jpg');
 
-      GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
+      // Erstellen Sie das Verzeichnis, falls es nicht existiert
+      if (!await newImage.parent.exists()) {
+        await newImage.parent.create(recursive: true);
+      }
+
+      // Kopieren Sie das Bild vom ursprünglichen Pfad in den neuen Pfad
+      File(image!.path).copy(newImage.path);
+
       setState(() {
         imagePath = croppedImage!.path;
       });
-
     }
   }
 
@@ -78,10 +117,10 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                   getImage(context: context)
                 },
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
+                    borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
                   child: imagePath == 'assets/images/aquarium.jpg'
                     ? Stack(
                       alignment: Alignment.center,
@@ -89,7 +128,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                           Image.asset(imagePath,
                             fit: BoxFit.fill
                           ), // Standard-Bild
-                          Icon(Icons.camera_alt, size: 100, color: Colors.white), // Kamera-Icon
+                          const Icon(Icons.camera_alt, size: 100, color: Colors.white),
                       ],
                     )
                     : Image.file(File(imagePath!), fit: BoxFit.fill, height: 250)
@@ -122,11 +161,11 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 child: ListTile(
                                   title: const Text('Süßwasser'),
                                   leading: Radio<int>(
-                                    value: 1,
-                                    groupValue: selectedOption,
+                                    value: 0,
+                                    groupValue: waterType,
                                     onChanged: (int? value) {
                                       setState(() {
-                                        selectedOption = value!;
+                                        waterType = value!;
                                       });
                                     },
                                   ),
@@ -136,11 +175,11 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 child: ListTile(
                                   title: const Text('Salzwasser'),
                                   leading: Radio<int>(
-                                    value: 2,
-                                    groupValue: selectedOption,
+                                    value: 1,
+                                    groupValue: waterType,
                                     onChanged: (int? value) {
                                       setState(() {
-                                        selectedOption = value!;
+                                        waterType = value!;
                                       });
                                     },
                                   ),
@@ -221,7 +260,13 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                         SizedBox(
                           width: 180,
                           child: ElevatedButton(
-                            onPressed: () => {},
+                            onPressed: () => {
+                              DBHelper.db.deleteAquarium(aquarium.aquariumId),
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                builder: (BuildContext context) => AquaHelperStartPage()))
+                            },
                             child: const Text("Löschen"),
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
@@ -232,7 +277,17 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                           width: 180,
                           child: ElevatedButton(
                               onPressed: () => {
-                              },
+                                syncValuesToObject(),
+                                if(createMode){
+                                  print(aquarium.toMap().toString()),
+                                  DBHelper.db.insertAquarium(aquarium)
+                                }else{
+                                  DBHelper.db.updateAquarium(aquarium)
+                                },
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) => AquaHelperStartPage()))},
                               child: const Text("Speichern")),
                         )
                       ],

@@ -2,12 +2,14 @@ class Aquarium {
   int aquariumId;
   String name;
   int liter;
+  int waterType;
   String imageUrl;
 
   Aquarium(
     this.aquariumId,
     this.name,
     this.liter,
+    this.waterType,
     this.imageUrl,
   );
 
@@ -16,6 +18,7 @@ class Aquarium {
         json["aquariumId"],
         json["name"],
         json["liter"],
+        json["waterType"],
         json["imageUrl"]
     );
   }
@@ -25,7 +28,8 @@ class Aquarium {
         'aquariumId': aquariumId,
         'name': name,
         'liter': liter,
-        'imageUrl': imageUrl,
+        'waterType': waterType,
+        'imageUrl': imageUrl
       };
     }
   }
