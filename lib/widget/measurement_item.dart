@@ -1,20 +1,18 @@
 import 'package:aquahelper/screens/measurement_form.dart';
 import 'package:flutter/material.dart';
 
+import '../model/measurement.dart';
+
 class MeasurementItem extends StatelessWidget{
-  int index = 0;
-  MeasurementItem(int number, {super.key}){
-    index = number;
-  }
+  final Measurement measurement;
+  MeasurementItem({super.key, required this.measurement});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-        alignment: Alignment.topLeft,
-        backgroundColor: MaterialStateProperty.all<Color>(const Color(
-            0xFF5D5D5D)),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        elevation: MaterialStateProperty.all(10.0)
       ),
       onPressed: () {
         Navigator.of(context).push(
@@ -24,8 +22,8 @@ class MeasurementItem extends StatelessWidget{
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text('Messung $index', style: const TextStyle(fontSize: 18, color: Colors.white)),
-          const Text('20.06.2023', style: TextStyle(fontSize: 18, color: Colors.white)),
+          Text('Messung vom', style: const TextStyle(fontSize: 18, color: Colors.black)),
+          Text(measurement.measurementDate.toIso8601String(), style: TextStyle(fontSize: 18, color: Colors.black)),
         ],
       ),
     );

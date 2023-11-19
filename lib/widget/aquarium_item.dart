@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 import '../model/aquarium.dart';
 import '../screens/aquarium_overview.dart';
@@ -7,7 +10,6 @@ class AquariumItem extends StatelessWidget{
   final Aquarium aquarium;
   
   const AquariumItem({super.key, required this.aquarium});
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +24,12 @@ class AquariumItem extends StatelessWidget{
                 MaterialPageRoute(builder: (context) => AquariumOverview(aquarium: aquarium)),
               ),
               child: Container(
-                height: 150.0,
+                height: 180.0,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                        aquarium.imageUrl),
-                    // Bild von URL
-                    fit: BoxFit.cover,
                   ),
-                ),
+                child: Image.file(File(aquarium.imageUrl),fit: BoxFit.cover),
               ),
             ),
             Container(
@@ -53,7 +51,7 @@ class AquariumItem extends StatelessWidget{
                         IconButton(
                           onPressed: () => Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const CreateOrEditAquarium()),
+                            MaterialPageRoute(builder: (context) => CreateOrEditAquarium(aquarium: aquarium)),
                           ),
                           icon: const Icon(Icons.edit,
                             color: Colors.white,
