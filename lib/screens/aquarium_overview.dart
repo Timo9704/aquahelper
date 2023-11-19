@@ -1,61 +1,86 @@
+import 'dart:io';
+
+import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
 import '../widget/measurement_item.dart';
 import 'measurement_form.dart';
 
-class AquariumOverview extends StatelessWidget{
+class AquariumOverview extends StatefulWidget{
   final Aquarium aquarium;
 
-  AquariumOverview({super.key, required this.aquarium});
+  const AquariumOverview({Key? key, required this.aquarium}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _AquariumOverviewState createState() => _AquariumOverviewState();
+}
+
+class _AquariumOverviewState extends State<AquariumOverview>{
+
+  List<Measurement> measurementList = [];
+
+  @override
+  void initState(){
+    super.initState();
+    loadMeasurements();
+  }
+
+  void loadMeasurements() async {
+    List<Measurement> dbMeasurements = await DBHelper.db.getMeasurmentsList(
+        widget.aquarium);
+    setState(() {
+      measurementList = dbMeasurements;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text(aquarium.name),
+        title: Text(widget.aquarium.name),
         backgroundColor: Colors.lightGreen,
       ),
       body: Column(
         children: <Widget>[
-            Container(
-              height: 150.0,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      'https://aquaristik-kosmos.de/wp-content/uploads/2022/12/Aquarium_weboptimiert_720p_low.jpg'),
-                  // Bild von URL
-                  fit: BoxFit.cover,
+          Container(
+            width: double.infinity,
+            child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
-              ),
+                child: Image.file(File(widget.aquarium.imageUrl), fit: BoxFit.cover)
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Alle Messungen:', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w800)),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const MeasurementForm()),
-                        );
-                      },
-                      icon: const Icon(Icons.add,
-                        color: Colors.lightGreen,
-                      ),
-                    ),
-                  ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Alle Messungen:', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800)),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const MeasurementForm()),
+                    );
+                  },
+                  icon: const Icon(Icons.add,
+                    color: Colors.lightGreen,
+                  ),
                 ),
+              ],
             ),
+          ),
           Container(
             padding: const EdgeInsets.all(5.0),
-            height: 230,
+            height: 270,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: 2,
+              itemCount: measurementList.length,
               itemBuilder: (context, index) {
-                return MeasurementItem(index);
+                return MeasurementItem(measurement: measurementList.elementAt(index));
               },
             ),
           ),
