@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/screens/chart_analysis.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,6 @@ class AquariumOverview extends StatefulWidget{
 }
 
 class _AquariumOverviewState extends State<AquariumOverview>{
-
   List<Measurement> measurementList = [];
 
   @override
@@ -51,7 +51,7 @@ class _AquariumOverviewState extends State<AquariumOverview>{
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: Image.file(File(widget.aquarium.imageUrl), fit: BoxFit.cover)
+                child: Image.file(File(widget.aquarium.imagePath), fit: BoxFit.cover)
             ),
           ),
           Padding(
@@ -63,7 +63,7 @@ class _AquariumOverviewState extends State<AquariumOverview>{
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const MeasurementForm()),
+                      MaterialPageRoute(builder: (context) => MeasurementForm(measurementId: '',aquarium: widget.aquarium)),
                     );
                   },
                   icon: const Icon(Icons.add,
@@ -80,11 +80,16 @@ class _AquariumOverviewState extends State<AquariumOverview>{
               scrollDirection: Axis.vertical,
               itemCount: measurementList.length,
               itemBuilder: (context, index) {
-                return MeasurementItem(measurement: measurementList.elementAt(index));
+                return MeasurementItem(measurement: measurementList.elementAt(index), aquarium: widget.aquarium);
               },
             ),
           ),
-          ElevatedButton(onPressed: () => {}, child: const Text("Wasserwert-Verlauf"))
+          ElevatedButton(onPressed: () => {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => const ChartAnalysis()))
+          }, child: const Text("Wasserwert-Verlauf"))
         ],
       ),
     );

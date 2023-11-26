@@ -26,10 +26,13 @@ class AquariumItem extends StatelessWidget{
               child: Container(
                 height: 180.0,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
                   ),
-                child: Image.file(File(aquarium.imageUrl),fit: BoxFit.cover),
+                  ),
+                child: Image.file(File(aquarium.imagePath),fit: BoxFit.cover),
               ),
             ),
             Container(

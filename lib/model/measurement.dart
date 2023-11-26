@@ -1,4 +1,6 @@
 class Measurement {
+  String measurementId;
+  String aquariumId;
   double temperature;
   double ph;
   double totalHardness;
@@ -9,9 +11,13 @@ class Measurement {
   double potassium;
   double iron;
   double magnesium;
-  DateTime measurementDate;
+  int measurementDate;
+  String imagePath;
 
-  Measurement(this.temperature,
+  Measurement(
+      this.measurementId,
+      this.aquariumId,
+      this.temperature,
       this.ph,
       this.totalHardness,
       this.carbonateHardness,
@@ -21,11 +27,14 @@ class Measurement {
       this.potassium,
       this.iron,
       this.magnesium,
-      this.measurementDate
+      this.measurementDate,
+      this.imagePath,
   );
 
   factory Measurement.fromMap(Map<String, dynamic> json){
     return Measurement(
+        json["measurementId"],
+        json["aquariumId"],
         json["temperature"],
         json["ph"],
         json["totalHardness"],
@@ -36,12 +45,15 @@ class Measurement {
         json["potassium"],
         json["iron"],
         json["magnesium"],
-        json["measurmentDate"]
+        json["measurementDate"],
+        json["imagePath"]
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'measurementId': measurementId,
+      'aquariumId' : aquariumId,
       'temperature': temperature,
       'ph': ph,
       'totalHardness': totalHardness,
@@ -51,7 +63,9 @@ class Measurement {
       'phosphate': phosphate,
       'potassium': potassium,
       'iron': iron,
-      'magnesium': magnesium
+      'magnesium': magnesium,
+      'measurementDate': measurementDate,
+      'imagePath': imagePath,
     };
   }
 }

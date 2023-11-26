@@ -7,6 +7,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 import '../main.dart';
 import '../model/aquarium.dart';
@@ -41,17 +42,17 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
       _literController.text = aquarium.liter.toString();
       waterType = aquarium.waterType;
       createMode = false;
-      print("Set createMode false");
     }
   }
 
   void syncValuesToObject(){
     if(widget.aquarium == null){
-      aquarium = new Aquarium(3, _nameController.text, int.parse(_literController.text), waterType, imagePath);
+      String uuid = const Uuid().v4().toString();
+      aquarium = Aquarium(uuid, _nameController.text, int.parse(_literController.text), waterType, imagePath);
     }else{
       aquarium.name = _nameController.text;
       aquarium.liter = int.parse(_literController.text);
-      aquarium.imageUrl = imagePath;
+      aquarium.imagePath = imagePath;
     }
   }
 
