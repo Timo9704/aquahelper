@@ -51,7 +51,7 @@ class DBHelper {
         whereArgs: [aquariumId]);
   }
 
-  //-------------------------Methods for Aquarium-object-----------------------//
+  //-------------------------Methods for Measurement-object-----------------------//
 
   Future<Measurement> getMeasurementById(String measurementId) async {
     final db = await openDatabase('aquarium_database.db');
@@ -63,6 +63,13 @@ class DBHelper {
   Future<List<Measurement>> getMeasurmentsList(Aquarium aquarium) async {
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("measurement", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId]);
+    List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<List<Measurement>> getMeasurementsByInterval(String aquariumId, int intervalStart, int endInterval) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("measurement", where: 'aquariumId = ? AND measurementDate BETWEEN ? AND ?', whereArgs: [aquariumId, endInterval, intervalStart]);
     List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
     return list;
   }
