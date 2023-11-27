@@ -68,4 +68,31 @@ class Measurement {
       'imagePath': imagePath,
     };
   }
+
+  double getValueByName(String name){
+    switch (name) {
+      case 'temperature':
+        return temperature;
+      case 'ph':
+        return ph;
+      case 'totalHardness':
+        return totalHardness;
+      case 'carbonateHardness':
+        return carbonateHardness;
+      case 'nitrite':
+        return nitrite;
+      case 'nitrate':
+        return nitrate;
+      case 'phosphate':
+        return phosphate;
+      case 'potassium':
+        return potassium;
+      case 'iron':
+        return iron;
+      case 'magnesium':
+        return magnesium;
+      default:
+        return 0;
+    }
+  }
 }

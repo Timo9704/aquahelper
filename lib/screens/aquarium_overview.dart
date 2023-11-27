@@ -88,7 +88,7 @@ class _AquariumOverviewState extends State<AquariumOverview>{
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => const ChartAnalysis()))
+                    builder: (BuildContext context) => ChartAnalysis(aquariumId: widget.aquarium.aquariumId)))
           }, child: const Text("Wasserwert-Verlauf"))
         ],
       ),
