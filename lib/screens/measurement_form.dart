@@ -271,7 +271,6 @@ class _MeasurementFormState extends State<MeasurementForm> {
                               if(createMode){
                                 DBHelper.db.insertMeasurement(Measurement.fromMap(getAllTextInputs())),
                               }else{
-                                print("Update measurement"),
                                 DBHelper.db.updateMeasurement(Measurement.fromMap(getAllTextInputs())),
                               },
                               Navigator.pushReplacement(
