@@ -1,5 +1,5 @@
 name: aquahelper
-description: A new Flutter project.
+description: Dein Helfer wenn es um die Wasserwerte deines Aquariums geht!
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -34,8 +34,9 @@ flutter_icons:
   android: true  
   ios: true  
   image_path: "assets/aquahelper_icon.png"
+  adaptive_icon_background: "assets/background.png"
+  adaptive_icon_foreground: "assets/aquahelper_icon.png"
 
-# The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
   assets:
