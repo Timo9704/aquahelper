@@ -26,7 +26,6 @@ class DBHelper {
     return list;
   }
 
-  // Define a function that inserts dogs into the database
   Future<void> insertAquarium(Aquarium aquarium) async {
     final db = await openDatabase('aquarium_database.db');
     await db.insert(
