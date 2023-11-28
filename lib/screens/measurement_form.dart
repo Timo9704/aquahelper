@@ -15,7 +15,10 @@ import 'infopage.dart';
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
   final String measurementId;
-  const MeasurementForm({Key? key, required this.measurementId, required this.aquarium}) : super(key: key);
+
+  const MeasurementForm(
+      {Key? key, required this.measurementId, required this.aquarium})
+      : super(key: key);
 
   @override
   _MeasurementFormState createState() => _MeasurementFormState();
@@ -27,6 +30,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
   String imagePath = "assets/images/aquarium.jpg";
   bool createMode = true;
   late Measurement measurement;
+  int pageCount = 0;
 
   List<String> waterValues = [
     'Temperatur in °C',
@@ -41,39 +45,39 @@ class _MeasurementFormState extends State<MeasurementForm> {
     'Magnesium - MG',
   ];
 
-  void initState(){
+  void initState() {
     super.initState();
     initTextControllerList();
-    if(widget.measurementId != ''){
+    if (widget.measurementId != '') {
       initExistingMeasurement();
       createMode = false;
     }
   }
 
-  void initTextControllerList(){
-    for(int i = 0; i<waterValues.length; i++){
+  void initTextControllerList() {
+    for (int i = 0; i < waterValues.length; i++) {
       controllerList.add(TextEditingController());
-      controllerList.elementAt(i).text= '0';
+      controllerList.elementAt(i).text = '0';
     }
   }
 
   Future<void> initExistingMeasurement() async {
-    Measurement measurementDbObj  = await DBHelper.db.getMeasurementById(widget.measurementId);
-    measurement = measurementDbObj ;
+    Measurement measurementDbObj =
+    await DBHelper.db.getMeasurementById(widget.measurementId);
+    measurement = measurementDbObj;
     controllerList.elementAt(0).text = measurement.temperature.toString();
     controllerList.elementAt(1).text = measurement.ph.toString();
   }
 
-  Map<String, dynamic> getAllTextInputs(){
+  Map<String, dynamic> getAllTextInputs() {
     List<double> measurementInputs = [];
 
-    for(int i = 0; i<waterValues.length; i++){
+    for (int i = 0; i < waterValues.length; i++) {
       controllerList.add(TextEditingController());
       measurementInputs.add(double.parse(controllerList.elementAt(i).text));
     }
     Map<String, dynamic> valueMap;
-    String uuid = const Uuid().v4().toString();
-    if(!createMode){
+    if (!createMode) {
       valueMap = {
         'measurementId': widget.measurementId,
         'aquariumId': widget.aquarium.aquariumId,
@@ -90,7 +94,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
         'measurementDate': measurement.measurementDate,
         'imagePath': measurement.imagePath
       };
-    }else {
+    } else {
       valueMap = {
         'measurementId': const Uuid().v4().toString(),
         'aquariumId': widget.aquarium.aquariumId,
@@ -104,9 +108,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
         'potassium': measurementInputs.elementAt(7),
         'iron': measurementInputs.elementAt(8),
         'magnesium': measurementInputs.elementAt(9),
-        'measurementDate': DateTime
-            .now()
-            .millisecondsSinceEpoch,
+        'measurementDate': DateTime.now().millisecondsSinceEpoch,
         'imagePath': imagePath
       };
     }
@@ -121,9 +123,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
     if (image != null) {
       final croppedImage = await ImageCropper().cropImage(
         sourcePath: image!.path,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.ratio16x9
-        ],
+        aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
         uiSettings: [
           AndroidUiSettings(
               toolbarTitle: 'Bild zuschneiden',
@@ -159,151 +159,168 @@ class _MeasurementFormState extends State<MeasurementForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Wasserwerte'),
-          actions: [
-            PopupMenuButton(
-                itemBuilder: (context){
-                  return [
-                    const PopupMenuItem<int>(
-                      value: 0,
-                      child: Text("Informationen"),
-                    ),
-                  ];
-                },
-                onSelected:(value) {
-                  if (value == 0) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => InfoPage()),
-                    );
-                  }
-                }
-            ),
-          ],
-        ),
-        body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: createMode ? const Text('Neue Messung hinzufügen:',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20, color: Colors.black)) :
-                    const Text('Messung bearbeiten:',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 20, color: Colors.black))
-                  ),
-                  GestureDetector(
-                    onTap: () => {
-                      getImage(context: context)
-                    },
-                    child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                        child: imagePath == 'assets/images/aquarium.jpg'
-                            ? Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                            Image.asset(imagePath,
-                                fit: BoxFit.fill
-                            ), // Standard-Bild
-                            const Icon(Icons.camera_alt, size: 100, color: Colors.white),
-                          ],
-                        ) : Image.file(File(imagePath!), fit: BoxFit.cover)
-                    ),),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child:
-                    GridView.count(
-                        crossAxisCount: 2,
-                        childAspectRatio: 2.5,
-                        mainAxisSpacing: 5,
-                        crossAxisSpacing: 5,
-                        children: List.generate(waterValues.length, (index) {
-                          String key = waterValues[index];
-                          return Card(
-                            elevation: 10,
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(key,
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        color: Colors.black,
-                                    )),
-                                TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  textAlign: TextAlign.center,
-                                  controller: controllerList.elementAt(index),
-                                  style: const TextStyle(fontSize: 20),
-                                  decoration: const InputDecoration(
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey),
-                                    ),
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 0, vertical: 0),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ));
-                        }
-                  ),),),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        width: 180,
-                        child: ElevatedButton(
-                          onPressed: () => {
-                            DBHelper.db.deleteMeasurement(widget.measurementId),
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) => AquariumOverview(aquarium: widget.aquarium)))
-                          },
-                          child: const Text("Löschen"),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 180,
-                        child: ElevatedButton(
-                            onPressed: () => {
-                              if(createMode){
-                                DBHelper.db.insertMeasurement(Measurement.fromMap(getAllTextInputs())),
-                              }else{
-                                DBHelper.db.updateMeasurement(Measurement.fromMap(getAllTextInputs())),
-                              },
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) => AquariumOverview(aquarium: widget.aquarium)))
-                            },
-                            child: const Text("Speichern")),
-                      )
-                    ],
-                  )
-                ],
+      appBar: AppBar(
+        title: const Text('Wasserwerte'),
+        actions: [
+          PopupMenuButton(itemBuilder: (context) {
+            return [
+              const PopupMenuItem<int>(
+                value: 0,
+                child: Text("Informationen"),
               ),
-            )));
+            ];
+          }, onSelected: (value) {
+            if (value == 0) {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => InfoPage()),
+              );
+            }
+          }),
+        ],
+      ),
+      body: ListView(children: [
+        Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: createMode
+                      ? const Text('Neue Messung hinzufügen:',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20, color: Colors.black))
+                      : const Text('Messung bearbeiten:',
+                      textAlign: TextAlign.left,
+                      style:
+                      TextStyle(fontSize: 20, color: Colors.black))),
+              GestureDetector(
+                onTap: () => {getImage(context: context)},
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    child: imagePath == 'assets/images/aquarium.jpg'
+                        ? Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Image.asset(imagePath,
+                            fit: BoxFit.fill), // Standard-Bild
+                        const Icon(Icons.camera_alt,
+                            size: 100, color: Colors.white),
+                      ],
+                    )
+                        : Image.file(File(imagePath!), fit: BoxFit.cover)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 2.5,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                ),
+                itemCount: waterValues.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String key = waterValues[index];
+                  return Card(
+                    elevation: 10,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(key,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              )),
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.center,
+                            controller: controllerList.elementAt(index),
+                            style: const TextStyle(fontSize: 20),
+                            decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              isDense: true,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 0, vertical: 0),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () => {
+                        DBHelper.db.deleteMeasurement(widget.measurementId),
+                        pageCount = 0,
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AquariumOverview(
+                                        aquarium: widget.aquarium)))
+                      },
+                      child: const Text("Löschen"),
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.grey),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 180,
+                    child: ElevatedButton(
+                        onPressed: () => {
+                          if (createMode)
+                            {
+                              DBHelper.db.insertMeasurement(
+                                  Measurement.fromMap(
+                                      getAllTextInputs())),
+                            }
+                          else
+                            {
+                              DBHelper.db.updateMeasurement(
+                                  Measurement.fromMap(
+                                      getAllTextInputs())),
+                            },
+                          pageCount = 0,
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    AquariumOverview(
+                                        aquarium: widget.aquarium)),
+                          )
+                        },
+                        child: const Text("Speichern")),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ],
+      ),
+    );
   }
 }
