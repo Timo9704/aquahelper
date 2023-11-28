@@ -13,7 +13,7 @@ class AquariumItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
@@ -31,12 +31,13 @@ class AquariumItem extends StatelessWidget {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
+                child: aquarium.imagePath.startsWith('assets/') ? Image.asset(aquarium.imagePath, fit: BoxFit.cover) : Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
               ),
             ),
           ),
           Container(
             width: double.infinity,
+            height: 50,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),

@@ -153,7 +153,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Text(
-                      "Bitte Wasserwert auswählen:",
+                      "Wasserwert auswählen:",
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
@@ -187,7 +187,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Text(
-                      "Bitte Zeitraum auswählen:     ",
+                      "Zeitraum auswählen:     ",
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,

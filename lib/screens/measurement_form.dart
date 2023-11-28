@@ -67,6 +67,17 @@ class _MeasurementFormState extends State<MeasurementForm> {
     measurement = measurementDbObj;
     controllerList.elementAt(0).text = measurement.temperature.toString();
     controllerList.elementAt(1).text = measurement.ph.toString();
+    controllerList.elementAt(2).text = measurement.totalHardness.toString();
+    controllerList.elementAt(3).text = measurement.carbonateHardness.toString();
+    controllerList.elementAt(4).text = measurement.nitrite.toString();
+    controllerList.elementAt(5).text = measurement.nitrate.toString();
+    controllerList.elementAt(6).text = measurement.phosphate.toString();
+    controllerList.elementAt(7).text = measurement.potassium.toString();
+    controllerList.elementAt(8).text = measurement.iron.toString();
+    controllerList.elementAt(9).text = measurement.magnesium.toString();
+    setState(() {
+      imagePath = measurement.imagePath;
+    });
   }
 
   Map<String, dynamic> getAllTextInputs() {
@@ -184,16 +195,6 @@ class _MeasurementFormState extends State<MeasurementForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: createMode
-                      ? const Text('Neue Messung hinzufügen:',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20, color: Colors.black))
-                      : const Text('Messung bearbeiten:',
-                      textAlign: TextAlign.left,
-                      style:
-                      TextStyle(fontSize: 20, color: Colors.black))),
               GestureDetector(
                 onTap: () => {getImage(context: context)},
                 child: ClipRRect(
@@ -213,6 +214,19 @@ class _MeasurementFormState extends State<MeasurementForm> {
                     )
                         : Image.file(File(imagePath!), fit: BoxFit.cover)),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: createMode
+                      ? const Text(' Neue Messung hinzufügen:',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 20, color: Colors.black))
+                      : const Text(' Messung bearbeiten:',
+                      textAlign: TextAlign.left,
+                      style:
+                      TextStyle(fontSize: 20, color: Colors.black))),
               const SizedBox(
                 height: 10,
               ),
@@ -264,15 +278,17 @@ class _MeasurementFormState extends State<MeasurementForm> {
                   );
                 },
               ),
+              SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    width: 180,
+                    width: 160,
                     child: ElevatedButton(
                       onPressed: () => {
                         DBHelper.db.deleteMeasurement(widget.measurementId),
-                        pageCount = 0,
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -288,22 +304,18 @@ class _MeasurementFormState extends State<MeasurementForm> {
                     ),
                   ),
                   SizedBox(
-                    width: 180,
+                    width: 160,
                     child: ElevatedButton(
                         onPressed: () => {
-                          if (createMode)
-                            {
+                          if (createMode) {
                               DBHelper.db.insertMeasurement(
                                   Measurement.fromMap(
                                       getAllTextInputs())),
-                            }
-                          else
-                            {
+                            } else {
                               DBHelper.db.updateMeasurement(
                                   Measurement.fromMap(
                                       getAllTextInputs())),
-                            },
-                          pageCount = 0,
+                          },
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

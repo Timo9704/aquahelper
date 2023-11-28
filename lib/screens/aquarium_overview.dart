@@ -68,7 +68,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: Image.file(File(widget.aquarium.imagePath),
+                child: widget.aquarium.imagePath.startsWith('assets/') ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.cover):Image.file(File(widget.aquarium.imagePath),
                     fit: BoxFit.cover)),
           ),
           Padding(
@@ -99,7 +99,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
           ),
           Container(
             padding: const EdgeInsets.all(5.0),
-            height: MediaQuery.of(context).size.height - 450,
+            height: MediaQuery.of(context).size.height * 0.45,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: measurementList.length,

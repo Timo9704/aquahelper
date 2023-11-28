@@ -182,17 +182,12 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(
-                                        'Süßwasser',
-                                        textScaleFactor:
-                                            ScaleSize.textScaleFactor(context),
-                                      ),
-                                      leading: Radio<int>(
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Radio<int>(
                                         value: 0,
                                         groupValue: waterType,
                                         onChanged: (int? value) {
@@ -201,16 +196,17 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           });
                                         },
                                       ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: ListTile(
-                                      title: Text(
-                                        'Salzwasser',
-                                        textScaleFactor:
-                                            ScaleSize.textScaleFactor(context),
+                                      Text(
+                                        'Süßwasser',
+                                        textScaleFactor: ScaleSize.textScaleFactor(context),
                                       ),
-                                      leading: Radio<int>(
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Radio<int>(
                                         value: 1,
                                         groupValue: waterType,
                                         onChanged: (int? value) {
@@ -219,8 +215,12 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           });
                                         },
                                       ),
-                                    ),
-                                  )
+                                      Text(
+                                        'Salzwasser',
+                                        textScaleFactor: ScaleSize.textScaleFactor(context),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ],
@@ -294,7 +294,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                           children: [
                             if (!createMode)
                               SizedBox(
-                                width: 170,
+                                width: 150,
                                 child: ElevatedButton(
                                   onPressed: () => {
                                     DBHelper.db
@@ -303,7 +303,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (BuildContext context) =>
-                                                AquaHelperStartPage()),
+                                                AquaHelper()),
                                         (Route<dynamic> route) => false)
                                   },
                                   style: ButtonStyle(
@@ -315,7 +315,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 ),
                               ),
                             SizedBox(
-                              width: 170,
+                              width: 150,
                               child: ElevatedButton(
                                   onPressed: () => {
                                         syncValuesToObject(),
@@ -325,13 +325,12 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           {
                                             DBHelper.db.updateAquarium(aquarium)
                                           },
-                                        Navigator.pushAndRemoveUntil(
+                                        Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        AquaHelperStartPage()),
-                                            (Route<dynamic> route) => false)
+                                                        AquaHelper()))
                                       },
                                   child: const Text("Speichern")),
                             )
