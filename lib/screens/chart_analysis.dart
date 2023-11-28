@@ -1,9 +1,9 @@
-import 'package:aquahelper/model/measurement.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'infopage.dart';
+import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 
 var waterValueMap = {
   'Temperatur': 'temperature',
@@ -25,7 +25,7 @@ var intervalMap = {
   '4 Wochen': 2419200000
 };
 
-class ChartAnalysis extends StatefulWidget{
+class ChartAnalysis extends StatefulWidget {
   final String aquariumId;
 
   const ChartAnalysis({super.key, required this.aquariumId});
@@ -43,28 +43,27 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
   double xMax = 0;
   double yMax = 0;
 
-
-  void initState(){
+  void initState() {
     super.initState();
     getChartPoints();
   }
 
-  void getXYMinMax(){
+  void getXYMinMax() {
     double xMin = chartPoints.elementAt(0).x;
     double yMin = chartPoints.elementAt(0).y;
     double xMax = chartPoints.elementAt(0).x;
     double yMax = chartPoints.elementAt(0).y;
-    for(int i = 0; i < chartPoints.length; i++){
-      if(xMin > chartPoints.elementAt(i).x){
+    for (int i = 0; i < chartPoints.length; i++) {
+      if (xMin > chartPoints.elementAt(i).x) {
         xMin = chartPoints.elementAt(i).x;
       }
-      if(xMax < chartPoints.elementAt(i).x){
+      if (xMax < chartPoints.elementAt(i).x) {
         xMax = chartPoints.elementAt(i).x;
       }
-      if(yMin > chartPoints.elementAt(i).y){
+      if (yMin > chartPoints.elementAt(i).y) {
         yMin = chartPoints.elementAt(i).y;
       }
-      if(yMax < chartPoints.elementAt(i).y){
+      if (yMax < chartPoints.elementAt(i).y) {
         yMax = chartPoints.elementAt(i).y;
       }
     }
@@ -77,22 +76,27 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
   Future<List<Measurement>> getMeasurementsByInterval() async {
     int startInterval = ((DateTime.now().toUtc().millisecondsSinceEpoch));
     int endInterval = startInterval - intervalMap[dropdownInterval]!;
-    List<Measurement> measurementsInInterval = await DBHelper.db.getMeasurementsByInterval(widget.aquariumId, startInterval, endInterval);
+    List<Measurement> measurementsInInterval = await DBHelper.db
+        .getMeasurementsByInterval(
+            widget.aquariumId, startInterval, endInterval);
     return measurementsInInterval;
   }
 
   void getChartPoints() async {
     List<FlSpot> points = [];
 
-    List<Measurement> measurementsInInterval = await getMeasurementsByInterval();
-
-    print("Get points for " + dropdownWaterValue);
-    for(int i = 0; i < measurementsInInterval.length; i++){
-      points.add(FlSpot((i*10)/10, measurementsInInterval.elementAt(i).getValueByName(waterValueMap[dropdownWaterValue]!)));
+    List<Measurement> measurementsInInterval =
+        await getMeasurementsByInterval();
+    
+    for (int i = 0; i < measurementsInInterval.length; i++) {
+      points.add(FlSpot(
+          (i * 10) / 10,
+          measurementsInInterval
+              .elementAt(i)
+              .getValueByName(waterValueMap[dropdownWaterValue]!)));
     }
     setState(() {
       chartPoints = points;
-      print(points);
       getXYMinMax();
     });
   }
@@ -106,7 +110,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
     );
 
     String parts = '';
-    if(value.toInt() % 2 != 0){
+    if (value.toInt() % 2 != 0) {
       parts = value.round().toString() + ' Messung';
     }
 
@@ -118,147 +122,149 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
     );
   }
 
-
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wasserwertverlauf'),
-        actions: [
-          PopupMenuButton(
-              itemBuilder: (context){
-                return [
-                  const PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("Informationen"),
-                  ),
-                ];
-              },
-              onSelected:(value) {
-                if (value == 0) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => InfoPage()),
-                  );
-                }
+        appBar: AppBar(
+          title: const Text('Wasserwert-Verlauf'),
+          actions: [
+            PopupMenuButton(itemBuilder: (context) {
+              return [
+                const PopupMenuItem<int>(
+                  value: 0,
+                  child: Text("Informationen"),
+                ),
+              ];
+            }, onSelected: (value) {
+              if (value == 0) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => InfoPage()),
+                );
               }
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Card(
-          elevation: 10,
-          child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text("Bitte Wasserwert auswählen:",
-                  style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-                ),),
-                DropdownButton<String>(
-                  value: dropdownWaterValue,
-                  icon: const Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  underline: Container(
-                    height: 2,
-                    color: Colors.black,
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      dropdownWaterValue = value!;
-                      getChartPoints();
-                    });
-                  },
-                  items: waterValueMap.keys.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text("Bitte Zeitraum auswählen:     ",
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                  ),),
-                DropdownButton<String>(
-                  value: dropdownInterval,
-                  icon: const Icon(Icons.arrow_downward),
-                  elevation: 16,
-                  underline: Container(
-                    height: 2,
-                    color: Colors.black,
-                  ),
-                  onChanged: (String? value) {
-                    setState(() {
-                      dropdownInterval = value!;
-                      getChartPoints();
-                    });
-                  },
-                  items: intervalMap.keys.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-                height: 400,
-                margin: EdgeInsets.fromLTRB(0, 0, 30, 0),
-                child: LineChart(
-                  LineChartData(
-                    gridData: FlGridData(),
-                    titlesData: FlTitlesData(
-                      rightTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                        ),
-                      ),
-                      topTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: false,
-                        ),
-                      ),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 30,
-                          interval: 1,
-                          getTitlesWidget: bottomTitleWidgets,
-                        ),
-                      ),
-                    ),
-                    borderData: FlBorderData(),
-                    minX: xMin,
-                    maxX: xMax,
-                    minY: yMin,
-                    maxY: yMax,
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: chartPoints,
-                        barWidth: 5,
-                        dotData: FlDotData(),
-                        belowBarData: BarAreaData(),
-                      ),
-                    ],
-                  ),
-                )
-            )
+            }),
           ],
         ),
-      ),
-    ));
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Card(
+            elevation: 10,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      "Bitte Wasserwert auswählen:",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    DropdownButton<String>(
+                      value: dropdownWaterValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownWaterValue = value!;
+                          getChartPoints();
+                        });
+                      },
+                      items: waterValueMap.keys
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      "Bitte Zeitraum auswählen:     ",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    DropdownButton<String>(
+                      value: dropdownInterval,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      underline: Container(
+                        height: 2,
+                        color: Colors.black,
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownInterval = value!;
+                          getChartPoints();
+                        });
+                      },
+                      items: intervalMap.keys
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  height: 400,
+                  margin: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                  child: LineChart(
+                    LineChartData(
+                      gridData: FlGridData(),
+                      titlesData: FlTitlesData(
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: false,
+                          ),
+                        ),
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: false,
+                          ),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 30,
+                            interval: 1,
+                            getTitlesWidget: bottomTitleWidgets,
+                          ),
+                        ),
+                      ),
+                      borderData: FlBorderData(),
+                      minX: xMin,
+                      maxX: xMax,
+                      minY: yMin,
+                      maxY: yMax,
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: chartPoints,
+                          barWidth: 5,
+                          dotData: FlDotData(),
+                          belowBarData: BarAreaData(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
