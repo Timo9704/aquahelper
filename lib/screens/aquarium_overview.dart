@@ -10,7 +10,7 @@ import '../widget/measurement_item.dart';
 import 'infopage.dart';
 import 'measurement_form.dart';
 
-class AquariumOverview extends StatefulWidget{
+class AquariumOverview extends StatefulWidget {
   final Aquarium aquarium;
 
   const AquariumOverview({Key? key, required this.aquarium}) : super(key: key);
@@ -19,47 +19,44 @@ class AquariumOverview extends StatefulWidget{
   _AquariumOverviewState createState() => _AquariumOverviewState();
 }
 
-class _AquariumOverviewState extends State<AquariumOverview>{
+class _AquariumOverviewState extends State<AquariumOverview> {
   List<Measurement> measurementList = [];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     loadMeasurements();
   }
 
   void loadMeasurements() async {
-    List<Measurement> dbMeasurements = await DBHelper.db.getMeasurmentsList(
-        widget.aquarium);
+    List<Measurement> dbMeasurements =
+        await DBHelper.db.getMeasurmentsList(widget.aquarium);
     setState(() {
-      measurementList = dbMeasurements;
+      measurementList = dbMeasurements.reversed.toList();
     });
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.aquarium.name),
         backgroundColor: Colors.lightGreen,
         actions: [
-          PopupMenuButton(
-              itemBuilder: (context){
-                return [
-                  const PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("Informationen"),
-                  ),
-                ];
-              },
-              onSelected:(value) {
-                if (value == 0) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => InfoPage()),
-                  );
-                }
-              }
-          ),
+          PopupMenuButton(itemBuilder: (context) {
+            return [
+              const PopupMenuItem<int>(
+                value: 0,
+                child: Text("Informationen"),
+              ),
+            ];
+          }, onSelected: (value) {
+            if (value == 0) {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => InfoPage()),
+              );
+            }
+          }),
         ],
       ),
       body: Column(
@@ -71,22 +68,29 @@ class _AquariumOverviewState extends State<AquariumOverview>{
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: Image.file(File(widget.aquarium.imagePath), fit: BoxFit.cover)
-            ),
+                child: Image.file(File(widget.aquarium.imagePath),
+                    fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Alle Messungen:', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800)),
+                const Text('Alle Messungen:',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w800)),
                 IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MeasurementForm(measurementId: '',aquarium: widget.aquarium)),
+                      MaterialPageRoute(
+                          builder: (context) => MeasurementForm(
+                              measurementId: '', aquarium: widget.aquarium)),
                     );
                   },
-                  icon: const Icon(Icons.add,
+                  icon: const Icon(
+                    Icons.add,
                     color: Colors.lightGreen,
                   ),
                 ),
@@ -95,21 +99,26 @@ class _AquariumOverviewState extends State<AquariumOverview>{
           ),
           Container(
             padding: const EdgeInsets.all(5.0),
-            height: 270,
+            height: MediaQuery.of(context).size.height - 450,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: measurementList.length,
               itemBuilder: (context, index) {
-                return MeasurementItem(measurement: measurementList.elementAt(index), aquarium: widget.aquarium);
+                return MeasurementItem(
+                    measurement: measurementList.elementAt(index),
+                    aquarium: widget.aquarium);
               },
             ),
           ),
-          ElevatedButton(onPressed: () => {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => ChartAnalysis(aquariumId: widget.aquarium.aquariumId)))
-          }, child: const Text("Wasserwert-Verlauf"))
+          ElevatedButton(
+              onPressed: () => {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => ChartAnalysis(
+                                aquariumId: widget.aquarium.aquariumId)))
+                  },
+              child: const Text("Wasserwert-Verlauf"))
         ],
       ),
     );
