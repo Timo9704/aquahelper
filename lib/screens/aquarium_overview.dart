@@ -1,14 +1,13 @@
 import 'dart:io';
-
-import 'package:aquahelper/model/measurement.dart';
-import 'package:aquahelper/screens/chart_analysis.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 
-import '../model/aquarium.dart';
-import '../widget/measurement_item.dart';
-import 'infopage.dart';
-import 'measurement_form.dart';
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/widget/measurement_item.dart';
+import 'package:aquahelper/screens/infopage.dart';
+import 'package:aquahelper/screens/measurement_form.dart';
+import 'package:aquahelper/screens/chart_analysis.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 
 class AquariumOverview extends StatefulWidget {
   final Aquarium aquarium;

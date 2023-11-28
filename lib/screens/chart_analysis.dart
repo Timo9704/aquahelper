@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'infopage.dart';
+import 'package:aquahelper/screens/infopage.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 

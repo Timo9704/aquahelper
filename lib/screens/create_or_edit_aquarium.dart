@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -9,12 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../main.dart';
-import '../model/aquarium.dart';
+import 'package:aquahelper/main.dart';
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/screens/infopage.dart';
 import 'package:aquahelper/util/dbhelper.dart';
-
-import '../util/scalesize.dart';
-import 'infopage.dart';
+import 'package:aquahelper/util/scalesize.dart';
 
 class CreateOrEditAquarium extends StatefulWidget {
   final Aquarium? aquarium;

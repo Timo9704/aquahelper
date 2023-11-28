@@ -1,11 +1,11 @@
-import 'package:aquahelper/screens/infopage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:aquahelper/screens/create_or_edit_aquarium.dart';
-import 'package:aquahelper/util/dbhelper.dart';
+import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/widget/aquarium_item.dart';
-import 'model/aquarium.dart';
+import 'package:aquahelper/screens/create_or_edit_aquarium.dart';
+import 'package:aquahelper/screens/infopage.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
