@@ -9,7 +9,7 @@ class MeasurementItem extends StatelessWidget {
   final Measurement measurement;
   final Aquarium aquarium;
 
-  MeasurementItem(
+  const MeasurementItem(
       {super.key, required this.measurement, required this.aquarium});
 
   @override
@@ -30,13 +30,13 @@ class MeasurementItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Text('Messung vom',
-              style: const TextStyle(fontSize: 18, color: Colors.black)),
+          const Text('Messung vom',
+              style: TextStyle(fontSize: 18, color: Colors.black)),
           Text(
               DateFormat('dd.MM.yyyy').format(
                   DateTime.fromMillisecondsSinceEpoch(
                       measurement.measurementDate)),
-              style: TextStyle(fontSize: 18, color: Colors.black)
+              style: const TextStyle(fontSize: 18, color: Colors.black)
           ),
         ],
       ),
