@@ -82,7 +82,7 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
