@@ -1,14 +1,11 @@
+import 'package:aquahelper/screens/infopage.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:aquahelper/screens/create_or_edit_aquarium.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/widget/aquarium_item.dart';
-import 'package:flutter/material.dart';
-
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
-
 import 'model/aquarium.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +21,7 @@ class AquaHelper extends StatelessWidget {
     return MaterialApp(
       title: 'AquaHelper',
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-          //scaffoldBackgroundColor: const Color(0xFF343434)
+        primarySwatch: Colors.lightGreen
       ),
       home: const AquaHelperStartPage(),
     );
@@ -44,6 +40,7 @@ class AquaHelperStartPage extends StatefulWidget {
 class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
   List<Aquarium> aquariums = [];
 
+  @override
   void initState() {
     super.initState();
     loadAquariums();
@@ -58,8 +55,6 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("AquaHelper"),
@@ -72,18 +67,13 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
                     value: 0,
                     child: Text("Informationen"),
                   ),
-
-                  const PopupMenuItem<int>(
-                    value: 1,
-                    child: Text("Export"),
-                  ),
                 ];
               },
               onSelected:(value) {
                 if (value == 0) {
-                  print("My account menu is selected.");
-                } else if (value == 1) {
-                  print("Settings menu is selected.");
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => InfoPage()),
+                  );
                 }
               }
           ),
@@ -109,8 +99,18 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
               ],
             ),
           ),
+          aquariums.length == 0 ?
+          Center(
+            heightFactor: 15,
+            child: const Text("Lege dein erstes Aquarium an!",
+              style: TextStyle(
+                fontSize: 25,
+                color: Colors.black,
+              ),
+            ),
+          ):
           SizedBox(
-            height: 500,
+            height: MediaQuery.of(context).size.height-170,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: aquariums.length,

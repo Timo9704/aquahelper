@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
 import '../widget/measurement_item.dart';
+import 'infopage.dart';
 import 'measurement_form.dart';
 
 class AquariumOverview extends StatefulWidget{
@@ -41,6 +42,25 @@ class _AquariumOverviewState extends State<AquariumOverview>{
       appBar: AppBar(
         title: Text(widget.aquarium.name),
         backgroundColor: Colors.lightGreen,
+        actions: [
+          PopupMenuButton(
+              itemBuilder: (context){
+                return [
+                  const PopupMenuItem<int>(
+                    value: 0,
+                    child: Text("Informationen"),
+                  ),
+                ];
+              },
+              onSelected:(value) {
+                if (value == 0) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => InfoPage()),
+                  );
+                }
+              }
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[

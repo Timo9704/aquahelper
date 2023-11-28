@@ -13,6 +13,9 @@ import '../main.dart';
 import '../model/aquarium.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 
+import '../util/scalesize.dart';
+import 'infopage.dart';
+
 
 class CreateOrEditAquarium extends StatefulWidget {
   final Aquarium? aquarium;
@@ -38,9 +41,10 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
 
     if (widget.aquarium != null) {
       aquarium = widget.aquarium!;
+      imagePath = aquarium.imagePath;
+      waterType = aquarium.waterType;
       _nameController.text = aquarium.name;
       _literController.text = aquarium.liter.toString();
-      waterType = aquarium.waterType;
       createMode = false;
     }
   }
@@ -81,17 +85,16 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           ),
         ],
       );
-      //GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
+      GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
       final directory = await getExternalStorageDirectory();
       final newImagePath = '${directory?.path}/images/AquaAffin';
-      final newImage = File('$newImagePath/test1.jpg');
+      final imageName = DateTime.now().toIso8601String();
+      final newImage = File('$newImagePath/$imageName.jpg');
 
-      // Erstellen Sie das Verzeichnis, falls es nicht existiert
       if (!await newImage.parent.exists()) {
         await newImage.parent.create(recursive: true);
       }
 
-      // Kopieren Sie das Bild vom ursprünglichen Pfad in den neuen Pfad
       File(image!.path).copy(newImage.path);
 
       setState(() {
@@ -105,7 +108,26 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          title: const Text('Neues Aquarium'),
+          title: createMode ? const Text('Neues Aquarium') : const Text('Aquarium bearbeiten'),
+          actions: [
+            PopupMenuButton(
+                itemBuilder: (context){
+                  return [
+                    const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text("Informationen"),
+                    ),
+                  ];
+                },
+                onSelected:(value) {
+                  if (value == 0) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => InfoPage()),
+                    );
+                  }
+                }
+            ),
+          ],
         ),
         body: SingleChildScrollView(child: Container(
           padding: const EdgeInsets.all(0),
@@ -126,13 +148,17 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                     ? Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                          Image.asset(imagePath,
-                            fit: BoxFit.fill
-                          ), // Standard-Bild
+                          Image.asset(imagePath, fit: BoxFit.fill),
                           const Icon(Icons.camera_alt, size: 100, color: Colors.white),
                       ],
                     )
-                    : Image.file(File(imagePath!), fit: BoxFit.fill, height: 250)
+                    : Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Image.file(File(imagePath!), fit: BoxFit.fill, height: 250),
+                      const Icon(Icons.camera_alt, size: 100, color: Colors.white),
+                    ],
+                  )
               ),),
               Padding(
                 padding: const EdgeInsets.all(15),
@@ -156,11 +182,12 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                             ),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Expanded(
                                 child: ListTile(
-                                  title: const Text('Süßwasser'),
+                                  title: Text('Süßwasser',
+                                    textScaleFactor: ScaleSize.textScaleFactor(context),),
                                   leading: Radio<int>(
                                     value: 0,
                                     groupValue: waterType,
@@ -174,7 +201,8 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                               ),
                               Expanded(
                                 child: ListTile(
-                                  title: const Text('Salzwasser'),
+                                  title: Text('Salzwasser',
+                                      textScaleFactor: ScaleSize.textScaleFactor(context),),
                                   leading: Radio<int>(
                                     value: 1,
                                     groupValue: waterType,
@@ -253,42 +281,41 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        SizedBox(
-                          width: 180,
-                          child: ElevatedButton(
-                            onPressed: () => {
-                              DBHelper.db.deleteAquarium(aquarium.aquariumId),
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                builder: (BuildContext context) => AquaHelperStartPage()))
-                            },
-                            child: const Text("Löschen"),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                        if(!createMode)
+                          SizedBox(
+                            width: 170,
+                            child: ElevatedButton(
+                              onPressed: () => {
+                                DBHelper.db.deleteAquarium(aquarium.aquariumId),
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                  builder: (BuildContext context) => AquaHelperStartPage()))
+                              },
+                              child: const Text("Löschen"),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                              ),
                             ),
                           ),
-                        ),
                         SizedBox(
-                          width: 180,
+                          width: 170,
                           child: ElevatedButton(
                               onPressed: () => {
                                 syncValuesToObject(),
                                 if(createMode){
-                                  print(aquarium.toMap().toString()),
                                   DBHelper.db.insertAquarium(aquarium)
                                 }else{
                                   DBHelper.db.updateAquarium(aquarium)
                                 },
-                                Navigator.pushReplacement(
+                                Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (BuildContext context) => AquaHelperStartPage()))},
+                                        builder: (BuildContext context) => AquaHelperStartPage()), (Route<dynamic> route) => false)},
                               child: const Text("Speichern")),
                         )
                       ],

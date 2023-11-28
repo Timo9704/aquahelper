@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../model/aquarium.dart';
+import 'infopage.dart';
 
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
@@ -160,6 +161,25 @@ class _MeasurementFormState extends State<MeasurementForm> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Wasserwerte'),
+          actions: [
+            PopupMenuButton(
+                itemBuilder: (context){
+                  return [
+                    const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text("Informationen"),
+                    ),
+                  ];
+                },
+                onSelected:(value) {
+                  if (value == 0) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => InfoPage()),
+                    );
+                  }
+                }
+            ),
+          ],
         ),
         body: Padding(
             padding: const EdgeInsets.all(10.0),

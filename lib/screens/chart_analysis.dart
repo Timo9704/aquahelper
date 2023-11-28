@@ -3,6 +3,8 @@ import 'package:aquahelper/util/dbhelper.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import 'infopage.dart';
+
 var waterValueMap = {
   'Temperatur': 'temperature',
   'pH-Wert': 'ph',
@@ -121,6 +123,25 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wasserwertverlauf'),
+        actions: [
+          PopupMenuButton(
+              itemBuilder: (context){
+                return [
+                  const PopupMenuItem<int>(
+                    value: 0,
+                    child: Text("Informationen"),
+                  ),
+                ];
+              },
+              onSelected:(value) {
+                if (value == 0) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => InfoPage()),
+                  );
+                }
+              }
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
