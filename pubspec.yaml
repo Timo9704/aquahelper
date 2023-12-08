@@ -22,7 +22,7 @@ dependencies:
   photo_manager: ^2.8.1
   intl: ^0.18.1
   uuid: ^4.2.1
-  fl_chart: 0.64.0
+  fl_chart: 0.65.0
   flutter_launcher_icons: ^0.13.1
   package_info_plus: ^4.2.0
 
