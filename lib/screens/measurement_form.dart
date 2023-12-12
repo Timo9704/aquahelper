@@ -17,14 +17,13 @@ class MeasurementForm extends StatefulWidget {
   final String measurementId;
 
   const MeasurementForm(
-      {Key? key, required this.measurementId, required this.aquarium})
-      : super(key: key);
+      {super.key, required this.measurementId, required this.aquarium});
 
   @override
-  _MeasurementFormState createState() => _MeasurementFormState();
+  MeasurementFormState createState() => MeasurementFormState();
 }
 
-class _MeasurementFormState extends State<MeasurementForm> {
+class MeasurementFormState extends State<MeasurementForm> {
   final _formKey = GlobalKey<FormState>();
   List<TextEditingController> controllerList = [];
   String imagePath = "assets/images/aquarium.jpg";
@@ -45,6 +44,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
     'Magnesium - MG',
   ];
 
+  @override
   void initState() {
     super.initState();
     initTextControllerList();
@@ -128,12 +128,12 @@ class _MeasurementFormState extends State<MeasurementForm> {
   }
 
   Future<void> getImage({required BuildContext context}) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
       final croppedImage = await ImageCropper().cropImage(
-        sourcePath: image!.path,
+        sourcePath: image.path,
         aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
         uiSettings: [
           AndroidUiSettings(
@@ -144,9 +144,6 @@ class _MeasurementFormState extends State<MeasurementForm> {
               lockAspectRatio: false),
           IOSUiSettings(
             title: 'Cropper',
-          ),
-          WebUiSettings(
-            context: context,
           ),
         ],
       );
@@ -159,7 +156,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
         await newImage.parent.create(recursive: true);
       }
 
-      File(image!.path).copy(newImage.path);
+      File(image.path).copy(newImage.path);
 
       setState(() {
         imagePath = croppedImage!.path;
@@ -212,7 +209,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
                             size: 100, color: Colors.white),
                       ],
                     )
-                        : Image.file(File(imagePath!), fit: BoxFit.cover)),
+                        : Image.file(File(imagePath), fit: BoxFit.cover)),
               ),
               const SizedBox(
                 height: 10,
@@ -232,8 +229,8 @@ class _MeasurementFormState extends State<MeasurementForm> {
               ),
               GridView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 2.5,
                   crossAxisSpacing: 5,
@@ -278,7 +275,7 @@ class _MeasurementFormState extends State<MeasurementForm> {
                   );
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -296,11 +293,11 @@ class _MeasurementFormState extends State<MeasurementForm> {
                                     AquariumOverview(
                                         aquarium: widget.aquarium)))
                       },
-                      child: const Text("Löschen"),
                       style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.grey),
                       ),
+                      child: const Text("Löschen"),
                     ),
                   ),
                   SizedBox(

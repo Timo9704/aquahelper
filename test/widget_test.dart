@@ -1,17 +1,7 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:aquahelper/main.dart';
-import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/util/dbhelper.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:uuid/uuid.dart';
 
 /// Initialize sqflite for test.
 void sqfliteTestInit() {
@@ -35,8 +25,6 @@ Future main() async {
   });
 
   testWidgets('Insert aquarium', (tester) async {
-
-    print('M;mm');
 
     await tester.pumpWidget(const AquaHelperStartPage());
 

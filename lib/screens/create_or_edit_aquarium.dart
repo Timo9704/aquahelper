@@ -16,13 +16,13 @@ import 'package:aquahelper/util/scalesize.dart';
 class CreateOrEditAquarium extends StatefulWidget {
   final Aquarium? aquarium;
 
-  const CreateOrEditAquarium({Key? key, this.aquarium}) : super(key: key);
+  const CreateOrEditAquarium({super.key, this.aquarium});
 
   @override
-  _CreateOrEditAquariumState createState() => _CreateOrEditAquariumState();
+  CreateOrEditAquariumState createState() => CreateOrEditAquariumState();
 }
 
-class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
+class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _literController = TextEditingController();
@@ -58,12 +58,12 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   }
 
   Future<void> getImage({required BuildContext context}) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
       final croppedImage = await ImageCropper().cropImage(
-        sourcePath: image!.path,
+        sourcePath: image.path,
         aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
         uiSettings: [
           AndroidUiSettings(
@@ -75,12 +75,8 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           IOSUiSettings(
             title: 'Cropper',
           ),
-          WebUiSettings(
-            context: context,
-          ),
         ],
       );
-      //GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
       final directory = await getExternalStorageDirectory();
       final newImagePath = '${directory?.path}/images/AquaAffin';
       final imageName = DateTime.now().toIso8601String();
@@ -90,7 +86,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
         await newImage.parent.create(recursive: true);
       }
 
-      File(image!.path).copy(newImage.path);
+      File(image.path).copy(newImage.path);
 
       setState(() {
         imagePath = croppedImage!.path;
@@ -150,7 +146,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                             : Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
-                                  Image.file(File(imagePath!),
+                                  Image.file(File(imagePath),
                                       fit: BoxFit.fill, height: 250),
                                   const Icon(Icons.camera_alt,
                                       size: 100, color: Colors.white),
@@ -199,7 +195,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -300,7 +296,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (BuildContext context) =>
-                                                AquaHelper()),
+                                                const AquaHelper()),
                                         (Route<dynamic> route) => false)
                                   },
                                   style: ButtonStyle(
@@ -327,7 +323,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                             MaterialPageRoute(
                                                 builder:
                                                     (BuildContext context) =>
-                                                        AquaHelper()))
+                                                        const AquaHelper()))
                                       },
                                   child: const Text("Speichern")),
                             )

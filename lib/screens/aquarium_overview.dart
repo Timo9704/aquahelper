@@ -63,7 +63,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
           Container(
             width: double.infinity,
             child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),

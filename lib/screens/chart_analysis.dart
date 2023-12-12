@@ -31,10 +31,10 @@ class ChartAnalysis extends StatefulWidget {
   const ChartAnalysis({super.key, required this.aquariumId});
 
   @override
-  _ChartAnalysisState createState() => _ChartAnalysisState();
+  ChartAnalysisState createState() => ChartAnalysisState();
 }
 
-class _ChartAnalysisState extends State<ChartAnalysis> {
+class ChartAnalysisState extends State<ChartAnalysis> {
   String dropdownWaterValue = waterValueMap.keys.first;
   String dropdownInterval = intervalMap.keys.first;
   List<FlSpot> chartPoints = [];
@@ -43,6 +43,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
   double xMax = 0;
   double yMax = 0;
 
+  @override
   void initState() {
     super.initState();
     getChartPoints();
@@ -111,7 +112,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
 
     String parts = '';
     if (value.toInt() % 2 != 0) {
-      parts = value.round().toString() + ' Messung';
+      parts = '${value.round()} Messung';
     }
 
     text = Text(parts, style: style);
@@ -122,6 +123,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -217,22 +219,22 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
                   height: 400,
-                  margin: EdgeInsets.fromLTRB(0, 0, 30, 0),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 30, 0),
                   child: LineChart(
                     LineChartData(
-                      gridData: FlGridData(),
+                      gridData: const FlGridData(),
                       titlesData: FlTitlesData(
-                        rightTitles: AxisTitles(
+                        rightTitles: const AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: false,
                           ),
                         ),
-                        topTitles: AxisTitles(
+                        topTitles: const AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: false,
                           ),
@@ -255,7 +257,7 @@ class _ChartAnalysisState extends State<ChartAnalysis> {
                         LineChartBarData(
                           spots: chartPoints,
                           barWidth: 5,
-                          dotData: FlDotData(),
+                          dotData: const FlDotData(),
                           belowBarData: BarAreaData(),
                         ),
                       ],

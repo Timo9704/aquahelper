@@ -79,6 +79,22 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.rectangle_outlined),
+            label: 'Aquarien',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Tools',
+          ),
+        ],
+      ),
       body: Column(
         children: <Widget>[
           Padding(
@@ -99,10 +115,10 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
               ],
             ),
           ),
-          aquariums.length == 0 ?
-          Center(
+          aquariums.isEmpty ?
+          const Center(
             heightFactor: 15,
-            child: const Text("Lege dein erstes Aquarium an!",
+            child: Text("Lege dein erstes Aquarium an!",
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.black,
@@ -110,7 +126,7 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
             ),
           ):
           SizedBox(
-            height: MediaQuery.of(context).size.height-170,
+            height: MediaQuery.of(context).size.height-200,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: aquariums.length,

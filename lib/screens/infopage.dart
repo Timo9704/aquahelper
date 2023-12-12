@@ -44,15 +44,15 @@ class _InfoPageState extends State<InfoPage> {
           Card(
             elevation: 15,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   const SizedBox(height: 10),
-                  Text(infoText, style: TextStyle(fontSize: 16)),
+                  Text(infoText, style: const TextStyle(fontSize: 16)),
                   const SizedBox(height: 10),
-                  Text(featureText, style: TextStyle(fontSize: 16)),
+                  Text(featureText, style: const TextStyle(fontSize: 16)),
                   const SizedBox(height: 10),
-                  Text(contactText, style: TextStyle(fontSize: 16)),
+                  Text(contactText, style: const TextStyle(fontSize: 16)),
                   const SizedBox(height: 10),
                   const Text('Impressum',
                       textAlign: TextAlign.center,
@@ -61,13 +61,12 @@ class _InfoPageState extends State<InfoPage> {
                   const SizedBox(height: 10),
                   Text(imprint,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20)),
+                      style: const TextStyle(fontSize: 20)),
                   const SizedBox(height: 10),
                   const Text('App-Version: 1.0.0',
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  // Ihr Impressum-Text hier
                 ],
               ),
             ),
