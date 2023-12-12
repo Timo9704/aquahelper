@@ -12,13 +12,13 @@ import 'package:aquahelper/util/dbhelper.dart';
 class AquariumOverview extends StatefulWidget {
   final Aquarium aquarium;
 
-  const AquariumOverview({Key? key, required this.aquarium}) : super(key: key);
+  const AquariumOverview({super.key, required this.aquarium});
 
   @override
-  _AquariumOverviewState createState() => _AquariumOverviewState();
+  AquariumOverviewState createState() => AquariumOverviewState();
 }
 
-class _AquariumOverviewState extends State<AquariumOverview> {
+class AquariumOverviewState extends State<AquariumOverview> {
   List<Measurement> measurementList = [];
 
   @override
@@ -60,7 +60,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
+          SizedBox(
             width: double.infinity,
             child: ClipRRect(
                 borderRadius: const BorderRadius.only(

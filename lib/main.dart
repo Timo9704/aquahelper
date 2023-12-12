@@ -14,7 +14,7 @@ Future<void> main() async {
 }
 
 class AquaHelper extends StatelessWidget {
-  const AquaHelper({Key? key}) : super(key: key);
+  const AquaHelper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AquaHelper extends StatelessWidget {
 }
 
 class AquaHelperStartPage extends StatefulWidget {
-  const AquaHelperStartPage({Key? key}) : super(key: key);
+  const AquaHelperStartPage({super.key});
 
   final String title = 'AquaHelper';
 
