@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -81,7 +80,7 @@ class _CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           ),
         ],
       );
-      GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
+      //GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
       final directory = await getExternalStorageDirectory();
       final newImagePath = '${directory?.path}/images/AquaAffin';
       final imageName = DateTime.now().toIso8601String();
