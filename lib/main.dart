@@ -72,7 +72,7 @@ class _AquaHelperStartPageState extends State<AquaHelperStartPage> {
               onSelected:(value) {
                 if (value == 0) {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => InfoPage()),
+                    MaterialPageRoute(builder: (context) => const InfoPage()),
                   );
                 }
               }
