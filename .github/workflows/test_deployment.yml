@@ -1,0 +1,17 @@
+name: Test-Deployment to Firebase Testlab
+
+on:
+  workflow_call:
+
+jobs:
+  deploy_to_firebase_testlab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Run the Firebase Test Lab Action
+      - name: Run tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'tests.yml:android-pixel-4'
+          env:
+            SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
