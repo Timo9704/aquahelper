@@ -1,15 +1,7 @@
 name: Integration
 
 on:
-  push:
-    branches:
-      - '*'
-      - '!main'
-  workflow_run:
-    workflows: [ Integration ]
-    types:
-      - completed
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
   lint: 
@@ -20,9 +12,22 @@ jobs:
         with:
           flutter-version: '3.13.9'
           channel: 'stable'
-      - run: flutter --version
+      - name: Download dependencies
+        run: flutter pub get
       - name: Check linting
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+        run: flutter analyze
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.9'
+          channel: 'stable'
+      - name: Download dependencies
+        run: flutter pub get
+      - name: Check linting
+        run: flutter test
   build:
     runs-on: ubuntu-latest
     steps:
@@ -31,8 +36,7 @@ jobs:
         with:
           flutter-version: '3.13.9'
           channel: 'stable'
-      - run: flutter --version
-      - name: Get dependencies
+      - name: Download dependencies
         run: flutter pub get
-      - name: Start release build
+      - name: Build appbundle for Android
         run: flutter build appbundle
