@@ -2,7 +2,7 @@ name: Test-Deployment to Firebase Testlab
 
 on:
   workflow_call:
-    
+
 
 jobs:
   deploy_to_firebase_testlab:
@@ -14,5 +14,5 @@ jobs:
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
           arg-spec: 'tests.yml:android-pixel-4'
-          env:
-            SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
