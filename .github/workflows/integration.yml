@@ -17,6 +17,7 @@ jobs:
       - name: Check linting
         run: flutter analyze
   test:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +30,7 @@ jobs:
       - name: Check linting
         run: flutter test
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
