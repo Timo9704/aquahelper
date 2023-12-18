@@ -1,0 +1,9 @@
+name: Integration & release on new release tag
+
+on:
+  release:
+    types: [created, edited]
+
+jobs:
+  integration:
+    uses: ./.github/workflows/integration.yml
