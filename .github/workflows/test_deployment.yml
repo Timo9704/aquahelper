@@ -8,11 +8,10 @@ jobs:
   deploy_to_firebase_testlab:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      # Run the Firebase Test Lab Action
-      - name: Run tests on Firebase Test Lab
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'tests.yml:android-pixel-4'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+        packageName: com.aquarium.aquahelper
+        releaseFiles: app/build/outputs/bundle/release/app-release.apk
+        track: alpha
+        status: inProgress
