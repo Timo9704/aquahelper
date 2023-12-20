@@ -10,3 +10,6 @@ jobs:
   deploy_to_firebase_for_test:
     uses: ./.github/workflows/test_deployment.yml
     secrets: inherit
+  deploy_to_google_play:
+    uses: ./.github/workflows/production_deployment.yml
+    secrets: inherit

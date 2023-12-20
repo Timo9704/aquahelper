@@ -1,8 +1,6 @@
 name: Test-Deployment (Firebase App Distribution)
-
 on:
   workflow_call:
-
 
 jobs:
   deploy_to_firebase_for_test:
