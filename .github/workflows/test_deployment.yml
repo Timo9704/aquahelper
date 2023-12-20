@@ -8,8 +8,10 @@ jobs:
   deploy_to_firebase_testlab:
     runs-on: ubuntu-latest
     steps:
+      - name: Find APK File
+        run: find . -name "app-debug.apk"
       - name: Debug APK File
-        run: ls -l build/app/outputs/apk/debug/
+        run: ls -l app/build/app/outputs/apk/debug/
 
       - name: Upload Artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
