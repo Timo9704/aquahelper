@@ -1,9 +1,12 @@
-name: Integration & test-deployment on pull request
+name: Integration
 
 on:
+  push:
+    branches: [ "*" ]
   pull_request:
     branches: [ "main" ]
     types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   integration:

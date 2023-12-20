@@ -46,4 +46,9 @@ jobs:
       - name: Download dependencies
         run: flutter pub get
       - name: Build appbundle for Android
-        run: flutter build appbundle
+        run: flutter build apk
+      - name: Upload job-artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
