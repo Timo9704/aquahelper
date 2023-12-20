@@ -23,35 +23,3 @@ jobs:
           inAppUpdatePriority: 2
           userFraction: 0.33
           whatsNewDirectory: distribution/whatsnew
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      - uses: actions/checkout@v2
-                - uses: actions/download-artifact@v2
-                with:
-                  name: app-release
-      - name: Upload Artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          groups: tester
-          file: build/app/outputs/flutter-apk/app-release.apk
