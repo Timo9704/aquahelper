@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download ABB-Artifact of integration-job
+      - name: Download AAB-Artifact of integration-job
         uses: actions/download-artifact@v4
         with:
-          name: app-release
+          name: app-release-bundle
           path: build/app/outputs/bundle/release/
       - name: Production deployment to Google Play Store
         uses: r0adkll/upload-google-play@v1.1.2
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_PLAYSTORE_JSON }}
           packageName: com.aquarium.aquahelper
-          releaseFiles: build/app/outputs/flutter-appbundle/app-release.aab
+          releaseFiles: build/app/outputs/flutter-appbundle/app-release-bundle.aab
           track: internal
