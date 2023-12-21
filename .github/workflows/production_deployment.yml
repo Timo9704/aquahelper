@@ -1,6 +1,8 @@
 name: Production Deployment (Google Play Store)
 on:
   workflow_call:
+env:
+  PROPERTIES_PATH: "./android/key.properties"
 
 jobs:
   deploy_to_google_play:
@@ -12,6 +14,14 @@ jobs:
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/
+            # Creating the key.properties file
+
+      - name: Create key.properties
+        run: |
+          echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} > ${{env.PROPERTIES_PATH}}
+          echo storePassword=\${{ secrets.KEY_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
+      - run: echo "${{ secrets.UPLOAD_KEYSTORE }}" | base64 --decode > android/app/upload_keystore.jks
       - name: Build AppBundle
         env:
           KEY_JKS: ${{ secrets.UPLOAD_KEYSTORE }}
@@ -24,4 +34,4 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_PLAYSTORE_JSON }}
           packageName: com.aquarium.aquahelper
           releaseFiles: build/app/outputs/flutter-appbundle/app-release.aab
-          track: beta
+          track: internal
