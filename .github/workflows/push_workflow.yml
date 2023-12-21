@@ -1,0 +1,10 @@
+name: Integration
+
+on:
+  push:
+    branches: [ "*" ]
+
+jobs:
+  integration:
+    uses: ./.github/workflows/integration.yml
+    secrets: inherit

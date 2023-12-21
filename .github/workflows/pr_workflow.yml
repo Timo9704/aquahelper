@@ -1,0 +1,15 @@
+name: Integration & test-deployment on pull request
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  integration:
+    uses: ./.github/workflows/integration.yml
+    secrets: inherit
+  deploy_to_firebase_for_test:
+    needs: integration
+    uses: ./.github/workflows/test_deployment.yml
+    secrets: inherit

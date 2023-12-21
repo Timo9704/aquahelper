@@ -1,0 +1,24 @@
+name: Production Deployment (Google Play Store)
+on:
+  workflow_call:
+env:
+  PROPERTIES_PATH: "./android/key.properties"
+
+jobs:
+  deploy_to_google_play:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download AAB-Artifact of integration-job
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release-bundle
+          path: build/app/outputs/bundle/release/
+      - name: Production deployment to Google Play Store as DRAFT
+        uses: r0adkll/upload-google-play@v1.1.2
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_PLAYSTORE_JSON }}
+          packageName: com.aquarium.aquahelper
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: internal
+          status: draft
