@@ -45,10 +45,10 @@ jobs:
           channel: 'stable'
       - name: Download dependencies
         run: flutter pub get
-      - name: Build appbundle for Android
+      - name: Build APK for Android
         run: flutter build apk
       - name: Upload job-artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
