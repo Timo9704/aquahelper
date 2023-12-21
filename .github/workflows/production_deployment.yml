@@ -1,25 +1,22 @@
 name: Production Deployment (Google Play Store)
-
 on:
   workflow_call:
-
 
 jobs:
   deploy_to_google_play:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Download Artifact of integration-job
         uses: actions/download-artifact@v4
         with:
           name: app-release
+          path: build/app/outputs/flutter-apk/
       - name: Production deployment to Google Play Store
         uses: r0adkll/upload-google-play@v1.1.2
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: com.aquarium.aquahelper
           releaseFiles: build/app/outputs/flutter-apk/app-release.apk
-          track: production
+          track: beta
           status: inProgress
-          inAppUpdatePriority: 2
-          userFraction: 0.33
-          whatsNewDirectory: distribution/whatsnew
