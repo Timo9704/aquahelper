@@ -1,0 +1,54 @@
+name: Integration
+
+on:
+  workflow_call:
+
+jobs:
+  lint: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.9'
+          channel: 'stable'
+      - name: Download dependencies
+        run: flutter pub get
+      - name: Check linting
+        run: flutter analyze
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.9'
+          channel: 'stable'
+      - name: Download dependencies
+        run: flutter pub get
+      - name: Check linting
+        run: flutter test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.9'
+          channel: 'stable'
+      - name: Download dependencies
+        run: flutter pub get
+      - name: Build APK for Android
+        run: flutter build apk
+      - name: Upload job-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk

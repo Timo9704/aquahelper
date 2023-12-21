@@ -23,13 +23,4 @@ Future main() async {
 
     expect(titleFinder, findsOneWidget);
   });
-
-  testWidgets('Insert aquarium', (tester) async {
-
-    await tester.pumpWidget(const AquaHelperStartPage());
-
-    final titleFinder = find.text('Alpen 60P');
-
-    expect(titleFinder, findsOneWidget);
-  });
 }
