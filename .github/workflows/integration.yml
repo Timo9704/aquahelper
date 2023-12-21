@@ -52,7 +52,8 @@ jobs:
           echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} > ${{env.PROPERTIES_PATH}}
           echo storePassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
           echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
-      - run: echo "${{ secrets.UPLOAD_KEYSTORE }}" | base64 --decode > android/app/upload_keystore.jks
+      - run: echo "${{ secrets.UPLOAD_KEYSTORE }}" | base64 --decode > ./android/app/upload_keystore.jks
+      - run: ls -ltr ./android/app/
       - name: Build APK for Android
         run: flutter build apk
       - name: Upload job-artifact
