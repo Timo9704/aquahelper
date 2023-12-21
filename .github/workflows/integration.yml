@@ -46,7 +46,11 @@ jobs:
       - name: Download dependencies
         run: flutter pub get
       - name: Build APK for Android
-        run: flutter build apk
+        env:
+          KEY_JKS: ${{ secrets.UPLOAD_KEYSTORE }}
+          KEY_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+        run: base64 -d <<< $KEY_JKS > ./android/app/upload_keystore.jks && flutter build apk
       - name: Upload job-artifact
         uses: actions/upload-artifact@v4
         with:
