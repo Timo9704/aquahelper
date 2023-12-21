@@ -6,22 +6,22 @@ jobs:
   deploy_to_google_play:
     runs-on: ubuntu-latest
     steps:
-      - name: Build AppBundle
-        env:
-          KEY_JKS: ${{ secrets.UPLOAD_KEYSTORE }}
-          KEY_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
-          ALIAS_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
-          run: base64 -d <<< $KEY_JKS > ./android/app/upload_keystore.jks && flutter build appbundle --release -v
       - uses: actions/checkout@v2
       - name: Download Artifact of integration-job
         uses: actions/download-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/
+      - name: Build AppBundle
+        env:
+          KEY_JKS: ${{ secrets.UPLOAD_KEYSTORE }}
+          KEY_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+          ALIAS_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
+        run: base64 -d <<< $KEY_JKS > ./android/app/upload_keystore.jks && flutter build appbundle --release -v
       - name: Production deployment to Google Play Store
         uses: r0adkll/upload-google-play@v1.1.2
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_PLAYSTORE_JSON }}
           packageName: com.aquarium.aquahelper
-          releaseFiles: build/app/outputs/flutter-apk/app-release.apk
+          releaseFiles: build/app/outputs/flutter-appbundle/app-release.aab
           track: beta
