@@ -45,11 +45,13 @@ jobs:
           channel: 'stable'
       - name: Download dependencies
         run: flutter pub get
+      - name: Create key.properties
+        run: |
+            echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} > ${{env.PROPERTIES_PATH}}
+            echo storePassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+            echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
+      - run: echo "${{ secrets.UPLOAD_KEYSTORE }}" | base64 --decode > android/app/upload_keystore.jks
       - name: Build APK for Android
-        env:
-          KEY_JKS: ${{ secrets.UPLOAD_KEYSTORE }}
-          KEY_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
-          ALIAS_PASSWORD: ${{ secrets.UPLOAD_KEYSTORE_PASSWORD }}
         run: base64 -d <<< $KEY_JKS > ./android/app/upload_keystore.jks && flutter build apk
       - name: Upload job-artifact
         uses: actions/upload-artifact@v4
