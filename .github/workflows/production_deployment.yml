@@ -19,4 +19,3 @@ jobs:
           packageName: com.aquarium.aquahelper
           releaseFiles: build/app/outputs/flutter-apk/app-release.apk
           track: beta
-          status: inProgress
