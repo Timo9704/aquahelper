@@ -13,7 +13,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-appbundle/
+          path: build/app/outputs/bundle/release/
       - name: Production deployment to Google Play Store
         uses: r0adkll/upload-google-play@v1.1.2
         with:

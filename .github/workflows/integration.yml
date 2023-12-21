@@ -56,7 +56,7 @@ jobs:
       - run: ls -ltr ./android/app/
       - name: Build APK for Android
         run: flutter build apk
-      - name: Build APK for Android
+      - name: Build Appbundle for Android
         run: flutter build appbundle
       - name: Upload APK-job-artifact
         uses: actions/upload-artifact@v4
@@ -67,4 +67,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-appbundle/app-release.abb
+          path: build/app/outputs/bundle/release/app-release.aab
