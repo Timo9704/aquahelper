@@ -1,5 +1,7 @@
 import 'package:aquahelper/widget/dashboard_health_status.dart';
+import 'package:aquahelper/widget/dashboard_measurements.dart';
 import 'package:aquahelper/widget/dashboard_news.dart';
+import 'package:aquahelper/widget/dashboard_reminder.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -61,49 +63,18 @@ class DashboardState extends State<Dashboard> {
         const Text('Hier findest du alle Informationen zu deinen Aquarien:',
             textAlign: TextAlign.left,
             style: TextStyle(fontSize: 15, color: Colors.black)),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                height: 120,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Text('Alarme',
-                    style: TextStyle(fontSize: 15, color: Colors.black)),
-              ),
-            ),
-            const SizedBox(
+            DashboardReminder(),
+            SizedBox(
               width: 5,
             ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                height: 120,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Text('Messungen',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                    )),
-              ),
-            ),
+            DashboardMeasurements()
           ]),
         ),
-        DashboardHealthStatus(),
-        DashboardNews(),
+        const DashboardHealthStatus(),
+        const DashboardNews(),
       ],
     );
   }
