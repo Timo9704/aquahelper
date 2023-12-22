@@ -7,7 +7,7 @@ class DashboardNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
