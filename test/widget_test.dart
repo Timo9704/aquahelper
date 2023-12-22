@@ -1,5 +1,5 @@
-import 'package:aquahelper/main.dart';
-import 'package:aquahelper/util/dbhelper.dart';
+import 'package:aquahelper/widget/dashboard_health_status.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -11,16 +11,11 @@ void sqfliteTestInit() {
   databaseFactory = databaseFactoryFfi;
 }
 
-Future main() async {
+void main() {
   sqfliteTestInit();
-  await DBHelper.db.initDB();
 
-  testWidgets('Startscreen is empty and shows adding statement', (tester) async {
-
-    await tester.pumpWidget(const AquaHelper());
-
-    final titleFinder = find.text('Lege dein erstes Aquarium an!');
-
-    expect(titleFinder, findsOneWidget);
+  testWidgets('Startscreen shows dashboard', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: DashboardHealthStatus()));
+    expect(find.text("Health Status:"), findsOneWidget);
   });
 }
