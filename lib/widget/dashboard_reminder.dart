@@ -27,7 +27,7 @@ class DashboardReminder extends StatelessWidget {
                 children: [
                   Text('Für heute keine Erinnerungen!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 21, color: Colors.black)),
+                      style: TextStyle(fontSize: 19, color: Colors.black)),
                 ],
               ),
             )

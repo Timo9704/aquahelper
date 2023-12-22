@@ -7,7 +7,7 @@ class DashboardHealthStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: Container(
         padding: const EdgeInsets.all(10),
         //height: 150,

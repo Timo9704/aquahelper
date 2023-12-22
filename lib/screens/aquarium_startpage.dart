@@ -65,7 +65,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
             ),
           ):
           SizedBox(
-            height: MediaQuery.of(context).size.height-200,
+            height: MediaQuery.of(context).size.height-205,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: aquariums.length,

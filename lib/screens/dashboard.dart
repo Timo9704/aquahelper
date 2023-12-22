@@ -32,12 +32,13 @@ class DashboardState extends State<Dashboard> {
               child: Align(
                   alignment: Alignment.center,
                   widthFactor: 1,
-                  heightFactor: 0.7,
+                  heightFactor: 0.75,
                   child: Image.asset('assets/images/aquarium.jpg')),
             ),
-            Container(
+            Positioned.fill(
+              child: Container(
               width: double.infinity,
-              height: 155,
+              //height: 155,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
@@ -54,7 +55,7 @@ class DashboardState extends State<Dashboard> {
                         color: Colors.white,
                         fontWeight: FontWeight.w800)),
               ),
-            )
+            ))
           ],
         ),
         const SizedBox(

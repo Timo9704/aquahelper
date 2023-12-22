@@ -23,13 +23,14 @@ class DashboardMeasurements extends StatelessWidget {
                 color: Colors.black,
               )),
           Padding(
-            padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+            padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
-                    Text('Messungen',
+                    Text('Messungen\n(in 30 Tage)',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,
                           color: Colors.black,
@@ -57,7 +58,8 @@ class DashboardMeasurements extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text('Messungen',
+                    Text('Messungen\n(gesamt)',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,
                           color: Colors.black,

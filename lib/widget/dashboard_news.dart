@@ -7,10 +7,9 @@ class DashboardNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       child: Container(
         padding: const EdgeInsets.all(10),
-        height: 150,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(
@@ -24,12 +23,12 @@ class DashboardNews extends StatelessWidget {
             Text('Neuigkeiten',
               style: TextStyle(fontSize: 15, color: Colors.black)),
             Padding(
-              padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Text('21.12.2023',
+                      Text('21.12.23',
                           style: TextStyle(fontSize: 15, color: Colors.black)),
                       SizedBox(
                         width: 10,
@@ -42,7 +41,7 @@ class DashboardNews extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('19.12.2023',
+                      Text('19.12.23',
                           style: TextStyle(fontSize: 15, color: Colors.black)),
                       SizedBox(
                         width: 10,
@@ -55,7 +54,7 @@ class DashboardNews extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('18.12.2023',
+                      Text('18.12.23',
                           style: TextStyle(fontSize: 15, color: Colors.black)),
                       SizedBox(
                         width: 10,
@@ -68,7 +67,7 @@ class DashboardNews extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      Text('15.12.2023',
+                      Text('15.12.23',
                           style: TextStyle(fontSize: 15, color: Colors.black)),
                       SizedBox(
                         width: 10,
