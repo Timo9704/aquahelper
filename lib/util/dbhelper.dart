@@ -73,6 +73,20 @@ class DBHelper {
     return list;
   }
 
+  Future<int> getMeasurementAmountByAllTime() async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("measurement");
+    List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
+    return list.length;
+  }
+
+  Future<int> getMeasurementAmountByLast30Days(int intervalStart, int endInterval) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("measurement", where: 'measurementDate BETWEEN ? AND ?', whereArgs: [endInterval, intervalStart]);
+    List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
+    return list.length;
+  }
+
   Future<void> insertMeasurement(Measurement measurement) async {
     final db = await openDatabase('aquarium_database.db');
       await db.insert(

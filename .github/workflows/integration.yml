@@ -2,6 +2,8 @@ name: Integration
 
 on:
   workflow_call:
+env:
+  PROPERTIES_PATH: "./android/key.properties"
 
 jobs:
   lint:
@@ -58,10 +60,24 @@ jobs:
           channel: 'stable'
       - name: Download dependencies
         run: flutter pub get
+      - name: Create key.properties
+        run: |
+          echo keyPassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} > ${{env.PROPERTIES_PATH}}
+          echo storePassword=\${{ secrets.UPLOAD_KEYSTORE_PASSWORD }} >> ${{env.PROPERTIES_PATH}}
+          echo keyAlias=\${{ secrets.KEY_ALIAS }} >> ${{env.PROPERTIES_PATH}}
+      - run: echo "${{ secrets.UPLOAD_KEYSTORE }}" | base64 --decode > ./android/app/upload_keystore.jks
+      - run: ls -ltr ./android/app/
       - name: Build APK for Android
         run: flutter build apk
-      - name: Upload job-artifact
+      - name: Build Appbundle for Android
+        run: flutter build appbundle
+      - name: Upload APK-job-artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Upload AAB-job-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-bundle
+          path: build/app/outputs/bundle/release/app-release.aab

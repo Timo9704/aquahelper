@@ -6,8 +6,8 @@ jobs:
   deploy_to_firebase_for_test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Download Artifact of integration-job
+      - uses: actions/checkout@v4
+      - name: Download APK-Artifact of integration-job
         uses: actions/download-artifact@v4
         with:
           name: app-release
