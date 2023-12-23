@@ -38,7 +38,7 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         ),
         child: Column(
           children: [
-            Text('Health Status:', style: TextStyle(fontSize: 15, color: Colors.black)),
+            const Text('Health Status:', style: TextStyle(fontSize: 15, color: Colors.black)),
             SizedBox(
               height: 100, // Festgelegte Höhe für den scrollbaren Bereich
               child: SingleChildScrollView(
@@ -59,12 +59,12 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
 
   Widget buildAquariumItem(Aquarium aquarium) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.lightbulb, size: 40, color: Colors.green),
-          SizedBox(height: 10),
+          const Icon(Icons.lightbulb, size: 40, color: Colors.green),
+          const SizedBox(height: 10),
           Text(aquarium.name)
         ],
       ),

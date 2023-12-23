@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
@@ -47,39 +46,39 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
-          Text('Messungen',
+          const Text('Messungen',
               style: TextStyle(
                 fontSize: 15,
                 color: Colors.black,
               )),
           Padding(
-            padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+            padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
-                    Text('Messungen\n(in 30 Tage)',
+                    const Text('Messungen\n(in 30 Tage)',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                         )),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
-                    Icon(Icons.check_box_outlined, color: Colors.green),
-                    SizedBox(
+                    const Icon(Icons.check_box_outlined, color: Colors.green),
+                    const SizedBox(
                       height: 5,
                     ),
-                    Text(measurements30days + 'x',
-                        style: TextStyle(
+                    Text('${measurements30days}x',
+                        style: const TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                         )),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                   width: 2,
                   child: ColoredBox(
@@ -88,21 +87,21 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                 ),
                 Column(
                   children: [
-                    Text('Messungen\n(gesamt)',
+                    const Text('Messungen\n(gesamt)',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                         )),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
-                    Icon(Icons.check_box_outlined, color: Colors.green),
-                    SizedBox(
+                    const Icon(Icons.check_box_outlined, color: Colors.green),
+                    const SizedBox(
                       height: 5,
                     ),
-                    Text(measurementsAll + 'x',
-                        style: TextStyle(
+                    Text('${measurementsAll}x',
+                        style: const TextStyle(
                           fontSize: 10,
                           color: Colors.black,
                         )),
