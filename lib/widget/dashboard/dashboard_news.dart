@@ -20,7 +20,7 @@ class DashboardNews extends StatelessWidget {
         ),
         child: const Column(
           children: [
-            Text('Neuigkeiten',
+            Text('Neuigkeiten/News-Ticker',
               style: TextStyle(fontSize: 15, color: Colors.black)),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
