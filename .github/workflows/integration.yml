@@ -33,15 +33,15 @@ jobs:
         run: flutter test --coverage
       - name: Generate coverage report
         run: lcov --list coverage/lcov.info
-      - name: Check coverage percentage
-        id: coverage-check
-        run: |
-           COVERAGE=$(lcov --summary coverage/lcov.info | grep -Po '(\d+.\d+)%' | head -1)
-           echo "Coverage: $COVERAGE"
-           echo "COVERAGE=${COVERAGE}" >> $GITHUB_ENV
       - name: Verify coverage
-        if: ${{ env.COVERAGE < 80 }}
-        run: exit 1
+        run: |
+          set -e
+          COVERAGE=$(lcov --summary coverage/lcov.info | grep -Po '(\d+.\d+)%' | head -1)
+          echo "Coverage: $COVERAGE"
+          if [[ $COVERAGE < 80 ]]; then
+            echo "Coverage is below 80%, failing the build"
+            exit 1
+          fi
   build:
     needs: test
     runs-on: ubuntu-latest
