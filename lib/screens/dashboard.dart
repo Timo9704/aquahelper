@@ -1,9 +1,10 @@
-import 'package:aquahelper/widget/dashboard_health_status.dart';
-import 'package:aquahelper/widget/dashboard_measurements.dart';
-import 'package:aquahelper/widget/dashboard_news.dart';
-import 'package:aquahelper/widget/dashboard_reminder.dart';
 
 import 'package:flutter/material.dart';
+
+import '../widget/dashboard/dashboard_health_status.dart';
+import '../widget/dashboard/dashboard_measurements.dart';
+import '../widget/dashboard/dashboard_news.dart';
+import '../widget/dashboard/dashboard_reminder.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
