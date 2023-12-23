@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  lint: 
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,8 +27,19 @@ jobs:
           channel: 'stable'
       - name: Download dependencies
         run: flutter pub get
-      - name: Check linting
-        run: flutter test
+      - name: Run tests and collect coverage
+        run: flutter test --coverage
+      - name: Generate coverage report
+        run: lcov --list coverage/lcov.info
+      - name: Check coverage percentage
+        id: coverage-check
+        run: |
+           COVERAGE=$(lcov --summary coverage/lcov.info | grep -Po '(\d+.\d+)%' | head -1)
+           echo "Coverage: $COVERAGE"
+           echo "COVERAGE=${COVERAGE}" >> $GITHUB_ENV
+      - name: Verify coverage
+        if: ${{ env.COVERAGE < 80 }}
+        run: exit 1
   build:
     needs: test
     runs-on: ubuntu-latest
