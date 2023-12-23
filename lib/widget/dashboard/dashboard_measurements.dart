@@ -1,0 +1,118 @@
+import 'dart:ffi';
+
+import 'package:aquahelper/util/dbhelper.dart';
+import 'package:flutter/material.dart';
+
+class DashboardMeasurements extends StatefulWidget {
+
+  const DashboardMeasurements({super.key});
+
+  @override
+  DashboardMeasurementsState createState() => DashboardMeasurementsState();
+}
+
+class DashboardMeasurementsState extends State<DashboardMeasurements> {
+
+  String measurementsAll = "";
+  String measurements30days = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getMeasurementsAmount();
+  }
+
+  void getMeasurementsAmount() async{
+    int startInterval = ((DateTime.now().toUtc().millisecondsSinceEpoch));
+    int endInterval = startInterval - 2592000;
+    int measurementsAll = await DBHelper.db.getMeasurementAmountByAllTime();
+    int measurements30days = await DBHelper.db.getMeasurementAmountByLast30Days(startInterval, endInterval);
+    setState(() {
+      this.measurementsAll = measurementsAll.toString();
+      this.measurements30days = measurements30days.toString();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        height: 120,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(children: [
+          Text('Messungen',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+              )),
+          Padding(
+            padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text('Messungen\n(in 30 Tage)',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.black,
+                        )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Icon(Icons.check_box_outlined, color: Colors.green),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(measurements30days + 'x',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.black,
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: 50,
+                  width: 2,
+                  child: ColoredBox(
+                    color: Colors.grey,
+                  ),
+                ),
+                Column(
+                  children: [
+                    Text('Messungen\n(gesamt)',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.black,
+                        )),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Icon(Icons.check_box_outlined, color: Colors.green),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(measurementsAll + 'x',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.black,
+                        )),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ]),
+      ),
+    );
+  }
+}
