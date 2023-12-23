@@ -72,7 +72,7 @@ class DashboardNews extends StatelessWidget {
                       SizedBox(
                         width: 10,
                       ),
-                      Text('Test-Nachricht im News-Ticker',
+                      Text('Neue Test-Nachricht im News-Ticker',
                           style: TextStyle(fontSize: 15, color: Colors.black)),
                     ],),
                 ],
