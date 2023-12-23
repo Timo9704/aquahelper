@@ -1,4 +1,4 @@
-name: Integration & release on new release tag
+name: Integration & production-release on new release tag
 
 on:
   release:
