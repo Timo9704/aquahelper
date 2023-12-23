@@ -1,5 +1,5 @@
 # AquaHelper
-
+[![Integration & test-deployment on pull request](https://github.com/Timo9704/aquahelper/actions/workflows/pr_workflow.yml/badge.svg)](https://github.com/Timo9704/aquahelper/actions/workflows/pr_workflow.yml)
 AquaHelper is a Flutter application for saving and analysing water values for aquariums/tanks.
 
 ## Features
