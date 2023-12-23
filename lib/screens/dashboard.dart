@@ -68,13 +68,14 @@ class DashboardState extends State<Dashboard> {
             style: TextStyle(fontSize: 15, color: Colors.black)),
         const Padding(
           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-          child: Row(children: [
-            DashboardReminder(),
-            SizedBox(
-              width: 5,
-            ),
-            DashboardMeasurements()
-          ]),
+          child: Row(
+              children: [
+                DashboardReminder(),
+                SizedBox(
+                  width: 5,
+                ),
+                DashboardMeasurements()
+              ]),
         ),
         const DashboardHealthStatus(),
         const DashboardNews(),
