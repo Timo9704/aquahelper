@@ -36,23 +36,7 @@ class _FertilizerCalculatorState extends State<FertilizerCalculator> {
   }
 
   Future<void> processResponse() async {
-    try {
-      http.Response response = await sendRequest();
 
-      if (response.statusCode == 200) {
-        // Der Request war erfolgreich
-        var responseData = jsonDecode(response.body);
-
-        // Verarbeiten Sie die responseData hier...
-        print('Response data: $responseData');
-      } else {
-        // Fehlerbehandlung für nicht erfolgreiche Anfragen
-        print('Failed to load data. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      // Fehlerbehandlung für Ausnahmen beim Senden des Requests
-      print('Error occurred: $e');
-    }
   }
 
   Future<void> _fetchFertilizers() async {
