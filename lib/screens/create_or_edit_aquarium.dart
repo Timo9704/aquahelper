@@ -192,6 +192,10 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'Süßwasser',
                                         textScaleFactor: ScaleSize.textScaleFactor(context),
+                                        style: const TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -211,6 +215,10 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'Salzwasser',
                                         textScaleFactor: ScaleSize.textScaleFactor(context),
+                                        style: const TextStyle(
+                                          fontSize: 25,
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     ],
                                   ),

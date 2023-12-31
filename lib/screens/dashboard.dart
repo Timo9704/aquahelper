@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../util/scalesize.dart';
 import '../widget/dashboard/dashboard_health_status.dart';
 import '../widget/dashboard/dashboard_measurements.dart';
 import '../widget/dashboard/dashboard_news.dart';
@@ -48,12 +49,13 @@ class DashboardState extends State<Dashboard> {
                 ),
                 color: Colors.black54,
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(30.0),
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
                 child:  Text('AquaHelper\nDein Dashboard',
+                    textScaleFactor: ScaleSize.textScaleFactor(context),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 40,
+                    style: const TextStyle(
+                        fontSize: 50,
                         color: Colors.white,
                         fontWeight: FontWeight.w800)),
               ),
