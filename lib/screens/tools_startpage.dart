@@ -1,4 +1,7 @@
+import 'package:aquahelper/screens/fertilizer_calculator.dart';
+import 'package:aquahelper/screens/ground_calculator.dart';
 import 'package:flutter/material.dart';
+
 
 class ToolsStartPage extends StatefulWidget {
   const ToolsStartPage({super.key});
@@ -8,7 +11,6 @@ class ToolsStartPage extends StatefulWidget {
 }
 
 class _ToolsStartPageState extends State<ToolsStartPage> {
-
   @override
   void initState() {
     super.initState();
@@ -16,16 +18,77 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-              Text('Dieser Abschnitt befindet sich gerade im Aufbau!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800)),
-        ],
-      );
+    return GridView.count(
+        crossAxisCount: 2,
+        childAspectRatio: 1,
+        children: [
+          IconTextButton(
+            imagePath: 'assets/soil.png',
+            text: 'Bodengrund-Rechner',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const GroundCalculator()),
+              );
+            },
+          ),
+          IconTextButton(
+            imagePath: 'assets/soil.png',
+            text: 'Düngerrechner-Rechner',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
+              );
+            },
+          ),
+          IconTextButton(
+            imagePath: 'assets/soil.png',
+            text: 'Licht-Rechner',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
+              );
+            },
+          ),
+          IconTextButton(
+            imagePath: 'assets/soil.png',
+            text: 'pH-KH-CO2-Rechner',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
+              );
+            },
+          )
+        ]);
+  }
+}
+
+class IconTextButton extends StatelessWidget {
+  final String imagePath;
+  final String text;
+  final VoidCallback onPressed;
+
+  const IconTextButton(
+      {super.key, required this.imagePath, required this.text, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(imagePath, width: 100, height: 100),
+            const SizedBox(height: 10),
+            Text(text, style: const TextStyle(fontWeight: FontWeight.w800),),
+          ],
+        ),
+      ),
+    );
   }
 }
