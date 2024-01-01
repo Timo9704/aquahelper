@@ -3,6 +3,7 @@ class Aquarium {
   String name;
   int liter;
   int waterType;
+  int healthStatus;
   String imagePath;
 
   Aquarium(
@@ -10,6 +11,7 @@ class Aquarium {
     this.name,
     this.liter,
     this.waterType,
+    this.healthStatus,
     this.imagePath,
   );
 
@@ -19,6 +21,7 @@ class Aquarium {
         json["name"],
         json["liter"],
         json["waterType"],
+        json["healthStatus"],
         json["imagePath"]
     );
   }
@@ -29,6 +32,7 @@ class Aquarium {
         'name': name,
         'liter': liter,
         'waterType': waterType,
+        'healthStatus': healthStatus,
         'imagePath': imagePath
       };
     }
