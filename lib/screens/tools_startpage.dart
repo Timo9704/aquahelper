@@ -35,27 +35,34 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             imagePath: 'assets/soil.png',
             text: 'Düngerrechner-Rechner',
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
-              );
+            },
+          ),
+          IconTextButton(
+            imagePath: 'assets/soil.png',
+            text: 'KI-Assistent',
+            onPressed: () {
+
+            },
+          ),
+          IconTextButton(
+            imagePath: 'assets/soil.png',
+            text: 'CO2-Rechner',
+            onPressed: () {
+
             },
           ),
           IconTextButton(
             imagePath: 'assets/soil.png',
             text: 'Licht-Rechner',
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
-              );
+
             },
           ),
           IconTextButton(
             imagePath: 'assets/soil.png',
             text: 'pH-KH-CO2-Rechner',
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
-              );
+
             },
           )
         ]);
