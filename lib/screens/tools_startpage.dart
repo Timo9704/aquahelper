@@ -1,4 +1,3 @@
-import 'package:aquahelper/screens/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/ground_calculator.dart';
 import 'package:flutter/material.dart';
 
