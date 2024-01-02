@@ -40,7 +40,7 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
           children: [
             const Text('Health Status:', style: TextStyle(fontSize: 15, color: Colors.black)),
             SizedBox(
-              height: 100, // Festgelegte Höhe für den scrollbaren Bereich
+              height: 70, // Festgelegte Höhe für den scrollbaren Bereich
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: IntrinsicHeight(
@@ -58,14 +58,15 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
   }
 
   Widget buildAquariumItem(Aquarium aquarium) {
+    List<Color> colorCodes = [Colors.green, Colors.yellow, Colors.orange, Colors.red];
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.lightbulb, size: 40, color: Colors.green),
+          Icon(Icons.lightbulb, size: 35, color: colorCodes.elementAt(aquarium.healthStatus)),
           const SizedBox(height: 10),
-          Text(aquarium.name)
+          Text(aquarium.name, style: const TextStyle(fontSize: 12, color: Colors.black))
         ],
       ),
     );

@@ -49,7 +49,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     if (widget.aquarium == null) {
       String uuid = const Uuid().v4().toString();
       aquarium = Aquarium(uuid, _nameController.text,
-          int.parse(_literController.text), waterType, imagePath);
+          int.parse(_literController.text), waterType, 0 ,imagePath);
     } else {
       aquarium.name = _nameController.text;
       aquarium.liter = int.parse(_literController.text);
