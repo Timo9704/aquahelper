@@ -32,7 +32,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
           ),
           IconTextButton(
             imagePath: 'assets/soil.png',
-            text: 'Düngerrechner-Rechner',
+            text: 'Dünger-Rechner',
             onPressed: () {
             },
           ),
