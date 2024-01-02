@@ -66,7 +66,7 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         children: [
           Icon(Icons.lightbulb, size: 35, color: colorCodes.elementAt(aquarium.healthStatus)),
           const SizedBox(height: 10),
-          Text(aquarium.name, style: TextStyle(fontSize: 12, color: Colors.black))
+          Text(aquarium.name, style: const TextStyle(fontSize: 12, color: Colors.black))
         ],
       ),
     );
