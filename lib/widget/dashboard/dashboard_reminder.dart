@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
 
-class DashboardReminder extends StatelessWidget {
+import '../../model/task.dart';
+import '../../util/dbhelper.dart';
+
+class DashboardReminder extends StatefulWidget {
   const DashboardReminder({super.key});
+
+  @override
+  State<DashboardReminder> createState() => DashboardReminderState();
+}
+
+class DashboardReminderState extends State<DashboardReminder> {
+  List<Task> taskList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadTasks();
+  }
+
+  void loadTasks() async {
+    List<Task> dbTasks = await DBHelper.db.getTasksForCurrentDay();
+    setState(() {
+      taskList = dbTasks;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +39,26 @@ class DashboardReminder extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const Column(
+        child: Column(
           children: [
-            Text('Alarme',
+            const Text('Erinnerungen',
                 style: TextStyle(fontSize: 15, color: Colors.black)),
             Padding(
-              padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+              padding: const EdgeInsets.fromLTRB(2, 10, 2, 5),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Für heute keine Erinnerungen!',
+                  taskList.isEmpty ?
+                  const Text('Für heute keine Erinnerungen!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 19, color: Colors.black)),
+                      style: TextStyle(fontSize: 19, color: Colors.black)):
+                  taskList.length >= 2 ?
+                  Text('Noch ${taskList.length} Aufgaben zu erledigen!',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 19, color: Colors.black)):
+                  Text('Noch ${taskList.length} Aufgabe zu erledigen!',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 19, color: Colors.black))
                 ],
               ),
             )

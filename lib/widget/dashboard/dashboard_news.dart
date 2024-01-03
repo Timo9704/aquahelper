@@ -22,7 +22,7 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   Future<void> _fetchNews() async {
     final response = await http.get(Uri.parse(
-        'https://aquaristik-kosmos.de/wp-content/uploads/2023/12/news.json'));
+        'https://aquaristik-kosmos.de/news.json'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
@@ -67,7 +67,7 @@ class _DashboardNewsState extends State<DashboardNews> {
             child: Column(
               children: [
                 SizedBox(
-                    height: 100,
+                    height: 130,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: newsList.length,
