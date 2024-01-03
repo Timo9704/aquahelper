@@ -4,6 +4,8 @@ import 'package:path/path.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
+import '../model/task.dart';
+
 class DBHelper {
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -14,7 +16,8 @@ class DBHelper {
         onCreate: (Database db, int version) async {
           await db.execute('CREATE TABLE tank(aquariumId TEXT PRIMARY KEY, name TEXT, liter INTEGER, waterType INTEGER, healthStatus INTEGER, imagePath TEXT)');
           await db.execute('CREATE TABLE measurement(measurementId TEXT PRIMARY KEY, aquariumId INTEGER, temperature REAL, ph REAL, totalHardness REAL, carbonateHardness REAL, nitrite REAL, nitrate REAL, phosphate REAL, potassium REAL, iron REAL, magnesium REAL, measurementDate INTEGER, imagePath TEXT, FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId))');
-        });
+          await db.execute('CREATE TABLE tasks(taskId TEXT PRIMARY KEY, aquariumId INTEGER, title TEXT, description TEXT, taskDate INTEGER)');
+    });
   }
 
   //-------------------------Methods for Aquarium-object-----------------------//
@@ -110,4 +113,37 @@ class DBHelper {
         where: "measurementId = ?",
         whereArgs: [measurementId]);
   }
+
+  //-------------------------Methods for Task-object-----------------------//
+
+  Future<void> insertTask(Task task) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'tasks',
+        task.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<Task>> getTasksForAquarium(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("tasks", where: 'aquariumId = ? AND taskDate >= ?', orderBy: 'taskDate ASC', whereArgs: [aquariumId, DateTime.now().millisecondsSinceEpoch]);
+    List<Task> list = res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<List<Task>> getTasksForCurrentDay() async {
+    DateTime now = DateTime.now();
+    DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59);
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("tasks", where: 'taskDate BETWEEN ? AND ?', whereArgs: [now.millisecondsSinceEpoch, endOfDay.millisecondsSinceEpoch]);
+    List<Task> list = res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<void> deleteTask(String taskId) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("tasks", where: "taskId = ?", whereArgs: [taskId]);
+  }
+
+
 }

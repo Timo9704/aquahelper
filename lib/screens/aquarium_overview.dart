@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:aquahelper/screens/reminder.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
@@ -10,6 +10,7 @@ import 'package:aquahelper/screens/measurement_form.dart';
 import 'package:aquahelper/screens/chart_analysis.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 
+import '../model/task.dart';
 import '../widget/reminder_item.dart';
 
 class AquariumOverview extends StatefulWidget {
@@ -23,16 +24,13 @@ class AquariumOverview extends StatefulWidget {
 
 class AquariumOverviewState extends State<AquariumOverview> {
   List<Measurement> measurementList = [];
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
-  bool _notificationsEnabled = false;
-
+  List<Task> taskList = [];
 
   @override
   void initState() {
     super.initState();
     loadMeasurements();
+    loadTasks();
   }
 
   void loadMeasurements() async {
@@ -43,20 +41,12 @@ class AquariumOverviewState extends State<AquariumOverview> {
     });
   }
 
-  Future<void> areNotifcationsEnabledOnAndroid() async {
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'scheduled title',
-        'scheduled body',
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-        const NotificationDetails(
-            android: AndroidNotificationDetails(
-                '0', // channel Id
-                'general' // channel Name
-            )),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
+  void loadTasks() async {
+    List<Task> dbTasks =
+        await DBHelper.db.getTasksForAquarium(widget.aquarium.aquariumId);
+    setState(() {
+      taskList = dbTasks;
+    });
   }
 
   @override
@@ -91,8 +81,10 @@ class AquariumOverviewState extends State<AquariumOverview> {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                child: widget.aquarium.imagePath.startsWith('assets/') ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.cover):Image.file(File(widget.aquarium.imagePath),
-                    fit: BoxFit.cover)),
+                child: widget.aquarium.imagePath.startsWith('assets/')
+                    ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.cover)
+                    : Image.file(File(widget.aquarium.imagePath),
+                        fit: BoxFit.cover)),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -106,21 +98,14 @@ class AquariumOverviewState extends State<AquariumOverview> {
                         fontWeight: FontWeight.w800)),
                 IconButton(
                   onPressed: () async {
-                    PermissionStatus status = await Permission.notification.request();
-                    if (status.isGranted) {
-                      NotificationService().zonedSchedule();
-                      final List<PendingNotificationRequest> pendingNotificationRequests =
-                      await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-                      for(int i = 0; i<pendingNotificationRequests.length; i++){
-                        print(pendingNotificationRequests.elementAt(i).title);
-                      }
-                    }
-                    else {
-                      // Open settings to enable notification permission
-                    }
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                Reminder(task: null, aquarium: widget.aquarium)));
                   },
                   icon: const Icon(
-                    Icons.add,
+                    Icons.notification_add,
                     color: Colors.lightGreen,
                   ),
                 ),
@@ -128,19 +113,28 @@ class AquariumOverviewState extends State<AquariumOverview> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-              itemBuilder: (context, index) {
-                return const ReminderItem(
-                    name: "Wasserwechsel",
-                    dueDay: 2);
-              },
-            ),
-          ),
+              height: MediaQuery.of(context).size.height * 0.1,
+              width: MediaQuery.of(context).size.width,
+              child: taskList.isNotEmpty
+                  ? ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: taskList.length,
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      itemBuilder: (context, index) {
+                        return ReminderItem(
+                            task: taskList.elementAt(index),
+                          aquarium: widget.aquarium,
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('Aktuell keine Aufgaben vorhanden!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          )),
+                    )),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
