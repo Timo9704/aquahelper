@@ -25,17 +25,25 @@ class _GroundCalculatorState extends State<GroundCalculator> {
   }
 
   void calculateGround() {
+    int start = int.parse(_startHeightController.text);
     int end = int.parse(_endHeightController.text);
+    double rectVol = 0;
+    if(start > 0){
+      rectVol = start * int.parse(_aquariumDepthController.text) * int.parse(_aquariumHeightController.text) / 1000;
+      end -= start;
+    }
     double triangleVol = (end * int.parse(_aquariumDepthController.text) / 2) *
         int.parse(_aquariumHeightController.text) /
         1000;
+    triangleVol += rectVol;
     String result = "";
+
     if (_selectedGround == "Soil") {
-      result = "$triangleVol Liter";
+      result = "${triangleVol.round()} Liter Soil";
     } else if (_selectedGround == "Sand") {
-      result = "${(triangleVol * 1.9).round()} Kilogramm";
+      result = "${(triangleVol * 1.9).round()} Kilogramm Sand";
     } else if (_selectedGround == "Kies") {
-      result = "${(triangleVol * 1.5).round()} Kilogramm";
+      result = "${(triangleVol * 1.5).round()} Kilogramm Kies";
     }
 
     setState(() {
@@ -273,7 +281,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Du benötigst: $ergebnis",
+                      Text("Du benötigst ungefähr: $ergebnis",
                           style: const TextStyle(
                             fontSize: 15,
                             color: Colors.black,
