@@ -47,6 +47,7 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
+    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.14 : MediaQuery.sizeOf(context).height < 900 ? 0.2 : 0.3;
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
@@ -67,7 +68,7 @@ class _DashboardNewsState extends State<DashboardNews> {
             child: Column(
               children: [
                 SizedBox(
-                    height: 130,
+                    height: MediaQuery.sizeOf(context).height * heightFactor - 10,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: newsList.length,
