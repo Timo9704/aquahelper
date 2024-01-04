@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:aquahelper/model/fertilizer.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../model/aquarium.dart';
 import '../../util/dbhelper.dart';
-import '../../util/scalesize.dart';
 
 class FertilizerConsumption extends StatefulWidget {
   const FertilizerConsumption({super.key});
@@ -140,7 +138,6 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(child:
                         DataTable(
                           horizontalMargin: 0,
                           columnSpacing: 15.0,
@@ -181,7 +178,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                           rows: <DataRow>[
                             DataRow(
                               cells: <DataCell>[
-                                DataCell(Text('Nitrat')),
+                                const DataCell(Text('Nitrat')),
                                 DataCell(Text(measurementIs1.nitrate.toString())),
                                 DataCell(Text(measurementIs2.nitrate.toString())),
                                 DataCell(Text(consumption.nitrate.toString())),
@@ -189,7 +186,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                             ),
                             DataRow(
                               cells: <DataCell>[
-                                DataCell(Text('Phosphat')),
+                                const DataCell(Text('Phosphat')),
                                 DataCell(Text(measurementIs1.phosphate.toString())),
                                 DataCell(Text(measurementIs2.phosphate.toString())),
                                 DataCell(Text(consumption.phosphate.toString())),
@@ -197,7 +194,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                             ),
                             DataRow(
                               cells: <DataCell>[
-                                DataCell(Text('Kalium')),
+                                const DataCell(Text('Kalium')),
                                 DataCell(Text(measurementIs1.potassium.toString())),
                                 DataCell(Text(measurementIs2.potassium.toString())),
                                 DataCell(Text(consumption.potassium.toString())),
@@ -205,14 +202,14 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                             ),
                             DataRow(
                               cells: <DataCell>[
-                                DataCell(Text('Eisen')),
+                                const DataCell(Text('Eisen')),
                                 DataCell(Text(measurementIs1.iron.toString())),
                                 DataCell(Text(measurementIs2.iron.toString())),
                                 DataCell(Text(consumption.iron.toString())),
                               ],
                             ),
                           ],
-                        ),),
+                        ),
                         SizedBox(
                           width: 150,
                           child: ElevatedButton(

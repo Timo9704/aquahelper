@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../../model/aquarium.dart';
 import '../../util/dbhelper.dart';
 import '../../util/scalesize.dart';
-import '../infopage.dart';
 
 class FertilizerConverter extends StatefulWidget {
   const FertilizerConverter({super.key});
@@ -18,7 +17,7 @@ class FertilizerConverter extends StatefulWidget {
 class _FertilizerConverterState extends State<FertilizerConverter> {
   String? _selectedFertilizer;
   List<String> _fertilizerNames = [];
-  List<Fertilizer> _fertilizer = [];
+  final List<Fertilizer> _fertilizer = [];
   Fertilizer fertilizer1ml = Fertilizer(0, "", 0, 0, 0, 0, 0, 0);
 
   Aquarium? _selectedAquarium;
@@ -51,7 +50,6 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
       if (httpResponse.statusCode == 200) {
         List<dynamic> response = json.decode(httpResponse.body);
         Fertilizer fertilizer = Fertilizer.fromMap(response.elementAt(0));
-        print(fertilizer.toMap().toString());
         setState(() {
           fertilizer1ml = fertilizer;
         });
@@ -181,7 +179,6 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(child:
                   DataTable(
                     columns: const <DataColumn>[
                       DataColumn(
@@ -204,36 +201,36 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                     rows: <DataRow>[
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('Nitrat')),
+                          const DataCell(Text('Nitrat')),
                           DataCell(Text(fertilizer1ml.nitrate.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('Phosphat')),
+                          const DataCell(Text('Phosphat')),
                           DataCell(Text(fertilizer1ml.phosphate.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('Kalium')),
+                          const DataCell(Text('Kalium')),
                           DataCell(Text(fertilizer1ml.potassium.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('Eisen')),
+                          const DataCell(Text('Eisen')),
                           DataCell(Text(fertilizer1ml.iron.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          DataCell(Text('Magnesium')),
+                          const DataCell(Text('Magnesium')),
                           DataCell(Text(fertilizer1ml.magnesium.toString())),
                         ],
                       ),
                     ],
-                  ),),
+                  ),
                   SizedBox(
                     width: 150,
                     child: ElevatedButton(
