@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/ground_calculator.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,9 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             imagePath: 'assets/soil.png',
             text: 'Dünger-Rechner',
             onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
+              );
             },
           ),
           IconTextButton(
