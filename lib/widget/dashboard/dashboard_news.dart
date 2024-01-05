@@ -47,7 +47,9 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
-    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.14 : MediaQuery.sizeOf(context).height < 900 ? 0.2 : 0.3;
+    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.14 :
+      MediaQuery.sizeOf(context).height < 800 ? 0.2 :
+      MediaQuery.sizeOf(context).height < 900 ? 0.25 : 0.3;
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
@@ -68,7 +70,7 @@ class _DashboardNewsState extends State<DashboardNews> {
             child: Column(
               children: [
                 SizedBox(
-                    height: MediaQuery.sizeOf(context).height * heightFactor - 10,
+                    height: MediaQuery.sizeOf(context).height * heightFactor - 20,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: newsList.length,
@@ -104,7 +106,7 @@ class NewsItem extends StatelessWidget {
         Flexible(
           child: Text(text,
               style: const TextStyle(fontSize: 15, color: Colors.black)),
-        )
+        ),
       ],
     );
   }
