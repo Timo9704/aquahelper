@@ -49,7 +49,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     if (widget.aquarium == null) {
       String uuid = const Uuid().v4().toString();
       aquarium = Aquarium(uuid, _nameController.text,
-          int.parse(_literController.text), waterType, 0 ,imagePath);
+          int.parse(_literController.text), waterType, 0, imagePath);
     } else {
       aquarium.name = _nameController.text;
       aquarium.liter = int.parse(_literController.text);
@@ -191,7 +191,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Süßwasser',
-                                        textScaleFactor: ScaleSize.textScaleFactor(context),
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -214,7 +215,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Salzwasser',
-                                        textScaleFactor: ScaleSize.textScaleFactor(context),
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -286,6 +288,88 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                   fillColor: Colors.grey,
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text("Welche Maße hat das Aquarium?",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  )),
+                              Flex(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Flexible(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textAlign: TextAlign.center,
+                                      controller: _literController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        labelText: "Länge",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        fillColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textAlign: TextAlign.center,
+                                      controller: _literController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        labelText: "Tiefe",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        fillColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textAlign: TextAlign.center,
+                                      controller: _literController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        labelText: "Höhe",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        fillColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),
