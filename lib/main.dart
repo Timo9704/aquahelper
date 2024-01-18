@@ -37,7 +37,8 @@ class AquaHelper extends StatelessWidget {
     return MaterialApp(
       title: 'AquaHelper',
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen
+        primarySwatch: Colors.lightGreen,
+        scaffoldBackgroundColor: const Color.fromRGBO(242, 242, 242, 1)
       ),
       home: const Homepage(),
     );

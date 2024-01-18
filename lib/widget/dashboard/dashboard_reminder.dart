@@ -33,16 +33,17 @@ class DashboardReminderState extends State<DashboardReminder> {
         padding: const EdgeInsets.all(10),
         height: 120,
         decoration: BoxDecoration(
-          border: Border.all(
+          /*border: Border.all(
             color: Colors.grey,
-            width: 1.0,
-          ),
+            width: 0.5,
+          ),*/
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           children: [
             const Text('Erinnerungen',
-                style: TextStyle(fontSize: 15, color: Colors.black)),
+                style: TextStyle(fontSize: 17, color: Colors.black)),
             Padding(
               padding: const EdgeInsets.fromLTRB(2, 10, 2, 5),
               child: Column(

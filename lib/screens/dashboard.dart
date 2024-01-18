@@ -64,12 +64,6 @@ class DashboardState extends State<Dashboard> {
             ))
           ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Text('Hier findest du alle Informationen zu deinen Aquarien:',
-            textAlign: TextAlign.left,
-            style: TextStyle(fontSize: 15, color: Colors.black)),
         const Padding(
           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(

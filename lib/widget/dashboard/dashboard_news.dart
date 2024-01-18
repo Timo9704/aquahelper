@@ -56,15 +56,16 @@ class _DashboardNewsState extends State<DashboardNews> {
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(
+          /*border: Border.all(
             color: Colors.grey,
-            width: 1.0,
-          ),
+            width: 0.5,
+          ),*/
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
           const Text('Neuigkeiten',
-              style: TextStyle(fontSize: 15, color: Colors.black)),
+              style: TextStyle(fontSize: 17, color: Colors.black)),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
             child: Column(
