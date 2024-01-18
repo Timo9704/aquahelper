@@ -62,6 +62,13 @@ class DBHelper {
     return measurement.first;
   }
 
+  Future<List<Measurement>> getSortedMeasurmentsList(Aquarium aquarium) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("measurement", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId], orderBy: 'measurementDate ASC');
+    List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
+    return list;
+  }
+
   Future<List<Measurement>> getMeasurmentsList(Aquarium aquarium) async {
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("measurement", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId]);
