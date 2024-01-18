@@ -14,12 +14,12 @@ class DBHelper {
     String path = join(await getDatabasesPath(), 'aquarium_database.db');
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-          await db.execute('CREATE TABLE tank(aquariumId TEXT PRIMARY KEY, name TEXT, liter INTEGER, waterType INTEGER, healthStatus INTEGER, imagePath TEXT)');
+          await db.execute('CREATE TABLE tank(aquariumId TEXT PRIMARY KEY, name TEXT, liter INTEGER, waterType INTEGER, co2 INTEGER, width INTEGER, height  INTEGER, depth INTEGER, healthStatus INTEGER, imagePath TEXT)');
           await db.execute('CREATE TABLE measurement(measurementId TEXT PRIMARY KEY, aquariumId INTEGER, temperature REAL, ph REAL, totalHardness REAL, carbonateHardness REAL, nitrite REAL, nitrate REAL, phosphate REAL, potassium REAL, iron REAL, magnesium REAL, measurementDate INTEGER, imagePath TEXT, FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId))');
           await db.execute('CREATE TABLE tasks(taskId TEXT PRIMARY KEY, aquariumId INTEGER, title TEXT, description TEXT, taskDate INTEGER)');
     });
   }
-
+  
   //-------------------------Methods for Aquarium-object-----------------------//
 
   Future<List<Aquarium>> getAquariums() async {
