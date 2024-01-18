@@ -20,8 +20,11 @@ class DashboardState extends State<Dashboard> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
+    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.3 : 0.75;
+    String title = MediaQuery.sizeOf(context).height < 700 ? "Dein Dashboard" : "AquaHelper\nDein Dashboard";
     return Column(
       children: [
         Stack(
@@ -35,7 +38,7 @@ class DashboardState extends State<Dashboard> {
               child: Align(
                   alignment: Alignment.center,
                   widthFactor: 1,
-                  heightFactor: 0.75,
+                  heightFactor: heightFactor,
                   child: Image.asset('assets/images/aquarium.jpg')),
             ),
             Positioned.fill(
@@ -49,9 +52,8 @@ class DashboardState extends State<Dashboard> {
                 ),
                 color: Colors.black54,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child:  Text('AquaHelper\nDein Dashboard',
+              child: Center(
+                child:  Text(title,
                     textScaleFactor: ScaleSize.textScaleFactor(context),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -62,12 +64,6 @@ class DashboardState extends State<Dashboard> {
             ))
           ],
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Text('Hier findest du alle Informationen zu deinen Aquarien:',
-            textAlign: TextAlign.left,
-            style: TextStyle(fontSize: 15, color: Colors.black)),
         const Padding(
           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(

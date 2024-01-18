@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/ground_calculator.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
         childAspectRatio: 1,
         children: [
           IconTextButton(
-            imagePath: 'assets/soil.png',
+            imagePath: 'assets/buttons/soil_calculator.png',
             text: 'Bodengrund-Rechner',
             onPressed: () {
               Navigator.of(context).push(
@@ -31,39 +32,42 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             },
           ),
           IconTextButton(
-            imagePath: 'assets/soil.png',
+            imagePath: 'assets/buttons/fertilizer_calculator.png',
             text: 'Dünger-Rechner',
             onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
+              );
             },
           ),
-          IconTextButton(
-            imagePath: 'assets/soil.png',
-            text: 'KI-Assistent',
+          /*IconTextButton(
+            imagePath: 'assets/buttons/ai_assistant.png',
+            text: 'KI-Assistant',
             onPressed: () {
 
             },
-          ),
-          IconTextButton(
+          ),*/
+          /*IconTextButton(
+            imagePath: 'assets/buttons/light_calculator.png',
+            text: 'Licht-Rechner',
+            onPressed: () {
+
+            },
+          ),*/
+          /*IconTextButton(
             imagePath: 'assets/soil.png',
             text: 'CO2-Rechner',
             onPressed: () {
 
             },
-          ),
-          IconTextButton(
-            imagePath: 'assets/soil.png',
-            text: 'Licht-Rechner',
-            onPressed: () {
-
-            },
-          ),
-          IconTextButton(
+          ),*/
+          /*IconTextButton(
             imagePath: 'assets/soil.png',
             text: 'pH-KH-CO2-Rechner',
             onPressed: () {
 
             },
-          )
+          )*/
         ]);
   }
 }
@@ -83,14 +87,13 @@ class IconTextButton extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
+          //border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(imagePath, width: 100, height: 100),
-            const SizedBox(height: 10),
+            Image.asset(imagePath, width: 120, height: 120),
             Text(text, style: const TextStyle(fontWeight: FontWeight.w800),),
           ],
         ),

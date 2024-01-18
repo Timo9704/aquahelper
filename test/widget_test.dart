@@ -16,6 +16,6 @@ void main() {
 
   testWidgets('Startscreen shows dashboard', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: DashboardHealthStatus()));
-    expect(find.text("Health Status:"), findsOneWidget);
+    expect(find.text("Health Status"), findsOneWidget);
   });
 }

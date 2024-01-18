@@ -26,7 +26,11 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _literController = TextEditingController();
+  final _widthController = TextEditingController();
+  final _heightController = TextEditingController();
+  final _depthController = TextEditingController();
   int waterType = 0;
+  int co2Type = 0;
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   late Aquarium aquarium;
@@ -39,8 +43,12 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
       aquarium = widget.aquarium!;
       imagePath = aquarium.imagePath;
       waterType = aquarium.waterType;
+      co2Type = aquarium.co2;
       _nameController.text = aquarium.name;
       _literController.text = aquarium.liter.toString();
+      _widthController.text = aquarium.width.toString();
+      _heightController.text = aquarium.height.toString();
+      _depthController.text = aquarium.depth.toString();
       createMode = false;
     }
   }
@@ -49,7 +57,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     if (widget.aquarium == null) {
       String uuid = const Uuid().v4().toString();
       aquarium = Aquarium(uuid, _nameController.text,
-          int.parse(_literController.text), waterType, 0 ,imagePath);
+          int.parse(_literController.text), waterType, 0, 0, 0, 0, 0,imagePath);
     } else {
       aquarium.name = _nameController.text;
       aquarium.liter = int.parse(_literController.text);
@@ -191,7 +199,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Süßwasser',
-                                        textScaleFactor: ScaleSize.textScaleFactor(context),
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -214,7 +223,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Salzwasser',
-                                        textScaleFactor: ScaleSize.textScaleFactor(context),
+                                        textScaleFactor:
+                                            ScaleSize.textScaleFactor(context),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -286,6 +296,185 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                   fillColor: Colors.grey,
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Hat das Aquarium eine CO2-Versorgung?",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Radio<int>(
+                                        value: 0,
+                                        groupValue: co2Type,
+                                        onChanged: (int? value) {
+                                          setState(() {
+                                            co2Type = value!;
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        'nein',
+                                        textScaleFactor:
+                                        ScaleSize.textScaleFactor(context),
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Radio<int>(
+                                        value: 1,
+                                        groupValue: co2Type,
+                                        onChanged: (int? value) {
+                                          setState(() {
+                                            co2Type = value!;
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        'bio./chem.',
+                                        textScaleFactor:
+                                        ScaleSize.textScaleFactor(context),
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Radio<int>(
+                                        value: 2,
+                                        groupValue: co2Type,
+                                        onChanged: (int? value) {
+                                          setState(() {
+                                            co2Type = value!;
+                                          });
+                                        },
+                                      ),
+                                      Text(
+                                        'Druckgas',
+                                        textScaleFactor:
+                                        ScaleSize.textScaleFactor(context),
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text("Welche Maße hat das Aquarium?",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  )),
+                              Flex(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Flexible(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textAlign: TextAlign.center,
+                                      controller: _widthController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        labelText: "Länge",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        fillColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textAlign: TextAlign.center,
+                                      controller: _heightController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        labelText: "Tiefe",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        fillColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      textAlign: TextAlign.center,
+                                      controller: _depthController,
+                                      style: const TextStyle(fontSize: 20),
+                                      decoration: const InputDecoration(
+                                        labelText: "Höhe",
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        fillColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),

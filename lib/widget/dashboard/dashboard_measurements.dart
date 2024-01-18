@@ -39,16 +39,17 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
         padding: const EdgeInsets.all(10),
         height: 120,
         decoration: BoxDecoration(
-          border: Border.all(
+          /*border: Border.all(
             color: Colors.grey,
-            width: 1.0,
-          ),
+            width: 0.5,
+          ),*/
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
           const Text('Messungen',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 17,
                 color: Colors.black,
               )),
           Padding(
@@ -67,7 +68,7 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.check_box_outlined, color: Colors.green),
+                    //const Icon(Icons.check_box_outlined, color: Colors.green),
                     const SizedBox(
                       height: 5,
                     ),
@@ -96,7 +97,7 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Icon(Icons.check_box_outlined, color: Colors.green),
+                    //const Icon(Icons.check_box_outlined, color: Colors.green),
                     const SizedBox(
                       height: 5,
                     ),

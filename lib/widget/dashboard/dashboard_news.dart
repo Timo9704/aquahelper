@@ -47,27 +47,31 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
+    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.14 :
+      MediaQuery.sizeOf(context).height < 800 ? 0.2 :
+      MediaQuery.sizeOf(context).height < 900 ? 0.25 : 0.3;
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(
+          /*border: Border.all(
             color: Colors.grey,
-            width: 1.0,
-          ),
+            width: 0.5,
+          ),*/
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
           const Text('Neuigkeiten',
-              style: TextStyle(fontSize: 15, color: Colors.black)),
+              style: TextStyle(fontSize: 17, color: Colors.black)),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
             child: Column(
               children: [
                 SizedBox(
-                    height: 130,
+                    height: MediaQuery.sizeOf(context).height * heightFactor - 20,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: newsList.length,
@@ -103,7 +107,7 @@ class NewsItem extends StatelessWidget {
         Flexible(
           child: Text(text,
               style: const TextStyle(fontSize: 15, color: Colors.black)),
-        )
+        ),
       ],
     );
   }

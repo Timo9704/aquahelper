@@ -33,12 +33,13 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1.0),
+          color: Colors.white,
+          //border: Border.all(color: Colors.grey, width: 0.5),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           children: [
-            const Text('Health Status:', style: TextStyle(fontSize: 15, color: Colors.black)),
+            const Text('Health Status', style: TextStyle(fontSize: 17, color: Colors.black)),
             SizedBox(
               height: 70, // Festgelegte Höhe für den scrollbaren Bereich
               child: SingleChildScrollView(
