@@ -22,10 +22,10 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
   }
 
   void getMeasurementsAmount() async{
-    int startInterval = ((DateTime.now().toUtc().millisecondsSinceEpoch));
-    int endInterval = startInterval - 2592000;
+    int now = ((DateTime.now().toUtc().millisecondsSinceEpoch));
+    int endInterval = now - 2629743000;
     int measurementsAll = await DBHelper.db.getMeasurementAmountByAllTime();
-    int measurements30days = await DBHelper.db.getMeasurementAmountByLast30Days(startInterval, endInterval);
+    int measurements30days = await DBHelper.db.getMeasurementAmountByLast30Days(now, endInterval);
     setState(() {
       this.measurementsAll = measurementsAll.toString();
       this.measurements30days = measurements30days.toString();
@@ -68,7 +68,7 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                     const SizedBox(
                       height: 5,
                     ),
-                    //const Icon(Icons.check_box_outlined, color: Colors.green),
+                    const Icon(Icons.check_box_outlined, color: Colors.green),
                     const SizedBox(
                       height: 5,
                     ),
@@ -97,7 +97,7 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                     const SizedBox(
                       height: 5,
                     ),
-                    //const Icon(Icons.check_box_outlined, color: Colors.green),
+                    const Icon(Icons.check_box_outlined, color: Colors.green),
                     const SizedBox(
                       height: 5,
                     ),

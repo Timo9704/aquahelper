@@ -1,8 +1,7 @@
 import 'package:aquahelper/screens/dashboard.dart';
+import 'package:aquahelper/screens/settings.dart';
 import 'package:aquahelper/screens/tools_startpage.dart';
 import 'package:flutter/material.dart';
-
-import 'package:aquahelper/screens/infopage.dart';
 
 import 'aquarium_startpage.dart';
 
@@ -21,7 +20,8 @@ class _HomepageState extends State<Homepage> {
   final _pageOptions = [
     const Dashboard(),
     const AquariumStartPage(),
-    const ToolsStartPage()
+    const ToolsStartPage(),
+    const Settings()
   ];
 
   @override
@@ -34,28 +34,16 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("AquaHelper"),
-        backgroundColor: Colors.lightGreen,
-        actions: [
-          PopupMenuButton(
-              itemBuilder: (context){
-                return [
-                  const PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("Informationen"),
-                  ),
-                ];
-              },
-              onSelected:(value) {
-                if (value == 0) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const InfoPage()),
-                  );
-                }
-              }
-          ),
-        ],
+        backgroundColor: Colors.lightGreen
       ),
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.grey[700],
+        selectedIconTheme: IconThemeData(color: Colors.grey[700]),
+        unselectedIconTheme: IconThemeData(color: Colors.grey[700]),
+        unselectedLabelStyle: TextStyle(color: Colors.grey[700]),
+        showSelectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -66,8 +54,12 @@ class _HomepageState extends State<Homepage> {
             label: 'Aquarien',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.filter_alt_sharp),
             label: 'Tools',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Einstellungen',
           ),
         ],
         currentIndex: selectedPage,

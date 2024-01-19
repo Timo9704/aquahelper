@@ -9,7 +9,6 @@ import 'package:uuid/uuid.dart';
 
 import 'package:aquahelper/main.dart';
 import 'package:aquahelper/model/aquarium.dart';
-import 'package:aquahelper/screens/infopage.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/util/scalesize.dart';
 
@@ -110,22 +109,6 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           title: createMode
               ? const Text('Neues Aquarium')
               : const Text('Aquarium bearbeiten'),
-          actions: [
-            PopupMenuButton(itemBuilder: (context) {
-              return [
-                const PopupMenuItem<int>(
-                  value: 0,
-                  child: Text("Informationen"),
-                ),
-              ];
-            }, onSelected: (value) {
-              if (value == 0) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const InfoPage()),
-                );
-              }
-            }),
-          ],
         ),
         body: SingleChildScrollView(
           child: Container(
