@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/widget/measurement_item.dart';
-import 'package:aquahelper/screens/infopage.dart';
 import 'package:aquahelper/screens/measurement_form.dart';
 import 'package:aquahelper/screens/chart_analysis.dart';
 import 'package:aquahelper/util/dbhelper.dart';
@@ -55,22 +54,6 @@ class AquariumOverviewState extends State<AquariumOverview> {
       appBar: AppBar(
         title: Text(widget.aquarium.name),
         backgroundColor: Colors.lightGreen,
-        actions: [
-          PopupMenuButton(itemBuilder: (context) {
-            return [
-              const PopupMenuItem<int>(
-                value: 0,
-                child: Text("Informationen"),
-              ),
-            ];
-          }, onSelected: (value) {
-            if (value == 0) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const InfoPage()),
-              );
-            }
-          }),
-        ],
       ),
       body: Column(
         children: <Widget>[

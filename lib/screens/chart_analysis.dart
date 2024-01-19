@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'package:aquahelper/screens/infopage.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 
@@ -128,22 +127,6 @@ class ChartAnalysisState extends State<ChartAnalysis> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Wasserwert-Verlauf'),
-          actions: [
-            PopupMenuButton(itemBuilder: (context) {
-              return [
-                const PopupMenuItem<int>(
-                  value: 0,
-                  child: Text("Informationen"),
-                ),
-              ];
-            }, onSelected: (value) {
-              if (value == 0) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const InfoPage()),
-                );
-              }
-            }),
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),

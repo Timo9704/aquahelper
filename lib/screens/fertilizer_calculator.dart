@@ -1,7 +1,6 @@
 import 'package:aquahelper/screens/fertilizer/fertilizer_consumption.dart';
 import 'package:flutter/material.dart';
 
-import 'package:aquahelper/screens/infopage.dart';
 import 'fertilizer/fertilizer_converter.dart';
 
 
@@ -32,25 +31,6 @@ class _FertilizerCalculatorState extends State<FertilizerCalculator> {
       appBar: AppBar(
         title: const Text("AquaHelper"),
         backgroundColor: Colors.lightGreen,
-        actions: [
-          PopupMenuButton(
-              itemBuilder: (context){
-                return [
-                  const PopupMenuItem<int>(
-                    value: 0,
-                    child: Text("Informationen"),
-                  ),
-                ];
-              },
-              onSelected:(value) {
-                if (value == 0) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const InfoPage()),
-                  );
-                }
-              }
-          ),
-        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

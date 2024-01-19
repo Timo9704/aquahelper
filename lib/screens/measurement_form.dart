@@ -9,7 +9,6 @@ import 'package:uuid/uuid.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/screens/aquarium_overview.dart';
-import 'package:aquahelper/screens/infopage.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 
 class MeasurementForm extends StatefulWidget {
@@ -169,22 +168,6 @@ class MeasurementFormState extends State<MeasurementForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wasserwerte'),
-        actions: [
-          PopupMenuButton(itemBuilder: (context) {
-            return [
-              const PopupMenuItem<int>(
-                value: 0,
-                child: Text("Informationen"),
-              ),
-            ];
-          }, onSelected: (value) {
-            if (value == 0) {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const InfoPage()),
-              );
-            }
-          }),
-        ],
       ),
       body: ListView(children: [
         Form(

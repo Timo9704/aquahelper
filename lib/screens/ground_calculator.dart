@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'infopage.dart';
 
 class GroundCalculator extends StatefulWidget {
   const GroundCalculator({super.key});
@@ -57,22 +56,6 @@ class _GroundCalculatorState extends State<GroundCalculator> {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("Bodengrund-Rechner"),
-          actions: [
-            PopupMenuButton(itemBuilder: (context) {
-              return [
-                const PopupMenuItem<int>(
-                  value: 0,
-                  child: Text("Informationen"),
-                ),
-              ];
-            }, onSelected: (value) {
-              if (value == 0) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const InfoPage()),
-                );
-              }
-            }),
-          ],
         ),
         body: SingleChildScrollView(
           child: Padding(
