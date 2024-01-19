@@ -27,8 +27,11 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     int start = int.parse(_startHeightController.text);
     int end = int.parse(_endHeightController.text);
     double rectVol = 0;
-    if(start > 0){
-      rectVol = start * int.parse(_aquariumDepthController.text) * int.parse(_aquariumHeightController.text) / 1000;
+    if (start > 0) {
+      rectVol = start *
+          int.parse(_aquariumDepthController.text) *
+          int.parse(_aquariumHeightController.text) /
+          1000;
       end -= start;
     }
     double triangleVol = (end * int.parse(_aquariumDepthController.text) / 2) *
@@ -69,25 +72,28 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 10),
                 Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(children: [
-                      SizedBox(height: 10),
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
                       const Text("aufsteigender Bodengrund",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           )),
-                      SizedBox(height: 10),
-                        Image.asset(
-                            'assets/quader.png', height: 110,),
+                      const SizedBox(height: 10),
+                      Image.asset(
+                        'assets/quader.png',
+                        height: 110,
+                      ),
                     ],
-                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -242,7 +248,8 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value,
-                          style: const TextStyle(fontSize: 15, color: Colors.black)),
+                          style: const TextStyle(
+                              fontSize: 15, color: Colors.black)),
                     );
                   }).toList(),
                 ),
