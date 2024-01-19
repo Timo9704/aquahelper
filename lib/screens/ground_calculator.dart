@@ -72,13 +72,23 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                     height: 150,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
-                      ),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Image.asset('assets/quader.png')),
+                    child: Column(children: [
+                      SizedBox(height: 10),
+                      const Text("aufsteigender Bodengrund",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      SizedBox(height: 10),
+                        Image.asset(
+                            'assets/quader.png', height: 110,),
+                    ],
+                    ),
+                ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,10 +97,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                       width: MediaQuery.sizeOf(context).width / 2 - 25,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -109,7 +116,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                               fillColor: Colors.grey,
                             ),
@@ -121,10 +128,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                       width: MediaQuery.sizeOf(context).width / 2 - 25,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -143,7 +147,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                               fillColor: Colors.grey,
                             ),
@@ -163,10 +167,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                       width: MediaQuery.sizeOf(context).width / 2 - 25,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -185,7 +186,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                               fillColor: Colors.grey,
                             ),
@@ -197,10 +198,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                       width: MediaQuery.sizeOf(context).width / 2 - 25,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.0,
-                        ),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -219,7 +217,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                               fillColor: Colors.grey,
                             ),
@@ -252,13 +250,10 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                   height: 10,
                 ),
                 Container(
-                  width: MediaQuery.sizeOf(context).width - 100,
+                  width: MediaQuery.sizeOf(context).width - 80,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
