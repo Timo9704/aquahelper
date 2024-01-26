@@ -1,5 +1,8 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:io';
 
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
@@ -14,9 +17,49 @@ class DBHelper {
     String path = join(await getDatabasesPath(), 'aquarium_database.db');
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-          await db.execute('CREATE TABLE tank(aquariumId TEXT PRIMARY KEY, name TEXT, liter INTEGER, waterType INTEGER, co2 INTEGER, width INTEGER, height  INTEGER, depth INTEGER, healthStatus INTEGER, imagePath TEXT)');
-          await db.execute('CREATE TABLE measurement(measurementId TEXT PRIMARY KEY, aquariumId INTEGER, temperature REAL, ph REAL, totalHardness REAL, carbonateHardness REAL, nitrite REAL, nitrate REAL, phosphate REAL, potassium REAL, iron REAL, magnesium REAL, measurementDate INTEGER, imagePath TEXT, FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId))');
-          await db.execute('CREATE TABLE tasks(taskId TEXT PRIMARY KEY, aquariumId INTEGER, title TEXT, description TEXT, taskDate INTEGER)');
+          await db.execute('PRAGMA foreign_keys = ON');
+          await db.execute('''
+            CREATE TABLE tank(
+              aquariumId TEXT PRIMARY KEY, 
+              name TEXT, 
+              liter INTEGER, 
+              waterType INTEGER, 
+              co2Type INTEGER, 
+              width INTEGER, 
+              height INTEGER, 
+              depth INTEGER, 
+              healthStatus INTEGER, 
+              imagePath TEXT
+            )
+          ''');
+          await db.execute('''
+            CREATE TABLE measurement(
+              measurementId TEXT PRIMARY KEY, 
+              aquariumId INTEGER, 
+              temperature REAL, 
+              ph REAL, 
+              totalHardness REAL, 
+              carbonateHardness REAL, 
+              nitrite REAL, 
+              nitrate REAL, 
+              phosphate REAL, 
+              potassium REAL, 
+              iron REAL, 
+              magnesium REAL, 
+              measurementDate INTEGER, 
+              imagePath TEXT, 
+              FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+            )
+          ''');
+          await db.execute('''
+            CREATE TABLE tasks(
+              taskId TEXT PRIMARY KEY, 
+              aquariumId INTEGER, 
+              title TEXT, 
+              description TEXT, 
+              taskDate INTEGER
+            )
+          ''');
     });
   }
   
@@ -48,6 +91,7 @@ class DBHelper {
 
   Future<void> deleteAquarium(String aquariumId) async {
     final db = await openDatabase('aquarium_database.db');
+    await db.execute('PRAGMA foreign_keys = ON');
     await db.delete("tank",
         where: "aquariumId = ?",
         whereArgs: [aquariumId]);
@@ -150,6 +194,113 @@ class DBHelper {
   Future<void> deleteTask(String taskId) async {
     final db = await openDatabase('aquarium_database.db');
     await db.delete("tasks", where: "taskId = ?", whereArgs: [taskId]);
+  }
+
+  Future<String> exportAllData() async {
+    final db = await openDatabase('aquarium_database.db');
+    List<String> fileContent = [];
+
+    List<Map<String, dynamic>> tanks = await db.query('tank');
+    fileContent.add('## Tank ##');
+    for (var tank in tanks) {
+      fileContent.add(tank.values.join(','));
+    }
+
+    List<Map<String, dynamic>> measurements = await db.query('measurement');
+    fileContent.add('## Measurement ##');
+    for (var measurement in measurements) {
+      fileContent.add(measurement.values.join(','));
+    }
+
+    List<Map<String, dynamic>> tasks = await db.query('tasks');
+    fileContent.add('## Tasks ##');
+    for (var task in tasks) {
+      fileContent.add(task.values.join(','));
+    }
+
+    try {
+      String? path = await FilePicker.platform.getDirectoryPath();
+
+      DateTime time = DateTime.now();
+
+      final DateFormat formatter = DateFormat('yyyy_MM_dd-HH_mm');
+      final String formatted = formatter.format(time);
+
+      String pathTxt = '$path/database_export_$formatted.txt';
+
+      File file = File(pathTxt);
+      await file.writeAsString(fileContent.join('\n'));
+      return pathTxt;
+    }catch(e){
+      return "fail";
+    }
+  }
+
+  Future<bool> importAllData() async {
+    final db = await openDatabase('aquarium_database.db');
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      try {
+        final lines = await file.readAsLines();
+        String currentTable = '';
+
+        for (var line in lines) {
+          if (line.startsWith('##')) {
+            currentTable = line;
+            continue;
+          }
+
+          List<String> values = line.split(',');
+
+          if (currentTable == '## Tank ##') {
+            await db.insert('tank', {
+              'aquariumId': values[0],
+              'name': values[1],
+              'liter': values[2],
+              'waterType': values[3],
+              'co2Type': values[4],
+              'width': values[5],
+              'height': values[6],
+              'depth': values[7],
+              'healthStatus': values[8],
+              'imagePath': values[9]
+            });
+          } else if (currentTable == '## Measurement ##') {
+            await db.insert('measurement', {
+              'measurementId': values[0],
+              'aquariumId': values[1],
+              'temperature': values[2],
+              'ph': values[3],
+              'totalHardness': values[4],
+              'carbonateHardness': values[5],
+              'nitrite': values[6],
+              'nitrate': values[7],
+              'phosphate': values[8],
+              'potassium': values[9],
+              'iron': values[10],
+              'magnesium': values[11],
+              'measurementDate': values[12],
+              'imagePath': values[13]
+            });
+          } else if (currentTable == '## Tasks ##') {
+            await db.insert('tasks', {
+              'taskId': values[0],
+              'aquariumId': values[1],
+              'title': values[2],
+              'description': values[3],
+              'taskDate': values[4]
+            });
+          }
+        }
+        return true;
+      } catch (e) {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
 
