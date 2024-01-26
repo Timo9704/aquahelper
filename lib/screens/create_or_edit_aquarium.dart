@@ -42,7 +42,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
       aquarium = widget.aquarium!;
       imagePath = aquarium.imagePath;
       waterType = aquarium.waterType;
-      co2Type = aquarium.co2;
+      co2Type = aquarium.co2Type;
       _nameController.text = aquarium.name;
       _literController.text = aquarium.liter.toString();
       _widthController.text = aquarium.width.toString();
@@ -55,8 +55,16 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   void syncValuesToObject() {
     if (widget.aquarium == null) {
       String uuid = const Uuid().v4().toString();
-      aquarium = Aquarium(uuid, _nameController.text,
-          int.parse(_literController.text), waterType, 0, 0, 0, 0, 0,imagePath);
+      aquarium = Aquarium(uuid,
+          _nameController.text,
+          int.parse(_literController.text),
+          waterType,
+          co2Type,
+          int.parse(_widthController.text),
+          int.parse(_heightController.text),
+          int.parse(_depthController.text),
+          int.parse("0"),
+          imagePath);
     } else {
       aquarium.name = _nameController.text;
       aquarium.liter = int.parse(_literController.text);
