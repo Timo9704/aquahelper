@@ -30,6 +30,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   final _depthController = TextEditingController();
   int waterType = 0;
   int co2Type = 0;
+  double textScaleFactor = 0;
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   late Aquarium aquarium;
@@ -37,6 +38,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   @override
   void initState() {
     super.initState();
+    textScaleFactor = ScaleSize.textScaleFactor(context);
+
 
     if (widget.aquarium != null) {
       aquarium = widget.aquarium!;
@@ -226,8 +229,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Süßwasser',
-                                        textScaleFactor:
-                                            ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -250,8 +253,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Salzwasser',
-                                        textScaleFactor:
-                                            ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -360,8 +363,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'nein',
-                                        textScaleFactor:
-                                        ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -384,8 +387,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'bio./chem.',
-                                        textScaleFactor:
-                                        ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -408,8 +411,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Druckgas',
-                                        textScaleFactor:
-                                        ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,

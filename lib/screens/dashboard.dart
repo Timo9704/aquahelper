@@ -15,6 +15,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class DashboardState extends State<Dashboard> {
+  double textScaleFactor = 0;
+  double heightFactor = 0;
+  String title = '';
   @override
   void initState() {
     super.initState();
@@ -23,8 +26,9 @@ class DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.3 : 0.75;
-    String title = MediaQuery.sizeOf(context).height < 700 ? "Dein Dashboard" : "AquaHelper\nDein Dashboard";
+    textScaleFactor = ScaleSize.textScaleFactor(context);
+    heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.3 : 0.75;
+    title = MediaQuery.sizeOf(context).height < 700 ? "Dein Dashboard" : "AquaHelper\nDein Dashboard";
     return Column(
       children: [
         Stack(
@@ -54,7 +58,7 @@ class DashboardState extends State<Dashboard> {
               ),
               child: Center(
                 child:  Text(title,
-                    textScaleFactor: ScaleSize.textScaleFactor(context),
+                    textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 50,

@@ -47,7 +47,7 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
-    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.14 :
+    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.16 :
       MediaQuery.sizeOf(context).height < 800 ? 0.2 :
       MediaQuery.sizeOf(context).height < 900 ? 0.25 : 0.3;
     return Padding(
