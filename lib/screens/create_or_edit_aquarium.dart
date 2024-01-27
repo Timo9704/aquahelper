@@ -30,6 +30,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   final _depthController = TextEditingController();
   int waterType = 0;
   int co2Type = 0;
+  double textScaleFactor = 0;
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   late Aquarium aquarium;
@@ -37,6 +38,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   @override
   void initState() {
     super.initState();
+    textScaleFactor = ScaleSize.textScaleFactor(context);
+
 
     if (widget.aquarium != null) {
       aquarium = widget.aquarium!;
@@ -107,6 +110,42 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
         imagePath = croppedImage!.path;
       });
     }
+  }
+
+  void _deleteAquarium() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content:  const Text("Willst du dieses Aquarium wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  child: const Text("Nein"),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                ElevatedButton(
+                  child: const Text("Ja"),
+                  onPressed: () {
+                    DBHelper.db.deleteAquarium(aquarium.aquariumId);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                          const AquaHelper()),
+                          (Route<dynamic> route) => false);
+                  },
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
   }
 
   @override
@@ -190,8 +229,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Süßwasser',
-                                        textScaleFactor:
-                                            ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -214,8 +253,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Salzwasser',
-                                        textScaleFactor:
-                                            ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -324,8 +363,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'nein',
-                                        textScaleFactor:
-                                        ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -348,8 +387,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'bio./chem.',
-                                        textScaleFactor:
-                                        ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -372,8 +411,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       ),
                                       Text(
                                         'Druckgas',
-                                        textScaleFactor:
-                                        ScaleSize.textScaleFactor(context),
+                                        textScaler:
+                                          TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -477,16 +516,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                               SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                  onPressed: () => {
-                                    DBHelper.db
-                                        .deleteAquarium(aquarium.aquariumId),
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                const AquaHelper()),
-                                        (Route<dynamic> route) => false)
-                                  },
+                                  onPressed: () => _deleteAquarium(),
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(

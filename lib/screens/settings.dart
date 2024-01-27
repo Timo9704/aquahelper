@@ -170,7 +170,7 @@ class SettingsState extends State<Settings> {
             child: const Text("Software-Version"),
           ),
         ),
-        const SizedBox(height: 10),
+        /*const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,
@@ -182,7 +182,7 @@ class SettingsState extends State<Settings> {
             onPressed: () {},
             child: const Text("Feedback geben"),
           ),
-        ),
+        ),*/
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,

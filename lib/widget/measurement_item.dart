@@ -17,7 +17,7 @@ class MeasurementItem extends StatelessWidget {
     return TextButton(
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          elevation: MaterialStateProperty.all(10.0)),
+          elevation: MaterialStateProperty.all(2.0)),
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
