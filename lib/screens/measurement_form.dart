@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,6 +31,7 @@ class MeasurementFormState extends State<MeasurementForm> {
   bool createMode = true;
   late Measurement measurement;
   int pageCount = 0;
+  DateTime selectedDate = DateTime.now();
 
   List<String> waterValues = [
     'Temperatur in °C',
@@ -76,6 +79,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     controllerList.elementAt(9).text = measurement.magnesium.toString();
     setState(() {
       imagePath = measurement.imagePath;
+      selectedDate = DateTime.fromMillisecondsSinceEpoch(measurement.measurementDate);
     });
   }
 
@@ -101,7 +105,7 @@ class MeasurementFormState extends State<MeasurementForm> {
         'potassium': measurementInputs.elementAt(7),
         'iron': measurementInputs.elementAt(8),
         'magnesium': measurementInputs.elementAt(9),
-        'measurementDate': measurement.measurementDate,
+        'measurementDate': selectedDate.millisecondsSinceEpoch,
         'imagePath': measurement.imagePath
       };
     } else {
@@ -118,7 +122,7 @@ class MeasurementFormState extends State<MeasurementForm> {
         'potassium': measurementInputs.elementAt(7),
         'iron': measurementInputs.elementAt(8),
         'magnesium': measurementInputs.elementAt(9),
-        'measurementDate': DateTime.now().millisecondsSinceEpoch,
+        'measurementDate': selectedDate.millisecondsSinceEpoch,
         'imagePath': imagePath
       };
     }
@@ -163,6 +167,60 @@ class MeasurementFormState extends State<MeasurementForm> {
     }
   }
 
+  void _presentDatePicker() {
+    DatePicker.showDateTimePicker(
+      context,
+      showTitleActions: true,
+      maxTime: DateTime(2100, 12, 31),
+      onConfirm: (date) {
+        setState(() {
+          selectedDate = date;
+        });
+      },
+      currentTime: DateTime.now(),
+      locale: LocaleType.de,
+    );
+  }
+
+  void _deleteMeasurement() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content:  const Text("Willst du diese Messung wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  child: const Text("Nein"),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                ElevatedButton(
+                  child: const Text("Ja"),
+                  onPressed: () {
+                    DBHelper.db.deleteMeasurement(widget.measurementId);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                          AquariumOverview(
+                            aquarium: widget.aquarium),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,7 +231,6 @@ class MeasurementFormState extends State<MeasurementForm> {
         Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               GestureDetector(
                 onTap: () => {getImage(context: context)},
@@ -261,28 +318,32 @@ class MeasurementFormState extends State<MeasurementForm> {
               const SizedBox(
                 height: 10,
               ),
+              Text(
+                'Datum und Uhrzeit: ${DateFormat('dd.MM.yyyy – kk:mm').format(selectedDate)}',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _presentDatePicker,
+                child: const Text('Datum und Uhrzeit wählen'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SizedBox(
-                    width: 160,
-                    child: ElevatedButton(
-                      onPressed: () => {
-                        DBHelper.db.deleteMeasurement(widget.measurementId),
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AquariumOverview(
-                                        aquarium: widget.aquarium)))
-                      },
-                      style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey),
+                  if (!createMode)
+                    SizedBox(
+                      width: 160,
+                      child: ElevatedButton(
+                        onPressed: () => _deleteMeasurement(),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                        ),
+                        child: const Text("Löschen"),
                       ),
-                      child: const Text("Löschen"),
                     ),
-                  ),
                   SizedBox(
                     width: 160,
                     child: ElevatedButton(
@@ -296,6 +357,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                                   Measurement.fromMap(
                                       getAllTextInputs())),
                           },
+                          Navigator.of(context).pop(),
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

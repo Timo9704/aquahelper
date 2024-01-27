@@ -115,7 +115,7 @@ class DBHelper {
 
   Future<List<Measurement>> getMeasurmentsList(Aquarium aquarium) async {
     final db = await openDatabase('aquarium_database.db');
-    var res = await db.query("measurement", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId]);
+    var res = await db.query("measurement", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId], orderBy: "measurementDate");
     List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
     return list;
   }

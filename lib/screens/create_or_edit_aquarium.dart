@@ -109,6 +109,42 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     }
   }
 
+  void _deleteAquarium() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content:  const Text("Willst du dieses Aquarium wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  child: const Text("Nein"),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                ElevatedButton(
+                  child: const Text("Ja"),
+                  onPressed: () {
+                    DBHelper.db.deleteAquarium(aquarium.aquariumId);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                          const AquaHelper()),
+                          (Route<dynamic> route) => false);
+                  },
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -477,16 +513,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                               SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                  onPressed: () => {
-                                    DBHelper.db
-                                        .deleteAquarium(aquarium.aquariumId),
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                const AquaHelper()),
-                                        (Route<dynamic> route) => false)
-                                  },
+                                  onPressed: () => _deleteAquarium(),
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(

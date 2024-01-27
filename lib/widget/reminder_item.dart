@@ -42,7 +42,7 @@ class ReminderItemState extends State<ReminderItem> {
         child: TextButton(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              elevation: MaterialStateProperty.all(5.0)),
+              elevation: MaterialStateProperty.all(2.0)),
           onPressed: () {
             Navigator.pushReplacement(
                 context,
