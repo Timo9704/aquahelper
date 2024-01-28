@@ -39,10 +39,6 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
         padding: const EdgeInsets.all(10),
         height: 120,
         decoration: BoxDecoration(
-          /*border: Border.all(
-            color: Colors.grey,
-            width: 0.5,
-          ),*/
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
@@ -53,7 +49,7 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                 color: Colors.black,
               )),
           Padding(
-            padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

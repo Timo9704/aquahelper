@@ -226,6 +226,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wasserwerte'),
+        backgroundColor: Colors.lightGreen
       ),
       body: ListView(children: [
         Form(
@@ -284,6 +285,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -324,8 +326,16 @@ class MeasurementFormState extends State<MeasurementForm> {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.lightGreen),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0), // Radius anpassen für stärkere Abrundung
+                    ),
+                  ),
+                ),
                 onPressed: _presentDatePicker,
-                child: const Text('Datum und Uhrzeit wählen'),
+                child: const Text('Datum und Uhrzeit wählen', style: TextStyle(color: Colors.black),),
               ),
               const SizedBox(
                 height: 10,
@@ -340,13 +350,26 @@ class MeasurementFormState extends State<MeasurementForm> {
                         onPressed: () => _deleteMeasurement(),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0), // Radius anpassen für stärkere Abrundung
+                            ),
+                          ),
                         ),
-                        child: const Text("Löschen"),
+                        child: const Text("Löschen", style: TextStyle(color: Colors.black),),
                       ),
                     ),
                   SizedBox(
                     width: 160,
                     child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0), // Radius anpassen für stärkere Abrundung
+                            ),
+                          ),
+                        ),
                         onPressed: () => {
                           if (createMode) {
                               DBHelper.db.insertMeasurement(
@@ -366,7 +389,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                                         aquarium: widget.aquarium)),
                           )
                         },
-                        child: const Text("Speichern")),
+                        child: const Text("Speichern", style: TextStyle(color: Colors.black))),
                   ),
                 ],
               )

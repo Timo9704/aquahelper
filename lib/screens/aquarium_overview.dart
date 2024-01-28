@@ -50,7 +50,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
         showUnselectedLabels: true,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
+            icon: Icon(Icons.dashboard),
             label: 'Übersicht',
           ),
           BottomNavigationBarItem(
