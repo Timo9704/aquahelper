@@ -213,6 +213,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                         SizedBox(
                           width: 150,
                           child: ElevatedButton(
+                              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.lightGreen)),
                               onPressed: () => {processResponse()},
                               child: const Text("Berechnen")),
                         )

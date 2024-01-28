@@ -33,6 +33,13 @@ class _FertilizerCalculatorState extends State<FertilizerCalculator> {
         backgroundColor: Colors.lightGreen,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.grey[700],
+        selectedIconTheme: IconThemeData(color: Colors.grey[700]),
+        unselectedIconTheme: IconThemeData(color: Colors.grey[700]),
+        unselectedLabelStyle: TextStyle(color: Colors.grey[700]),
+        showSelectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.switch_left),

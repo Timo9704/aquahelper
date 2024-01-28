@@ -124,13 +124,10 @@ class ChartAnalysisState extends State<ChartAnalysis> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Wasserwert-Verlauf'),
-        ),
-        body: Padding(
+    return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Card(
+            color: Colors.white,
             elevation: 10,
             child: Column(
               children: [
@@ -250,6 +247,6 @@ class ChartAnalysisState extends State<ChartAnalysis> {
               ],
             ),
           ),
-        ));
+        );
   }
 }
