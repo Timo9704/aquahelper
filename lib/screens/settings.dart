@@ -71,23 +71,26 @@ class SettingsState extends State<Settings> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                    child: const Text("Exportieren"),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
                     onPressed: () async {
                       if (await DBHelper.db.exportAllData() != "fail") {
                         if (mounted) {
                           Navigator.pop(context);
                         }
                       }
-                    }),
+                    },
+                    child: const Text("Exportieren"),
+                    ),
                 ElevatedButton(
-                    child: const Text("Importieren"),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
                     onPressed: () async {
                       if (await DBHelper.db.importAllData()) {
                         if (mounted) {
                           Navigator.pop(context);
                         }
                       }
-                    }),
+                    },
+                    child: const Text("Importieren")),
               ],
             ),
             const SizedBox(height: 10),
@@ -123,6 +126,7 @@ class SettingsState extends State<Settings> {
           ),
           actions: [
             ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -152,9 +156,13 @@ class SettingsState extends State<Settings> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               elevation: 0,
+              shape:
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             onPressed: _launchFAQ,
-            child: const Text("FAQ"),
+            child: const Text("FAQ", style: TextStyle(color: Colors.black)),
           ),
         ),
         const SizedBox(height: 10),
@@ -165,9 +173,13 @@ class SettingsState extends State<Settings> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
               elevation: 0,
+              shape:
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             onPressed: _version,
-            child: const Text("Software-Version"),
+            child: const Text("Software-Version", style: TextStyle(color: Colors.black)),
           ),
         ),
         /*const SizedBox(height: 10),
@@ -189,13 +201,16 @@ class SettingsState extends State<Settings> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
               elevation: 0,
+              shape:
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             onPressed: () {
               _exportOrImport();
             },
-            child: const Text("Export/Import von Daten"),
+            child: const Text("Export/Import von Daten", style: TextStyle(color: Colors.black)),
           ),
         ),
         const SizedBox(height: 10),
@@ -204,11 +219,14 @@ class SettingsState extends State<Settings> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
               elevation: 0,
+              shape:
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             onPressed: _launchImprint,
-            child: const Text("Impressum"),
+            child: const Text("Impressum", style: TextStyle(color: Colors.black)),
           ),
         ),
         const SizedBox(height: 10),
@@ -217,11 +235,14 @@ class SettingsState extends State<Settings> {
           height: 50,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
               elevation: 0,
+              shape:
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
             ),
             onPressed: () {},
-            child: const Text("Datenschutzbestimmungen"),
+            child: const Text("Datenschutzbestimmungen", style: TextStyle(color: Colors.black)),
           ),
         ),
       ],

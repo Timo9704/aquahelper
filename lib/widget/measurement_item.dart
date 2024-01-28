@@ -17,7 +17,13 @@ class MeasurementItem extends StatelessWidget {
     return TextButton(
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          elevation: MaterialStateProperty.all(2.0)),
+          elevation: MaterialStateProperty.all(2.0),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0), // Radius anpassen für stärkere Abrundung
+            ),
+          ),
+        ),
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(

@@ -27,7 +27,6 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
   @override
   void initState() {
     super.initState();
-    textScaleFactor = ScaleSize.textScaleFactor(context);
     _fetchFertilizers();
     loadAquariums();
   }
@@ -93,6 +92,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return
       ListView(
           padding: const EdgeInsets.all(16.0),
@@ -234,6 +234,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                   SizedBox(
                     width: 150,
                     child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.lightGreen)),
                         onPressed: () => {processResponse()},
                         child: const Text("Berechnen")),
                   )

@@ -56,9 +56,11 @@ class _GroundCalculatorState extends State<GroundCalculator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("Bodengrund-Rechner"),
+          backgroundColor: Colors.lightGreen,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -237,6 +239,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                 const Text('Wähle deine Bodengrund-Art:',
                     style: TextStyle(fontSize: 15, color: Colors.black)),
                 DropdownButton<String>(
+                  dropdownColor: Colors.white,
                   value: _selectedGround,
                   onChanged: (newValue) {
                     setState(() {
@@ -280,6 +283,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                 SizedBox(
                   width: 150,
                   child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
                       onPressed: () => {calculateGround()},
                       child: const Text("Berechnen")),
                 )
