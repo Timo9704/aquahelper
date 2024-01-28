@@ -84,7 +84,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
       },
       body: jsonEncode(<String, Object>{
         'fertilizerInUse': [fertilizerInUse],
-        'liter': 19
+        'liter': liter
       }),
     );
   }
