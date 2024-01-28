@@ -43,9 +43,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
     List<int> fertilizerIds = [];
     if(_selectedAquarium?.liter != null){
       liter = _selectedAquarium!.liter;
-      for(int i = 0; i < _fertilizer.length; i++) {
-        fertilizerIds.add((_fertilizer.firstWhere((element) => element.name == _selectedFertilizer)).id);
-      }
+      fertilizerIds.add((_fertilizer.firstWhere((element) => element.name == _selectedFertilizer)).id);
       final httpResponse = await sendRequest(fertilizerIds, liter);
 
       if (httpResponse.statusCode == 200) {
@@ -86,7 +84,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, Object>{
-        'fertilizerInUse': fertilizerInUse,
+        'fertilizerInUse': [fertilizerInUse],
         'liter': liter
       }),
     );
