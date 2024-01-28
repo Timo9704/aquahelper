@@ -19,6 +19,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
   List<String> _fertilizerNames = [];
   final List<Fertilizer> _fertilizer = [];
   Fertilizer fertilizer1ml = Fertilizer(0, "", 0, 0, 0, 0, 0, 0);
+  double textScaleFactor = 0;
 
   Aquarium? _selectedAquarium;
   List<Aquarium> _aquariumNames = [];
@@ -26,6 +27,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
   @override
   void initState() {
     super.initState();
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     _fetchFertilizers();
     loadAquariums();
   }
@@ -116,7 +118,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                   DropdownButton<String>(
                     value: _selectedFertilizer,
                     hint: Text('Wähle deinen Dünger',
-                        textScaleFactor: ScaleSize.textScaleFactor(context),
+                        textScaler: TextScaler.linear(textScaleFactor),
                         style: const TextStyle(
                             fontSize: 20,
                             color: Colors.black)),
@@ -129,7 +131,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value,
-                            textScaleFactor: ScaleSize.textScaleFactor(context),
+                            textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
                                 fontSize: 20,
                                 color: Colors.black)),

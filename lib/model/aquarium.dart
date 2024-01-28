@@ -3,8 +3,8 @@ class Aquarium {
   String name;
   int liter;
   int waterType;
+  int co2Type;
   int width;
-  int co2;
   int height;
   int depth;
   int healthStatus;
@@ -15,7 +15,7 @@ class Aquarium {
     this.name,
     this.liter,
     this.waterType,
-    this.co2,
+    this.co2Type,
     this.width,
     this.height,
     this.depth,
@@ -29,10 +29,10 @@ class Aquarium {
         json["name"],
         json["liter"],
         json["waterType"],
-        json["liter"],
-        json["liter"],
-        json["liter"],
-        json["liter"],
+        json["co2Type"],
+        json["width"],
+        json["height"],
+        json["depth"],
         json["healthStatus"],
         json["imagePath"]
     );
@@ -44,6 +44,10 @@ class Aquarium {
         'name': name,
         'liter': liter,
         'waterType': waterType,
+        'co2Type': co2Type,
+        'width': width,
+        'height': height,
+        'depth': depth,
         'healthStatus': healthStatus,
         'imagePath': imagePath
       };
