@@ -142,11 +142,11 @@ class ReminderState extends State<Reminder> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: _presentDatePicker,
-                  child: const Text('Datum und Uhrzeit wählen'),
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  onPressed: _presentDatePicker,
+                  child: const Text('Datum und Uhrzeit wählen'),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -165,11 +165,11 @@ class ReminderState extends State<Reminder> {
                       SizedBox(
                         width: MediaQuery.sizeOf(context).width / 2 - 20,
                         child: ElevatedButton(
-                          onPressed: _submitReminder,
-                          child: const Text('Speichern'),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.lightGreen)),
+                          onPressed: _submitReminder,
+                          child: const Text('Speichern'),
                         ),
                       )
                     ]),
