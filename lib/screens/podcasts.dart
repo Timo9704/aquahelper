@@ -77,10 +77,9 @@ class PodcastListScreenState extends State<PodcastListScreen> {
                   ),
                   const SizedBox(height: 5),
                   SizedBox(
-                      height: 100,
+                      height: 80,
                       child: WebViewWidget(
                           controller: webViewList.elementAt(index))),
-                  const SizedBox(height: 10)
                 ],
                 //WebViewWidget(controller: controller)
               ));
