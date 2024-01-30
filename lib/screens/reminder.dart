@@ -47,7 +47,10 @@ class ReminderState extends State<Reminder> {
 
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-            id: selectedDate.millisecondsSinceEpoch~/1000, channelKey: "0", title: task.title, body: task.description),
+            id: selectedDate.millisecondsSinceEpoch ~/ 1000,
+            channelKey: "0",
+            title: task.title,
+            body: task.description),
         schedule: NotificationCalendar.fromDate(date: selectedDate));
 
     Navigator.pushReplacement(
@@ -58,9 +61,9 @@ class ReminderState extends State<Reminder> {
   }
 
   void _deleteReminder() {
-    if(widget.task != null){
+    if (widget.task != null) {
       DBHelper.db.deleteTask(widget.task!.taskId);
-      AwesomeNotifications().cancelSchedule(widget.task!.taskDate~/1000);
+      AwesomeNotifications().cancelSchedule(widget.task!.taskDate ~/ 1000);
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -90,6 +93,7 @@ class ReminderState extends State<Reminder> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Neue Erinnerung erstellen'),
+        backgroundColor: Colors.lightGreen,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -99,7 +103,14 @@ class ReminderState extends State<Reminder> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Titel'),
+                  cursorColor: Colors.black,
+                  decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      fillColor: Colors.grey,
+                      floatingLabelStyle: TextStyle(color: Colors.lightGreen),
+                      labelText: 'Titel'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Bitte einen Titel eingeben';
@@ -109,7 +120,14 @@ class ReminderState extends State<Reminder> {
                   controller: _titleController,
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: 'Beschreibung'),
+                  cursorColor: Colors.black,
+                  decoration: const InputDecoration(
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      fillColor: Colors.grey,
+                      floatingLabelStyle: TextStyle(color: Colors.lightGreen),
+                      labelText: 'Beschreibung'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Bitte einen Titel eingeben';
@@ -126,6 +144,9 @@ class ReminderState extends State<Reminder> {
                 ElevatedButton(
                   onPressed: _presentDatePicker,
                   child: const Text('Datum und Uhrzeit wählen'),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -146,6 +167,9 @@ class ReminderState extends State<Reminder> {
                         child: ElevatedButton(
                           onPressed: _submitReminder,
                           child: const Text('Speichern'),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.lightGreen)),
                         ),
                       )
                     ]),

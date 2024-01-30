@@ -38,8 +38,6 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   @override
   void initState() {
     super.initState();
-    textScaleFactor = ScaleSize.textScaleFactor(context);
-
 
     if (widget.aquarium != null) {
       aquarium = widget.aquarium!;
@@ -58,7 +56,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   void syncValuesToObject() {
     if (widget.aquarium == null) {
       String uuid = const Uuid().v4().toString();
-      aquarium = Aquarium(uuid,
+      aquarium = Aquarium(
+          uuid,
           _nameController.text,
           int.parse(_literController.text),
           waterType,
@@ -118,7 +117,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
       builder: (context) {
         return AlertDialog(
           title: const Text("Warnung"),
-          content:  const Text("Willst du dieses Aquarium wirklich löschen?"),
+          content: const Text("Willst du dieses Aquarium wirklich löschen?"),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,11 +131,11 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                   onPressed: () {
                     DBHelper.db.deleteAquarium(aquarium.aquariumId);
                     Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                          const AquaHelper()),
-                          (Route<dynamic> route) => false);
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AquaHelper()),
+                        (Route<dynamic> route) => false);
                   },
                 ),
               ],
@@ -150,12 +149,14 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: createMode
               ? const Text('Neues Aquarium')
               : const Text('Aquarium bearbeiten'),
+          backgroundColor: Colors.lightGreen,
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -220,6 +221,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                     children: [
                                       Radio<int>(
                                         value: 0,
+                                        activeColor: Colors.lightGreen,
                                         groupValue: waterType,
                                         onChanged: (int? value) {
                                           setState(() {
@@ -230,7 +232,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'Süßwasser',
                                         textScaler:
-                                          TextScaler.linear(textScaleFactor),
+                                            TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -244,6 +246,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                     children: [
                                       Radio<int>(
                                         value: 1,
+                                        activeColor: Colors.lightGreen,
                                         groupValue: waterType,
                                         onChanged: (int? value) {
                                           setState(() {
@@ -254,7 +257,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'Salzwasser',
                                         textScaler:
-                                          TextScaler.linear(textScaleFactor),
+                                            TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 25,
                                           color: Colors.black,
@@ -287,6 +290,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 textAlignVertical: TextAlignVertical.center,
                                 textAlign: TextAlign.center,
                                 controller: _nameController,
+                                cursorColor: Colors.black,
                                 style: const TextStyle(fontSize: 20),
                                 decoration: const InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
@@ -318,6 +322,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 textAlignVertical: TextAlignVertical.center,
                                 textAlign: TextAlign.center,
                                 controller: _literController,
+                                cursorColor: Colors.black,
                                 style: const TextStyle(fontSize: 20),
                                 decoration: const InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
@@ -354,6 +359,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                     children: [
                                       Radio<int>(
                                         value: 0,
+                                        activeColor: Colors.lightGreen,
                                         groupValue: co2Type,
                                         onChanged: (int? value) {
                                           setState(() {
@@ -364,7 +370,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'nein',
                                         textScaler:
-                                          TextScaler.linear(textScaleFactor),
+                                            TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -378,6 +384,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                     children: [
                                       Radio<int>(
                                         value: 1,
+                                        activeColor: Colors.lightGreen,
                                         groupValue: co2Type,
                                         onChanged: (int? value) {
                                           setState(() {
@@ -388,7 +395,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'bio./chem.',
                                         textScaler:
-                                          TextScaler.linear(textScaleFactor),
+                                            TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -402,6 +409,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                     children: [
                                       Radio<int>(
                                         value: 2,
+                                        activeColor: Colors.lightGreen,
                                         groupValue: co2Type,
                                         onChanged: (int? value) {
                                           setState(() {
@@ -412,7 +420,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                       Text(
                                         'Druckgas',
                                         textScaler:
-                                          TextScaler.linear(textScaleFactor),
+                                            TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           fontSize: 20,
                                           color: Colors.black,
@@ -450,8 +458,11 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           TextAlignVertical.center,
                                       textAlign: TextAlign.center,
                                       controller: _widthController,
+                                      cursorColor: Colors.black,
                                       style: const TextStyle(fontSize: 20),
                                       decoration: const InputDecoration(
+                                        floatingLabelStyle:
+                                            TextStyle(color: Colors.lightGreen),
                                         labelText: "Länge",
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide:
@@ -471,8 +482,11 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           TextAlignVertical.center,
                                       textAlign: TextAlign.center,
                                       controller: _heightController,
+                                      cursorColor: Colors.black,
                                       style: const TextStyle(fontSize: 20),
                                       decoration: const InputDecoration(
+                                        floatingLabelStyle:
+                                            TextStyle(color: Colors.lightGreen),
                                         labelText: "Tiefe",
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide:
@@ -492,8 +506,11 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           TextAlignVertical.center,
                                       textAlign: TextAlign.center,
                                       controller: _depthController,
+                                      cursorColor: Colors.black,
                                       style: const TextStyle(fontSize: 20),
                                       decoration: const InputDecoration(
+                                        floatingLabelStyle:
+                                            TextStyle(color: Colors.lightGreen),
                                         labelText: "Höhe",
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide:
@@ -543,6 +560,10 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                                     (BuildContext context) =>
                                                         const AquaHelper()))
                                       },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.lightGreen)),
                                   child: const Text("Speichern")),
                             )
                           ],

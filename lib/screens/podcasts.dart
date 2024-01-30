@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PodcastListScreen extends StatefulWidget {
   const PodcastListScreen({super.key});
@@ -12,8 +12,6 @@ class PodcastListScreen extends StatefulWidget {
 
 class PodcastListScreenState extends State<PodcastListScreen> {
   List<dynamic> podcasts = [];
-
-  List<WebViewController> webViewList = [];
 
   @override
   void initState() {
@@ -29,23 +27,10 @@ class PodcastListScreenState extends State<PodcastListScreen> {
         podcasts = json.decode(response.body).values.toList();
       });
     }
-    for (int i = 0; i < podcasts.length; i++) {
-      WebViewController controller = WebViewController()
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..setBackgroundColor(const Color(0x00000000))
-        ..setNavigationDelegate(
-          NavigationDelegate(
-            onProgress: (int progress) {
-              // Update loading bar.
-            },
-            onPageStarted: (String url) {},
-            onPageFinished: (String url) {},
-            onWebResourceError: (WebResourceError error) {},
-          ),
-        )
-        ..loadRequest(Uri.parse(podcasts[i][1]['spotify']));
-      webViewList.add(controller);
-    }
+  }
+
+  Future<void> _launchPodcasts(url) async {
+    await launchUrl(Uri.parse(url));
   }
 
   @override
@@ -58,31 +43,38 @@ class PodcastListScreenState extends State<PodcastListScreen> {
         backgroundColor: Colors.lightGreen,
       ),
       body: ListView.builder(
-        itemCount: webViewList.length,
+        itemCount: podcasts.length,
         itemBuilder: (context, index) {
           var podcast = podcasts[index][0]['name'];
           var podcastHost = podcasts[index][0]['by'];
+          var podcastLink = podcasts[index][1]['spotify'];
+          var podcastImage = podcasts[index][1]['image'];
 
           return Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Text(
-                    podcast,
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  Text(
-                    "by: $podcastHost",
-                    style: const TextStyle(fontSize: 10),
-                  ),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                      height: 80,
-                      child: WebViewWidget(
-                          controller: webViewList.elementAt(index))),
-                ],
-                //WebViewWidget(controller: controller)
-              ));
+              child:
+                Column(
+                  children: [
+                    IconButton(
+                      icon: Image.network(podcastImage, width: 300),
+                      onPressed: () {
+                        _launchPodcasts(podcastLink);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      podcast,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      "by: $podcastHost",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const SizedBox(height: 15),
+                  ],
+                )
+              );
         },
       ),
     );
