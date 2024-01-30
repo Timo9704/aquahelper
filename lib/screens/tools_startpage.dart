@@ -1,5 +1,6 @@
 import 'package:aquahelper/screens/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/ground_calculator.dart';
+import 'package:aquahelper/screens/podcasts.dart';
 import 'package:flutter/material.dart';
 
 
@@ -37,6 +38,15 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const FertilizerCalculator()),
+              );
+            },
+          ),
+          IconTextButton(
+            imagePath: 'assets/buttons/ai_assistant.png',
+            text: 'Podcast-Explorer',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => PodcastListScreen()),
               );
             },
           ),
