@@ -46,7 +46,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             text: 'Podcast-Explorer',
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => PodcastListScreen()),
+                MaterialPageRoute(builder: (context) => const PodcastListScreen()),
               );
             },
           ),

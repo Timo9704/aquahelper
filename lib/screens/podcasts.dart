@@ -4,11 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PodcastListScreen extends StatefulWidget {
+  const PodcastListScreen({super.key});
+
   @override
-  _PodcastListScreenState createState() => _PodcastListScreenState();
+  PodcastListScreenState createState() => PodcastListScreenState();
 }
 
-class _PodcastListScreenState extends State<PodcastListScreen> {
+class PodcastListScreenState extends State<PodcastListScreen> {
   List<dynamic> podcasts = [];
 
   List<WebViewController> webViewList = [];
@@ -28,7 +30,6 @@ class _PodcastListScreenState extends State<PodcastListScreen> {
       });
     }
     for (int i = 0; i < podcasts.length; i++) {
-      print(podcasts[i][1]['spotify']);
       WebViewController controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
         ..setBackgroundColor(const Color(0x00000000))
@@ -47,6 +48,7 @@ class _PodcastListScreenState extends State<PodcastListScreen> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
@@ -62,15 +64,15 @@ class _PodcastListScreenState extends State<PodcastListScreen> {
           var podcastHost = podcasts[index][0]['by'];
 
           return Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
                   Text(
                     podcast,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                   Text(
-                    "by: " + podcastHost,
+                    "by: $podcastHost",
                     style: const TextStyle(fontSize: 10),
                   ),
                   const SizedBox(height: 5),
@@ -78,7 +80,7 @@ class _PodcastListScreenState extends State<PodcastListScreen> {
                       height: 150,
                       child: WebViewWidget(
                           controller: webViewList.elementAt(index))),
-                  SizedBox(height: 10)
+                  const SizedBox(height: 10)
                 ],
                 //WebViewWidget(controller: controller)
               ));
