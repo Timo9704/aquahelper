@@ -54,6 +54,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
       children: <Widget>[
         SizedBox(
           width: double.infinity,
+          height: 150,
           child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(10),
@@ -141,7 +142,8 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
         ),
         Container(
             padding: const EdgeInsets.all(5.0),
-            height: MediaQuery.of(context).size.height * 0.27,
+            height: MediaQuery.of(context).size.height < 650 ? MediaQuery.of(context).size.height * 0.20 :
+              MediaQuery.of(context).size.height * 0.27,
             child: measurementList.isNotEmpty ?
             ListView.builder(
               scrollDirection: Axis.vertical,
@@ -153,6 +155,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
               },
             ):
             const Center(
+              heightFactor: 0,
               child: Text('Aktuell keine Messungen vorhanden!',
                   textAlign: TextAlign.center,
                   style: TextStyle(

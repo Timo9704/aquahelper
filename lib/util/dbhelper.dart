@@ -175,6 +175,16 @@ class DBHelper {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  Future<void> updateTask(Task task) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("tasks",
+        task.toMap(),
+        where: 'taskId = ?',
+        whereArgs: [task.taskId],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
+
   Future<List<Task>> getTasksForAquarium(String aquariumId) async {
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("tasks", where: 'aquariumId = ? AND taskDate >= ?', orderBy: 'taskDate ASC', whereArgs: [aquariumId, DateTime.now().millisecondsSinceEpoch]);

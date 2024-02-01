@@ -38,7 +38,7 @@ class ReminderItemState extends State<ReminderItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
         child: TextButton(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.white),

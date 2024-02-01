@@ -204,7 +204,7 @@ class ChartAnalysisState extends State<ChartAnalysis> {
                   height: 20,
                 ),
                 Container(
-                  height: 400,
+                  height: MediaQuery.of(context).size.height < 650 ? 300 : MediaQuery.of(context).size.height < 750 ? 400 : 500,
                   margin: const EdgeInsets.fromLTRB(0, 0, 30, 0),
                   child: LineChart(
                     LineChartData(

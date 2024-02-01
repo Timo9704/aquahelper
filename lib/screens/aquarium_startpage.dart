@@ -34,6 +34,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.height);
     return Column(
         children: <Widget>[
           Padding(
@@ -55,9 +56,9 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
             ),
           ),
           aquariums.isEmpty ?
-          const Center(
-            heightFactor: 15,
-            child: Text("Lege dein erstes Aquarium an!",
+          Center(
+            heightFactor: MediaQuery.of(context).size.height < 650 ? 10 : 15,
+            child: const Text("Lege dein erstes Aquarium an!",
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.black,
