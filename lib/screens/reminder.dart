@@ -40,9 +40,6 @@ class ReminderState extends State<Reminder> {
   }
 
   void _submitReminder() {
-
-    print(_titleController.text);
-
     if(createMode) {
       Task task = Task(
           const Uuid().v4().toString(),

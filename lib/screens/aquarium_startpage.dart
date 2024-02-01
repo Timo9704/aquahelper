@@ -34,7 +34,6 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.height);
     return Column(
         children: <Widget>[
           Padding(
