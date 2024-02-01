@@ -46,6 +46,10 @@ class SettingsState extends State<Settings> {
     await launchUrl(Uri.parse('https://aquaristik-kosmos.de/aquahelper-faq/'));
   }
 
+  Future<void> _launchprivacyPolicy() async {
+    await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
+  }
+
   void _exportOrImport() {
     showDialog(
       context: context,
@@ -243,7 +247,7 @@ class SettingsState extends State<Settings> {
                 borderRadius: BorderRadius.circular(5.0),
               ),
             ),
-            onPressed: () {},
+            onPressed: () => _launchprivacyPolicy(),
             child: const Text("Datenschutzbestimmungen", style: TextStyle(color: Colors.black)),
           ),
         ),
