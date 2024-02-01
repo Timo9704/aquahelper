@@ -84,7 +84,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, Object>{
-        'fertilizerInUse': [fertilizerInUse],
+        'fertilizerInUse': [fertilizerInUse.first],
         'liter': liter
       }),
     );

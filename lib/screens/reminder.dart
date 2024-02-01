@@ -21,9 +21,11 @@ class Reminder extends StatefulWidget {
 
 class ReminderState extends State<Reminder> {
   final _formKey = GlobalKey<FormState>();
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now().add(const Duration(minutes: 5));
+  DateTime selectedDateInital = DateTime.now().add(const Duration(minutes: 5));
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  bool createMode = true;
 
   @override
   void initState() {
@@ -32,32 +34,51 @@ class ReminderState extends State<Reminder> {
       _titleController.text = widget.task!.title;
       _descriptionController.text = widget.task!.description;
       selectedDate = DateTime.fromMillisecondsSinceEpoch(widget.task!.taskDate);
+      selectedDateInital = DateTime.fromMillisecondsSinceEpoch(widget.task!.taskDate);
+      createMode = false;
     }
   }
 
   void _submitReminder() {
-    Task task = Task(
-        const Uuid().v4().toString(),
-        widget.aquarium.aquariumId,
-        _titleController.text,
-        _descriptionController.text,
-        selectedDate.millisecondsSinceEpoch);
+    if(createMode) {
+      Task task = Task(
+          const Uuid().v4().toString(),
+          widget.aquarium.aquariumId,
+          _titleController.text,
+          _descriptionController.text,
+          selectedDate.millisecondsSinceEpoch);
+      DBHelper.db.insertTask(task);
 
-    DBHelper.db.insertTask(task);
+      AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              id: selectedDate.millisecondsSinceEpoch ~/ 1000,
+              channelKey: "0",
+              title: task.title,
+              body: task.description),
+          schedule: NotificationCalendar.fromDate(date: selectedDate));
+      }else{
+          Task task = Task(
+              widget.task!.taskId,
+              widget.aquarium.aquariumId,
+              _titleController.text,
+              _descriptionController.text,
+              selectedDate.millisecondsSinceEpoch);
+          DBHelper.db.updateTask(task);
+          AwesomeNotifications().cancel(selectedDateInital.millisecondsSinceEpoch ~/ 1000);
+          AwesomeNotifications().createNotification(
+              content: NotificationContent(
+                  id: selectedDate.millisecondsSinceEpoch ~/ 1000,
+                  channelKey: "0",
+                  title: task.title,
+                  body: task.description),
+              schedule: NotificationCalendar.fromDate(date: selectedDate));
+      }
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AquariumOverview(aquarium: widget.aquarium)));
 
-    AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: selectedDate.millisecondsSinceEpoch ~/ 1000,
-            channelKey: "0",
-            title: task.title,
-            body: task.description),
-        schedule: NotificationCalendar.fromDate(date: selectedDate));
-
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>
-                AquariumOverview(aquarium: widget.aquarium)));
   }
 
   void _deleteReminder() {
@@ -150,8 +171,9 @@ class ReminderState extends State<Reminder> {
                 ),
                 const SizedBox(height: 20),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                    if(!createMode)
                       SizedBox(
                         width: MediaQuery.sizeOf(context).width / 2 - 20,
                         child: ElevatedButton(
