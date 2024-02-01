@@ -141,7 +141,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
         ),
         Container(
             padding: const EdgeInsets.all(5.0),
-            height: MediaQuery.of(context).size.height * 0.32,
+            height: MediaQuery.of(context).size.height * 0.27,
             child: measurementList.isNotEmpty ?
             ListView.builder(
               scrollDirection: Axis.vertical,

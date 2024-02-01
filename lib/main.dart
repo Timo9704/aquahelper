@@ -35,6 +35,13 @@ class AquaHelper extends StatelessWidget {
     return MaterialApp(
       title: 'AquaHelper',
       theme: ThemeData(
+          textSelectionTheme: const TextSelectionThemeData(
+              selectionHandleColor: Colors.lightGreen,
+              cursorColor: Colors.black
+          ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.black,
+          ),
           primarySwatch: Colors.lightGreen,
           scaffoldBackgroundColor: const Color.fromRGBO(242, 242, 242, 1),
           textButtonTheme: TextButtonThemeData(

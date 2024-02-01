@@ -28,7 +28,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
       _pageOptions = [
         AquariumMeasurementReminder(aquarium: aquarium),
         ChartAnalysis(aquariumId: aquarium.aquariumId),
-        AquariumMeasurementReminder(aquarium: aquarium),
+        //AquariumMeasurementReminder(aquarium: aquarium),
       ];
     });
   }
@@ -57,10 +57,10 @@ class _AquariumOverviewState extends State<AquariumOverview> {
             icon: Icon(Icons.bar_chart),
             label: 'Wasserwertverlauf',
           ),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
             icon: Icon(Icons.bubble_chart),
             label: 'Besatz',
-          ),
+          ),*/
         ],
         currentIndex: selectedPage,
         onTap: (index){

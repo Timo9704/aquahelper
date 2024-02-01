@@ -194,22 +194,24 @@ class MeasurementFormState extends State<MeasurementForm> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  child: const Text("Nein"),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.pop(context),
+                  child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  child: const Text("Ja"),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
                   onPressed: () {
                     DBHelper.db.deleteMeasurement(widget.measurementId);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                          AquariumOverview(
-                            aquarium: widget.aquarium),
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            AquariumOverview(
+                                aquarium: widget.aquarium),
                       ),
                     );
                   },
+                  child: const Text("Ja"),
                 ),
               ],
             ),
@@ -283,7 +285,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                   return Card(
                     elevation: 10,
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -301,6 +303,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
                             controller: controllerList.elementAt(index),
+                            cursorColor: Colors.black,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(

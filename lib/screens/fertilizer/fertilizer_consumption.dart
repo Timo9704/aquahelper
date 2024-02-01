@@ -92,7 +92,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                 children: [
                   const Text("Berechne den Nährstoffverbrauch deines Aquariums:",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(height: 10),
@@ -103,14 +103,14 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                         ),
                         const Text("1. Wähle das Aquarium aus:",
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w800)),
                         DropdownButton<Aquarium>(
                           value: _selectedAquarium,
                           hint: const Text('Wähle dein Aquarium',
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   color: Colors.black)),
                           onChanged: (newValue) {
                             setState(() {
@@ -132,7 +132,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                         ),
                         const Text("2. Nährstoffverbrauch \n(letzten zwei Messungen):",
                             style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w800)),
                         const SizedBox(
@@ -140,6 +140,7 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
                         ),
                         DataTable(
                           horizontalMargin: 0,
+                          headingRowHeight: 70.0,
                           columnSpacing: 15.0,
                           columns: const <DataColumn>[
                             DataColumn(
