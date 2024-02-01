@@ -128,6 +128,7 @@ class ChartAnalysisState extends State<ChartAnalysis> {
           padding: const EdgeInsets.all(20.0),
           child: Card(
             color: Colors.white,
+            surfaceTintColor: Colors.white,
             elevation: 10,
             child: Column(
               children: [

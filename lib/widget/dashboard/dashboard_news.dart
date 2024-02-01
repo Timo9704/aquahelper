@@ -21,8 +21,8 @@ class _DashboardNewsState extends State<DashboardNews> {
   }
 
   Future<void> _fetchNews() async {
-    final response = await http.get(Uri.parse(
-        'https://aquaristik-kosmos.de/news.json'));
+    final response =
+        await http.get(Uri.parse('https://aquaristik-kosmos.de/news.json'));
 
     if (response.statusCode == 200) {
       final parsed = json.decode(response.body);
@@ -47,9 +47,13 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
-    double heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.16 :
-      MediaQuery.sizeOf(context).height < 800 ? 0.2 :
-      MediaQuery.sizeOf(context).height < 900 ? 0.25 : 0.3;
+    double heightFactor = MediaQuery.sizeOf(context).height < 700
+        ? 0.16
+        : MediaQuery.sizeOf(context).height < 800
+            ? 0.2
+            : MediaQuery.sizeOf(context).height < 900
+                ? 0.25
+                : 0.3;
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
@@ -71,7 +75,8 @@ class _DashboardNewsState extends State<DashboardNews> {
             child: Column(
               children: [
                 SizedBox(
-                    height: MediaQuery.sizeOf(context).height * heightFactor - 20,
+                    height:
+                        MediaQuery.sizeOf(context).height * heightFactor - 20,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: newsList.length,
@@ -98,16 +103,30 @@ class NewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    double textSize = MediaQuery.sizeOf(context).width > 400 ? 15 : 13;
+
+    return Column(
       children: [
-        Text(date, style: const TextStyle(fontSize: 15, color: Colors.black)),
-        const SizedBox(
-          width: 10,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("$date",
+                style: TextStyle(fontSize: textSize, color: Colors.black)),
+            const SizedBox(
+              width: 10,
+            ),
+            Flexible(
+              child: Text(text,
+                  style: TextStyle(fontSize: textSize, color: Colors.black)),
+            ),
+          ],
         ),
-        Flexible(
-          child: Text(text,
-              style: const TextStyle(fontSize: 15, color: Colors.black)),
+        Container(
+          height: 1,
+          width: MediaQuery.of(context).size.width-20,
+          decoration: const BoxDecoration(color: Colors.lightGreen),
         ),
+        const SizedBox(height: 5)
       ],
     );
   }

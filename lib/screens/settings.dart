@@ -71,7 +71,8 @@ class SettingsState extends State<Settings> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
+                        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.fromLTRB(10, 0, 10, 0))),
                     onPressed: () async {
                       if (await DBHelper.db.exportAllData() != "fail") {
                         if (mounted) {
@@ -82,7 +83,8 @@ class SettingsState extends State<Settings> {
                     child: const Text("Exportieren"),
                     ),
                 ElevatedButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
+                        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.fromLTRB(10, 0, 10, 0))),
                     onPressed: () async {
                       if (await DBHelper.db.importAllData()) {
                         if (mounted) {
@@ -90,8 +92,8 @@ class SettingsState extends State<Settings> {
                         }
                       }
                     },
-                    child: const Text("Importieren")),
-              ],
+                    child: const Text("Importieren"),
+                )],
             ),
             const SizedBox(height: 10),
             ElevatedButton(

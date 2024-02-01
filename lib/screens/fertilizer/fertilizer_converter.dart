@@ -103,7 +103,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
           children: [
             const Text("Nährstoffe für die Größe deines Aquariums umrechnen:",
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.w800)),
             const SizedBox(height: 10),
@@ -111,7 +111,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                 children: [
                   const Text("1. Wähle einen Dünger aus:",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(height: 10),
@@ -133,7 +133,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                         child: Text(value,
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: Colors.black)),
                       );
                     }).toList(),
@@ -143,7 +143,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                   ),
                   const Text("2. Wähle das Aquarium aus:",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(height: 10),
@@ -163,7 +163,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                         value: value,
                         child: Text(value.name  ,
                             style: const TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 color: Colors.black)),
                       );
                     }).toList(),
@@ -173,7 +173,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
                   ),
                   const Text("3. 1 ml Dünger entsprechen:",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(

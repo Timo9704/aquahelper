@@ -76,7 +76,7 @@ class ReminderState extends State<Reminder> {
     DatePicker.showDateTimePicker(
       context,
       showTitleActions: true,
-      minTime: DateTime.now(),
+      minTime: DateTime.now().add(const Duration(minutes: 5)),
       maxTime: DateTime(2100, 12, 31),
       onConfirm: (date) {
         setState(() {

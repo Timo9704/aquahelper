@@ -41,11 +41,11 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     String result = "";
 
     if (_selectedGround == "Soil") {
-      result = "${triangleVol.round()} Liter Soil";
+      result = "${triangleVol.round()}l Soil";
     } else if (_selectedGround == "Sand") {
-      result = "${(triangleVol * 1.9).round()} Kilogramm Sand";
+      result = "${(triangleVol * 1.9).round()}kg Sand";
     } else if (_selectedGround == "Kies") {
-      result = "${(triangleVol * 1.5).round()} Kilogramm Kies";
+      result = "${(triangleVol * 1.5).round()}kg Kies";
     }
 
     setState(() {
