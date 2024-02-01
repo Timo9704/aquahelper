@@ -110,7 +110,7 @@ class NewsItem extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("$date",
+            Text(date,
                 style: TextStyle(fontSize: textSize, color: Colors.black)),
             const SizedBox(
               width: 10,
