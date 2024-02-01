@@ -3,7 +3,6 @@ import 'package:aquahelper/util/dbhelper.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:flutter_launcher_icons/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
