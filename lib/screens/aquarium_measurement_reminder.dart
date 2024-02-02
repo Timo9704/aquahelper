@@ -93,7 +93,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                             style:
                             const TextStyle(fontSize: 24, color: Colors.white)),
                       IconButton(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                           onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(

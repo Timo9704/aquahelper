@@ -90,7 +90,7 @@ class _AquariumItemState extends State<AquariumItem> {
                           Positioned(
                           right: 0,
                           child: Container(
-                            padding: EdgeInsets.all(1),
+                            padding: const EdgeInsets.all(1),
                             decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(6),
