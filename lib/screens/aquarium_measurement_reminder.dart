@@ -9,6 +9,7 @@ import '../model/task.dart';
 import '../util/dbhelper.dart';
 import '../widget/measurement_item.dart';
 import '../widget/reminder_item.dart';
+import 'create_or_edit_aquarium.dart';
 import 'measurement_form.dart';
 
 class AquariumMeasurementReminder extends StatefulWidget {
@@ -52,19 +53,61 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(
-          width: double.infinity,
-          height: 150,
-          child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-              child: widget.aquarium.imagePath.startsWith('assets/')
-                  ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.cover)
-                  : Image.file(File(widget.aquarium.imagePath),
-                  fit: BoxFit.cover)),
-        ),
+         Stack(
+          alignment: Alignment.bottomCenter,
+              children: <Widget>[
+                SizedBox(
+                width: double.infinity,
+                  height: 150,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    child: widget.aquarium.imagePath.startsWith('assets/')
+                        ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.fitWidth)
+                        : Image.file(File(widget.aquarium.imagePath),
+                        fit: BoxFit.cover),
+                ),),
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                  ),
+                  color: Colors.black54,
+                  ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                      Text("${widget.aquarium.liter}L",
+                          style:
+                          const TextStyle(fontSize: 24, color: Colors.white)),
+                        Text("${widget.aquarium.width.toString()}x${widget.aquarium.height.toString()}x${widget.aquarium.depth.toString()}",
+                            style:
+                            const TextStyle(fontSize: 24, color: Colors.white)),
+                      IconButton(
+                        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CreateOrEditAquarium(aquarium: widget.aquarium)),
+                          ),
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                          ),
+                        ),
+                    ],),
+                )],
+          ),
         Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Row(

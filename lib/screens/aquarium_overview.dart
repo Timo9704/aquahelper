@@ -37,7 +37,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("AquaHelper"),
+          title: Text(aquarium.name),
           backgroundColor: Colors.lightGreen
       ),
       bottomNavigationBar: BottomNavigationBar(
