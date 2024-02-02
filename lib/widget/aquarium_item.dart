@@ -2,13 +2,37 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
+import '../model/task.dart';
 import '../screens/aquarium_overview.dart';
-import '../screens/create_or_edit_aquarium.dart';
+import '../util/dbhelper.dart';
 
-class AquariumItem extends StatelessWidget {
-  final Aquarium aquarium;
+class AquariumItem extends StatefulWidget {
+const AquariumItem({super.key, required this.aquarium});
+final Aquarium aquarium;
 
-  const AquariumItem({super.key, required this.aquarium});
+
+@override
+State<AquariumItem> createState() => _AquariumItemState();
+}
+
+class _AquariumItemState extends State<AquariumItem> {
+  late Aquarium aquarium;
+  int taskAmount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    aquarium = widget.aquarium;
+    loadTasks();
+  }
+
+  void loadTasks() async {
+    List<Task> dbTasks =
+    await DBHelper.db.getTasksForCurrentDayForAquarium(aquarium.aquariumId);
+    setState(() {
+     taskAmount = dbTasks.length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +77,39 @@ class AquariumItem extends StatelessWidget {
                     Text(aquarium.name,
                         style:
                             const TextStyle(fontSize: 24, color: Colors.white)),
-                    IconButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CreateOrEditAquarium(aquarium: aquarium)),
-                      ),
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                      ),
+                    Text("${aquarium.liter}L",
+                        style:
+                        const TextStyle(fontSize: 24, color: Colors.white)),
+                    Stack(
+                      children: <Widget>[
+                        const Icon(Icons.notifications,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        if(taskAmount > 0)
+                          Positioned(
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 12,
+                              minHeight: 12,
+                            ),
+                            child: Text(
+                              taskAmount.toString(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ]),
             ),
