@@ -7,10 +7,10 @@ class DashboardReminder extends StatefulWidget {
   const DashboardReminder({super.key});
 
   @override
-  _DashboardReminderState createState() => _DashboardReminderState();
+  DashboardReminderState createState() => DashboardReminderState();
 }
 
-class _DashboardReminderState extends State<DashboardReminder> with SingleTickerProviderStateMixin {
+class DashboardReminderState extends State<DashboardReminder> with SingleTickerProviderStateMixin {
   List<Task> taskList = [];
   List<int> tasksPerAquarium = [];
   List<Aquarium>? aquariums = [];
