@@ -143,7 +143,7 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
               ),
             ),
             if(_tabController != null && aquariums != null)
-            TabPageSelector(controller: _tabController),
+            TabPageSelector(controller: _tabController, color: Colors.grey, selectedColor: Colors.lightGreen),
           ],
         ),
       ),
