@@ -88,6 +88,7 @@ class DBHelper {
 
   _databaseVersion2(Database db) {
     db.execute("ALTER TABLE measurement ADD conductance REAL");
+    db.execute("UPDATE measurement SET conductance = 0.0");
   }
 
   //-------------------------Methods for Aquarium-object-----------------------//
