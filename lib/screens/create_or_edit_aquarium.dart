@@ -68,8 +68,13 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           int.parse("0"),
           imagePath);
     } else {
+      aquarium.waterType = waterType;
       aquarium.name = _nameController.text;
       aquarium.liter = int.parse(_literController.text);
+      aquarium.co2Type = co2Type;
+      aquarium.width = int.parse(_widthController.text);
+      aquarium.height = int.parse(_heightController.text);
+      aquarium.depth = int.parse(_heightController.text);
       aquarium.imagePath = imagePath;
     }
   }
@@ -123,11 +128,12 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  child: const Text("Nein"),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
                   onPressed: () => Navigator.pop(context),
+                  child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  child: const Text("Ja"),
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () {
                     DBHelper.db.deleteAquarium(aquarium.aquariumId);
                     Navigator.pushAndRemoveUntil(
@@ -137,6 +143,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 const AquaHelper()),
                         (Route<dynamic> route) => false);
                   },
+                  child: const Text("Ja"),
                 ),
               ],
             ),

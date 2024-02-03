@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,12 +12,14 @@ import 'package:aquahelper/model/measurement.dart';
 import '../model/task.dart';
 
 class DBHelper {
+  static const newDbVersion = 2;
+
   static final DBHelper db = DBHelper._();
   DBHelper._();
 
   initDB() async {
     String path = join(await getDatabasesPath(), 'aquarium_database.db');
-    return await openDatabase(path, version: 1, onOpen: (db) {},
+    return await openDatabase(path, version: newDbVersion, onOpen: (db) async {},
         onCreate: (Database db, int version) async {
           await db.execute('PRAGMA foreign_keys = ON');
           await db.execute('''
@@ -60,9 +64,33 @@ class DBHelper {
               taskDate INTEGER
             )
           ''');
-    });
+          if (version == 2) {
+            await _databaseVersion2(db);
+          }
+    },
+    onUpgrade: _upgradeDb
+    );
   }
-  
+
+  Future<void>  _upgradeDb(Database  db, int  oldVersion, int  newVersion) async {
+    for (int version = oldVersion; version < newVersion; version++) {
+      await _performDbOperationsVersionWise(db, version + 1);
+    }
+  }
+
+  _performDbOperationsVersionWise(Database db, int version) async {
+    switch (version) {
+      case 2:
+        await _databaseVersion2(db);
+        break;
+    }
+  }
+
+  _databaseVersion2(Database db) {
+    db.execute("ALTER TABLE measurement ADD conductance REAL");
+    db.execute("UPDATE measurement SET conductance = 0.0");
+  }
+
   //-------------------------Methods for Aquarium-object-----------------------//
 
   Future<List<Aquarium>> getAquariums() async {
@@ -184,6 +212,14 @@ class DBHelper {
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
 
+  Future<List<Task>> getTasksForCurrentDayForAquarium(String aquariumId) async {
+    DateTime now = DateTime.now();
+    DateTime endOfDay = DateTime(now.year, now.month, now.day, 23, 59);
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("tasks", where: 'aquariumId = ? AND taskDate BETWEEN ? AND ?', orderBy: 'taskDate ASC', whereArgs: [aquariumId, now.millisecondsSinceEpoch, endOfDay.millisecondsSinceEpoch]);
+    List<Task> list = res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    return list;
+  }
 
   Future<List<Task>> getTasksForAquarium(String aquariumId) async {
     final db = await openDatabase('aquarium_database.db');
@@ -292,7 +328,8 @@ class DBHelper {
               'iron': values[10],
               'magnesium': values[11],
               'measurementDate': values[12],
-              'imagePath': values[13]
+              'imagePath': values[13],
+              'conductance': values.length == 15 ? values[14] : 0.0
             });
           } else if (currentTable == '## Tasks ##') {
             await db.insert('tasks', {

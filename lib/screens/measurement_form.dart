@@ -77,6 +77,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     controllerList.elementAt(7).text = measurement.potassium.toString();
     controllerList.elementAt(8).text = measurement.iron.toString();
     controllerList.elementAt(9).text = measurement.magnesium.toString();
+    controllerList.elementAt(10).text = measurement.conductance.toString();
     setState(() {
       imagePath = measurement.imagePath;
       selectedDate = DateTime.fromMillisecondsSinceEpoch(measurement.measurementDate);
@@ -106,7 +107,8 @@ class MeasurementFormState extends State<MeasurementForm> {
         'iron': measurementInputs.elementAt(8),
         'magnesium': measurementInputs.elementAt(9),
         'measurementDate': selectedDate.millisecondsSinceEpoch,
-        'imagePath': measurement.imagePath
+        'imagePath': measurement.imagePath,
+        'conductance' : 0.0
       };
     } else {
       valueMap = {
@@ -123,7 +125,8 @@ class MeasurementFormState extends State<MeasurementForm> {
         'iron': measurementInputs.elementAt(8),
         'magnesium': measurementInputs.elementAt(9),
         'measurementDate': selectedDate.millisecondsSinceEpoch,
-        'imagePath': imagePath
+        'imagePath': imagePath,
+        'conductance' : 0.0
       };
     }
 

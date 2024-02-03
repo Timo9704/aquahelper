@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../model/aquarium.dart';
+import '../util/dbhelper.dart';
+
 class GroundCalculator extends StatefulWidget {
   const GroundCalculator({super.key});
 
@@ -10,6 +13,8 @@ class GroundCalculator extends StatefulWidget {
 class _GroundCalculatorState extends State<GroundCalculator> {
   String? _selectedGround = "Soil";
   final List<String> _groundNames = ["Soil", "Kies", "Sand"];
+  Aquarium? _selectedAquarium;
+  List<Aquarium> _aquariumNames = [];
 
   String ergebnis = "";
 
@@ -21,6 +26,14 @@ class _GroundCalculatorState extends State<GroundCalculator> {
   @override
   void initState() {
     super.initState();
+    loadAquariums();
+  }
+
+  void loadAquariums() async {
+    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    setState(() {
+      _aquariumNames = dbAquariums;
+    });
   }
 
   void calculateGround() {
@@ -97,6 +110,44 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
+                const Text("Wähle das Aquarium aus:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                       )),
+                const SizedBox(height: 10),
+                DropdownButton<Aquarium>(
+                  value: _selectedAquarium,
+                  hint: const Text('Wähle dein Aquarium',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black,
+                      fontWeight: FontWeight.normal)),
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedAquarium = newValue;
+                      _aquariumHeightController.text = _selectedAquarium!.width.toString();
+                      _aquariumDepthController.text = _selectedAquarium!.height.toString();
+                    });
+                  },
+                  items: _aquariumNames.map<DropdownMenuItem<Aquarium>>((Aquarium value) {
+                    return DropdownMenuItem<Aquarium>(
+                      value: value,
+                      child: Text(
+                          value.name,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black)),
+                    );
+                  }).toList(),
+                ),
+                const Text("oder",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        )),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

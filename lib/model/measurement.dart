@@ -13,6 +13,7 @@ class Measurement {
   double magnesium;
   int measurementDate;
   String imagePath;
+  double conductance;
 
   Measurement(
       this.measurementId,
@@ -29,6 +30,7 @@ class Measurement {
       this.magnesium,
       this.measurementDate,
       this.imagePath,
+      this.conductance
   );
 
   factory Measurement.fromMap(Map<String, dynamic> json){
@@ -46,7 +48,8 @@ class Measurement {
         json["iron"],
         json["magnesium"],
         json["measurementDate"],
-        json["imagePath"]
+        json["imagePath"],
+        json["conductance"]
     );
   }
 
@@ -66,6 +69,7 @@ class Measurement {
       'magnesium': magnesium,
       'measurementDate': measurementDate,
       'imagePath': imagePath,
+      'conductance': conductance
     };
   }
 
@@ -91,6 +95,8 @@ class Measurement {
         return iron;
       case 'magnesium':
         return magnesium;
+      case 'conductance':
+        return conductance;
       default:
         return 0;
     }
