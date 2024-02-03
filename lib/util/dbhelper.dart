@@ -19,7 +19,7 @@ class DBHelper {
 
   initDB() async {
     String path = join(await getDatabasesPath(), 'aquarium_database.db');
-    return await openDatabase(path, version: 3, onOpen: (db) {},
+    return await openDatabase(path, version: newDbVersion, onOpen: (db) async {},
         onCreate: (Database db, int version) async {
           await db.execute('PRAGMA foreign_keys = ON');
           await db.execute('''
@@ -64,6 +64,9 @@ class DBHelper {
               taskDate INTEGER
             )
           ''');
+          if (version == 2) {
+            await _databaseVersion2(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
