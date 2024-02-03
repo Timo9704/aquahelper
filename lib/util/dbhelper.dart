@@ -328,7 +328,8 @@ class DBHelper {
               'iron': values[10],
               'magnesium': values[11],
               'measurementDate': values[12],
-              'imagePath': values[13]
+              'imagePath': values[13],
+              'conductance': values.length == 15 ? values[14] : 0.0
             });
           } else if (currentTable == '## Tasks ##') {
             await db.insert('tasks', {
