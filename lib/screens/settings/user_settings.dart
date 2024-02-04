@@ -97,7 +97,6 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                   });
                 },
               ),
-                SizedBox(height: 2)
               ],);
               }),
         ])]))]));
