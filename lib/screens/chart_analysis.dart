@@ -14,7 +14,7 @@ var waterValueMap = {
   'Phosphat': 'phosphate',
   'Kalium': 'potassium',
   'Eisen': 'iron',
-  'Magnesium': 'magnesium'
+  'Magnesium': 'magnesium',
 };
 
 var intervalMap = {
@@ -110,10 +110,12 @@ class ChartAnalysisState extends State<ChartAnalysis> {
     );
 
     String parts = '';
+    /*
     if (value.toInt() % 2 != 0) {
       parts = '${value.round()} Messung';
-    }
+    }*/
 
+    parts = value.toInt().toString();
     text = Text(parts, style: style);
 
     return SideTitleWidget(
@@ -245,7 +247,18 @@ class ChartAnalysisState extends State<ChartAnalysis> {
                     ),
                   ),
                 ),
-                ),],
+                ),
+                const Text(
+                  "Messung",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
           ),
         );

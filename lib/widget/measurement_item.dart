@@ -34,12 +34,12 @@ class MeasurementItem extends StatelessWidget {
         );
       },
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Text('Messung vom',
               style: TextStyle(fontSize: 18, color: Colors.black)),
           Text(
-              DateFormat('dd.MM.yyyy').format(
+              DateFormat('dd.MM.yyyy HH:mm').format(
                   DateTime.fromMillisecondsSinceEpoch(
                       measurement.measurementDate)),
               style: const TextStyle(fontSize: 18, color: Colors.black)

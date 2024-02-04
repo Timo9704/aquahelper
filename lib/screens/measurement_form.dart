@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/screens/aquarium_overview.dart';
 import 'package:aquahelper/util/dbhelper.dart';
+import 'package:aquahelper/config.dart';
 
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
@@ -26,40 +28,50 @@ class MeasurementForm extends StatefulWidget {
 
 class MeasurementFormState extends State<MeasurementForm> {
   final _formKey = GlobalKey<FormState>();
-  List<TextEditingController> controllerList = [];
+  int activeItems = 0;
+
   String imagePath = "assets/images/aquarium.jpg";
   bool createMode = true;
   late Measurement measurement;
   int pageCount = 0;
   DateTime selectedDate = DateTime.now();
+  Map<String, Map<String, TextEditingController>> allWaterValuesWithController = {};
 
-  List<String> waterValues = [
-    'Temperatur in °C',
-    'pH-Wert',
-    'Gesamthärte - GH',
-    'Karbonathärte - KH',
-    'Nitrit - NO2',
-    'Nitrat - NO3',
-    'Phosphat - PO4',
-    'Kalium - K',
-    'Eisen - FE',
-    'Magnesium - MG',
-  ];
+
+  Map<String, TextEditingController> waterValuesMap = {
+    'temperature': TextEditingController(text: '0'),
+    'ph': TextEditingController(text: '0'),
+    'totalHardness': TextEditingController(text: '0'),
+    'carbonateHardness': TextEditingController(text: '0'),
+    'nitrite': TextEditingController(text: '0'),
+    'nitrate': TextEditingController(text: '0'),
+    'phosphate': TextEditingController(text: '0'),
+    'potassium': TextEditingController(text: '0'),
+    'iron': TextEditingController(text: '0'),
+    'magnesium': TextEditingController(text: '0'),
+    'conductance': TextEditingController(text: '0'),
+  };
 
   @override
   void initState() {
     super.initState();
-    initTextControllerList();
+    List<bool> activeMeasurementItems = json.decode(userSettings.measurementItems).cast<bool>().toList();
+    for(int i = 0; i < waterValues.length; i++){
+      if(activeMeasurementItems.elementAt(i)) {
+        final entry = {waterValuesTextMap.entries
+            .elementAt(i)
+            .key: {waterValuesTextMap.entries
+            .elementAt(i)
+            .value: waterValuesMap.entries
+            .elementAt(i)
+            .value}};
+        allWaterValuesWithController.addEntries(entry.entries);
+      }
+    }
+    activeItems = allWaterValuesWithController.length;
     if (widget.measurementId != '') {
       initExistingMeasurement();
       createMode = false;
-    }
-  }
-
-  void initTextControllerList() {
-    for (int i = 0; i < waterValues.length; i++) {
-      controllerList.add(TextEditingController());
-      controllerList.elementAt(i).text = '0';
     }
   }
 
@@ -67,70 +79,58 @@ class MeasurementFormState extends State<MeasurementForm> {
     Measurement measurementDbObj =
     await DBHelper.db.getMeasurementById(widget.measurementId);
     measurement = measurementDbObj;
-    controllerList.elementAt(0).text = measurement.temperature.toString();
-    controllerList.elementAt(1).text = measurement.ph.toString();
-    controllerList.elementAt(2).text = measurement.totalHardness.toString();
-    controllerList.elementAt(3).text = measurement.carbonateHardness.toString();
-    controllerList.elementAt(4).text = measurement.nitrite.toString();
-    controllerList.elementAt(5).text = measurement.nitrate.toString();
-    controllerList.elementAt(6).text = measurement.phosphate.toString();
-    controllerList.elementAt(7).text = measurement.potassium.toString();
-    controllerList.elementAt(8).text = measurement.iron.toString();
-    controllerList.elementAt(9).text = measurement.magnesium.toString();
-    controllerList.elementAt(10).text = measurement.conductance.toString();
+    for(int i = 0; i < activeItems; i++){
+      allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text
+        = measurement.getValueByName(allWaterValuesWithController.entries.elementAt(i).key).toString();
+    }
     setState(() {
       imagePath = measurement.imagePath;
       selectedDate = DateTime.fromMillisecondsSinceEpoch(measurement.measurementDate);
     });
   }
 
-  Map<String, dynamic> getAllTextInputs() {
-    List<double> measurementInputs = [];
+  Measurement getUpdatedMesurement() {
+    Map<String ,double> updateValues = {};
+
+    for (int i = 0; i < allWaterValuesWithController.length; i++) {
+      final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text.replaceAll(RegExp(r','), '.'))};
+      updateValues.addEntries(entry.entries);
+    }
+
+    measurement.updateMeasurement(updateValues);
+
+    return measurement;
+  }
+
+  Measurement getNewMesurement() {
+    Map<String ,double> updateValues = {};
 
     for (int i = 0; i < waterValues.length; i++) {
-      controllerList.add(TextEditingController());
-      measurementInputs.add(double.parse(controllerList.elementAt(i).text));
-    }
-    Map<String, dynamic> valueMap;
-    if (!createMode) {
-      valueMap = {
-        'measurementId': widget.measurementId,
-        'aquariumId': widget.aquarium.aquariumId,
-        'temperature': measurementInputs.elementAt(0),
-        'ph': measurementInputs.elementAt(1),
-        'totalHardness': measurementInputs.elementAt(2),
-        'carbonateHardness': measurementInputs.elementAt(3),
-        'nitrite': measurementInputs.elementAt(4),
-        'nitrate': measurementInputs.elementAt(5),
-        'phosphate': measurementInputs.elementAt(6),
-        'potassium': measurementInputs.elementAt(7),
-        'iron': measurementInputs.elementAt(8),
-        'magnesium': measurementInputs.elementAt(9),
-        'measurementDate': selectedDate.millisecondsSinceEpoch,
-        'imagePath': measurement.imagePath,
-        'conductance' : 0.0
-      };
-    } else {
-      valueMap = {
-        'measurementId': const Uuid().v4().toString(),
-        'aquariumId': widget.aquarium.aquariumId,
-        'temperature': measurementInputs.elementAt(0),
-        'ph': measurementInputs.elementAt(1),
-        'totalHardness': measurementInputs.elementAt(2),
-        'carbonateHardness': measurementInputs.elementAt(3),
-        'nitrite': measurementInputs.elementAt(4),
-        'nitrate': measurementInputs.elementAt(5),
-        'phosphate': measurementInputs.elementAt(6),
-        'potassium': measurementInputs.elementAt(7),
-        'iron': measurementInputs.elementAt(8),
-        'magnesium': measurementInputs.elementAt(9),
-        'measurementDate': selectedDate.millisecondsSinceEpoch,
-        'imagePath': imagePath,
-        'conductance' : 0.0
-      };
+      final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text.replaceAll(RegExp(r','), '.'))};
+      updateValues.addEntries(entry.entries);
     }
 
-    return valueMap;
+    Measurement mes = Measurement(
+        const Uuid().v4().toString(),
+        widget.aquarium.aquariumId,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        selectedDate.millisecondsSinceEpoch,
+        imagePath,
+        0.0
+    );
+
+    mes.updateMeasurement(updateValues);
+
+    return mes;
   }
 
   Future<void> getImage({required BuildContext context}) async {
@@ -282,9 +282,9 @@ class MeasurementFormState extends State<MeasurementForm> {
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                 ),
-                itemCount: waterValues.length,
+                itemCount: allWaterValuesWithController.length,
                 itemBuilder: (BuildContext context, int index) {
-                  String key = waterValues[index];
+                  String key =  allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).key;
                   return Card(
                     elevation: 10,
                     child: Container(
@@ -305,7 +305,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                             keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
-                            controller: controllerList.elementAt(index),
+                            controller: allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value,
                             cursorColor: Colors.black,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
@@ -379,12 +379,10 @@ class MeasurementFormState extends State<MeasurementForm> {
                         onPressed: () => {
                           if (createMode) {
                               DBHelper.db.insertMeasurement(
-                                  Measurement.fromMap(
-                                      getAllTextInputs())),
+                              getNewMesurement())
                             } else {
                               DBHelper.db.updateMeasurement(
-                                  Measurement.fromMap(
-                                      getAllTextInputs())),
+                                  getUpdatedMesurement()),
                           },
                           Navigator.of(context).pop(),
                           Navigator.pushReplacement(
