@@ -73,7 +73,63 @@ class Measurement {
     };
   }
 
+  void updateMeasurement(Map<String, dynamic> values) {
+    values.forEach((key, value) {
+      switch (key) {
+        case 'measurementId':
+          measurementId = value as String;
+          break;
+        case 'aquariumId':
+          aquariumId = value as String;
+          break;
+        case 'temperature':
+          temperature = value as double;
+          break;
+        case 'ph':
+          ph = value as double;
+          break;
+        case 'totalHardness':
+          totalHardness = value as double;
+          break;
+        case 'carbonateHardness':
+          carbonateHardness = value as double;
+          break;
+        case 'nitrite':
+          nitrite = value as double;
+          break;
+        case 'nitrate':
+          nitrate = value as double;
+          break;
+        case 'phosphate':
+          phosphate = value as double;
+          break;
+        case 'potassium':
+          potassium = value as double;
+          break;
+        case 'iron':
+          iron = value as double;
+          break;
+        case 'magnesium':
+          magnesium = value as double;
+          break;
+        case 'measurementDate':
+          measurementDate = value as int;
+          break;
+        case 'imagePath':
+          imagePath = value as String;
+          break;
+        case 'conductance':
+          conductance = value as double;
+          break;
+        default:
+        // Handle unknown key, if necessary
+          break;
+      }
+    });
+  }
+
   double getValueByName(String name){
+    print(name);
     switch (name) {
       case 'temperature':
         return temperature;

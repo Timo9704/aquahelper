@@ -1,5 +1,5 @@
 import 'package:aquahelper/screens/dashboard.dart';
-import 'package:aquahelper/screens/settings.dart';
+import 'package:aquahelper/screens/settings/settings.dart';
 import 'package:aquahelper/screens/tools_startpage.dart';
 import 'package:flutter/material.dart';
 

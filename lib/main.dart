@@ -1,9 +1,12 @@
+import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/homepage.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:aquahelper/util/dbhelper.dart';
+
+import 'config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +27,8 @@ Future<void> main() async {
     AwesomeNotifications().requestPermissionToSendNotifications();
   }
   await DBHelper.db.initDB();
+  List<UserSettings> usList = await DBHelper.db.getUserSettings();
+  userSettings = usList.first;
   runApp(const AquaHelper());
 }
 

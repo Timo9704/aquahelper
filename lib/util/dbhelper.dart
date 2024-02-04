@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aquahelper/model/user_settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,7 +13,7 @@ import 'package:aquahelper/model/measurement.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 2;
+  static const newDbVersion = 3;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -83,12 +84,22 @@ class DBHelper {
       case 2:
         await _databaseVersion2(db);
         break;
+      case 3:
+        await _databaseVersion3(db);
+        break;
     }
   }
 
   _databaseVersion2(Database db) {
     db.execute("ALTER TABLE measurement ADD conductance REAL");
     db.execute("UPDATE measurement SET conductance = 0.0");
+  }
+
+  _databaseVersion3(Database db) {
+    db.execute('''
+            CREATE TABLE usersettings(
+              measurementItems TEXT
+            )''');
   }
 
   //-------------------------Methods for Aquarium-object-----------------------//
@@ -241,6 +252,32 @@ class DBHelper {
     final db = await openDatabase('aquarium_database.db');
     await db.delete("tasks", where: "taskId = ?", whereArgs: [taskId]);
   }
+
+  //-------------------------Methods for user settings-----------------------//
+
+  Future<List<UserSettings>> getUserSettings() async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("usersettings");
+    List<UserSettings> list = res.isNotEmpty ? res.map((c) => UserSettings.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<void> saveUserSettings(UserSettings us) async {
+    final db = await openDatabase('aquarium_database.db');
+    if((await db.query("usersettings")).isEmpty){
+      await db.insert(
+          'usersettings',
+          us.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace);
+    }else{
+      await db.update('usersettings',
+          us.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.rollback);
+    }
+  }
+
+
+  //-------------------------Methods for import and export-----------------------//
 
   Future<String> exportAllData() async {
     final db = await openDatabase('aquarium_database.db');

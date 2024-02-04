@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/settings/user_settings.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -154,6 +155,27 @@ class SettingsState extends State<Settings> {
         const SizedBox(height: 10),
         Text(infoText,
             textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16)),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 50,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              shape:
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+            onPressed: () => {
+              Navigator.push(
+                context, MaterialPageRoute(
+                    builder: (BuildContext context) => UserSettingsPage())),
+            },
+            child: const Text("Benutzereinstellungen", style: TextStyle(color: Colors.black)),
+          ),
+        ),
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,
