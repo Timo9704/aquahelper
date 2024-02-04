@@ -171,7 +171,7 @@ class SettingsState extends State<Settings> {
             onPressed: () => {
               Navigator.push(
                 context, MaterialPageRoute(
-                    builder: (BuildContext context) => UserSettingsPage())),
+                    builder: (BuildContext context) => const UserSettingsPage())),
             },
             child: const Text("Benutzereinstellungen", style: TextStyle(color: Colors.black)),
           ),

@@ -1,5 +1,4 @@
 import 'package:aquahelper/model/user_settings.dart';
-import 'package:aquahelper/screens/chart_analysis.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -71,8 +70,8 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                 textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 10),
       ExpansionTile(
-      title: Text('Messung-Einstellungen'),
-      subtitle: Text('Wähle deine Wasserwerte aus!'),
+      title: const Text('Messung-Einstellungen'),
+      subtitle: const Text('Wähle deine Wasserwerte aus!'),
       children: <Widget>[
           GridView.builder(
               shrinkWrap: true,
