@@ -28,7 +28,13 @@ Future<void> main() async {
   }
   await DBHelper.db.initDB();
   List<UserSettings> usList = await DBHelper.db.getUserSettings();
-  userSettings = usList.first;
+  if(usList.isNotEmpty){
+    userSettings = usList.first;
+  }else{
+    List<bool> measurementItems = List.generate(waterValues.length, (index) => true);
+    userSettings = UserSettings(measurementItems.toString());
+    DBHelper.db.saveUserSettings(userSettings);
+  }
   runApp(const AquaHelper());
 }
 

@@ -106,7 +106,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     Map<String ,double> updateValues = {};
 
     for (int i = 0; i < waterValues.length; i++) {
-      final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text)};
+      final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text.replaceAll(RegExp(r','), '.'))};
       updateValues.addEntries(entry.entries);
     }
 

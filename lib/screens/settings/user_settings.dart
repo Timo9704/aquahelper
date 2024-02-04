@@ -78,9 +78,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 2.5,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
+              childAspectRatio: 2.0,
               ),
               itemCount: waterValues.length,
               itemBuilder: (BuildContext context, int index) {
@@ -99,6 +97,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                   });
                 },
               ),
+                SizedBox(height: 2)
               ],);
               }),
         ])]))]));

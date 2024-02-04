@@ -65,8 +65,11 @@ class DBHelper {
               taskDate INTEGER
             )
           ''');
-          if (version == 2) {
+          if (version >= 2) {
             await _databaseVersion2(db);
+          }
+          if (version >= 3) {
+            await _databaseVersion3(db);
           }
     },
     onUpgrade: _upgradeDb

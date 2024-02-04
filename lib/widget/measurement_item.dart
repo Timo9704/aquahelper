@@ -39,7 +39,7 @@ class MeasurementItem extends StatelessWidget {
           const Text('Messung vom',
               style: TextStyle(fontSize: 18, color: Colors.black)),
           Text(
-              DateFormat('dd.MM.yyyy hh:mm').format(
+              DateFormat('dd.MM.yyyy HH:mm').format(
                   DateTime.fromMillisecondsSinceEpoch(
                       measurement.measurementDate)),
               style: const TextStyle(fontSize: 18, color: Colors.black)
