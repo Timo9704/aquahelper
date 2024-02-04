@@ -57,7 +57,6 @@ class MeasurementFormState extends State<MeasurementForm> {
     super.initState();
     List<bool> activeMeasurementItems = json.decode(userSettings.measurementItems).cast<bool>().toList();
     for(int i = 0; i < waterValues.length; i++){
-      print(activeMeasurementItems[i]);
       if(activeMeasurementItems.elementAt(i)) {
         final entry = {waterValuesTextMap.entries
             .elementAt(i)
@@ -66,7 +65,6 @@ class MeasurementFormState extends State<MeasurementForm> {
             .value: waterValuesMap.entries
             .elementAt(i)
             .value}};
-        print(entry);
         allWaterValuesWithController.addEntries(entry.entries);
       }
     }

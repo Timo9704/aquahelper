@@ -129,7 +129,6 @@ class Measurement {
   }
 
   double getValueByName(String name){
-    print(name);
     switch (name) {
       case 'temperature':
         return temperature;
