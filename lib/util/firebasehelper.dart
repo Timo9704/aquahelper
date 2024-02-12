@@ -2,7 +2,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../config.dart';
 import '../model/aquarium.dart';
 import '../model/measurement.dart';
 import '../model/task.dart';

@@ -1,4 +1,3 @@
-import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/homepage.dart';
 import 'package:aquahelper/screens/signin.dart';
