@@ -230,8 +230,8 @@ class FirebaseHelper{
       List<Aquarium> aquariumList = await getAllAquariums();
       List<Task> list = [];
 
-      aquariumList.forEach((aquarium) async {
-        DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tasks/${aquarium.aquariumId}');
+      for(int i = 0; i < aquariumList.length; i++){
+        DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tasks/${aquariumList[i].aquariumId}');
         DataSnapshot snapshot = await ref.get();
         final data = snapshot.value;
         if (data != null) {
@@ -244,7 +244,7 @@ class FirebaseHelper{
             }
           });
         }
-      });
+      }
       return list;
     }
 

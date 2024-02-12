@@ -25,18 +25,22 @@ class _SignInState extends State<SignIn> {
     try{
       final User? user = (await _auth.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)).user;
       if(user != null) {
-        SignInSuccess(user);
+        signInSuccess(user);
       }else{
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fehler beim Anmelden")));
+        showErrorMessage("Schwerwiegender Fehler beim Anmelden!");
       }
     } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fehler beim Anmelden")));
+      showErrorMessage(e.message!);
     }
 
   }
 
-  void SignInSuccess(User user) {
+  void showErrorMessage(String message){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fehler beim Anmelden")));
+  }
+
+  void signInSuccess(User user) {
     setUserId(user.uid);
     FirebaseHelper.db.initializeUser(user);
     Navigator.push(context, MaterialPageRoute(
@@ -55,19 +59,17 @@ class _SignInState extends State<SignIn> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(15, 110, 0, 0),
-                    child: const Text("AquaHelper Online",
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold
-                        )
-                    ),
-                  )
-                ],
-              ),
+            Stack(
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.fromLTRB(15, 110, 0, 0),
+                  child: const Text("AquaHelper Online",
+                      style: TextStyle(
+                          fontSize: 40, fontWeight: FontWeight.bold
+                      )
+                  ),
+                )
+              ],
             ),
             Container(
               padding: const EdgeInsets.only(top: 35, left: 20, right: 30),
