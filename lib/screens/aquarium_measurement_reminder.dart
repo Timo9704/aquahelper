@@ -6,7 +6,7 @@ import 'package:aquahelper/model/aquarium.dart';
 
 import '../model/measurement.dart';
 import '../model/task.dart';
-import '../util/dbhelper.dart';
+import '../util/datastore.dart';
 import '../widget/measurement_item.dart';
 import '../widget/reminder_item.dart';
 import 'create_or_edit_aquarium.dart';
@@ -35,7 +35,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
 
   void loadMeasurements() async {
     List<Measurement> dbMeasurements =
-    await DBHelper.db.getMeasurmentsList(widget.aquarium);
+    await Datastore.db.getMeasurementsForAquarium(widget.aquarium);
     setState(() {
       measurementList = dbMeasurements.reversed.toList();
     });
@@ -43,7 +43,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
 
   void loadTasks() async {
     List<Task> dbTasks =
-    await DBHelper.db.getTasksForAquarium(widget.aquarium.aquariumId);
+    await Datastore.db.getTasksForAquarium(widget.aquarium);
     setState(() {
       taskList = dbTasks;
     });

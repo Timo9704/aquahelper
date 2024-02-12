@@ -3,7 +3,7 @@ class UserSettings {
 
   UserSettings(
       this.measurementItems
-      );
+  );
 
   factory UserSettings.fromMap(Map<String, dynamic> json){
     return UserSettings(
@@ -17,3 +17,5 @@ class UserSettings {
     };
   }
 }
+
+

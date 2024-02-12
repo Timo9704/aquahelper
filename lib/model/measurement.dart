@@ -53,6 +53,26 @@ class Measurement {
     );
   }
 
+  factory Measurement.fromFirebaseMap(Map<String, dynamic> json){
+    return Measurement(
+        json["measurementId"],
+        json["aquariumId"],
+        double.parse(json["temperature"]),
+        double.parse(json["ph"]),
+        double.parse(json["totalHardness"]),
+        double.parse(json["carbonateHardness"]),
+        double.parse(json["nitrite"]),
+        double.parse(json["nitrate"]),
+        double.parse(json["phosphate"]),
+        double.parse(json["potassium"]),
+        double.parse(json["iron"]),
+        double.parse(json["magnesium"]),
+        json["measurementDate"],
+        json["imagePath"],
+        double.parse(json["conductance"])
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'measurementId': measurementId,
@@ -70,6 +90,25 @@ class Measurement {
       'measurementDate': measurementDate,
       'imagePath': imagePath,
       'conductance': conductance
+    };
+  }
+
+  Map<String, dynamic> toFirebaseMap() {
+    return {
+      'aquariumId' : aquariumId,
+      'temperature': temperature.toString(),
+      'ph': ph.toString(),
+      'totalHardness': totalHardness.toString(),
+      'carbonateHardness': carbonateHardness.toString(),
+      'nitrite': nitrite.toString(),
+      'nitrate': nitrate.toString(),
+      'phosphate': phosphate.toString(),
+      'potassium': potassium.toString(),
+      'iron': iron.toString(),
+      'magnesium': magnesium.toString(),
+      'measurementDate': measurementDate,
+      'imagePath': imagePath,
+      'conductance': conductance.toString()
     };
   }
 

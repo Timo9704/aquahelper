@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../model/aquarium.dart';
-import '../../util/dbhelper.dart';
+import '../../util/datastore.dart';
 
 class DashboardHealthStatus extends StatefulWidget {
   const DashboardHealthStatus({super.key});
@@ -19,7 +19,7 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
   }
 
   void loadAquariums() async {
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       aquariums = dbAquariums;
     });

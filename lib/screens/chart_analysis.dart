@@ -2,7 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/measurement.dart';
-import 'package:aquahelper/util/dbhelper.dart';
+
+import '../util/datastore.dart';
 
 var waterValueMap = {
   'Temperatur': 'temperature',
@@ -76,7 +77,7 @@ class ChartAnalysisState extends State<ChartAnalysis> {
   Future<List<Measurement>> getMeasurementsByInterval() async {
     int startInterval = ((DateTime.now().toUtc().millisecondsSinceEpoch));
     int endInterval = startInterval - intervalMap[dropdownInterval]!;
-    List<Measurement> measurementsInInterval = await DBHelper.db
+    List<Measurement> measurementsInInterval = await Datastore.db
         .getMeasurementsByInterval(
             widget.aquariumId, startInterval, endInterval);
     return measurementsInInterval;

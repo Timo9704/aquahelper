@@ -52,4 +52,18 @@ class Aquarium {
         'imagePath': imagePath
       };
     }
+
+  Map<String, dynamic> toFirebaseMap() {
+    return {
+      'name': name,
+      'liter': liter,
+      'waterType': waterType,
+      'co2Type': co2Type,
+      'width': width,
+      'height': height,
+      'depth': depth,
+      'healthStatus': healthStatus,
+      'imagePath': imagePath
+    };
+  }
   }

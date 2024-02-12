@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "634908914538",
+    "firebase_url": "https://aquahelper-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "aquahelper",
+    "storage_bucket": "aquahelper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634908914538:android:7449a32a0b2a6cbad1eb13",
+        "android_client_info": {
+          "package_name": "com.aquarium.aquahelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634908914538-t89l8po1qu4ggmg4m8dpm46jkhrnvca5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxpfoqHOFT78cl6uqNdUzFOHEl-R_rGJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634908914538-t89l8po1qu4ggmg4m8dpm46jkhrnvca5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

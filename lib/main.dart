@@ -1,8 +1,12 @@
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/homepage.dart';
+import 'package:aquahelper/screens/signin.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:aquahelper/util/dbhelper.dart';
 
@@ -10,6 +14,16 @@ import 'config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Platform.isAndroid
+      ? await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyAxpfoqHOFT78cl6uqNdUzFOHEl-R_rGJg',
+          appId: '1:634908914538:android:7449a32a0b2a6cbad1eb13',
+          messagingSenderId: '634908914538',
+          projectId: 'aquahelper'))
+      : await Firebase.initializeApp();
+// Ideal time to initialize
+  //await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   await AwesomeNotifications().initialize(null, [
     NotificationChannel(
         channelGroupKey: "erinnerungen_group",
@@ -35,6 +49,7 @@ Future<void> main() async {
     userSettings = UserSettings(measurementItems.toString());
     DBHelper.db.saveUserSettings(userSettings);
   }
+
   runApp(const AquaHelper());
 }
 

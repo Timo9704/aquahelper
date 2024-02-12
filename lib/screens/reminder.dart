@@ -1,5 +1,4 @@
 import 'package:aquahelper/screens/aquarium_overview.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
@@ -8,6 +7,7 @@ import 'package:uuid/uuid.dart';
 
 import '../model/aquarium.dart';
 import '../model/task.dart';
+import '../util/datastore.dart';
 
 class Reminder extends StatefulWidget {
   final Aquarium aquarium;
@@ -47,7 +47,7 @@ class ReminderState extends State<Reminder> {
           _titleController.text,
           _descriptionController.text,
           selectedDate.millisecondsSinceEpoch);
-      DBHelper.db.insertTask(task);
+      Datastore.db.insertTask(task);
 
       AwesomeNotifications().createNotification(
           content: NotificationContent(
@@ -63,7 +63,7 @@ class ReminderState extends State<Reminder> {
               _titleController.text,
               _descriptionController.text,
               selectedDate.millisecondsSinceEpoch);
-          DBHelper.db.updateTask(task);
+          Datastore.db.updateTask(widget.aquarium, task);
           AwesomeNotifications().cancel(selectedDateInital.millisecondsSinceEpoch ~/ 1000);
           AwesomeNotifications().createNotification(
               content: NotificationContent(
@@ -83,7 +83,7 @@ class ReminderState extends State<Reminder> {
 
   void _deleteReminder() {
     if (widget.task != null) {
-      DBHelper.db.deleteTask(widget.task!.taskId);
+      Datastore.db.deleteTask(widget.aquarium, widget.task!.taskId);
       AwesomeNotifications().cancelSchedule(widget.task!.taskDate ~/ 1000);
       Navigator.pushReplacement(
           context,

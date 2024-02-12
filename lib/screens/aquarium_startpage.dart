@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/widget/aquarium_item.dart';
 import 'package:aquahelper/screens/create_or_edit_aquarium.dart';
-import 'package:aquahelper/util/dbhelper.dart';
+
+import '../util/datastore.dart';
 
 
 class AquariumStartPage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
   }
 
   void loadAquariums() async {
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       aquariums = dbAquariums;
     });
