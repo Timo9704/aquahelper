@@ -6,6 +6,7 @@ import '../model/aquarium.dart';
 import '../model/measurement.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
+import 'datastore.dart';
 
 class FirebaseHelper{
     static final FirebaseHelper db = FirebaseHelper._();
@@ -272,6 +273,7 @@ class FirebaseHelper{
 
    signOut() async{
       await FirebaseAuth.instance.signOut();
+      Datastore.db.user = null;
    }
 
 }

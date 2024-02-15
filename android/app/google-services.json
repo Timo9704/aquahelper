@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "634908914538-g19q4q5q92ghr62054qlo2u2ppkhtt7e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aquarium.aquahelper",
+            "certificate_hash": "ef380960eaaa5f4c141464441eb5f6013175684c"
+          }
+        },
+        {
           "client_id": "634908914538-t89l8po1qu4ggmg4m8dpm46jkhrnvca5.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -35,6 +35,7 @@ dependencies:
   firebase_core: ^2.25.3
   firebase_auth: ^4.17.3
   firebase_database: ^10.4.4
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/aquarium.jpg
+    - assets/images/google.png
     - assets/soil.png
     - assets/quader.png
     - assets/buttons/fertilizer_calculator.png

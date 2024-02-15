@@ -423,4 +423,12 @@ class DBHelper {
       return false;
     }
   }
+
+  deleteLocalDbAfterUpload() async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("tank");
+    await db.delete("measurement");
+    await db.delete("tasks");
+    await db.delete("usersettings");
+  }
 }

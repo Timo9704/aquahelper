@@ -1,6 +1,8 @@
+
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/homepage.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -20,7 +22,7 @@ Future<void> main() async {
           messagingSenderId: '634908914538',
           projectId: 'aquahelper'))
       : await Firebase.initializeApp();
-// Ideal time to initialize
+  // Ideal time to initialize
   //await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   await AwesomeNotifications().initialize(null, [
     NotificationChannel(

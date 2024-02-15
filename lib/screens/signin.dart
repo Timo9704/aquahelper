@@ -4,6 +4,9 @@ import 'package:aquahelper/screens/signup.dart';
 import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../util/datastore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -17,34 +20,59 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   void signIn() async {
-    try{
-      final User? user = (await _auth.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)).user;
-      if(user != null) {
+    signInWithGoogle();
+    try {
+      final User? user = (await _auth.signInWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text))
+          .user;
+      if (user != null) {
         signInSuccess(user);
-      }else{
+        Datastore.db.user = user;
+      } else {
         showErrorMessage("Schwerwiegender Fehler beim Anmelden!");
       }
     } on FirebaseAuthException catch (e) {
       showErrorMessage(e.message!);
     }
-
   }
 
-  void showErrorMessage(String message){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fehler beim Anmelden")));
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+        final User? user = userCredential.user;
+        signInSuccess(user!);
+        Datastore.db.user = user;
+      }
+    } catch (e) {
+      print(e);  // Fehlerbehandlung
+      return null;
+    }
+    return null;
+  }
+
+  void showErrorMessage(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text("Fehler beim Anmelden")));
   }
 
   void signInSuccess(User user) {
     setUserId(user.uid);
     FirebaseHelper.db.initializeUser(user);
-    Navigator.push(context, MaterialPageRoute(
-       builder: (BuildContext context) => const Homepage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
   }
 
   @override
@@ -64,10 +92,8 @@ class _SignInState extends State<SignIn> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(15, 110, 0, 0),
                   child: const Text("AquaHelper Online",
-                      style: TextStyle(
-                          fontSize: 40, fontWeight: FontWeight.bold
-                      )
-                  ),
+                      style:
+                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
                 )
               ],
             ),
@@ -75,6 +101,21 @@ class _SignInState extends State<SignIn> {
               padding: const EdgeInsets.only(top: 35, left: 20, right: 30),
               child: Column(
                 children: <Widget>[
+                  const Text('Melde dich mit Google an:',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold)),
+                  GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Image.asset('assets/images/google.png',
+                          width: 60, height: 60),
+                    ),
+                    onTap: () async {
+                      signInWithGoogle();
+                    },
+                    ),
                   TextField(
                     controller: _emailController,
                     decoration: const InputDecoration(
@@ -82,14 +123,14 @@ class _SignInState extends State<SignIn> {
                         labelStyle: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                        ),
+                            color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.green),
-                        )
-                    ),
+                        )),
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   TextField(
                     controller: _passwordController,
                     decoration: const InputDecoration(
@@ -97,40 +138,35 @@ class _SignInState extends State<SignIn> {
                         labelStyle: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                        ),
+                            color: Colors.grey),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.green),
-                        )
-                    ),
+                        )),
                     obscureText: true,
                   ),
                   const SizedBox(height: 40),
-                  SizedBox(
-                    height: 40,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(20),
-                      shadowColor: Colors.black,
-                      color: Colors.lightGreen,
-                      elevation: 10,
-                      child: GestureDetector(
-                          onTap: () async{
-                            signIn();
-                          },
+                  GestureDetector(
+                    onTap: () async {
+                      signIn();
+                    },
+                    child: SizedBox(
+                      height: 40,
+                      child: Material(
+                          borderRadius: BorderRadius.circular(20),
+                          shadowColor: Colors.black,
+                          color: Colors.lightGreen,
+                          elevation: 10,
                           child: const Center(
-                              child: Text(
-                                  'LOGIN',
+                              child: Text('LOGIN',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat'
-                                  )
-                              )
-                          )
-                      ),
+                                      fontFamily: 'Montserrat')))),
                     ),
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -139,32 +175,27 @@ class _SignInState extends State<SignIn> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder:
-                                      (BuildContext context) =>
-                                  const Signup()));
+                                  builder: (BuildContext context) =>
+                                      const Signup()));
                         },
-                        child: const Text(
-                            'Registrierung',
+                        child: const Text('Noch kein Konto? Dann registriere dich hier!',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline
-                            )
-                        ),
+                                decoration: TextDecoration.underline)),
                       )
                     ],
                   ),
-                  const SizedBox(height: 15,),
-                  const Text(
-                      'oder',
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline
-                      )
+                  const SizedBox(
+                    height: 15,
                   ),
+                  const Text('oder',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                      )),
                   const SizedBox(height: 15),
                   InkWell(
                     onTap: () {
@@ -172,8 +203,7 @@ class _SignInState extends State<SignIn> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder:
-                                  (BuildContext context) =>
+                              builder: (BuildContext context) =>
                                   const Homepage()));
                     },
                     child: const Text(
@@ -182,16 +212,12 @@ class _SignInState extends State<SignIn> {
                             color: Colors.black,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline
-                        )
-                    ),
+                            decoration: TextDecoration.underline)),
                   )
                 ],
               ),
             )
           ],
-        )
-    );
+        ));
   }
-
 }
