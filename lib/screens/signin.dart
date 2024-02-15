@@ -55,7 +55,6 @@ class _SignInState extends State<SignIn> {
         Datastore.db.user = user;
       }
     } catch (e) {
-      print(e);  // Fehlerbehandlung
       return null;
     }
     return null;

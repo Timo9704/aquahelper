@@ -17,7 +17,6 @@ class Datastore {
 
 
   getAquariums() async {
-    print(user);
     if (user == null) {
       return await DBHelper.db.getAquariums();
     } else {
