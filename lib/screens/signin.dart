@@ -53,6 +53,7 @@ class _SignInState extends State<SignIn> {
         final User? user = userCredential.user;
         signInSuccess(user!);
         Datastore.db.user = user;
+        showMessageSnackbar("Erfolgreich mit Google angemeldet!");
       }
     } catch (e) {
       return null;
@@ -72,6 +73,20 @@ class _SignInState extends State<SignIn> {
     FirebaseHelper.db.initializeUser(user);
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
+  }
+
+  void showMessageSnackbar(String text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+              children: <Widget>[
+                const Icon(Icons.check, color: Colors.white),
+                const SizedBox(width: 16),
+                Text(text),
+              ]),
+          backgroundColor: Colors.green,
+        )
+    );
   }
 
   @override
