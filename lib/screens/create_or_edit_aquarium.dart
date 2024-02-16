@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -202,7 +203,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 alignment: Alignment.center,
                                 children: <Widget>[
                                   imagePath.startsWith('https://')
-                                      ? Image.network(imagePath,
+                                      ? CachedNetworkImage(imageUrl:imagePath,
                                           fit: BoxFit.fill, height: 250)
                                   : Image.file(File(imagePath),
                                       fit: BoxFit.fill, height: 250),

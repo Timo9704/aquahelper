@@ -1,4 +1,5 @@
 import 'package:aquahelper/screens/reminder.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -67,7 +68,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                     child: widget.aquarium.imagePath.startsWith('assets/')
                         ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.fitWidth)
                           :  widget.aquarium.imagePath.startsWith('https://')
-                          ? Image.network(widget.aquarium.imagePath, fit: BoxFit.cover)
+                          ? CachedNetworkImage(imageUrl:widget.aquarium.imagePath, fit: BoxFit.cover)
                         : Image.file(File(widget.aquarium.imagePath),
                         fit: BoxFit.cover),
                 ),),
