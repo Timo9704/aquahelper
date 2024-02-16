@@ -31,7 +31,7 @@ class DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     textScaleFactor = ScaleSize.textScaleFactor(context);
-    heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.3 : 0.75;
+    heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.35 : 0.75;
     title = MediaQuery.sizeOf(context).height < 700 ? "Dashboard" : "AquaHelper\nDashboard";
     return Column(
       children: [

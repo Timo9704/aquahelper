@@ -185,7 +185,9 @@ class SignupState extends State<Signup> {
           title: const Text("Registrierung"),
           backgroundColor: Colors.lightGreen,
         ),
-        body: Column(
+        body:
+        ListView(children: [
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Stack(
@@ -294,6 +296,6 @@ class SignupState extends State<Signup> {
               ),
             )
           ],
-        ));
+        )]));
   }
 }

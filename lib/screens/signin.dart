@@ -144,19 +144,16 @@ class _SignInState extends State<SignIn> {
           title: const Text("Online-Synchronisation"),
           backgroundColor: Colors.lightGreen,
         ),
-        body: Column(
+        body: ListView(children: [
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 100, 0, 0),
-                  child: const Text("AquaHelper Online",
+                const SizedBox(height: 50),
+                const Center(
+                  child: Text("AquaHelper Online",
                       style:
                           TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-                )
-              ],
-            ),
+                ),
             Container(
               padding: const EdgeInsets.only(top: 10, left: 20, right: 30),
               child: Column(
@@ -280,6 +277,6 @@ class _SignInState extends State<SignIn> {
               ),
             )
           ],
-        ));
+        )]));
   }
 }
