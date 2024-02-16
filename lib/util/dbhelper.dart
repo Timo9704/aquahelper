@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:aquahelper/model/user_settings.dart';
+import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -111,6 +113,7 @@ class DBHelper {
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("tank");
     List<Aquarium> list = res.isNotEmpty ? res.map((c) => Aquarium.fromMap(c)).toList() : [];
+    list.sort((a, b) => a.name.compareTo(b.name));
     return list;
   }
 
@@ -155,7 +158,7 @@ class DBHelper {
     return list;
   }
 
-  Future<List<Measurement>> getMeasurmentsList(Aquarium aquarium) async {
+  Future<List<Measurement>> getMeasurmentsForAquarium(Aquarium aquarium) async {
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("measurement", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId], orderBy: "measurementDate");
     List<Measurement> list = res.isNotEmpty ? res.map((c) => Measurement.fromMap(c)).toList() : [];
@@ -390,5 +393,42 @@ class DBHelper {
     }
   }
 
+  uploadDataToFirebase() async {
+    final db = await openDatabase('aquarium_database.db');
+    User user = FirebaseAuth.instance.currentUser!;
+    FirebaseHelper.db.initializeUser(user);
 
+    try {
+      List<Map<String, dynamic>> tanks = await db.query('tank');
+      for (var element in tanks) {
+        FirebaseHelper.db.insertAquarium(Aquarium.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> measurements = await db.query('measurement');
+      for (var element in measurements) {
+        FirebaseHelper.db.insertMeasurement(Measurement.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> tasks = await db.query('tasks');
+      for (var element in tasks) {
+        FirebaseHelper.db.insertTask(Task.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> userSettings = await db.query('usersettings');
+      for (var element in userSettings) {
+        FirebaseHelper.db.saveUserSettings(UserSettings.fromMap(element));
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  deleteLocalDbAfterUpload() async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("tank");
+    await db.delete("measurement");
+    await db.delete("tasks");
+    await db.delete("usersettings");
+  }
 }

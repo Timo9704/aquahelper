@@ -12,8 +12,9 @@ import 'package:uuid/uuid.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/screens/aquarium_overview.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/config.dart';
+
+import '../util/datastore.dart';
 
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
@@ -77,7 +78,7 @@ class MeasurementFormState extends State<MeasurementForm> {
 
   Future<void> initExistingMeasurement() async {
     Measurement measurementDbObj =
-    await DBHelper.db.getMeasurementById(widget.measurementId);
+    await Datastore.db.getMeasurementById(widget.aquarium.aquariumId, widget.measurementId);
     measurement = measurementDbObj;
     for(int i = 0; i < activeItems; i++){
       allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text
@@ -105,7 +106,7 @@ class MeasurementFormState extends State<MeasurementForm> {
   Measurement getNewMesurement() {
     Map<String ,double> updateValues = {};
 
-    for (int i = 0; i < waterValues.length; i++) {
+    for (int i = 0; i < allWaterValuesWithController.length; i++) {
       final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text.replaceAll(RegExp(r','), '.'))};
       updateValues.addEntries(entry.entries);
     }
@@ -204,7 +205,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
                   onPressed: () {
-                    DBHelper.db.deleteMeasurement(widget.measurementId);
+                    Datastore.db.deleteMeasurement(widget.aquarium.aquariumId, widget.measurementId);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -378,10 +379,10 @@ class MeasurementFormState extends State<MeasurementForm> {
                         ),
                         onPressed: () => {
                           if (createMode) {
-                              DBHelper.db.insertMeasurement(
+                              Datastore.db.insertMeasurement(
                               getNewMesurement())
                             } else {
-                              DBHelper.db.updateMeasurement(
+                              Datastore.db.updateMeasurement(
                                   getUpdatedMesurement()),
                           },
                           Navigator.of(context).pop(),

@@ -1,6 +1,7 @@
 
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/datastore.dart';
 
 class DashboardMeasurements extends StatefulWidget {
 
@@ -12,8 +13,8 @@ class DashboardMeasurements extends StatefulWidget {
 
 class DashboardMeasurementsState extends State<DashboardMeasurements> {
 
-  String measurementsAll = "";
-  String measurements30days = "";
+  String measurementsAll = "0";
+  String measurements30days = "0";
 
   @override
   void initState() {
@@ -24,8 +25,8 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
   void getMeasurementsAmount() async{
     int now = ((DateTime.now().toUtc().millisecondsSinceEpoch));
     int endInterval = now - 2629743000;
-    int measurementsAll = await DBHelper.db.getMeasurementAmountByAllTime();
-    int measurements30days = await DBHelper.db.getMeasurementAmountByLast30Days(now, endInterval);
+    int measurementsAll = await Datastore.db.getMeasurementAmountByAllTime();
+    int measurements30days = await Datastore.db.getMeasurementAmountByLast30Days(now, endInterval);
     setState(() {
       this.measurementsAll = measurementsAll.toString();
       this.measurements30days = measurements30days.toString();

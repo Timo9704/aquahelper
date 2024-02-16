@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
@@ -57,7 +58,9 @@ class _AquariumItemState extends State<AquariumItem> {
                 ),
                 child: aquarium.imagePath.startsWith('assets/')
                     ? Image.asset(aquarium.imagePath, fit: BoxFit.cover)
-                    : Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
+                    : aquarium.imagePath.startsWith('https://')
+                        ? CachedNetworkImage(imageUrl: aquarium.imagePath, fit: BoxFit.cover)
+                        : Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
               ),
             ),
           ),

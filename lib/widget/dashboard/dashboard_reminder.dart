@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/aquarium.dart';
 import '../../model/task.dart';
+import '../../util/datastore.dart';
 import '../../util/dbhelper.dart';
 
 class DashboardReminder extends StatefulWidget {
@@ -32,7 +33,7 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
 
   void loadTasksPerAquarium() async {
     List<int> tasksPerAquariumInternal = [];
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
 
     for(int i = 0; i < dbAquariums.length; i++){
       List<Task> tasks = await DBHelper.db.getTasksForCurrentDayForAquarium(dbAquariums.elementAt(i).aquariumId.toString());
@@ -44,7 +45,7 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
   }
 
   void loadAquariums() async {
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       aquariums = dbAquariums;
       _tabController = TabController(length: dbAquariums.length+1, vsync: this);

@@ -32,4 +32,13 @@ class Task {
       'taskDate': taskDate
     };
   }
+
+  Map<String, dynamic> toFirebaseMap() {
+    return {
+      'aquariumId': aquariumId,
+      'title': title,
+      'description': description,
+      'taskDate': taskDate
+    };
+  }
 }

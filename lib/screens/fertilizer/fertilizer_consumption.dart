@@ -4,7 +4,7 @@ import 'package:aquahelper/model/measurement.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../model/aquarium.dart';
-import '../../util/dbhelper.dart';
+import '../../util/datastore.dart';
 
 class FertilizerConsumption extends StatefulWidget {
   const FertilizerConsumption({super.key});
@@ -30,14 +30,14 @@ class _FertilizerConsumptionState extends State<FertilizerConsumption> {
   }
 
   void loadAquariums() async {
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       _aquariumNames = dbAquariums;
     });
   }
 
    loadSortedMeasurements(Aquarium aquarium) async {
-    List<Measurement> dbMeasurements = await DBHelper.db.getSortedMeasurmentsList(aquarium);
+    List<Measurement> dbMeasurements = await Datastore.db.getSortedMeasurmentsList(aquarium);
     setState(() {
       measurementIs1 = dbMeasurements.elementAt(0);
       measurementIs2 = dbMeasurements.elementAt(1);

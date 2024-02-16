@@ -29,3 +29,14 @@ const Map<String, String> waterValuesTextMap = {
 };
 
 late UserSettings userSettings;
+
+late String _userId;
+
+
+getUserId() {
+  return _userId;
+}
+
+setUserId(String userId) {
+  _userId = userId;
+}

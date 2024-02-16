@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,8 +12,9 @@ import 'package:uuid/uuid.dart';
 
 import 'package:aquahelper/main.dart';
 import 'package:aquahelper/model/aquarium.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/util/scalesize.dart';
+
+import '../util/datastore.dart';
 
 class CreateOrEditAquarium extends StatefulWidget {
   final Aquarium? aquarium;
@@ -34,6 +38,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   late Aquarium aquarium;
+  User user = Datastore.db.user!;
 
   @override
   void initState() {
@@ -110,10 +115,15 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
 
       File(image.path).copy(newImage.path);
 
+      final storageRef = FirebaseStorage.instance.ref();
+      final imageRef = storageRef.child('${user.uid}/$imageName.jpg');
+      final file = File(croppedImage!.path);
+      await imageRef.putFile(file);
+      final path = await imageRef.getDownloadURL();
       setState(() {
-        imagePath = croppedImage!.path;
+        imagePath = path;
       });
-    }
+        }
   }
 
   void _deleteAquarium() {
@@ -135,7 +145,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () {
-                    DBHelper.db.deleteAquarium(aquarium.aquariumId);
+                    Datastore.db.deleteAquarium(aquarium.aquariumId);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -192,7 +202,10 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                             : Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
-                                  Image.file(File(imagePath),
+                                  imagePath.startsWith('https://')
+                                      ? CachedNetworkImage(imageUrl:imagePath,
+                                          fit: BoxFit.fill, height: 250)
+                                  : Image.file(File(imagePath),
                                       fit: BoxFit.fill, height: 250),
                                   const Icon(Icons.camera_alt,
                                       size: 100, color: Colors.white),
@@ -554,12 +567,12 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                               child: ElevatedButton(
                                   onPressed: () => {
                                         syncValuesToObject(),
-                                        if (createMode)
-                                          {DBHelper.db.insertAquarium(aquarium)}
-                                        else
-                                          {
-                                            DBHelper.db.updateAquarium(aquarium)
-                                          },
+                                        if (createMode) {
+                                            Datastore.db.insertAquarium(aquarium),
+                                        }
+                                        else {
+                                          Datastore.db.updateAquarium(aquarium)
+                                        },
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -585,3 +598,4 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
         ));
   }
 }
+

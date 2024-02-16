@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
-import '../util/dbhelper.dart';
+import '../util/datastore.dart';
 
 class GroundCalculator extends StatefulWidget {
   const GroundCalculator({super.key});
@@ -30,7 +30,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
   }
 
   void loadAquariums() async {
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       _aquariumNames = dbAquariums;
     });

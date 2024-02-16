@@ -2,7 +2,7 @@ name: aquahelper
 description: Dein Helfer wenn es um die Wasserwerte deines Aquariums geht!
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.1.0+15
+version: 1.2.1+17
 
 environment:
   sdk: '>=3.1.4 <4.0.0'
@@ -32,6 +32,12 @@ dependencies:
   permission_handler: ^11.0.1
   file_picker: ^6.1.1
   webview_flutter: ^4.4.4
+  firebase_core: ^2.25.3
+  firebase_auth: ^4.17.3
+  firebase_database: ^10.4.4
+  google_sign_in: ^6.2.1
+  firebase_storage: ^11.6.5
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +56,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/aquarium.jpg
+    - assets/images/google.png
     - assets/soil.png
     - assets/quader.png
     - assets/buttons/fertilizer_calculator.png

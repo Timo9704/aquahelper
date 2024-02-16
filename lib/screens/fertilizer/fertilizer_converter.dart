@@ -4,7 +4,7 @@ import 'package:aquahelper/model/fertilizer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../model/aquarium.dart';
-import '../../util/dbhelper.dart';
+import '../../util/datastore.dart';
 import '../../util/scalesize.dart';
 
 class FertilizerConverter extends StatefulWidget {
@@ -32,7 +32,7 @@ class _FertilizerConverterState extends State<FertilizerConverter> {
   }
 
   void loadAquariums() async {
-    List<Aquarium> dbAquariums = await DBHelper.db.getAquariums();
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       _aquariumNames = dbAquariums;
     });

@@ -33,7 +33,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("AquaHelper"),
+        title: const Text("AquaHelper" ),
         backgroundColor: Colors.lightGreen
       ),
       bottomNavigationBar: BottomNavigationBar(
