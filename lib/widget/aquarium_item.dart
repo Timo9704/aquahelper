@@ -57,7 +57,9 @@ class _AquariumItemState extends State<AquariumItem> {
                 ),
                 child: aquarium.imagePath.startsWith('assets/')
                     ? Image.asset(aquarium.imagePath, fit: BoxFit.cover)
-                    : Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
+                    : aquarium.imagePath.startsWith('https://')
+                        ? Image.network(aquarium.imagePath, fit: BoxFit.cover)
+                        : Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
               ),
             ),
           ),

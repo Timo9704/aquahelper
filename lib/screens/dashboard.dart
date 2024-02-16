@@ -1,3 +1,5 @@
+import 'package:aquahelper/util/datastore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../util/scalesize.dart';
@@ -17,17 +19,20 @@ class DashboardState extends State<Dashboard> {
   double textScaleFactor = 0;
   double heightFactor = 0;
   String title = '';
+  String loggedInOrLocal = '';
+  User? user = Datastore.db.user;
+
   @override
   void initState() {
     super.initState();
+    loggedInOrLocal = user != null ? "eingeloggt als: " + user!.email! : "lokaler Modus";
   }
-
 
   @override
   Widget build(BuildContext context) {
     textScaleFactor = ScaleSize.textScaleFactor(context);
     heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.3 : 0.75;
-    title = MediaQuery.sizeOf(context).height < 700 ? "Dein Dashboard" : "AquaHelper\nDein Dashboard";
+    title = MediaQuery.sizeOf(context).height < 700 ? "Dashboard" : "AquaHelper\nDashboard";
     return Column(
       children: [
         Stack(
@@ -56,13 +61,24 @@ class DashboardState extends State<Dashboard> {
                 color: Colors.black54,
               ),
               child: Center(
-                child:  Text(title,
+                child:  Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(title,
                     textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 50,
+                        height: 1.2,
                         color: Colors.white,
                         fontWeight: FontWeight.w800)),
+                    Text(loggedInOrLocal,
+                        textScaler: TextScaler.linear(textScaleFactor),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white)),
+                ],)
               ),
             ))
           ],

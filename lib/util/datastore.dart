@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../model/aquarium.dart';
 import '../model/measurement.dart';
@@ -189,6 +192,16 @@ class Datastore {
     } else {
       return await FirebaseHelper.db.saveUserSettings(userSettings);
     }
+  }
+
+  saveImages(File file){
+    final ref = firebase_storage.FirebaseStorage.instance.ref().child('images/${file.path}');
+    ref.putFile(file);
+  }
+
+  getImage(String path){
+    final ref = firebase_storage.FirebaseStorage.instance.ref().child(path);
+    return ref.getDownloadURL();
   }
 
 }

@@ -23,6 +23,7 @@ class FirebaseHelper{
         if (data == null) {
           ref.set({
             "email": user.email,
+            "created": DateTime.now().millisecondsSinceEpoch,
           });
         }
       });
@@ -275,5 +276,4 @@ class FirebaseHelper{
       await FirebaseAuth.instance.signOut();
       Datastore.db.user = null;
    }
-
 }

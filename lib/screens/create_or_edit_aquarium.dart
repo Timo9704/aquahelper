@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -35,6 +37,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   late Aquarium aquarium;
+  User user = Datastore.db.user!;
 
   @override
   void initState() {
@@ -111,9 +114,20 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
 
       File(image.path).copy(newImage.path);
 
-      setState(() {
-        imagePath = croppedImage!.path;
-      });
+      if (user != null) {
+        final storageRef = FirebaseStorage.instance.ref();
+        final imageRef = storageRef.child('${user.uid}/$imageName.jpg');
+        final file = File(croppedImage!.path);
+        await imageRef.putFile(file);
+        final path = await imageRef.getDownloadURL();
+        setState(() {
+          imagePath = path;
+        });
+      } else {
+        setState(() {
+          imagePath = croppedImage!.path;
+        });
+      }
     }
   }
 
@@ -193,7 +207,10 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                             : Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
-                                  Image.file(File(imagePath),
+                                  imagePath.startsWith('https://')
+                                      ? Image.network(imagePath,
+                                          fit: BoxFit.fill, height: 250)
+                                  : Image.file(File(imagePath),
                                       fit: BoxFit.fill, height: 250),
                                   const Icon(Icons.camera_alt,
                                       size: 100, color: Colors.white),
@@ -586,3 +603,4 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
         ));
   }
 }
+

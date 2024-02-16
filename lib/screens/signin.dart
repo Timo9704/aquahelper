@@ -6,7 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../model/aquarium.dart';
 import '../util/datastore.dart';
+import '../util/dbhelper.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -54,25 +56,20 @@ class _SignInState extends State<SignIn> {
         signInSuccess(user!);
         Datastore.db.user = user;
         showMessageSnackbar("Erfolgreich mit Google angemeldet!");
+        checkForLocalData();
       }
     } catch (e) {
-      return null;
+      showErrorMessage("Schwerwiegender Fehler beim Anmelden!");
     }
     return null;
   }
 
   void showErrorMessage(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Fehler beim Anmelden")));
-  }
-
-  void signInSuccess(User user) {
-    setUserId(user.uid);
-    FirebaseHelper.db.initializeUser(user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+        ));
   }
 
   void showMessageSnackbar(String text) {
@@ -87,6 +84,55 @@ class _SignInState extends State<SignIn> {
           backgroundColor: Colors.green,
         )
     );
+  }
+
+  void signInSuccess(User user) {
+    setUserId(user.uid);
+    FirebaseHelper.db.initializeUser(user);
+    showMessageSnackbar("Erfolgreich angemeldet!");
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
+  }
+
+  void showUploadDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Es sind lokale Daten vorhanden!"),
+          content: const SizedBox(
+            height: 60,
+            child: Column(
+              children: [
+                Text("Sollen die Daten hochgeladen?"),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Hochladen"),
+              onPressed: () => {
+                DBHelper.db.uploadDataToFirebase(),
+                DBHelper.db.deleteLocalDbAfterUpload(),
+                Navigator.pop(context),
+                showMessageSnackbar("Daten erfolgreich hochgeladen!"),
+              },
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
+  checkForLocalData() async {
+    List<Aquarium> aquariumList = await DBHelper.db.getAquariums();
+    if (aquariumList.isNotEmpty) {
+      showUploadDialog();
+    }
   }
 
   @override
@@ -104,7 +150,7 @@ class _SignInState extends State<SignIn> {
             Stack(
               children: <Widget>[
                 Container(
-                  padding: const EdgeInsets.fromLTRB(15, 110, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(15, 100, 0, 0),
                   child: const Text("AquaHelper Online",
                       style:
                           TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
@@ -112,24 +158,26 @@ class _SignInState extends State<SignIn> {
               ],
             ),
             Container(
-              padding: const EdgeInsets.only(top: 35, left: 20, right: 30),
+              padding: const EdgeInsets.only(top: 10, left: 20, right: 30),
               child: Column(
                 children: <Widget>[
-                  const Text('Melde dich mit Google an:',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold)),
                   GestureDetector(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
-                      child: Image.asset('assets/images/google.png',
-                          width: 60, height: 60),
+                      child: Image.asset('assets/images/google.png', scale: 3),
                     ),
                     onTap: () async {
                       signInWithGoogle();
                     },
                     ),
+                  const SizedBox(height: 20),
+                  const Text('oder',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
                   TextField(
                     controller: _emailController,
                     decoration: const InputDecoration(

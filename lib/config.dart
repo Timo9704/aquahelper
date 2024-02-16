@@ -32,7 +32,6 @@ late UserSettings userSettings;
 
 late String _userId;
 
-bool uploadData = false;
 
 getUserId() {
   return _userId;

@@ -66,6 +66,8 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                     ),
                     child: widget.aquarium.imagePath.startsWith('assets/')
                         ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.fitWidth)
+                          :  widget.aquarium.imagePath.startsWith('https://')
+                          ? Image.network(widget.aquarium.imagePath, fit: BoxFit.cover)
                         : Image.file(File(widget.aquarium.imagePath),
                         fit: BoxFit.cover),
                 ),),
