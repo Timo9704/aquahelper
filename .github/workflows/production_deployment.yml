@@ -15,7 +15,7 @@ jobs:
           name: app-release-bundle
           path: build/app/outputs/bundle/release/
       - name: Production deployment to Google Play Store as DRAFT
-        uses: r0adkll/upload-google-play@v1.1.2
+        uses: r0adkll/upload-google-play@v1.1.3
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_PLAYSTORE_JSON }}
           packageName: com.aquarium.aquahelper
