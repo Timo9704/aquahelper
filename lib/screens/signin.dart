@@ -26,7 +26,6 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _passwordController = TextEditingController();
 
   void signIn() async {
-    signInWithGoogle();
     try {
       final User? user = (await _auth.signInWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text))
