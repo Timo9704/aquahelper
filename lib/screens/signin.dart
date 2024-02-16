@@ -272,7 +272,8 @@ class _SignInState extends State<SignIn> {
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline)),
-                  )
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             )
