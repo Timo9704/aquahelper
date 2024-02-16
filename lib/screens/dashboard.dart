@@ -25,7 +25,7 @@ class DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    loggedInOrLocal = user != null ? "eingeloggt als: " + user!.email! : "lokaler Modus";
+    loggedInOrLocal = user != null ? "eingeloggt als: ${user!.email!}" : "lokaler Modus";
   }
 
   @override
