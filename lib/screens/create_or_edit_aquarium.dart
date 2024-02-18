@@ -38,7 +38,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   late Aquarium aquarium;
-  User user = Datastore.db.user!;
+  User? user = Datastore.db.user;
 
   @override
   void initState() {
@@ -115,15 +115,21 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
 
       File(image.path).copy(newImage.path);
 
-      final storageRef = FirebaseStorage.instance.ref();
-      final imageRef = storageRef.child('${user.uid}/$imageName.jpg');
-      final file = File(croppedImage!.path);
-      await imageRef.putFile(file);
-      final path = await imageRef.getDownloadURL();
-      setState(() {
-        imagePath = path;
-      });
-        }
+      if(user != null) {
+        final storageRef = FirebaseStorage.instance.ref();
+        final imageRef = storageRef.child('${user?.uid}/$imageName.jpg');
+        final file = File(croppedImage!.path);
+        await imageRef.putFile(file);
+        final path = await imageRef.getDownloadURL();
+        setState(() {
+          imagePath = path;
+        });
+      } else {
+        setState(() {
+          imagePath = croppedImage!.path;
+        });
+      }
+    }
   }
 
   void _deleteAquarium() {
