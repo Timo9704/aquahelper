@@ -364,13 +364,12 @@ class ReminderState extends State<Reminder> {
                                   );
                                 }),
                               ),
-                              SizedBox(height: 20),
+                              const SizedBox(height: 20),
                               Text(
                                 'Wiederholung: ${_selectedDays.every((selected) => !selected) ? 'Keine Tage ausgewählt' :
-                                    _selectedDays.asMap().entries.where((entry) => entry.value).map((entry) => _daysOfWeek[entry.key]).join(', ') +
-                                        ' um ${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} Uhr'}',
+                                    '${_selectedDays.asMap().entries.where((entry) => entry.value).map((entry) => _daysOfWeek[entry.key]).join(', ')} um ${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} Uhr'}',
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               if (_repeat) // Nur die Uhrzeit anzeigen, wenn "Einmalig" ausgewählt ist
                                 ElevatedButton(
                                   style: ButtonStyle(
@@ -388,14 +387,15 @@ class ReminderState extends State<Reminder> {
                                         );
                                       },
                                     );
-                                    if (picked != null && picked != selectedTime)
+                                    if (picked != null && picked != selectedTime) {
                                       setState(() {
                                         selectedTime = picked;
                                       });
+                                    }
                                   },
-                                  child: Text('Uhrzeit wählen'),
+                                  child: const Text('Uhrzeit wählen'),
                                 ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                             ],
                           ),
                       ],

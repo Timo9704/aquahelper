@@ -220,7 +220,6 @@ class FirebaseHelper{
           items.forEach((key, value) {
             value['taskId'] = key;
             Task task = Task.fromMap(Map<String, dynamic>.from(value));
-            print(task.taskDate);
             if(task.aquariumId == aquarium.aquariumId && task.taskDate >= DateTime.now().millisecondsSinceEpoch){
               list.add(task);
             }
