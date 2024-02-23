@@ -214,13 +214,17 @@ class FirebaseHelper{
       final data = snapshot.value;
       List<Task> list = [];
       if (data != null) {
-        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
-        items.forEach((key, value) {
-          value['taskId'] = key;
-          Task task = Task.fromMap(Map<String, dynamic>.from(value));
-          if(task.aquariumId == aquarium.aquariumId){
-            list.add(task);
-          }
+        Map<String, dynamic> itemsBig = Map<String, dynamic>.from(data as Map);
+        itemsBig.forEach((key, value) {
+          Map<String, dynamic> items = Map<String, dynamic>.from(value as Map);
+          items.forEach((key, value) {
+            value['taskId'] = key;
+            Task task = Task.fromMap(Map<String, dynamic>.from(value));
+            print(task.taskDate);
+            if(task.aquariumId == aquarium.aquariumId && task.taskDate >= DateTime.now().millisecondsSinceEpoch){
+              list.add(task);
+            }
+          });
         });
       }
       return list;
