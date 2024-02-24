@@ -351,27 +351,24 @@ class ReminderState extends State<Reminder> {
                           Column(
                             children: [
                               const SizedBox(height: 5),
-                              Container(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: List<Widget>.generate(7, (int index) {
-                                    return FilterChip(
-                                      padding: const EdgeInsets.all(2.0),
-                                      label: Text(_daysOfWeek[index]),
-                                      selected: _selectedDays[index],
-                                      onSelected: (bool selected) {
-                                        setState(() {
-                                          _selectedDays[index] = selected;
-                                        });
-                                      },
-                                      backgroundColor: Colors.grey,
-                                      selectedColor: Colors.lightGreen,
-                                      checkmarkColor: Colors.transparent,
-                                      showCheckmark: false,
-                                    );
-                                  }),
-                                ),
+                              Wrap(
+                                spacing: -3.0, // horizontaler Abstand zwischen den Chips
+                                children: List<Widget>.generate(7, (int index) {
+                                  return FilterChip(
+                                    padding: EdgeInsets.all(2.0),
+                                    label: Text(_daysOfWeek[index]),
+                                    selected: _selectedDays[index],
+                                    onSelected: (bool selected) {
+                                      setState(() {
+                                        _selectedDays[index] = selected;
+                                      });
+                                    },
+                                    backgroundColor: Colors.grey,
+                                    selectedColor: Colors.lightGreen,
+                                    checkmarkColor: Colors.white,
+                                    showCheckmark: true,
+                                  );
+                                }),
                               ),
                               const SizedBox(height: 10),
                               Text(
