@@ -301,11 +301,11 @@ class ReminderState extends State<Reminder> {
                     Column(
                       children: <Widget>[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Expanded(
-                              flex: 2,
+                              flex: 1,
                               child: ListTile(
+                                contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                                 horizontalTitleGap: 0,
                                 dense: true,
                                 title: const Text('Einmalig'),
@@ -324,9 +324,10 @@ class ReminderState extends State<Reminder> {
                               ),
                             ),
                             Expanded(
-                              flex: 3,
+                              flex: 1,
                               child: ListTile(
                                 title: const Text('Wiederholungen'),
+                                contentPadding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                 selectedColor: Colors.lightGreen,
                                 horizontalTitleGap: 0,
                                 dense: true,
@@ -351,7 +352,7 @@ class ReminderState extends State<Reminder> {
                             children: [
                               const SizedBox(height: 5),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: List<Widget>.generate(7, (int index) {
                                   return FilterChip(
                                     padding: const EdgeInsets.all(2.0),
