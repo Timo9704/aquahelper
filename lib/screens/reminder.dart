@@ -218,7 +218,9 @@ class ReminderState extends State<Reminder> {
         title: const Text('Neue Erinnerung erstellen'),
         backgroundColor: Colors.lightGreen,
       ),
-      body: Padding(
+      body: ListView(
+        children: [
+        Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -292,7 +294,7 @@ class ReminderState extends State<Reminder> {
                   },
                   controller: _descriptionController,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 ExpansionTile(
                   title: const Text('Wiederholungen & Zeitplan'),
                   children: <Widget>[
@@ -304,6 +306,7 @@ class ReminderState extends State<Reminder> {
                             Expanded(
                               flex: 2,
                               child: ListTile(
+                                horizontalTitleGap: 0,
                                 dense: true,
                                 title: const Text('Einmalig'),
                                 leading: Radio<String>(
@@ -325,6 +328,7 @@ class ReminderState extends State<Reminder> {
                               child: ListTile(
                                 title: const Text('Wiederholungen'),
                                 selectedColor: Colors.lightGreen,
+                                horizontalTitleGap: 0,
                                 dense: true,
                                 leading: Radio<String>(
                                   activeColor: Colors.lightGreen,
@@ -345,11 +349,12 @@ class ReminderState extends State<Reminder> {
                         if (_repeat) // Zeige die Wochentage in einer Reihe und verberge den Button für Datum und Uhrzeit
                           Column(
                             children: [
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: List<Widget>.generate(7, (int index) {
                                   return FilterChip(
+                                    padding: const EdgeInsets.all(2.0),
                                     label: Text(_daysOfWeek[index]),
                                     selected: _selectedDays[index],
                                     onSelected: (bool selected) {
@@ -359,12 +364,12 @@ class ReminderState extends State<Reminder> {
                                     },
                                     backgroundColor: Colors.grey,
                                     selectedColor: Colors.lightGreen,
-                                    checkmarkColor: Colors.transparent, // Entfernt den Häkchen-Indikator
-                                    showCheckmark: false, // Verhindert die Anzeige des Häkchens
+                                    checkmarkColor: Colors.transparent,
+                                    showCheckmark: false,
                                   );
                                 }),
                               ),
-                              const SizedBox(height: 20),
+                              const SizedBox(height: 10),
                               Text(
                                 'Wiederholung: ${_selectedDays.every((selected) => !selected) ? 'Keine Tage ausgewählt' :
                                     '${_selectedDays.asMap().entries.where((entry) => entry.value).map((entry) => _daysOfWeek[entry.key]).join(', ')} um ${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')} Uhr'}',
@@ -418,7 +423,8 @@ class ReminderState extends State<Reminder> {
                         .format(selectedDate)}',
                     textAlign: TextAlign.center,
                   ),
-                const SizedBox(height: 20),
+                if(!_repeat)
+                  const SizedBox(height: 20),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -447,6 +453,7 @@ class ReminderState extends State<Reminder> {
               ]),
         ),
       ),
+        ]),
     );
   }
 }
