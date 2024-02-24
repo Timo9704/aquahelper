@@ -366,7 +366,7 @@ class ReminderState extends State<Reminder> {
                                     backgroundColor: Colors.grey,
                                     selectedColor: Colors.lightGreen,
                                     checkmarkColor: Colors.white,
-                                    showCheckmark: true,
+                                    showCheckmark: false,
                                   );
                                 }),
                               ),
