@@ -352,7 +352,7 @@ class ReminderState extends State<Reminder> {
                             children: [
                               const SizedBox(height: 5),
                               Container(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: List<Widget>.generate(7, (int index) {
