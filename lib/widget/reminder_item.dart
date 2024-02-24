@@ -59,8 +59,10 @@ class ReminderItemState extends State<ReminderItem> {
                   style: TextStyle(fontSize: 10, color: Colors.black)):
               daysBetween == 1 ? const Text('fällig in 1 Tag',
                   style: TextStyle(fontSize: 10, color: Colors.black)):
-              Text('fällig in $daysBetween Tagen',
-                  style: const TextStyle(fontSize: 10, color: Colors.black))
+              widget.task.scheduled == '0' ? Text('fällig in $daysBetween Tagen',
+                  style: const TextStyle(fontSize: 10, color: Colors.black)):
+                  const Text("wiederkehrend",
+                  style: TextStyle(fontSize: 10, color: Colors.black)),
             ],
           ),
         ));

@@ -15,7 +15,7 @@ import 'package:aquahelper/model/measurement.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 3;
+  static const newDbVersion = 4;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -73,6 +73,9 @@ class DBHelper {
           if (version >= 3) {
             await _databaseVersion3(db);
           }
+          if (version >= 4) {
+            await _databaseVersion4(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -92,6 +95,9 @@ class DBHelper {
       case 3:
         await _databaseVersion3(db);
         break;
+      case 4:
+        await _databaseVersion4(db);
+        break;
     }
   }
 
@@ -106,6 +112,16 @@ class DBHelper {
               measurementItems TEXT
             )''');
   }
+
+  _databaseVersion4(Database db) {
+    db.execute("ALTER TABLE tasks ADD scheduled TEXT");
+    db.execute("ALTER TABLE tasks ADD scheduledDays TEXT");
+    db.execute("ALTER TABLE tasks ADD scheduledTime TEXT");
+    db.execute("UPDATE tasks SET scheduled = '0'");
+    db.execute("UPDATE tasks SET scheduledDays = '[false,false,false,false,false,false,false]'");
+    db.execute("UPDATE tasks SET scheduledTime = '00:00'");
+  }
+
 
   //-------------------------Methods for Aquarium-object-----------------------//
 
