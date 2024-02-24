@@ -352,10 +352,10 @@ class ReminderState extends State<Reminder> {
                             children: [
                               const SizedBox(height: 5),
                               Wrap(
-                                spacing: -3.0, // horizontaler Abstand zwischen den Chips
+                                spacing: -3.0,
                                 children: List<Widget>.generate(7, (int index) {
                                   return FilterChip(
-                                    padding: EdgeInsets.all(2.0),
+                                    padding: const EdgeInsets.all(2.0),
                                     label: Text(_daysOfWeek[index]),
                                     selected: _selectedDays[index],
                                     onSelected: (bool selected) {
