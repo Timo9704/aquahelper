@@ -1,13 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+  const OnBoardingPage({super.key});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();
@@ -19,18 +17,10 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Future<void> initState() async {
     super.initState();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? seenIntro = prefs.getBool('seenIntro');
-    if(seenIntro != null && seenIntro){
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const AquaHelper()),
-      );
-    }
+
   }
 
   Future<void> _onIntroEnd(context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('seenIntro', true);
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => const AquaHelper()),
     );
