@@ -273,7 +273,7 @@ class FirebaseHelper{
                 minute: int.parse(task.scheduledTime.split(":")[1]));
             List<bool> scheduledDaysBool = stringToBoolList(task.scheduledDays);
             for(int i = 0; i < scheduledDaysBool.length; i++){
-              if(scheduledDaysBool[i] && i == weekdayNow-1 && isBeforeLatestDayTime(scheduledTime)){
+              if(scheduledDaysBool[i] && i == weekdayNow-1 && isBeforeLatestDayTime(scheduledTime) && isNotInPast(scheduledTime)){
                 tasksToday.add(task);
               }
             }
@@ -288,6 +288,14 @@ class FirebaseHelper{
       if(latestDayTime.hour > scheduledTime.hour){
         return true;
       } else if(latestDayTime.hour == scheduledTime.hour && latestDayTime.minute > scheduledTime.minute){
+        return true;
+      }
+      return false;
+    }
+
+    isNotInPast(TimeOfDay scheduledTime) {
+      TimeOfDay now = TimeOfDay.now();
+      if(now.hour <= scheduledTime.hour && now.minute < scheduledTime.minute){
         return true;
       }
       return false;
