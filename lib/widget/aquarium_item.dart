@@ -31,7 +31,6 @@ class _AquariumItemState extends State<AquariumItem> {
     List<Task> dbTasks =
         await Datastore.db.getTasksForCurrentDayForAquarium(aquarium);
     List<Task> repeatableTasks = await Datastore.db.checkRepeatableTasks(aquarium);
-    print(repeatableTasks.length);
     dbTasks.addAll(repeatableTasks);
     setState(() {
       taskAmount = dbTasks.length;
