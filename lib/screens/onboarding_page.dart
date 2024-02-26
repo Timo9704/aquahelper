@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+import 'homepage.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -15,14 +17,28 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
   @override
-  Future<void> initState() async {
-    super.initState();
+  initState(){
+    checkIntroShown();
+  }
 
+  Future<void> checkIntroShown() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? introShown = prefs.getBool("introShown");
+    introShown = false;
+    if (introShown!) {
+      if(mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const Homepage()),
+        );
+      }
+    }
   }
 
   Future<void> _onIntroEnd(context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("introShown", true);
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const AquaHelper()),
+      MaterialPageRoute(builder: (_) => const  Homepage()),
     );
   }
 
@@ -50,7 +66,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
         height: 60,
         child: ElevatedButton(
           child: const Text(
-            'Let\'s go right away!',
+            'Direkt durchstarten!',
             style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
           ),
           onPressed: () => _onIntroEnd(context),
@@ -71,7 +87,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Wasserwerte speichern, verwalten und analysieren",
+          title: "Aquarien, Messungen und Erinnerung speichern, verwalten und analysieren",
           bodyWidget: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -86,14 +102,14 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           bodyWidget: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('AquaHelper bietet dir einige Tools, wie z.B. einen Bodengrund- und Düngerrechner!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+              Text('AquaHelper bietet dir einige Tools, wie z.B. einen Bodengrund- und Düngerrechner. Ebenso findest du einige deutsche Aquaristik-Podcasts im Explorer!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
             ],
           ),
           image: Center(child: Image.asset('assets/images/aquahelper_icon.png', height: 200)),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Online-Synchronisation",
+          title: "Online-Synchronisation oder lokale Speicherung?",
           bodyWidget: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -103,16 +119,27 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           image: Center(child: Image.asset('assets/images/aquahelper_icon.png', height: 200)),
           decoration: pageDecoration,
         ),
+        PageViewModel(
+          title: "Etwas stimmt nicht?",
+          bodyWidget: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Sollten Fehler oder Bugs auftreten, dann schaue doch mal ins FAQ oder melde diese gerne über den Button in den Einstellungen!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+            ],
+          ),
+          image: Center(child: Image.asset('assets/images/aquahelper_icon.png', height: 200)),
+          decoration: pageDecoration,
+        ),
       ],
       onDone: () => _onIntroEnd(context),
       onSkip: () => _onIntroEnd(context),
       // You can override onSkip callback
-      showSkipButton: true,
+      showSkipButton: false,
       skipOrBackFlex: 0,
-      nextFlex: 0,
+      nextFlex: 1,
       showBackButton: false,
       back: const Icon(Icons.arrow_back),
-      skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
+      skip: const Text('Überspringen', style: TextStyle(fontWeight: FontWeight.w600)),
       next: const Icon(Icons.arrow_forward),
       done: const Text('Fertig', style: TextStyle(fontWeight: FontWeight.w600)),
       curve: Curves.fastLinearToSlowEaseIn,
@@ -122,7 +149,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           : const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
-        color: Color(0xFFBDBDBD),
+        activeColor: Color(0xFF8BC34A),
         activeSize: Size(22.0, 10.0),
         activeShape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),

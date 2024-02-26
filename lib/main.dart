@@ -1,6 +1,7 @@
 
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/homepage.dart';
+import 'package:aquahelper/screens/onboarding_page.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class AquaHelper extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(Colors.white),
             ),
           )),
-      home: const Homepage(),
+      home: const OnBoardingPage(),
     );
   }
 }
