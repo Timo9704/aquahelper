@@ -4,6 +4,7 @@ import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -275,6 +276,46 @@ class DBHelper {
     await db.delete("tasks", where: "taskId = ?", whereArgs: [taskId]);
   }
 
+  Future<List<Task>> checkRepeatableTasks(Aquarium aquarium) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("tasks", where: 'scheduled = ? AND aquariumId = ?', whereArgs: ['1', aquarium.aquariumId]);
+    List<Task> tasks = res.isNotEmpty ? res.map((c) => Task.fromMap(c)).toList() : [];
+    List<Task> tasksToday = [];
+    int weekdayNow = DateTime.now().weekday;
+
+    for(int i = 0; i < tasks.length; i++){
+      TimeOfDay scheduledTime = TimeOfDay(
+          hour: int.parse(tasks[i].scheduledTime.split(":")[0]),
+          minute: int.parse(tasks[i].scheduledTime.split(":")[1]));
+      List<bool> scheduledDaysBool = stringToBoolList(tasks[i].scheduledDays);
+      for(int i = 0; i < scheduledDaysBool.length; i++){
+        if(scheduledDaysBool[i] && i == weekdayNow-1 && isBeforeLatestDayTime(scheduledTime)){
+          tasksToday.add(tasks[i]);
+        }
+      }
+    }
+    return tasksToday;
+  }
+
+  List<bool> stringToBoolList(String str) {
+    String trimmedStr = str.substring(1, str.length - 1);
+    List<String> strList = trimmedStr.split(', ');
+    List<bool> boolList = strList.map((s) => s.toLowerCase() == 'true').toList();
+
+    return boolList;
+  }
+
+  isBeforeLatestDayTime(TimeOfDay scheduledTime) {
+    TimeOfDay latestDayTime = const TimeOfDay(hour: 23, minute: 59);
+    if(latestDayTime.hour > scheduledTime.hour){
+      return true;
+    } else if(latestDayTime.hour == scheduledTime.hour && latestDayTime.minute > scheduledTime.minute){
+      return true;
+    }
+    return false;
+  }
+
+
   //-------------------------Methods for user settings-----------------------//
 
   Future<List<UserSettings>> getUserSettings() async {
@@ -447,4 +488,6 @@ class DBHelper {
     await db.delete("tasks");
     await db.delete("usersettings");
   }
+
+
 }

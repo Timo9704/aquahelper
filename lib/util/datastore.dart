@@ -175,6 +175,14 @@ class Datastore {
     }
   }
 
+  checkRepeatableTasks(Aquarium aquarium) async {
+    if (user == null) {
+      return await DBHelper.db.checkRepeatableTasks(aquarium);
+    } else {
+      return await FirebaseHelper.db.checkRepeatableTasks(aquarium);
+    }
+  }
+
   //-------------------------Methods for UserSettings-object-----------------------//
 
 

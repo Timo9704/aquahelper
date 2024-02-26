@@ -36,7 +36,8 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
 
     for(int i = 0; i < dbAquariums.length; i++){
-      List<Task> tasks = await DBHelper.db.getTasksForCurrentDayForAquarium(dbAquariums.elementAt(i).aquariumId.toString());
+      List<Task> tasks = await Datastore.db.getTasksForCurrentDayForAquarium(dbAquariums.elementAt(i));
+      tasks.addAll(await Datastore.db.checkRepeatableTasks(dbAquariums.elementAt(i)));
       tasksPerAquariumInternal.add(tasks.length);
     }
     setState(() {

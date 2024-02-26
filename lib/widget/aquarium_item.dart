@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../model/aquarium.dart';
 import '../model/task.dart';
 import '../screens/aquarium_overview.dart';
-import '../util/dbhelper.dart';
+import '../util/datastore.dart';
 
 class AquariumItem extends StatefulWidget {
   const AquariumItem({super.key, required this.aquarium});
@@ -29,7 +29,9 @@ class _AquariumItemState extends State<AquariumItem> {
 
   void loadTasks() async {
     List<Task> dbTasks =
-        await DBHelper.db.getTasksForCurrentDayForAquarium(aquarium.aquariumId);
+        await Datastore.db.getTasksForCurrentDayForAquarium(aquarium);
+    List<Task> repeatableTasks = await Datastore.db.checkRepeatableTasks(aquarium);
+    dbTasks.addAll(repeatableTasks);
     setState(() {
       taskAmount = dbTasks.length;
     });
