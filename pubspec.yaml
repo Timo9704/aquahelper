@@ -55,6 +55,7 @@ flutter_icons:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/aquahelper_icon.png
     - assets/images/aquarium.jpg
     - assets/images/google.png
     - assets/soil.png
