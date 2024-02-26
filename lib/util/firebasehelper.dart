@@ -1,6 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
 import '../model/measurement.dart';
@@ -205,7 +206,7 @@ class FirebaseHelper{
           }
         });
       }
-      return list.length;
+      return list;
     }
 
     getAllTasksForAquarium(Aquarium aquarium) async {
@@ -253,9 +254,56 @@ class FirebaseHelper{
       return list;
     }
 
+    Future<List<Task>> checkRepeatableTasks(Aquarium aquarium) async {
+      List<Task> tasksToday = [];
+      int weekdayNow = DateTime.now().weekday;
+
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tasks/${aquarium.aquariumId}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+
+      if (data != null) {
+        Map<String, dynamic> tasks = Map<String, dynamic>.from(data as Map);
+        tasks.forEach((key, value) {
+          value['taskId'] = key;
+          Task task = Task.fromMap(Map<String, dynamic>.from(value));
+          if(task.scheduled == '1'){
+            TimeOfDay scheduledTime = TimeOfDay(
+                hour: int.parse(task.scheduledTime.split(":")[0]),
+                minute: int.parse(task.scheduledTime.split(":")[1]));
+            List<bool> scheduledDaysBool = stringToBoolList(task.scheduledDays);
+            for(int i = 0; i < scheduledDaysBool.length; i++){
+              if(scheduledDaysBool[i] && i == weekdayNow-1 && isBeforeLatestDayTime(scheduledTime)){
+                tasksToday.add(task);
+              }
+            }
+          }
+        });
+      }
+      return tasksToday;
+    }
+
+    isBeforeLatestDayTime(TimeOfDay scheduledTime) {
+      TimeOfDay latestDayTime = const TimeOfDay(hour: 23, minute: 59);
+      if(latestDayTime.hour > scheduledTime.hour){
+        return true;
+      } else if(latestDayTime.hour == scheduledTime.hour && latestDayTime.minute > scheduledTime.minute){
+        return true;
+      }
+      return false;
+    }
+
     Future<void> deleteTask(Aquarium aquarium, String taskId) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tasks/${aquarium.aquariumId}/$taskId');
       await ref.remove();
+    }
+
+    List<bool> stringToBoolList(String str) {
+      String trimmedStr = str.substring(1, str.length - 1);
+      List<String> strList = trimmedStr.split(', ');
+      List<bool> boolList = strList.map((s) => s.toLowerCase() == 'true').toList();
+
+      return boolList;
     }
 
     //-------------------------Methods for UserSettings-object-----------------------//
