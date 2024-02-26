@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
 import 'homepage.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -18,13 +17,13 @@ class OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   initState(){
+    super.initState();
     checkIntroShown();
   }
 
   Future<void> checkIntroShown() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? introShown = prefs.getBool("introShown");
-    introShown = false;
     if (introShown!) {
       if(mounted) {
         Navigator.of(context).pushReplacement(
