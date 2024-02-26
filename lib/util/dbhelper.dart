@@ -289,7 +289,7 @@ class DBHelper {
           minute: int.parse(tasks[i].scheduledTime.split(":")[1]));
       List<bool> scheduledDaysBool = stringToBoolList(tasks[i].scheduledDays);
       for(int i = 0; i < scheduledDaysBool.length; i++){
-        if(scheduledDaysBool[i] && i == weekdayNow-1 && isBeforeLatestDayTime(scheduledTime)){
+        if(scheduledDaysBool[i] && i == weekdayNow-1 && isBeforeLatestDayTime(scheduledTime) && isNotInPast(scheduledTime)){
           tasksToday.add(tasks[i]);
         }
       }
@@ -310,6 +310,14 @@ class DBHelper {
     if(latestDayTime.hour > scheduledTime.hour){
       return true;
     } else if(latestDayTime.hour == scheduledTime.hour && latestDayTime.minute > scheduledTime.minute){
+      return true;
+    }
+    return false;
+  }
+
+  isNotInPast(TimeOfDay scheduledTime) {
+    TimeOfDay now = TimeOfDay.now();
+    if(now.hour <= scheduledTime.hour && now.minute < scheduledTime.minute){
       return true;
     }
     return false;

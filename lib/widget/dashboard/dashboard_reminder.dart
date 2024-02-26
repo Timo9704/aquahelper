@@ -16,6 +16,7 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
   List<int> tasksPerAquarium = [];
   List<Aquarium>? aquariums = [];
   TabController? _tabController;
+  double textScaleFactor = 0;
 
   @override
   void initState() {
@@ -72,10 +73,12 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
         ),
         child: Column(
           children: [
-            const Text(
+            const FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
               'Erinnerungen',
               style: TextStyle(fontSize: 17, color: Colors.black),
-            ),
+            )),
             const SizedBox(height: 5),
             if(_tabController != null && aquariums != null)
             Expanded(
@@ -84,21 +87,27 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
                 children: List<Widget>.generate(aquariums!.length+1, (index) {
                   if(index < 1){
                     return Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 10, 2, 5),
+                      padding: const EdgeInsets.fromLTRB(2, 0, 2, 5),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           taskList.isEmpty ?
-                          const Text('Für heute keine Erinnerungen!',
+                          const FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text('Für heute keine Erinnerungen!',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 12, color: Colors.black)):
+                              style: TextStyle(fontSize: 12, color: Colors.black))):
                           taskList.length >= 2 ?
-                          Text('Noch ${taskList.length} Aufgaben zu erledigen!',
+                          FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text('Noch ${taskList.length} Aufgaben zu erledigen!',
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 12, color: Colors.black)):
-                          Text('Noch ${taskList.length} Aufgabe zu erledigen!',
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 12, color: Colors.black))
+                              style: const TextStyle(fontSize: 12, color: Colors.black))):
+                          FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text('Noch ${taskList.length} Aufgabe zu erledigen!',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 12, color: Colors.black))),
                         ],
                       ),
                     );

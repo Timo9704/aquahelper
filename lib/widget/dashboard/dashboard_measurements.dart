@@ -44,31 +44,30 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
-          const Text('Messungen',
+            const FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text('Messungen',
               style: TextStyle(
                 fontSize: 17,
                 color: Colors.black,
-              )),
+              ))),
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text('Messungen\n(in 30 Tage)',
+                  const FittedBox(
+                  fit: BoxFit.scaleDown,
+                    child: Text('Messungen\n(in 30 Tage)',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           color: Colors.black,
-                        )),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                        ))),
                     const Icon(Icons.check_box_outlined, color: Colors.green),
-                    const SizedBox(
-                      height: 5,
-                    ),
                     Text('${measurements30days}x',
                         style: const TextStyle(
                           fontSize: 10,
@@ -84,20 +83,15 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                   ),
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     const Text('Messungen\n(gesamt)',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           color: Colors.black,
                         )),
-                    const SizedBox(
-                      height: 5,
-                    ),
                     const Icon(Icons.check_box_outlined, color: Colors.green),
-                    const SizedBox(
-                      height: 5,
-                    ),
                     Text('${measurementsAll}x',
                         style: const TextStyle(
                           fontSize: 10,
