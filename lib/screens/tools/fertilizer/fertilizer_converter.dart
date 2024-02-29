@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:aquahelper/model/fertilizer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../model/aquarium.dart';
-import '../../util/datastore.dart';
-import '../../util/scalesize.dart';
+import '../../../model/aquarium.dart';
+import '../../../util/datastore.dart';
+import '../../../util/scalesize.dart';
 
 class FertilizerConverter extends StatefulWidget {
   const FertilizerConverter({super.key});
