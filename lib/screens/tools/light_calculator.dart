@@ -57,7 +57,7 @@ class _LightCalculatorState extends State<LightCalculator> {
 
   String getDetailsText() {
     if (_lumenPerLiter < 20) {
-      return "Deine Pflanzen bekommen recht wenig Licht. Es gibt zwar einige Pflanzen, welche mit dieser geringen Menge auskommen.";
+      return "Deine Pflanzen bekommen recht wenig Licht. Einige Pflanzen kommen mit wenig Licht aus, jedoch benötigen die meisten Pflanzen mehr Licht.";
     } else if (_lumenPerLiter < 40) {
       return "Deine Pflanzen bekommen ausreichend Licht. Jedoch kann es auch Pflanzensorten geben, welche mehr Licht benötigen.";
     } else {
@@ -144,7 +144,8 @@ class _LightCalculatorState extends State<LightCalculator> {
                         color: Colors.black,
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 20),
-                const Text("1. Aquarium auswählen oder Liter angeben:",
+                const Text("1. Aquarium auswählen oder Volumen angeben:",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -173,15 +174,15 @@ class _LightCalculatorState extends State<LightCalculator> {
                     );
                   }).toList(),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text("oder",
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                     )),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Container(
-                  width: MediaQuery.sizeOf(context).width / 2 - 25,
+                  width: MediaQuery.sizeOf(context).width - 200,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -211,7 +212,7 @@ class _LightCalculatorState extends State<LightCalculator> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 const Text("2. Lumen oder Lampe angeben:",
                     style: TextStyle(
                       fontSize: 18,
@@ -253,7 +254,7 @@ class _LightCalculatorState extends State<LightCalculator> {
                 ),*/
                 if (_lumenPerLiter > 0) ...[
                   const SizedBox(height: 20),
-                  Text("Deine Lichtmenge beträgt ${_lumenPerLiter.round()} Lumen pro Liter"),
+                  Text("Die Lichtmenge beträgt ${_lumenPerLiter.round()} Lumen pro Liter."),
                   const SizedBox(height: 10),
                   Text(getDetailsText(), maxLines: 3, style: const TextStyle(fontSize: 15), textAlign: TextAlign.justify),
                   const SizedBox(height: 20),
