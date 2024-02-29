@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/aquarium.dart';
@@ -14,8 +13,8 @@ class LightCalculator extends StatefulWidget {
 class _LightCalculatorState extends State<LightCalculator> {
   Aquarium? _selectedAquarium;
   List<Aquarium> _aquariumNames = [];
-  TextEditingController _aquariumLiterController = TextEditingController();
-  TextEditingController _lumenController = TextEditingController();
+  final TextEditingController _aquariumLiterController = TextEditingController();
+  final TextEditingController _lumenController = TextEditingController();
   double _lumenPerLiter = 0.0;
   Map<String, double> lampOptions = {
     'LED Lampe': 30.0,
@@ -23,7 +22,7 @@ class _LightCalculatorState extends State<LightCalculator> {
     'Halogenlampe': 20.0,
     // Fügen Sie hier weitere Lampenoptionen hinzu
   };
-  String _selectedLamp = 'LED Lampe';
+  final String _selectedLamp = 'LED Lampe';
 
   String ergebnis = "";
 
@@ -107,7 +106,7 @@ class _LightCalculatorState extends State<LightCalculator> {
                   bottom: -15,
                   top: 0,
                   child:
-                      Icon(Icons.arrow_drop_up, size: 30, color: Colors.black),
+                      const Icon(Icons.arrow_drop_up, size: 30, color: Colors.black),
                 ),
               ],
             ),
