@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../model/aquarium.dart';
-import '../../util/datastore.dart';
+import '../../../model/aquarium.dart';
+import '../../../util/datastore.dart';
 
 class FertilizerConsumption extends StatefulWidget {
   const FertilizerConsumption({super.key});

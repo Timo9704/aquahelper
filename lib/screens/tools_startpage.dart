@@ -1,6 +1,7 @@
-import 'package:aquahelper/screens/fertilizer_calculator.dart';
-import 'package:aquahelper/screens/ground_calculator.dart';
-import 'package:aquahelper/screens/podcasts.dart';
+import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
+import 'package:aquahelper/screens/tools/ground_calculator.dart';
+import 'package:aquahelper/screens/tools/light_calculator.dart';
+import 'package:aquahelper/screens/tools/podcasts.dart';
 import 'package:flutter/material.dart';
 
 
@@ -50,16 +51,18 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
               );
             },
           ),
+          IconTextButton(
+            imagePath: 'assets/buttons/light_calculator.png',
+            text: 'Licht-Rechner',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const LightCalculator()),
+              );
+            },
+          ),
           /*IconTextButton(
             imagePath: 'assets/buttons/ai_assistant.png',
             text: 'KI-Assistant',
-            onPressed: () {
-
-            },
-          ),*/
-          /*IconTextButton(
-            imagePath: 'assets/buttons/light_calculator.png',
-            text: 'Licht-Rechner',
             onPressed: () {
 
             },
