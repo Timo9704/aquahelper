@@ -1,4 +1,4 @@
-import 'package:aquahelper/screens/fertilizer/fertilizer_consumption.dart';
+import 'package:aquahelper/screens/tools/fertilizer/fertilizer_consumption.dart';
 import 'package:flutter/material.dart';
 
 import 'fertilizer/fertilizer_converter.dart';

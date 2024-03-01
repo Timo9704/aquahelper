@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../model/aquarium.dart';
-import '../util/datastore.dart';
+import '../../model/aquarium.dart';
+import '../../util/datastore.dart';
 
 class GroundCalculator extends StatefulWidget {
   const GroundCalculator({super.key});
