@@ -66,7 +66,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     });
   }
 
-  Widget threeDRectangle() {
+ /*Widget threeDRectangle() {
     return Stack(
       children: [
         // Vorderseite
@@ -154,7 +154,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
         ),
       ],
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +200,6 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                     ],
                   ),
                 ),
-                threeDRectangle(),
                 const SizedBox(height: 10),
                 const Text("Wähle das Aquarium aus:",
                     style: TextStyle(
