@@ -66,6 +66,96 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     });
   }
 
+ /*Widget threeDRectangle() {
+    return Stack(
+      children: [
+        // Vorderseite
+        Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..translate(0.0, 50.0)
+            ..rotateX(0)
+            ..rotateY(0)
+            ..rotateZ(0),
+          alignment: FractionalOffset.center,
+          child: Container(
+            height: 100,
+            width: 200,
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.3),
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+        // Oberseite
+        Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..translate(0.0, 50.0)
+            ..rotateX(0)
+            ..rotateY(-3.14 / 3) // -45 Grad Rotation
+            ..rotateZ(0),
+          alignment: Alignment.centerLeft,
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.3),
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+        // Seite
+        Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..translate(200.0, 50.0)
+            ..rotateX(0)
+            ..rotateY(-3.14 / 3) // -45 Grad Rotation
+            ..rotateZ(0),
+          alignment: Alignment.centerLeft,
+          child: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.3),
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+        Transform(
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..translate(50.0, 50.0 ,100.0)
+            ..rotateX(0)
+            ..rotateY(0) // -45 Grad Rotation
+            ..rotateZ(0),
+          alignment: Alignment.centerLeft,
+          child: Container(
+            height: 100,
+            width: 205,
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.7),
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

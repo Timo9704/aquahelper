@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../model/aquarium.dart';
 import '../../model/task.dart';
+import '../../screens/aquarium_overview.dart';
 import '../../util/datastore.dart';
 
 class DashboardReminder extends StatefulWidget {
@@ -120,43 +121,49 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
                     );
                   }else{
                   return Center(
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: <Widget>[
-                            const Icon(Icons.notifications,
-                              color: Colors.lightGreen,
-                              size: 30,
-                            ),
-                              if(tasksPerAquarium.isNotEmpty && tasksPerAquarium.elementAt(index-1) > 0)
-                              Positioned(
-                                right: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  constraints: const BoxConstraints(
-                                    minWidth: 12,
-                                    minHeight: 12,
-                                  ),
-                                  child: Text(
-                                    tasksPerAquarium.elementAt(index-1).toString(),
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 8,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                  child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AquariumOverview(aquarium: aquariums!.elementAt(index-1))),
+                      ),
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: <Widget>[
+                                const Icon(Icons.notifications,
+                                  color: Colors.lightGreen,
+                                  size: 30,
                                 ),
-                              )
+                                if(tasksPerAquarium.isNotEmpty && tasksPerAquarium.elementAt(index-1) > 0)
+                                  Positioned(
+                                    right: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(1),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      constraints: const BoxConstraints(
+                                        minWidth: 12,
+                                        minHeight: 12,
+                                      ),
+                                      child: Text(
+                                        tasksPerAquarium.elementAt(index-1).toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 8,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  )
+                              ],
+                            ),
+                            Text(aquariums!.elementAt(index-1).name)
                           ],
-                        ),
-                        Text(aquariums!.elementAt(index-1).name)
-                      ],
-                    )
-                  );}
+                        )
+                  ));}
                 }, growable: true),
               ),
             ),

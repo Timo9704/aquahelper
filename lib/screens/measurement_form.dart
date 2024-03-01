@@ -40,17 +40,17 @@ class MeasurementFormState extends State<MeasurementForm> {
 
 
   Map<String, TextEditingController> waterValuesMap = {
-    'temperature': TextEditingController(text: '0'),
-    'ph': TextEditingController(text: '0'),
-    'totalHardness': TextEditingController(text: '0'),
-    'carbonateHardness': TextEditingController(text: '0'),
-    'nitrite': TextEditingController(text: '0'),
-    'nitrate': TextEditingController(text: '0'),
-    'phosphate': TextEditingController(text: '0'),
-    'potassium': TextEditingController(text: '0'),
-    'iron': TextEditingController(text: '0'),
-    'magnesium': TextEditingController(text: '0'),
-    'conductance': TextEditingController(text: '0'),
+    'temperature': TextEditingController(),
+    'ph': TextEditingController(),
+    'totalHardness': TextEditingController(),
+    'carbonateHardness': TextEditingController(),
+    'nitrite': TextEditingController(),
+    'nitrate': TextEditingController(),
+    'phosphate': TextEditingController(),
+    'potassium': TextEditingController(),
+    'iron': TextEditingController(),
+    'magnesium': TextEditingController(),
+    'conductance': TextEditingController(),
   };
 
   @override
@@ -103,11 +103,19 @@ class MeasurementFormState extends State<MeasurementForm> {
     return measurement;
   }
 
+  double parseTextFieldValue(String value){
+    if(value.isEmpty){
+      return 0.0;
+    }
+    return double.parse(value.replaceAll(RegExp(r','), '.'));
+  }
+
   Measurement getNewMesurement() {
     Map<String ,double> updateValues = {};
 
     for (int i = 0; i < allWaterValuesWithController.length; i++) {
-      final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text.replaceAll(RegExp(r','), '.'))};
+      final entry = {allWaterValuesWithController.entries.elementAt(i).key :
+      parseTextFieldValue(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text)};
       updateValues.addEntries(entry.entries);
     }
 
@@ -231,7 +239,7 @@ class MeasurementFormState extends State<MeasurementForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wasserwerte'),
+        title: Text('Messung für ${widget.aquarium.name}'),
         backgroundColor: Colors.lightGreen
       ),
       body: ListView(children: [
@@ -317,7 +325,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 0, vertical: 0),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
