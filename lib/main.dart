@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:aquahelper/util/dbhelper.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'config.dart';
 

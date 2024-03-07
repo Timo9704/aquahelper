@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/settings/feedback_form.dart';
 import 'package:aquahelper/screens/settings/user_settings.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
@@ -210,7 +211,7 @@ class SettingsState extends State<Settings> {
             child: const Text("Software-Version", style: TextStyle(color: Colors.black)),
           ),
         ),
-        /*const SizedBox(height: 10),
+        const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,
@@ -219,10 +220,14 @@ class SettingsState extends State<Settings> {
               backgroundColor: Colors.white,
               elevation: 0,
             ),
-            onPressed: () {},
-            child: const Text("Feedback geben"),
+            onPressed: () => {
+              Navigator.push(
+              context, MaterialPageRoute(
+              builder: (BuildContext context) => const FeedbackForm())),
+              },
+            child: const Text("Bugs melden & Feedback geben"),
           ),
-        ),*/
+        ),
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,
