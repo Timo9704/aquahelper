@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../../main.dart';
 import '../../util/scalesize.dart';
+import '../homepage.dart';
 
 class FeedbackForm extends StatefulWidget {
   const FeedbackForm({super.key});
@@ -59,13 +61,14 @@ class FeedbackFormState extends State<FeedbackForm> {
   }
 
   void successSnackBar() {
-    Navigator.push(context, MaterialPageRoute(
-       builder: (BuildContext context) => const AquaHelper()));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Bug/Feedback wurde erfolgreich gesendet'),
       ),
     );
+    Navigator.pushAndRemoveUntil(context,
+        MaterialPageRoute(builder: (context) {return const Homepage();
+        }), (route) => false);
   }
 
   void failureSnackBar() {
@@ -89,7 +92,7 @@ class FeedbackFormState extends State<FeedbackForm> {
         body:ListView(
         children: [
         Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(15),
             child: Column(
               children: [
                 Text(infoText,
@@ -192,6 +195,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                         controller: _titleController,
                         cursorColor: Colors.black,
                         maxLength: 50,
+                        maxLengthEnforcement: MaxLengthEnforcement.none,
                         style: const TextStyle(fontSize: 20),
                         decoration: const InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -225,6 +229,8 @@ class FeedbackFormState extends State<FeedbackForm> {
                         controller: _descriptionController,
                         cursorColor: Colors.black,
                         maxLines: 5,
+                        maxLength: 500,
+                        maxLengthEnforcement: MaxLengthEnforcement.none,
                         style: const TextStyle(fontSize: 20),
                         decoration: const InputDecoration(
                           focusedBorder: UnderlineInputBorder(
