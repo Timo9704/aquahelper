@@ -39,23 +39,28 @@ class FeedbackFormState extends State<FeedbackForm> {
       title = "BUG: $title";
     }else{
       title = "FEATURE-REQUEST: $title";
-    }
-    final httpResponse = await  http.post(
-      Uri.parse('https://api.trello.com/1/cards?idList=65d20760344a48e372e37eb6&key=c188c3c92a0aad1e758b0b2906333e2e&token=ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, Object>{
-        "name": title,
-        "desc": description,
-        "pos": "top",
-        "idLabels": "65b7812e9217e9bccd548217",
-      }),
-    );
 
-    if (httpResponse.statusCode == 200) {
-      successSnackBar();
-    } else {
+    }
+    if(description.isNotEmpty){
+      final httpResponse = await  http.post(
+        Uri.parse('https://api.trello.com/1/cards?idList=65d20760344a48e372e37eb6&key=c188c3c92a0aad1e758b0b2906333e2e&token=ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, Object>{
+          "name": title,
+          "desc": description,
+          "pos": "top",
+          "idLabels": "65b7812e9217e9bccd548217",
+        }),
+      );
+
+      if (httpResponse.statusCode == 200) {
+        successSnackBar();
+      } else {
+        failureSnackBar();
+      }
+    }else{
       failureSnackBar();
     }
   }
@@ -74,7 +79,7 @@ class FeedbackFormState extends State<FeedbackForm> {
   void failureSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Fehler beim Senden des Bug/Feedback'),
+        content: Text('Fehler beim Senden des Bugs/Feedback'),
       ),
     );
   }
