@@ -2,7 +2,7 @@ name: aquahelper
 description: Dein Helfer wenn es um die Wasserwerte deines Aquariums geht!
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.5.1+28
+version: 1.6.0+29
 
 environment:
   sdk: '>=3.1.4 <4.0.0'
@@ -67,5 +67,6 @@ flutter:
     - assets/quader.png
     - assets/buttons/fertilizer_calculator.png
     - assets/buttons/soil_calculator.png
+    - assets/buttons/explorer.png
     - assets/buttons/ai_assistant.png
     - assets/buttons/light_calculator.png
