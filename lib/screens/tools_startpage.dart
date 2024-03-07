@@ -1,7 +1,7 @@
+import 'package:aquahelper/screens/tools/explorer/explorer.dart';
 import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/tools/ground_calculator.dart';
 import 'package:aquahelper/screens/tools/light_calculator.dart';
-import 'package:aquahelper/screens/tools/podcasts.dart';
 import 'package:flutter/material.dart';
 
 
@@ -43,11 +43,11 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             },
           ),
           IconTextButton(
-            imagePath: 'assets/buttons/ai_assistant.png',
-            text: 'Podcast-Explorer',
+            imagePath: 'assets/buttons/explorer.png',
+            text: 'Content-Explorer',
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PodcastListScreen()),
+                MaterialPageRoute(builder: (context) => const Explorer()),
               );
             },
           ),
