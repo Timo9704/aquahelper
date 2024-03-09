@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -18,6 +19,8 @@ class Datastore {
 
   User? user = FirebaseAuth.instance.currentUser;
 
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
 
   getAquariums() async {
     if (user == null) {
@@ -28,6 +31,7 @@ class Datastore {
   }
 
   insertAquarium(Aquarium aquarium) async {
+    await FirebaseAnalytics.instance.logEvent(name: 'insertAquarium', parameters: null);
     if (user == null) {
       await DBHelper.db.insertAquarium(aquarium);
     } else {
@@ -94,6 +98,7 @@ class Datastore {
   }
 
   insertMeasurement(Measurement measurement) async {
+    await FirebaseAnalytics.instance.logEvent(name: 'insertMeasurement');
     if (user == null) {
       await DBHelper.db.insertMeasurement(measurement);
     } else {
@@ -136,6 +141,7 @@ class Datastore {
   }
 
   insertTask(Task task) async {
+    await FirebaseAnalytics.instance.logEvent(name: 'insertTask', parameters: null);
     if (user == null) {
       await DBHelper.db.insertTask(task);
     } else {
