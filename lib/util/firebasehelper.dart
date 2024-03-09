@@ -80,6 +80,8 @@ class FirebaseHelper{
           measurements.add(measurement);
         });
       }
+      measurements.sort((a, b) => b.measurementDate.compareTo(a.measurementDate));
+      measurements = measurements.reversed.toList();
       return measurements;
     }
 
@@ -295,10 +297,17 @@ class FirebaseHelper{
 
     isNotInPast(TimeOfDay scheduledTime) {
       TimeOfDay now = TimeOfDay.now();
-      if(now.hour <= scheduledTime.hour && now.minute < scheduledTime.minute){
+      if (now.hour < scheduledTime.hour) {
         return true;
+      } else if (now.hour > scheduledTime.hour) {
+        return false;
+      } else { // Die Stunden sind gleich, also müssen wir die Minuten vergleichen
+        if (now.minute < scheduledTime.minute) {
+          return true;
+        } else {
+          return false;
+        }
       }
-      return false;
     }
 
     Future<void> deleteTask(Aquarium aquarium, String taskId) async {
