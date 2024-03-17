@@ -103,7 +103,7 @@ class _SignInState extends State<SignIn> {
             height: 60,
             child: Column(
               children: [
-                Text("Sollen die Daten hochgeladen?"),
+                Text("Sollen die Daten hochgeladen werden? (Empfohlen)"),
               ],
             ),
           ),
@@ -112,6 +112,16 @@ class _SignInState extends State<SignIn> {
               style: ButtonStyle(
                   backgroundColor:
                   MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Nicht hochladen"),
+              onPressed: () => {
+                Navigator.pop(context),
+                showMessageSnackbar("Keine Daten hochgeladen!"),
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () => {
                 DBHelper.db.uploadDataToFirebase(),
