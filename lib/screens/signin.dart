@@ -115,6 +115,9 @@ class _SignInState extends State<SignIn> {
               child: const Text("Nicht hochladen"),
               onPressed: () => {
                 Navigator.pop(context),
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const SignIn()),
+                        (Route<dynamic> route) => false),
                 showMessageSnackbar("Keine Daten hochgeladen!"),
               },
             ),

@@ -64,6 +64,9 @@ class SignupState extends State<Signup> {
               child: const Text("Nicht hochladen"),
               onPressed: () => {
                 Navigator.pop(context),
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const SignIn()),
+                        (Route<dynamic> route) => false),
               },
             ),
             ElevatedButton(
@@ -74,7 +77,7 @@ class SignupState extends State<Signup> {
               onPressed: () => {
                 DBHelper.db.uploadDataToFirebase(),
                 showUploadSuccessMessage(),
-                //DBHelper.db.deleteLocalDbAfterUpload(),
+                DBHelper.db.deleteLocalDbAfterUpload(),
                 Navigator.pop(context),
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const SignIn()),
