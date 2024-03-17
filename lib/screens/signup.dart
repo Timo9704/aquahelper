@@ -52,7 +52,7 @@ class SignupState extends State<Signup> {
             height: 60,
             child: Column(
               children: [
-                Text("Sollen die Daten hochgeladen?"),
+                Text("Sollen die Daten hochgeladen werden? (Empfohlen)"),
               ],
             ),
           ),
@@ -60,7 +60,19 @@ class SignupState extends State<Signup> {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                  MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Nicht hochladen"),
+              onPressed: () => {
+                Navigator.pop(context),
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const SignIn()),
+                        (Route<dynamic> route) => false),
+              },
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () => {
                 DBHelper.db.uploadDataToFirebase(),
@@ -69,7 +81,7 @@ class SignupState extends State<Signup> {
                 Navigator.pop(context),
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const SignIn()),
-                    (Route<dynamic> route) => false),
+                        (Route<dynamic> route) => false),
               },
             ),
           ],

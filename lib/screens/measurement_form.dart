@@ -90,7 +90,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     });
   }
 
-  Measurement getUpdatedMesurement() {
+  Measurement getUpdatedMeasurement() {
     Map<String ,double> updateValues = {};
 
     for (int i = 0; i < allWaterValuesWithController.length; i++) {
@@ -110,7 +110,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     return double.parse(value.replaceAll(RegExp(r','), '.'));
   }
 
-  Measurement getNewMesurement() {
+  Measurement getNewMeasurement() {
     Map<String ,double> updateValues = {};
 
     for (int i = 0; i < allWaterValuesWithController.length; i++) {
@@ -388,10 +388,10 @@ class MeasurementFormState extends State<MeasurementForm> {
                         onPressed: () => {
                           if (createMode) {
                               Datastore.db.insertMeasurement(
-                              getNewMesurement())
+                              getNewMeasurement())
                             } else {
                               Datastore.db.updateMeasurement(
-                                  getUpdatedMesurement()),
+                                  getUpdatedMeasurement()),
                           },
                           Navigator.of(context).pop(),
                           Navigator.pushReplacement(

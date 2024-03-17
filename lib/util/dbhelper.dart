@@ -4,6 +4,7 @@ import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as fbs;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -462,16 +463,28 @@ class DBHelper {
     final db = await openDatabase('aquarium_database.db');
     User user = FirebaseAuth.instance.currentUser!;
     FirebaseHelper.db.initializeUser(user);
+    FirebaseHelper.db.user = user;
 
     try {
       List<Map<String, dynamic>> tanks = await db.query('tank');
       for (var element in tanks) {
-        FirebaseHelper.db.insertAquarium(Aquarium.fromMap(element));
+        Aquarium aquarium = Aquarium.fromMap(element);
+        if(aquarium.imagePath != 'assets/images/aquarium.jpg'){
+          String newImagePath = await uploadImageToFirebase(user, aquarium.imagePath);
+          aquarium.imagePath = newImagePath;
+        }
+        FirebaseHelper.db.insertAquarium(aquarium);
       }
 
       List<Map<String, dynamic>> measurements = await db.query('measurement');
       for (var element in measurements) {
-        FirebaseHelper.db.insertMeasurement(Measurement.fromMap(element));
+        Measurement measurement = Measurement.fromMap(element);
+        if(measurement.imagePath != 'assets/images/aquarium.jpg') {
+          String newImagePath = await uploadImageToFirebase(
+              user, measurement.imagePath);
+          measurement.imagePath = newImagePath;
+        }
+        FirebaseHelper.db.insertMeasurement(measurement);
       }
 
       List<Map<String, dynamic>> tasks = await db.query('tasks');
@@ -487,6 +500,16 @@ class DBHelper {
     } catch (e) {
       return false;
     }
+  }
+
+  uploadImageToFirebase(User user, String imagePath) async {
+    String imageName = imagePath.split('/').last;
+    final storageRef = fbs.FirebaseStorage.instance.ref();
+    final imageRef = storageRef.child('${user.uid}/$imageName');
+    final file = File(imagePath);
+    await imageRef.putFile(file);
+    final path = await imageRef.getDownloadURL();
+    return path;
   }
 
   deleteLocalDbAfterUpload() async {
