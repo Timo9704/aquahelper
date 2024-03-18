@@ -144,8 +144,8 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           bodyWidget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Möchtest du dein AquaHelper-Konto sofort anlegen? Du erhälst damit sofort Zugriff auf die Online-Synchronsiation!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
-              SizedBox(height: 20),
+              const Text('Möchtest du dein AquaHelper-Konto sofort anlegen? Du erhälst damit sofort Zugriff auf die Online-Synchronsiation!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+              const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightGreen,
@@ -153,7 +153,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
               onPressed: () => {
                 _onSignUpButtonClick(context)
               },
-              child: Text("Ja, mein Konto jetzt anlegen!")),
+              child: const Text("Ja, mein Konto jetzt anlegen!")),
             ],
           ),
           image: Center(child: Image.asset('assets/images/aquahelper_icon.png', height: 200)),
