@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/signin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -32,6 +33,15 @@ class OnBoardingPageState extends State<OnBoardingPage> {
       }
     }
   }
+
+  Future<void> _onSignUpButtonClick(context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("introShown", true);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const  SignIn()),
+    );
+  }
+
 
   Future<void> _onIntroEnd(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -123,7 +133,27 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           bodyWidget: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Sollten Fehler oder Bugs auftreten, dann schaue doch mal ins FAQ oder melde diese gerne über den Button in den Einstellungen!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+              Text('Sollten Fehler oder Bugs auftreten, dann schaue doch mal ins FAQ oder melde diese gerne über den Bug-Melder in den Einstellungen!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+            ],
+          ),
+          image: Center(child: Image.asset('assets/images/aquahelper_icon.png', height: 200)),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Bevor es los geht...",
+          bodyWidget: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Möchtest du dein AquaHelper-Konto sofort anlegen? Du erhälst damit sofort Zugriff auf die Online-Synchronsiation!',style: TextStyle(fontSize: 20), textAlign: TextAlign.center),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightGreen,
+                ),
+              onPressed: () => {
+                _onSignUpButtonClick(context)
+              },
+              child: Text("Ja, mein Konto jetzt anlegen!")),
             ],
           ),
           image: Center(child: Image.asset('assets/images/aquahelper_icon.png', height: 200)),
