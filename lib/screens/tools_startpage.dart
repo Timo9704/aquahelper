@@ -20,7 +20,10 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
+    return Column(
+        children: [
+    Expanded(
+    child: GridView.count(
         crossAxisCount: 2,
         childAspectRatio: 1,
         children: [
@@ -67,21 +70,25 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
 
             },
           ),*/
-          /*IconTextButton(
+              /*IconTextButton(
             imagePath: 'assets/soil.png',
             text: 'CO2-Rechner',
             onPressed: () {
 
             },
           ),*/
-          /*IconTextButton(
+              /*IconTextButton(
             imagePath: 'assets/soil.png',
             text: 'pH-KH-CO2-Rechner',
             onPressed: () {
 
             },
           )*/
-        ]);
+        ])),
+        /*const Center(
+          child: Text('Weitere Tools folgen in Kürze', style: TextStyle(color: Colors.grey),),
+        ),*/
+    ]);
   }
 }
 
