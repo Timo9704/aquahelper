@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
         currentIndex: selectedPage,
-        onTap: (index){
+        onTap: (index) async {
           setState(() {
             selectedPage = index;
           });
