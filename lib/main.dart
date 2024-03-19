@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:aquahelper/util/dbhelper.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import 'config.dart';
 
@@ -54,8 +55,20 @@ Future<void> main() async {
     userSettings = UserSettings(measurementItems.toString());
     DBHelper.db.saveUserSettings(userSettings);
   }
-
+  configureRevenueCat();
   runApp(const AquaHelper());
+}
+
+Future<void> configureRevenueCat() async {
+  PurchasesConfiguration? configuration;
+
+  if(Platform.isAndroid) {
+    configuration = PurchasesConfiguration("goog_MNGBNPoTZWhfizfcKuSrlDxIjxt");
+  }
+
+  if(configuration != null) {
+    await Purchases.configure(configuration);
+  }
 }
 
 class AquaHelper extends StatelessWidget {
