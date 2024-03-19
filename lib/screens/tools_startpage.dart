@@ -25,6 +25,10 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
         displayCloseButton: true);
   }
 
+  Future<void> logEvent(String logFunction) async {
+    await FirebaseAnalytics.instance.logEvent(name: logFunction, parameters: null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -34,8 +38,8 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
         IconTextButton(
           imagePath: 'assets/buttons/soil_calculator.png',
           text: 'Bodengrund-Rechner',
-          onPressed: () async {
-            await FirebaseAnalytics.instance.logEvent(name: 'openGroundCalculator', parameters: null);
+          onPressed: () {
+            logEvent('openGroundCalculator');
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const GroundCalculator()),
             );
@@ -44,8 +48,8 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
         IconTextButton(
           imagePath: 'assets/buttons/fertilizer_calculator.png',
           text: 'Dünger-Rechner',
-          onPressed: () async {
-            await FirebaseAnalytics.instance.logEvent(name: 'openFertilizerCalculator', parameters: null);
+          onPressed: () {
+            logEvent('openFertilizerCalculator');
             Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => const FertilizerCalculator()),
@@ -55,8 +59,8 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
         IconTextButton(
           imagePath: 'assets/buttons/explorer.png',
           text: 'Content-Explorer',
-          onPressed: () async {
-            await FirebaseAnalytics.instance.logEvent(name: 'openContentExplorer', parameters: null);
+          onPressed: () {
+            logEvent('openContentExplorer');
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const Explorer()),
             );
@@ -65,8 +69,8 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
         IconTextButton(
           imagePath: 'assets/buttons/light_calculator.png',
           text: 'Licht-Rechner',
-          onPressed: () async {
-            await FirebaseAnalytics.instance.logEvent(name: 'openLightCalculator', parameters: null);
+          onPressed: () {
+            logEvent('openLightCalculator');
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const LightCalculator()),
             );
