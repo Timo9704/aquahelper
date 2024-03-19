@@ -64,22 +64,22 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
       aquarium = Aquarium(
           uuid,
           _nameController.text,
-          int.parse(_literController.text),
+          int.parse(_literController.text.isEmpty ? "0" : _literController.text),
           waterType,
           co2Type,
-          int.parse(_widthController.text),
-          int.parse(_heightController.text),
-          int.parse(_depthController.text),
+          int.parse(_widthController.text.isEmpty ? "0" : _widthController.text),
+          int.parse(_heightController.text.isEmpty ? "0" : _heightController.text),
+          int.parse(_depthController.text.isEmpty ? "0" : _depthController.text),
           int.parse("0"),
           imagePath);
     } else {
       aquarium.waterType = waterType;
       aquarium.name = _nameController.text;
-      aquarium.liter = int.parse(_literController.text);
+      aquarium.liter = int.parse(_literController.text.isEmpty ? "0" : _literController.text);
       aquarium.co2Type = co2Type;
-      aquarium.width = int.parse(_widthController.text);
-      aquarium.height = int.parse(_heightController.text);
-      aquarium.depth = int.parse(_heightController.text);
+      aquarium.width = int.parse(_widthController.text.isEmpty ? "0" : _widthController.text);
+      aquarium.height = int.parse(_heightController.text.isEmpty ? "0" : _heightController.text);
+      aquarium.depth = int.parse(_depthController.text.isEmpty ? "0" : _depthController.text);
       aquarium.imagePath = imagePath;
     }
   }
