@@ -2,6 +2,7 @@ import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/onboarding_page.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -12,6 +13,8 @@ import 'config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize sequence for Firebase (Crashlytics, Firestore, Authentication)
   Platform.isAndroid
       ? await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -20,8 +23,10 @@ Future<void> main() async {
           messagingSenderId: '634908914538',
           projectId: 'aquahelper'))
       : await Firebase.initializeApp();
-  // Ideal time to initialize
-  //await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+
+  // Initialize sequence for AwesomeNotification (push notifications)
   await AwesomeNotifications().initialize(null, [
     NotificationChannel(
         channelGroupKey: "erinnerungen_group",
@@ -38,6 +43,8 @@ Future<void> main() async {
   if (!isAllowedtoSendNotification) {
     AwesomeNotifications().requestPermissionToSendNotifications();
   }
+
+  // Initialize sequence for local database and user settings (sqlite)
   await DBHelper.db.initDB();
   List<UserSettings> usList = await DBHelper.db.getUserSettings();
   if(usList.isNotEmpty){
