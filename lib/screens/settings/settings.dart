@@ -81,7 +81,7 @@ class SettingsState extends State<Settings> {
                         padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.fromLTRB(10, 0, 10, 0))),
                     onPressed: () async {
                       if (await DBHelper.db.exportAllData() != "fail") {
-                        if (mounted) {
+                        if (context.mounted) {
                           Navigator.pop(context);
                         }
                       }
@@ -93,7 +93,7 @@ class SettingsState extends State<Settings> {
                         padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.fromLTRB(10, 0, 10, 0))),
                     onPressed: () async {
                       if (await DBHelper.db.importAllData()) {
-                        if (mounted) {
+                        if (context.mounted) {
                           Navigator.pop(context);
                         }
                       }
