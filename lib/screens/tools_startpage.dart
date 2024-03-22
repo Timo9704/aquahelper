@@ -76,7 +76,6 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
           customerInfo.entitlements.all["premium"] != null &&
               customerInfo.entitlements.all["premium"]!.isActive == true);
     } catch (e) {
-      print(e);
       return Future.value(false);
     }
   }
