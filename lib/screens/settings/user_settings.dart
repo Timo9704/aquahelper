@@ -4,6 +4,7 @@ import 'package:aquahelper/screens/signin.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'dart:convert';
 
 import '../../config.dart';
@@ -104,6 +105,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
           user != null ?
           ElevatedButton(onPressed: () => {
             FirebaseHelper.db.signOut(),
+            Purchases.logIn(user!.uid),
             Navigator.pop(context),
             Navigator.push(
                 context,

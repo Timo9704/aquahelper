@@ -1,6 +1,7 @@
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/onboarding_page.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -62,8 +63,14 @@ Future<void> main() async {
 Future<void> configureRevenueCat() async {
   PurchasesConfiguration? configuration;
 
+  String? uid = FirebaseAuth.instance.currentUser?.uid;
+
   if(Platform.isAndroid) {
-    configuration = PurchasesConfiguration("goog_MNGBNPoTZWhfizfcKuSrlDxIjxt");
+    if(uid != null){
+      configuration = PurchasesConfiguration("goog_MNGBNPoTZWhfizfcKuSrlDxIjxt")..appUserID = FirebaseAuth.instance.currentUser?.uid;
+    }else{
+      configuration = PurchasesConfiguration("goog_MNGBNPoTZWhfizfcKuSrlDxIjxt");
+    }
   }
 
   if(configuration != null) {

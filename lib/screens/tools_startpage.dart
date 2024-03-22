@@ -3,8 +3,10 @@ import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/tools/ground_calculator.dart';
 import 'package:aquahelper/screens/tools/light_calculator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
 class ToolsStartPage extends StatefulWidget {
@@ -20,15 +22,78 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
     super.initState();
   }
 
+  showLightCalculator() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const LightCalculator()),
+    );
+  }
+
+  User? user = FirebaseAuth.instance.currentUser;
+
+  void showLoginRequest() {
+    if (user != null) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Du bist aktuell nicht angemeldet!"),
+            content: const SizedBox(
+              height: 80,
+              child: Column(
+                children: [
+                  Text(
+                      "Um Premium-Features zu nutzen, musst du dich anmelden. Möchtest du jetzt dein AquaHelper-Konto anlegen?"),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.grey)),
+                child: const Text("Nein!"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.grey)),
+                child: const Text("Ja, jetzt anmelden!"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+            elevation: 0,
+          );
+        },
+      );
+    }
+  }
+
+  static Future<bool> isUserPremium() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      return Future.value(
+          customerInfo.entitlements.all["premium"] != null &&
+              customerInfo.entitlements.all["premium"]!.isActive == true);
+    } catch (e) {
+      print(e);
+      return Future.value(false);
+    }
+  }
 
   Future<void> showPaywall() async {
-    await FirebaseAnalytics.instance.logEvent(name: 'openPaywall', parameters: null);
-    await RevenueCatUI.presentPaywallIfNeeded("Premium",
-        displayCloseButton: true);
+    //await FirebaseAnalytics.instance.logEvent(name: 'openPaywall', parameters: null);
+    if (user == null) {
+      showLoginRequest();
+    } else {
+      await RevenueCatUI.presentPaywallIfNeeded("Premium",
+          displayCloseButton: true);
+    }
   }
 
   Future<void> logEvent(String logFunction) async {
-    await FirebaseAnalytics.instance.logEvent(name: logFunction, parameters: null);
+    await FirebaseAnalytics.instance
+        .logEvent(name: logFunction, parameters: null);
   }
 
   @override
@@ -78,50 +143,32 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             );
           },
         ),
-        /*IconTextButton(
-            imagePath: 'assets/buttons/ai_assistant.png',
-            text: 'KI-Assistant',
-            onPressed: () {
-
-            },
-          ),*/
-        /*IconTextButton(
-            imagePath: 'assets/soil.png',
-            text: 'CO2-Rechner',
-            onPressed: () {
-
-            },
-          ),*/
-        /*IconTextButton(
-            imagePath: 'assets/soil.png',
-            text: 'pH-KH-CO2-Rechner',
-            onPressed: () {
-
-            },
-          )*/
       ])),
-      /*Column(
+      Column(
         children: [
           const SizedBox(height: 10),
           const Center(
             child: Text(
-              'Weitere Tools folgen \n mit deiner Hilfe in Kürze:',
+              'Premium-Tools',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
           ),
           const SizedBox(height: 10),
-          ElevatedButton(
-              onPressed: showPaywall,
-              style: ButtonStyle(
-                textStyle: MaterialStateProperty.all<TextStyle>(
-                    const TextStyle(fontSize: 20, color: Colors.white)),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
-              child: const Text("Unterstützer werden!")),
-          const SizedBox(height: 30),
+          IconTextButton(
+            imagePath: 'assets/buttons/ai_assistant.png',
+            text: 'pH-KH-CO2-Rechner',
+            onPressed: () async {
+              if(await isUserPremium()) {
+                showLightCalculator();
+              } else {
+                showPaywall();
+              }
+            },
+          ),
+          const SizedBox(height: 40),
         ],
-      ),*/
+      ),
     ]);
   }
 }
