@@ -78,8 +78,8 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
     try {
       CustomerInfo customerInfo = getCustomerInfo() ;
       return (
-          customerInfo.entitlements.all["premium"] != null &&
-              customerInfo.entitlements.all["premium"]!.isActive == true);
+          customerInfo.entitlements.all["Premium"] != null &&
+              customerInfo.entitlements.all["Premium"]!.isActive == true);
     } catch (e) {
       return false;
     }
