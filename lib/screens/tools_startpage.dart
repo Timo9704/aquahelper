@@ -156,13 +156,13 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
             ),
-          Padding(padding: EdgeInsets.all(10), child:
-          const Text(
+          const Padding(padding: EdgeInsets.all(10), child:
+          Text(
             'Derzeit befinden sich verschiedene Premium-Funktionen in der Entwicklung. Diese werden in Kürze verfügbar sein. Unterstütze die Entwicklung von AquaHelper mit deinem Premium-Abo!',
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.black, fontSize: 13),
           ),),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           isPremiumUser ?
           const Text('Danke für deine Unterstützung!', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),):
           ElevatedButton(
@@ -176,7 +176,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                   ),
                 ),
               ),
-              child: Text('Premium-Features freischalten')),
+              child: const Text('Premium-Features freischalten')),
           /*IconTextButton(
             imagePath: 'assets/buttons/ai_assistant.png',
             text: 'pH-KH-CO2-Rechner',
