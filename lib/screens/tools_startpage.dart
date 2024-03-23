@@ -17,21 +17,17 @@ class ToolsStartPage extends StatefulWidget {
 }
 
 class _ToolsStartPageState extends State<ToolsStartPage> {
+  bool isPremiumUser = false;
   @override
-  void initState() {
+  void initState(){
     super.initState();
-  }
-
-  showLightCalculator() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const LightCalculator()),
-    );
+    isPremiumUser = isUserPremium();
   }
 
   User? user = FirebaseAuth.instance.currentUser;
 
   void showLoginRequest() {
-    if (user != null) {
+    if (user == null) {
       showDialog(
         context: context,
         builder: (context) {
@@ -69,19 +65,28 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
     }
   }
 
-  static Future<bool> isUserPremium() async {
+  getCustomerInfo() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      return Future.value(
+      return customerInfo;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  bool isUserPremium() {
+    try {
+      CustomerInfo customerInfo = getCustomerInfo() ;
+      return (
           customerInfo.entitlements.all["premium"] != null &&
               customerInfo.entitlements.all["premium"]!.isActive == true);
     } catch (e) {
-      return Future.value(false);
+      return false;
     }
   }
 
   Future<void> showPaywall() async {
-    //await FirebaseAnalytics.instance.logEvent(name: 'openPaywall', parameters: null);
+    await FirebaseAnalytics.instance.logEvent(name: 'openPaywall', parameters: null);
     if (user == null) {
       showLoginRequest();
     } else {
@@ -96,7 +101,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Column(children: [
       Expanded(
           child:
@@ -146,15 +151,33 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
       Column(
         children: [
           const SizedBox(height: 10),
-          const Center(
-            child: Text(
+          const Text(
               'Premium-Tools',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
             ),
-          ),
-          const SizedBox(height: 10),
-          IconTextButton(
+          Padding(padding: EdgeInsets.all(10), child:
+          const Text(
+            'Derzeit befinden sich verschiedene Premium-Funktionen in der Entwicklung. Diese werden in Kürze verfügbar sein. Unterstütze die Entwicklung von AquaHelper mit deinem Premium-Abo!',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black, fontSize: 13),
+          ),),
+          SizedBox(height: 20),
+          isPremiumUser ?
+          const Text('Danke für deine Unterstützung!', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),):
+          ElevatedButton(
+              onPressed: showPaywall,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
+                elevation: MaterialStateProperty.all<double>(0),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                ),
+              ),
+              child: Text('Premium-Features freischalten')),
+          /*IconTextButton(
             imagePath: 'assets/buttons/ai_assistant.png',
             text: 'pH-KH-CO2-Rechner',
             onPressed: () async {
@@ -164,8 +187,8 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                 showPaywall();
               }
             },
-          ),
-          const SizedBox(height: 40),
+          ),*/
+          const SizedBox(height: 20),
         ],
       ),
     ]);
