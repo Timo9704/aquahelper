@@ -135,6 +135,7 @@ class FirebaseHelper{
             list.add(measurement);
           }
         });
+        list.sort((a, b) => a.measurementDate.compareTo(b.measurementDate));
       }
       return list;
     }
