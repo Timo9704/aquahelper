@@ -5,6 +5,7 @@ import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../model/aquarium.dart';
 import '../util/datastore.dart';
@@ -85,9 +86,10 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  void signInSuccess(User user) {
+  Future<void> signInSuccess(User user) async {
     setUserId(user.uid);
     FirebaseHelper.db.initializeUser(user);
+    Purchases.logIn(user.uid);
     showMessageSnackbar("Erfolgreich angemeldet!");
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
