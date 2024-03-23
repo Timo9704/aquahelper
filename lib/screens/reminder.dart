@@ -83,6 +83,7 @@ class ReminderState extends State<Reminder> {
 
 
   void _submitReminder() {
+
     if(createMode) {
       if(_repeat){
         selectedDate = DateTime(9999, 12, 31, 00, 00);
@@ -142,7 +143,7 @@ class ReminderState extends State<Reminder> {
                     channelKey: "0",
                     title: task.title,
                     body: task.description),
-                schedule: NotificationCalendar.fromDate(date: selectedDate));
+                schedule: NotificationCalendar.fromDate(date: selectedDate, preciseAlarm: true, allowWhileIdle: true));
           }
       }
       Navigator.pushReplacement(
@@ -171,7 +172,8 @@ class ReminderState extends State<Reminder> {
           minute: minute,
           second: 0,
           repeats: true,
-          allowWhileIdle: true
+          allowWhileIdle: true,
+          preciseAlarm: true,
         ),
       );
     }
