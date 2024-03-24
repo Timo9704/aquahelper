@@ -21,7 +21,12 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
   @override
   void initState(){
     super.initState();
-    isPremiumUser = isUserPremium();
+    // Initialize isPremiumUser in initState
+    isUserPremium().then((result) {
+      setState(() {
+        isPremiumUser = result;
+      });
+    });
   }
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -65,18 +70,9 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
     }
   }
 
-  getCustomerInfo() async {
+  Future<bool> isUserPremium() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      return customerInfo;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  bool isUserPremium() {
-    try {
-      CustomerInfo customerInfo = getCustomerInfo() ;
       return (
           customerInfo.entitlements.all["Premium"] != null &&
               customerInfo.entitlements.all["Premium"]!.isActive == true);
