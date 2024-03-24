@@ -157,7 +157,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
               ? ElevatedButton(
                   onPressed: () => {
                         FirebaseHelper.db.signOut(),
-                        Purchases.logIn(user!.uid),
+                        Purchases.logOut(),
                         Navigator.pop(context),
                         Navigator.push(
                             context,
