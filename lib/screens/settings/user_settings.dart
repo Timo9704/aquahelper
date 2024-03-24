@@ -135,7 +135,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                           ),
                         ),
                         Text(
-                          'Dein Abo kannst du über den PlayStore verwalten.',
+                          'Dein Abo kannst du über den Play Store verwalten.',
                           style: TextStyle(
                             fontSize: 10,
                             color: Colors.black,
