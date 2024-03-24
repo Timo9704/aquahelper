@@ -142,6 +142,33 @@ class MeasurementFormState extends State<MeasurementForm> {
     return mes;
   }
 
+  void createMeasurementFailure() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Fehlerhafte Eingabe"),
+          content: const SizedBox(
+            height: 80,
+            child: Column(
+              children: [
+                Text("Kontrolliere bitte deine Eingaben! Zahlenwerte sind immer ohne Leerzeichen bzw. als Ganz- oder Kommazahl einzugeben."),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Schließen"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
   Future<void> getImage({required BuildContext context}) async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
@@ -385,22 +412,26 @@ class MeasurementFormState extends State<MeasurementForm> {
                             ),
                           ),
                         ),
-                        onPressed: () => {
-                          if (createMode) {
+                        onPressed: () {
+                          try {
+                            if (createMode) {
                               Datastore.db.insertMeasurement(
-                              getNewMeasurement())
+                                  getNewMeasurement());
                             } else {
                               Datastore.db.updateMeasurement(
-                                  getUpdatedMeasurement()),
-                          },
-                          Navigator.of(context).pop(),
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AquariumOverview(
-                                        aquarium: widget.aquarium)),
-                          )
+                                  getUpdatedMeasurement());
+                            }
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AquariumOverview(
+                                          aquarium: widget.aquarium)),
+                            );
+                          } catch (e) {
+                            createMeasurementFailure();
+                          }
                         },
                         child: const Text("Speichern", style: TextStyle(color: Colors.black))),
                   ),
