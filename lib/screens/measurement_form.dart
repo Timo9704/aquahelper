@@ -99,6 +99,8 @@ class MeasurementFormState extends State<MeasurementForm> {
     }
 
     measurement.updateMeasurement(updateValues);
+    measurement.updateMeasurement({"measurementDate": selectedDate.millisecondsSinceEpoch});
+    measurement.updateMeasurement({"imagePath": imagePath});
 
     return measurement;
   }
