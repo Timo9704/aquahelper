@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:aquahelper/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../util/scalesize.dart';
 import '../homepage.dart';
@@ -22,9 +24,26 @@ class FeedbackFormState extends State<FeedbackForm> {
   double textScaleFactor = 0;
   int ticketType = 0;
 
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
+
   @override
   void initState() {
     super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   String infoText =
@@ -41,6 +60,7 @@ class FeedbackFormState extends State<FeedbackForm> {
 
     }
     if(description.isNotEmpty){
+      description += "\n App-Version: ${_packageInfo.version}\n Lokal: ${getUserId().isEmpty ? "Ja" : "Nein"}";
       final httpResponse = await  http.post(
         Uri.parse('https://api.trello.com/1/cards?idList=65d20760344a48e372e37eb6&key=c188c3c92a0aad1e758b0b2906333e2e&token=ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A'),
         headers: <String, String>{
