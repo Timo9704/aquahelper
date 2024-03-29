@@ -75,3 +75,5 @@ flutter:
     - assets/buttons/explorer.png
     - assets/buttons/ai_assistant.png
     - assets/buttons/light_calculator.png
+    - assets/buttons/stopwatch_deactivated.png
+    - assets/buttons/stopwatch_activated.png

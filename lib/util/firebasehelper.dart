@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
+import '../model/custom_timer.dart';
 import '../model/measurement.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
@@ -345,4 +346,33 @@ class FirebaseHelper{
       await FirebaseAuth.instance.signOut();
       Datastore.db.user = null;
    }
+
+  getCustomTimer() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/customtimer');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<CustomTimer> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['id'] = key;
+          print(value);
+          CustomTimer timer = CustomTimer.fromMap(Map<String, dynamic>.from(value));
+          list.add(timer);
+      });
+
+        return list;
+      }
+      return null;
+    }
+
+    insertCustomTimer(CustomTimer timer) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/customtimer/${timer.id}');
+      await ref.set(timer.toFirebaseMap());
+    }
+
+    deleteCustomTimer(CustomTimer timer) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/customtimer/${timer.id}');
+      await ref.remove();
+    }
 }

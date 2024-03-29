@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aquahelper/model/custom_timer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -189,6 +190,32 @@ class Datastore {
     }
   }
 
+  //-------------------------Methods for Timer-object-----------------------//
+
+  getCustomTimer() async {
+    if (user == null) {
+      return await DBHelper.db.getCustomTimer();
+    } else {
+      return await FirebaseHelper.db.getCustomTimer();
+    }
+  }
+
+  insertCustomTimer(CustomTimer timer) async {
+    await FirebaseAnalytics.instance.logEvent(name: 'insertCustomTimer', parameters: null);
+    if (user == null) {
+      await DBHelper.db.insertCustomTimer(timer);
+    } else {
+      await FirebaseHelper.db.insertCustomTimer(timer);
+    }
+  }
+
+  deleteCustomTimer(CustomTimer timer) async {
+    if (user == null) {
+      await DBHelper.db.deleteCustomTimer(timer);
+    } else {
+      await FirebaseHelper.db.deleteCustomTimer(timer);
+    }
+  }
   //-------------------------Methods for UserSettings-object-----------------------//
 
 

@@ -2,6 +2,7 @@ import 'package:aquahelper/screens/tools/explorer/explorer.dart';
 import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/tools/ground_calculator.dart';
 import 'package:aquahelper/screens/tools/light_calculator.dart';
+import 'package:aquahelper/screens/tools/multitimer/multitimer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -86,8 +87,13 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
     if (user == null) {
       showLoginRequest();
     } else {
-      await RevenueCatUI.presentPaywallIfNeeded("Premium",
+      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded("Premium",
           displayCloseButton: true);
+      if (result == PaywallResult.purchased) {
+        setState(() {
+          isPremiumUser = true;
+        });
+      }
     }
   }
 
@@ -143,6 +149,25 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
             );
           },
         ),
+                !isPremiumUser ?
+                IconTextButton(
+                  imagePath: 'assets/buttons/stopwatch_deactivated.png',
+                  text: 'Multitimer',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const MultiTimer()),
+                    );
+                  },
+                ):
+                IconTextButton(
+                  imagePath: 'assets/buttons/stopwatch_activated.png',
+                  text: 'Multitimer',
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const MultiTimer()),
+                    );
+                  },
+                ),
       ])),
       Column(
         children: [
@@ -150,15 +175,15 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
           const Text(
               'Premium-Tools',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
             ),
           const Padding(padding: EdgeInsets.all(10), child:
           Text(
-            'Derzeit befinden sich verschiedene Premium-Funktionen in der Entwicklung. Diese werden in Kürze verfügbar sein. Unterstütze die Entwicklung von AquaHelper mit deinem Premium-Abo!',
+            'Derzeit befinden sich weitere Premium-Funktionen in der Entwicklung!',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontSize: 13),
+            style: TextStyle(color: Colors.black, fontSize: 12),
           ),),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           isPremiumUser ?
           const Text('Danke für deine Unterstützung!', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),):
           ElevatedButton(
