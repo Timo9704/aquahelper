@@ -1,7 +1,7 @@
 class CustomTimer {
   String id;
   String name;
-  String seconds;
+  int seconds;
 
   CustomTimer(
       this.id,

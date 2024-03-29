@@ -22,7 +22,7 @@ class MultiTimerState extends State<MultiTimer> {
     Datastore.db.getCustomTimer().then((value) => {
       if(value.isNotEmpty){
         value.forEach((element) {
-          addCustomTimerWidget(element.name, int.parse(element.seconds));
+          addCustomTimerWidget(element.name, element.seconds);
           timerList.add(CustomTimer(element.id, element.name, element.seconds));
         })
       }
@@ -129,7 +129,7 @@ class MultiTimerState extends State<MultiTimer> {
                   try {
                     int duration = int.parse(durationController.value.text) * 60;
                     addCustomTimerWidget(nameController.value.text, duration);
-                    timerList.add(CustomTimer(const Uuid().v4(), nameController.value.text, duration.toString()));
+                    timerList.add(CustomTimer(const Uuid().v4(), nameController.value.text, duration));
                     Navigator.pop(context);
                   } catch(e) {
                     showFailureDialog();

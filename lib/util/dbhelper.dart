@@ -18,7 +18,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 4;
+  static const newDbVersion = 5;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -79,6 +79,9 @@ class DBHelper {
           if (version >= 4) {
             await _databaseVersion4(db);
           }
+          if (version >= 5) {
+            await _databaseVersion5(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -100,6 +103,9 @@ class DBHelper {
         break;
       case 4:
         await _databaseVersion4(db);
+        break;
+      case 5:
+        await _databaseVersion5(db);
         break;
     }
   }
@@ -123,6 +129,15 @@ class DBHelper {
     db.execute("UPDATE tasks SET scheduled = '0'");
     db.execute("UPDATE tasks SET scheduledDays = '[false,false,false,false,false,false,false]'");
     db.execute("UPDATE tasks SET scheduledTime = '00:00'");
+  }
+
+  _databaseVersion5(Database db) {
+    db.execute('''
+            CREATE TABLE customtimer(
+              id TEXT,
+              name TEXT,
+              seconds INTEGER
+            )''');
   }
 
 
@@ -374,6 +389,12 @@ class DBHelper {
       fileContent.add(task.values.join(','));
     }
 
+    List<Map<String, dynamic>> customTimers = await db.query('customtimer');
+    fileContent.add('## CustomTimers ##');
+    for (var customTimer in customTimers) {
+      fileContent.add(customTimer.values.join(','));
+    }
+
     try {
       String? path = await FilePicker.platform.getDirectoryPath();
 
@@ -450,6 +471,13 @@ class DBHelper {
               'taskDate': values[4]
             });
           }
+        else if (currentTable == '## CustomTimers ##') {
+            await db.insert('customtimer', {
+              'id': values[0],
+              'name': values[1],
+              'seconds': values[2]
+            });
+          }
         }
         return true;
       } catch (e) {
@@ -497,6 +525,11 @@ class DBHelper {
       for (var element in userSettings) {
         FirebaseHelper.db.saveUserSettings(UserSettings.fromMap(element));
       }
+
+      List<Map<String, dynamic>> customTimers = await db.query('customtimer');
+      for (var element in customTimers) {
+        FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
+      }
       return true;
     } catch (e) {
       return false;
@@ -519,6 +552,7 @@ class DBHelper {
     await db.delete("measurement");
     await db.delete("tasks");
     await db.delete("usersettings");
+    await db.delete("customtimer");
   }
 
 
