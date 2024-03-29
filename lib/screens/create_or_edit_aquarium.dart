@@ -205,6 +205,14 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     );
   }
 
+  Widget localImageCheck(String imagePath) {
+    try {
+      return Image.file(File(imagePath), fit: BoxFit.fill, height: 250);
+    } catch (e) {
+      return Image.asset('assets/images/aquarium.jpg', fit: BoxFit.fill);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     textScaleFactor = ScaleSize.textScaleFactor(context);
@@ -246,8 +254,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                   imagePath.startsWith('https://')
                                       ? CachedNetworkImage(imageUrl:imagePath,
                                           fit: BoxFit.fill, height: 250)
-                                  : Image.file(File(imagePath),
-                                      fit: BoxFit.fill, height: 250),
+                                  : localImageCheck(imagePath),
                                   const Icon(Icons.camera_alt,
                                       size: 100, color: Colors.white),
                                 ],

@@ -37,6 +37,14 @@ class _AquariumItemState extends State<AquariumItem> {
     });
   }
 
+  Widget localImageCheck(String imagePath) {
+    try {
+      return Image.file(File(widget.aquarium.imagePath), fit: BoxFit.cover);
+    } catch (e) {
+      return Image.asset('assets/images/aquarium.jpg', fit: BoxFit.fitWidth);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -62,7 +70,7 @@ class _AquariumItemState extends State<AquariumItem> {
                     ? Image.asset(aquarium.imagePath, fit: BoxFit.cover)
                     : aquarium.imagePath.startsWith('https://')
                         ? CachedNetworkImage(imageUrl: aquarium.imagePath, fit: BoxFit.cover)
-                        : Image.file(File(aquarium.imagePath), fit: BoxFit.cover),
+                    : localImageCheck(widget.aquarium.imagePath),
               ),
             ),
           ),
