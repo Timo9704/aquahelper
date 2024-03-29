@@ -104,7 +104,8 @@ class FirebaseHelper{
     getSortedMeasurmentsList(Aquarium aquarium) async {
       List<Measurement> list = await getMeasurementsForAquarium(aquarium.aquariumId);
       list.sort((a, b) => a.measurementDate.compareTo(b.measurementDate));
-      return list;
+      List<Measurement> listReversed = list.reversed.toList();
+      return listReversed;
     }
 
     Future<Measurement> getMeasurementById(String aquariumId, String measurementId) async {
