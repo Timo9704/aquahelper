@@ -263,6 +263,21 @@ class MeasurementFormState extends State<MeasurementForm> {
     );
   }
 
+  Widget localImageCheck(String imagePath) {
+    try {
+      return Image.file(File(imagePath), fit: BoxFit.cover);
+    } catch (e) {
+      return Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Image.asset('assets/images/aquarium.jpg',
+              fit: BoxFit.fill),
+          const Icon(Icons.camera_alt,
+              size: 100, color: Colors.white),
+        ],
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +308,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                             size: 100, color: Colors.white),
                       ],
                     )
-                        : Image.file(File(imagePath), fit: BoxFit.cover)),
+                        : localImageCheck(imagePath)),
               ),
               const SizedBox(
                 height: 10,

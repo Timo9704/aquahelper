@@ -50,6 +50,14 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
     });
   }
 
+  Widget localImageCheck(String imagePath) {
+    try {
+      return Image.file(File(widget.aquarium.imagePath), fit: BoxFit.cover);
+    } catch (e) {
+      return Image.asset('assets/images/aquarium.jpg', fit: BoxFit.fitWidth);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -69,8 +77,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                         ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.fitWidth)
                           :  widget.aquarium.imagePath.startsWith('https://')
                           ? CachedNetworkImage(imageUrl:widget.aquarium.imagePath, fit: BoxFit.cover)
-                        : Image.file(File(widget.aquarium.imagePath),
-                        fit: BoxFit.cover),
+                        : localImageCheck(widget.aquarium.imagePath),
                 ),),
                 Container(
                   width: double.infinity,
