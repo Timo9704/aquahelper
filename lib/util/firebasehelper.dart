@@ -356,7 +356,6 @@ class FirebaseHelper{
         Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
         items.forEach((key, value) {
           value['id'] = key;
-          print(value);
           CustomTimer timer = CustomTimer.fromMap(Map<String, dynamic>.from(value));
           list.add(timer);
       });
