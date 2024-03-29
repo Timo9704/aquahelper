@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -12,6 +13,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:aquahelper/main.dart';
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/task.dart' as model;
 import 'package:aquahelper/util/scalesize.dart';
 
 import '../util/datastore.dart';
@@ -59,37 +61,37 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
   }
 
   void syncValuesToObject() {
-      if (widget.aquarium == null) {
-        String uuid = const Uuid().v4().toString();
-        aquarium = Aquarium(
-            uuid,
-            _nameController.text,
-            int.parse(
-                _literController.text.isEmpty ? "0" : _literController.text),
-            waterType,
-            co2Type,
-            int.parse(
-                _widthController.text.isEmpty ? "0" : _widthController.text),
-            int.parse(
-                _heightController.text.isEmpty ? "0" : _heightController.text),
-            int.parse(
-                _depthController.text.isEmpty ? "0" : _depthController.text),
-            int.parse("0"),
-            imagePath);
-      } else {
-        aquarium.waterType = waterType;
-        aquarium.name = _nameController.text;
-        aquarium.liter = int.parse(
-            _literController.text.isEmpty ? "0" : _literController.text);
-        aquarium.co2Type = co2Type;
-        aquarium.width = int.parse(
-            _widthController.text.isEmpty ? "0" : _widthController.text);
-        aquarium.height = int.parse(
-            _heightController.text.isEmpty ? "0" : _heightController.text);
-        aquarium.depth = int.parse(
-            _depthController.text.isEmpty ? "0" : _depthController.text);
-        aquarium.imagePath = imagePath;
-      }
+    if (widget.aquarium == null) {
+      String uuid = const Uuid().v4().toString();
+      aquarium = Aquarium(
+          uuid,
+          _nameController.text,
+          int.parse(
+              _literController.text.isEmpty ? "0" : _literController.text),
+          waterType,
+          co2Type,
+          int.parse(
+              _widthController.text.isEmpty ? "0" : _widthController.text),
+          int.parse(
+              _heightController.text.isEmpty ? "0" : _heightController.text),
+          int.parse(
+              _depthController.text.isEmpty ? "0" : _depthController.text),
+          int.parse("0"),
+          imagePath);
+    } else {
+      aquarium.waterType = waterType;
+      aquarium.name = _nameController.text;
+      aquarium.liter = int.parse(
+          _literController.text.isEmpty ? "0" : _literController.text);
+      aquarium.co2Type = co2Type;
+      aquarium.width = int.parse(
+          _widthController.text.isEmpty ? "0" : _widthController.text);
+      aquarium.height = int.parse(
+          _heightController.text.isEmpty ? "0" : _heightController.text);
+      aquarium.depth = int.parse(
+          _depthController.text.isEmpty ? "0" : _depthController.text);
+      aquarium.imagePath = imagePath;
+    }
   }
 
   void createAquariumFailure() {
@@ -102,13 +104,16 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
             height: 60,
             child: Column(
               children: [
-                Text("Kontrolliere bitte deine Eingaben! Zahlenwerte sind immer ohne Komma und Leerzeichen einzugeben."),
+                Text(
+                    "Kontrolliere bitte deine Eingaben! Zahlenwerte sind immer ohne Komma und Leerzeichen einzugeben."),
               ],
             ),
           ),
           actions: [
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -150,7 +155,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
 
       File(image.path).copy(newImage.path);
 
-      if(user != null) {
+      if (user != null) {
         final storageRef = FirebaseStorage.instance.ref();
         final imageRef = storageRef.child('${user?.uid}/$imageName.jpg');
         final file = File(croppedImage!.path);
@@ -179,13 +184,18 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.grey)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
-                  onPressed: () {
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  onPressed: () async {
+                    deleteAndCancelReminder(aquarium);
                     Datastore.db.deleteAquarium(aquarium.aquariumId);
                     Navigator.pushAndRemoveUntil(
                         context,
@@ -203,6 +213,46 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
         );
       },
     );
+  }
+
+  Future<void> deleteAndCancelReminder(Aquarium aquarium) async {
+    List<model.Task> tasks = await Datastore.db.getTasksForAquarium(aquarium);
+    if (tasks.isNotEmpty) {
+      for (var task in tasks) {
+        if (task.scheduled == "1") {
+          List<bool> daysOfWeek = stringToBoolList(task.scheduledDays);
+          cancelRecurringNotifications(
+              task,
+              daysOfWeek
+                  .asMap()
+                  .entries
+                  .where((entry) => entry.value)
+                  .map((entry) => entry.key + 1)
+                  .toList());
+          Datastore.db.deleteTask(aquarium, task.taskId);
+        } else {
+          AwesomeNotifications().cancelSchedule(task.taskDate ~/ 1000);
+          Datastore.db.deleteTask(aquarium, task.taskId);
+        }
+      }
+    }
+  }
+
+  void cancelRecurringNotifications(
+      model.Task task, List<int> daysOfWeek) async {
+    for (int dayOfWeek in daysOfWeek) {
+      await AwesomeNotifications()
+          .cancel((task.taskId + dayOfWeek.toString()).hashCode);
+    }
+  }
+
+  List<bool> stringToBoolList(String str) {
+    String trimmedStr = str.substring(1, str.length - 1);
+    List<String> strList = trimmedStr.split(', ');
+    List<bool> boolList =
+        strList.map((s) => s.toLowerCase() == 'true').toList();
+
+    return boolList;
   }
 
   Widget localImageCheck(String imagePath) {
@@ -252,9 +302,11 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                 alignment: Alignment.center,
                                 children: <Widget>[
                                   imagePath.startsWith('https://')
-                                      ? CachedNetworkImage(imageUrl:imagePath,
-                                          fit: BoxFit.fill, height: 250)
-                                  : localImageCheck(imagePath),
+                                      ? CachedNetworkImage(
+                                          imageUrl: imagePath,
+                                          fit: BoxFit.fill,
+                                          height: 250)
+                                      : localImageCheck(imagePath),
                                   const Icon(Icons.camera_alt,
                                       size: 100, color: Colors.white),
                                 ],
@@ -614,24 +666,22 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                               width: 150,
                               child: ElevatedButton(
                                   onPressed: () {
-                                        try {
-                                          syncValuesToObject();
-                                          if (createMode) {
-                                            Datastore.db.insertAquarium(aquarium);
-                                          }
-                                          else {
-                                            Datastore.db.updateAquarium(aquarium);
-                                          }
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) =>
+                                    try {
+                                      syncValuesToObject();
+                                      if (createMode) {
+                                        Datastore.db.insertAquarium(aquarium);
+                                      } else {
+                                        Datastore.db.updateAquarium(aquarium);
+                                      }
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
                                                   const AquaHelper()));
-                                        }catch(e) {
-                                          createAquariumFailure();
-                                        }
-                                      },
+                                    } catch (e) {
+                                      createAquariumFailure();
+                                    }
+                                  },
                                   style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
@@ -650,4 +700,3 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
         ));
   }
 }
-
