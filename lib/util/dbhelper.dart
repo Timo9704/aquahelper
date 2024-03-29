@@ -14,6 +14,7 @@ import 'dart:io';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
+import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
@@ -519,6 +520,29 @@ class DBHelper {
     await db.delete("tasks");
     await db.delete("usersettings");
   }
+
+
+
+  getCustomTimer() async{
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("customtimer");
+    List<CustomTimer> list = res.isNotEmpty ? res.map((c) => CustomTimer.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertCustomTimer(CustomTimer timer) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'customtimer',
+        timer.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteCustomTimer(CustomTimer timer) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("customtimer", where: "id = ?", whereArgs: [timer.id]);
+  }
+
 
 
 }
