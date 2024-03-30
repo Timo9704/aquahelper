@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
+import '../../signin.dart';
 import 'button_widget.dart';
 
 class TimerWidget extends StatefulWidget {
@@ -84,15 +85,19 @@ class TimerWidgetState extends State<TimerWidget> {
                 style: ButtonStyle(
                     backgroundColor:
                     MaterialStateProperty.all<Color>(Colors.grey)),
-                child: const Text("Nein!"),
+                child: const Text("Zurück!"),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey)),
-                child: const Text("Ja, jetzt anmelden!"),
-                onPressed: () => Navigator.pop(context),
+                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                child: const Text("Jetzt anmelden!"),
+                onPressed: () => {
+                  Navigator.pop(context),
+                  Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SignIn())),
+                },
               ),
             ],
             elevation: 0,

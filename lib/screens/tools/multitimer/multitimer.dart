@@ -85,33 +85,36 @@ class MultiTimerState extends State<MultiTimer> {
         return AlertDialog(
           title: const Text("Neuen Timer hinzufügen"),
           content: SizedBox(
-            height: 200,
+            height: 210,
             child: Column(
               children: [
                 const Text("Um einen neuen Timer hinzuzufügen, gib bitte den Namen und die Dauer in ganzen Minuten ein."),
                 TextField(
                   decoration: const InputDecoration(
                       labelText: 'Bezeichnung',
-                      labelStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                      )),
+                    labelStyle: TextStyle(
+                        color: Colors.black),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    fillColor: Colors.white,
+                  ),
                   controller: nameController,
                 ),
                 TextField(
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                      labelText: 'Dauer in Minuten',
-                      labelStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                      )),
+                    labelText: 'Dauer in Minuten',
+                    labelStyle: TextStyle(
+                        color: Colors.black),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    fillColor: Colors.white,
+                  ),
                   controller: durationController,
                 ),
+                const SizedBox(height: 10)
               ],
             ),
           ),

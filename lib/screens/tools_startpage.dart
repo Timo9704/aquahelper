@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/signin.dart';
 import 'package:aquahelper/screens/tools/explorer/explorer.dart';
 import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/tools/ground_calculator.dart';
@@ -52,16 +53,20 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey)),
-                child: const Text("Nein!"),
+                    MaterialStateProperty.all<Color>(Colors.grey)),
+                child: const Text("Zurück!"),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey)),
-                child: const Text("Ja, jetzt anmelden!"),
-                onPressed: () => Navigator.pop(context),
+                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                child: const Text("Jetzt anmelden!"),
+                onPressed: () => {
+                  Navigator.pop(context),
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const SignIn())),
+                },
               ),
             ],
             elevation: 0,
