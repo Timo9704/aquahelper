@@ -36,22 +36,37 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     });
   }
 
-  void calculateGround() {
-    int start = int.parse(_startHeightController.text);
-    int end = int.parse(_endHeightController.text);
-    double rectVol = 0;
-    if (start > 0) {
-      rectVol = start *
-          int.parse(_aquariumDepthController.text) *
-          int.parse(_aquariumHeightController.text) /
-          1000;
-      end -= start;
+  double parseTextFieldValue(String value){
+    if(value.isEmpty){
+      return 0.0;
     }
-    double triangleVol = (end * int.parse(_aquariumDepthController.text) / 2) *
-        int.parse(_aquariumHeightController.text) /
-        1000;
-    triangleVol += rectVol;
+    return double.parse(value.replaceAll(RegExp(r','), '.'));
+  }
+
+  void calculateGround() {
     String result = "";
+    double triangleVol = 0.0;
+    try {
+      double start = parseTextFieldValue(_startHeightController.text);
+      double end = parseTextFieldValue(_endHeightController.text);
+      double rectVol = 0;
+      if (start > 0) {
+        rectVol = start *
+            parseTextFieldValue(_aquariumDepthController.text) *
+            parseTextFieldValue(_aquariumHeightController.text) /
+            1000;
+        end -= start;
+      }
+      triangleVol = (end * parseTextFieldValue(_aquariumDepthController.text) /
+          2) *
+          parseTextFieldValue(_aquariumHeightController.text) /
+          1000;
+      triangleVol += rectVol;
+
+    } catch (e) {
+     triangleVol = 0.0;
+     inputFailure();
+    }
 
     if (_selectedGround == "Soil") {
       result = "${triangleVol.round()}l Soil";
@@ -64,6 +79,33 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     setState(() {
       ergebnis = result;
     });
+  }
+
+  void inputFailure() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Fehlerhafte Eingabe"),
+          content: const SizedBox(
+            height: 60,
+            child: Column(
+              children: [
+                Text("Kontrolliere bitte deine Eingaben! Zahlenwerte sind als Komma- oder Ganzzahl einzugeben."),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Schließen"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
   }
 
  /*Widget threeDRectangle() {
@@ -200,12 +242,6 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                const Text("Wähle das Aquarium aus:",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                       )),
                 const SizedBox(height: 10),
                 DropdownButton<Aquarium>(
                   value: _selectedAquarium,
