@@ -18,7 +18,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 5;
+  static const newDbVersion = 6;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -82,6 +82,9 @@ class DBHelper {
           if (version >= 5) {
             await _databaseVersion5(db);
           }
+          if (version >= 6) {
+            await _databaseVersion6(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -106,6 +109,9 @@ class DBHelper {
         break;
       case 5:
         await _databaseVersion5(db);
+        break;
+      case 6:
+        await _databaseVersion6(db);
         break;
     }
   }
@@ -138,6 +144,20 @@ class DBHelper {
               name TEXT,
               seconds INTEGER
             )''');
+  }
+
+  _databaseVersion6(Database db) {
+    db.execute('''CREATE TABLE newCustomTimer(
+        id TEXT PRIMARY KEY,
+        name TEXT,
+        seconds INTEGER
+    )''');
+
+    db.execute('INSERT INTO newCustomTimer(id, name, seconds) SELECT id, name, seconds FROM customTimer');
+
+    db.execute('DROP TABLE customTimer');
+
+    db.execute('ALTER TABLE newCustomTimer RENAME TO customTimer');
   }
 
 
@@ -560,6 +580,7 @@ class DBHelper {
   getCustomTimer() async{
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("customtimer");
+    print(res);
     List<CustomTimer> list = res.isNotEmpty ? res.map((c) => CustomTimer.fromMap(c)).toList() : [];
     return list;
   }

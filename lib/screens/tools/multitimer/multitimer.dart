@@ -19,58 +19,57 @@ class MultiTimerState extends State<MultiTimer> {
   @override
   void initState() {
     super.initState();
+    getAndInsertTimer();
+  }
+
+  void getAndInsertTimer(){
     Datastore.db.getCustomTimer().then((value) => {
-      if(value.isNotEmpty){
+      if(value != null && value.isNotEmpty){
         value.forEach((element) {
-          addCustomTimerWidget(element.name, element.seconds);
+          CustomTimer customTimer = CustomTimer(element.id, element.name, element.seconds);
+          addCustomTimerWidget(customTimer);
           timerList.add(CustomTimer(element.id, element.name, element.seconds));
         })
       }
     });
-
   }
 
   void fillTimerList() {
     setState(() {
       timerList.clear();
       timerWidgetList.clear();
-      Datastore.db.getCustomTimer().then((value) => {
-        value.forEach((element) {
-          addCustomTimerWidget(element.name, int.parse(element.seconds));
-          timerList.add(CustomTimer(element.id, element.name, element.seconds));
-        })
-      });
+      getAndInsertTimer();
     });
   }
 
-  void addCustomTimerWidget(String name, int seconds){
+  void addCustomTimerWidget(CustomTimer customTimer){
     setState(() {
       timerWidgetList.add(
-        Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                    child: TimerWidget(seconds: seconds)),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(name, style: const TextStyle(fontSize: 40),textAlign: TextAlign.center),
-                      const SizedBox(width: 20),
-                      IconButton(onPressed: () => {
-                        Datastore.db.deleteCustomTimer(timerList.firstWhere((element) => element.name == name)),
-                        fillTimerList(),
-                      }, icon: const Icon(Icons.delete, color: Colors.red, size: 30)),
-                    ],),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        )
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                      child: TimerWidget(seconds: customTimer.seconds)),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(customTimer.name, style: const TextStyle(fontSize: 30)),
+                        const SizedBox(height: 5),
+                        IconButton(onPressed: () => {
+                          Datastore.db.deleteCustomTimer(customTimer),
+                          fillTimerList(),
+                        }, icon: const Icon(Icons.delete, color: Colors.red, size: 30)),
+                      ],),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          )
       );
     });
   }
@@ -131,8 +130,9 @@ class MultiTimerState extends State<MultiTimer> {
                 if(nameController.value.text.isNotEmpty && durationController.value.text.isNotEmpty) {
                   try {
                     int duration = int.parse(durationController.value.text) * 60;
-                    addCustomTimerWidget(nameController.value.text, duration);
-                    timerList.add(CustomTimer(const Uuid().v4(), nameController.value.text, duration));
+                    CustomTimer customTimer = CustomTimer(const Uuid().v4(), nameController.value.text, duration);
+                    addCustomTimerWidget(customTimer);
+                    timerList.add(customTimer);
                     Navigator.pop(context);
                   } catch(e) {
                     showFailureDialog();
