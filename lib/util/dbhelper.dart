@@ -580,7 +580,6 @@ class DBHelper {
   getCustomTimer() async{
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("customtimer");
-    print(res);
     List<CustomTimer> list = res.isNotEmpty ? res.map((c) => CustomTimer.fromMap(c)).toList() : [];
     return list;
   }
