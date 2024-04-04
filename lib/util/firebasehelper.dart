@@ -348,6 +348,12 @@ class FirebaseHelper{
       Datastore.db.user = null;
    }
 
+    deleteUserAccount() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      await ref.remove();
+      FirebaseAuth.instance.currentUser?.delete();
+    }
+
   getCustomTimer() async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/customtimer');
       DataSnapshot snapshot = await ref.get();

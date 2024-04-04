@@ -80,6 +80,42 @@ class UserSettingsPageState extends State<UserSettingsPage> {
     }
   }
 
+  void showDeleteRequest(){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Konto löschen"),
+          content: const Text("Möchtest du dein AquaHelper-Konto wirklich löschen? All deine Daten, Bilder und Einstellungen  werden dabei unwiderruflich gelöscht!"),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: deleteUserAccount,
+              child: const Text("Ja, Konto löschen"),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+              ),
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Nein, Konto behalten"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteUserAccount() {
+    FirebaseHelper.db.deleteUserAccount();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const Homepage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +188,27 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                     ),
             ],
           ),
+          if (user != null)
+            ExpansionTile(
+              title: const Text('Konto-Einstellungen'),
+              subtitle: const Text('Passwort, Bearbeitung, Löschung'),
+              children: <Widget>[
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    onPressed: showDeleteRequest,
+                    child: const Text(
+                      'AquaHelper-Konto löschen',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
           const SizedBox(height: 10),
           user != null
               ? ElevatedButton(
