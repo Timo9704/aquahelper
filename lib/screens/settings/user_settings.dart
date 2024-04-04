@@ -157,11 +157,16 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                         ),
                       ),
               ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              isPremiumUser
-                  ? const Column(
+          if (user != null)
+            ExpansionTile(
+              title: const Text('Konto-Einstellungen'),
+              subtitle: const Text('Passwort, Premium, Löschung'),
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    isPremiumUser
+                        ? const Column(
                       children: [
                         Text(
                           'Premium-Version',
@@ -179,20 +184,18 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                         )
                       ],
                     )
-                  : const Text(
+                        : const Text(
                       'Free-Version',
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
                       ),
                     ),
-            ],
-          ),
-          if (user != null)
-            ExpansionTile(
-              title: const Text('Konto-Einstellungen'),
-              subtitle: const Text('Passwort, Bearbeitung, Löschung'),
-              children: <Widget>[
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
