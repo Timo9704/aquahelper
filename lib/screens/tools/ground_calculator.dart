@@ -36,30 +36,32 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     });
   }
 
-  double parseTextFieldValue(String value){
-    if(value.isEmpty){
+  double parseTextFieldValue(TextEditingController controller){
+    if(controller.text.isEmpty){
+      controller.text = "0.0";
       return 0.0;
     }
-    return double.parse(value.replaceAll(RegExp(r','), '.'));
+    controller.text = controller.text.replaceAll(RegExp(r','), '.');
+    return double.parse(controller.text);
   }
 
   void calculateGround() {
     String result = "";
     double triangleVol = 0.0;
     try {
-      double start = parseTextFieldValue(_startHeightController.text);
-      double end = parseTextFieldValue(_endHeightController.text);
+      double start = parseTextFieldValue(_startHeightController);
+      double end = parseTextFieldValue(_endHeightController);
       double rectVol = 0;
       if (start > 0) {
         rectVol = start *
-            parseTextFieldValue(_aquariumDepthController.text) *
-            parseTextFieldValue(_aquariumHeightController.text) /
+            parseTextFieldValue(_aquariumDepthController) *
+            parseTextFieldValue(_aquariumHeightController) /
             1000;
         end -= start;
       }
-      triangleVol = (end * parseTextFieldValue(_aquariumDepthController.text) /
+      triangleVol = (end * parseTextFieldValue(_aquariumDepthController) /
           2) *
-          parseTextFieldValue(_aquariumHeightController.text) /
+          parseTextFieldValue(_aquariumHeightController) /
           1000;
       triangleVol += rectVol;
 
