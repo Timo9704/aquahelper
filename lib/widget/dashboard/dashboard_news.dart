@@ -70,15 +70,12 @@ class _DashboardNewsState extends State<DashboardNews> {
         child: Column(children: [
           const Text('Neuigkeiten',
               style: TextStyle(fontSize: 17, color: Colors.black)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-            child: Column(
+          Expanded(child: Column(
               children: [
-                SizedBox(
-                    height:
-                        MediaQuery.sizeOf(context).height * heightFactor - 20,
+                Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
                       itemCount: newsList.length,
                       itemBuilder: (context, index) {
                         return NewsItem(

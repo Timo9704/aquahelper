@@ -31,6 +31,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("AquaHelper" ),
@@ -66,6 +67,7 @@ class _HomepageState extends State<Homepage> {
         onTap: (index) async {
           setState(() {
             selectedPage = index;
+            ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
           });
         },
       ),
