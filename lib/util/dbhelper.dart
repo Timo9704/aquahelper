@@ -643,7 +643,6 @@ class DBHelper {
 
   getFilterByAquarium(String aquariumId) async {
     final db = await openDatabase('aquarium_database.db');
-    var test = await db.query("filter");
     var res = await db.query("filter", where: 'aquariumId = ?', whereArgs: [aquariumId]);
     List<Filter> list = res.isNotEmpty ? res.map((c) => Filter.fromMap(c)).toList() : [];
     return list;

@@ -14,7 +14,6 @@ class FilterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    print(textScaleFactor);
     return Flexible(
       flex: 3,
       child: Padding(
