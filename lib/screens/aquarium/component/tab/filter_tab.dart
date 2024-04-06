@@ -99,6 +99,10 @@ class _FilterTabState extends State<FilterTab> {
               TextFormField(
                 controller: _manufacturerModelNameController,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Hersteller & Modell',
                 ),
                 validator: (value) {
@@ -144,18 +148,30 @@ class _FilterTabState extends State<FilterTab> {
               TextFormField(
                 controller: _flowRateController,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Fördermenge',
                 ),
               ),
               TextFormField(
                 controller: _powerController,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Leistung',
                 ),
               ),
               TextFormField(
                 controller: _lastMaintenanceController,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Letzte Reinigung',
                 ),
                 onTap: () async {

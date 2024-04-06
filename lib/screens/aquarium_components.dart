@@ -38,7 +38,7 @@ class _AquariumComponentsState extends State<AquariumComponents> {
         0,
         0,
         0,
-        0
+        DateTime.now().millisecondsSinceEpoch,
       );
     }
     List<Lighting> lightingList = await Datastore.db.getLightingByAquarium(widget.aquarium.aquariumId);

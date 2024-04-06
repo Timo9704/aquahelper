@@ -74,6 +74,10 @@ class _HeaterTabState extends State<HeaterTab> {
               TextFormField(
                 controller: _manufacturerModelNameController,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Hersteller & Modell',
                 ),
                 validator: (value) {
@@ -86,6 +90,10 @@ class _HeaterTabState extends State<HeaterTab> {
               TextFormField(
                 controller: _powerController,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Leistung',
                 ),
               ),

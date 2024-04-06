@@ -39,7 +39,7 @@ class _CreateOrEditComponentState extends State<CreateOrEditComponent> with Sing
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Komponente bearbeiten"),
+        title: const Text("Komponenten bearbeiten"),
         backgroundColor: Colors.lightGreen,
         bottom: TabBar(
           labelColor: Colors.black,

@@ -85,16 +85,11 @@ class _LightingTabState extends State<LightingTab> {
             children: <Widget>[
               TextFormField(
                 controller: _manufacturerModelNameController,
-                style: const TextStyle(fontSize: 20),
-                cursorColor: Colors.black,
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.center,
                 decoration: const InputDecoration(
-                  focusColor: Colors.black,
-                  labelStyle: TextStyle(color: Colors.black),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: BorderSide(color: Colors.lightGreen),
                   ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Hersteller & Modell',
                 ),
                 validator: (value) {
@@ -106,11 +101,11 @@ class _LightingTabState extends State<LightingTab> {
               ),
               TextFormField(
                 controller: _brightnessController,
-                style: const TextStyle(fontSize: 20),
-                cursorColor: Colors.black,
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.center,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Helligkeit',
                 ),
                 validator: (value) {
@@ -122,22 +117,22 @@ class _LightingTabState extends State<LightingTab> {
               ),
               TextFormField(
                 controller: _onTimeController,
-                style: const TextStyle(fontSize: 20),
-                cursorColor: Colors.black,
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.center,
                 decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                   labelText: 'Beleuchtungsdauer',
                 ),
               ),
               TextFormField(
                 controller: _powerController,
-                style: const TextStyle(fontSize: 20),
-                cursorColor: Colors.black,
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   labelText: 'Leistung',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.lightGreen),
+                  ),
+                  labelStyle: TextStyle(color: Colors.black),
                 ),
               ),
               const SizedBox(height: 40),
