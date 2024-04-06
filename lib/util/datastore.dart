@@ -6,6 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../model/aquarium.dart';
+import '../model/components/filter.dart';
+import '../model/components/heater.dart';
+import '../model/components/lighting.dart';
 import '../model/measurement.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
@@ -216,6 +219,83 @@ class Datastore {
       await FirebaseHelper.db.deleteCustomTimer(timer);
     }
   }
+
+  //-------------------------Methods for Components-object-----------------------//
+
+
+  getFilterByAquarium(String aquariumId) async {
+    if (user == null) {
+      return await DBHelper.db.getFilterByAquarium(aquariumId);
+    } else {
+      return await FirebaseHelper.db.getFilterByAquarium(aquariumId);
+    }
+  }
+
+  updateFilter(Filter filter) async {
+    if (user == null) {
+      await DBHelper.db.updateFilter(filter);
+    } else {
+      await FirebaseHelper.db.updateFilter(filter);
+    }
+  }
+
+  deleteFilter(Filter filter) async {
+    if (user == null) {
+      await DBHelper.db.deleteFilter(filter);
+    } else {
+      await FirebaseHelper.db.deleteFilter(filter);
+    }
+  }
+
+  getLightingByAquarium(String aquariumId) async {
+    if (user == null) {
+      return await DBHelper.db.getLightingByAquarium(aquariumId);
+    } else {
+      return await FirebaseHelper.db.getLightingByAquarium(aquariumId);
+    }
+  }
+
+  updateLighting(Lighting lighting) async {
+    if (user == null) {
+      await DBHelper.db.updateLighting(lighting);
+    } else {
+      await FirebaseHelper.db.updateLighting(lighting);
+    }
+  }
+
+  deleteLighting(Lighting lighting) async {
+    if (user == null) {
+      await DBHelper.db.deleteLighting(lighting);
+    } else {
+      await FirebaseHelper.db.deleteLighting(lighting);
+    }
+  }
+
+  getHeaterByAquarium(String aquariumId) async {
+    if (user == null) {
+      return await DBHelper.db.getHeaterByAquarium(aquariumId);
+    } else {
+      return await FirebaseHelper.db.getHeaterByAquarium(aquariumId);
+    }
+  }
+
+  updateHeater(Heater heater) async {
+    if (user == null) {
+      await DBHelper.db.updateHeater(heater);
+    } else {
+      await FirebaseHelper.db.updateHeater(heater);
+    }
+  }
+
+  deleteHeater(Heater heater) async {
+    if (user == null) {
+      await DBHelper.db.deleteHeater(heater);
+    } else {
+      await FirebaseHelper.db.deleteHeater(heater);
+    }
+  }
+
+
   //-------------------------Methods for UserSettings-object-----------------------//
 
 

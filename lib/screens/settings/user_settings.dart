@@ -193,7 +193,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(

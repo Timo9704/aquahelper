@@ -14,11 +14,14 @@ import 'dart:io';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
+import '../model/components/filter.dart';
+import '../model/components/heater.dart';
+import '../model/components/lighting.dart';
 import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 6;
+  static const newDbVersion = 7;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -85,6 +88,9 @@ class DBHelper {
           if (version >= 6) {
             await _databaseVersion6(db);
           }
+          if (version >= 7) {
+            await _databaseVersion7(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -112,6 +118,9 @@ class DBHelper {
         break;
       case 6:
         await _databaseVersion6(db);
+        break;
+      case 7:
+        await _databaseVersion7(db);
         break;
     }
   }
@@ -159,6 +168,39 @@ class DBHelper {
 
     db.execute('ALTER TABLE newCustomTimer RENAME TO customTimer');
   }
+
+  _databaseVersion7(Database db) {
+    db.execute('''CREATE TABLE filter(
+        filterId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        manufacturerModelName TEXT,
+        filterType INTEGER,
+        power REAL,
+        flowRate REAL,
+        lastMaintenance INTEGER,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+
+    db.execute('''CREATE TABLE lighting(
+        lightingId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        manufacturerModelName TEXT,
+        lightingType INTEGER,
+        brightness INTEGER,
+        onTime REAL,
+        power REAL,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+
+    db.execute('''CREATE TABLE heater(
+        heaterId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        manufacturerModelName TEXT,
+        power REAL,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+  }
+
 
 
   //-------------------------Methods for Aquarium-object-----------------------//
@@ -575,7 +617,7 @@ class DBHelper {
     await db.delete("customtimer");
   }
 
-
+//-------------------------Methods for custom-timer-----------------------//
 
   getCustomTimer() async{
     final db = await openDatabase('aquarium_database.db');
@@ -597,6 +639,69 @@ class DBHelper {
     await db.delete("customtimer", where: "id = ?", whereArgs: [timer.id]);
   }
 
+//-------------------------Methods for components-----------------------//
 
+  getFilterByAquarium(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var test = await db.query("filter");
+    var res = await db.query("filter", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Filter> list = res.isNotEmpty ? res.map((c) => Filter.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  updateFilter(Filter filter) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'filter',
+        filter.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteFilter(Filter filter) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("filter", where: "filterId = ?", whereArgs: [filter.filterId]);
+  }
+
+  getLightingByAquarium(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("lighting", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Lighting> list = res.isNotEmpty ? res.map((c) => Lighting.fromMap(c)).toList() : [];
+    return list;
+  }
+
+
+  updateLighting(Lighting lighting) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'lighting',
+        lighting.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteLighting(Lighting lighting) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("lighting", where: "lightingId = ?", whereArgs: [lighting.lightingId]);
+  }
+
+  getHeaterByAquarium(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("heater", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Heater> list = res.isNotEmpty ? res.map((c) => Heater.fromMap(c)).toList() : [];
+    return list;
+  }
+
+
+  updateHeater(Heater heater) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'heater',
+        heater.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteHeater(Heater heater) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("heater", where: "heaterId = ?", whereArgs: [heater.heaterId]);
+  }
 
 }

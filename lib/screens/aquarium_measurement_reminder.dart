@@ -193,11 +193,9 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
             ],
           ),
         ),
+        Expanded(child:
         Container(
             padding: const EdgeInsets.all(5.0),
-            height: MediaQuery.of(context).size.height < 650 ? MediaQuery.of(context).size.height * 0.20 :
-              MediaQuery.of(context).size.height < 800 ? MediaQuery.of(context).size.height * 0.27 :
-              MediaQuery.of(context).size.height * 0.35,
             child: measurementList.isNotEmpty ?
             ListView.builder(
               scrollDirection: Axis.vertical,
@@ -217,6 +215,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                     color: Colors.black,
                   )),
             )
+        ),
         ),
       ],
     );

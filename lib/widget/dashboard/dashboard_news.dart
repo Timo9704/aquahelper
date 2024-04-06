@@ -47,23 +47,12 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
-    double heightFactor = MediaQuery.sizeOf(context).height < 700
-        ? 0.18
-        : MediaQuery.sizeOf(context).height < 800
-            ? 0.2
-            : MediaQuery.sizeOf(context).height < 900
-                ? 0.25
-                : 0.3;
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
         padding: const EdgeInsets.all(10),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          /*border: Border.all(
-            color: Colors.grey,
-            width: 0.5,
-          ),*/
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),

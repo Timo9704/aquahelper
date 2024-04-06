@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/aquarium_components.dart';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
@@ -27,6 +28,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
       aquarium = widget.aquarium;
       _pageOptions = [
         AquariumMeasurementReminder(aquarium: aquarium),
+        AquariumComponents(aquarium: aquarium),
         ChartAnalysis(aquariumId: aquarium.aquariumId),
         //AquariumMeasurementReminder(aquarium: aquarium),
       ];
@@ -54,8 +56,12 @@ class _AquariumOverviewState extends State<AquariumOverview> {
             label: 'Übersicht',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.build),
+            label: 'Technik',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
-            label: 'Wasserwertverlauf',
+            label: 'Diagramm',
           ),
           /*BottomNavigationBarItem(
             icon: Icon(Icons.bubble_chart),

@@ -4,6 +4,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
+import '../model/components/filter.dart';
+import '../model/components/heater.dart';
+import '../model/components/lighting.dart';
 import '../model/custom_timer.dart';
 import '../model/measurement.dart';
 import '../model/task.dart';
@@ -354,6 +357,8 @@ class FirebaseHelper{
       FirebaseAuth.instance.currentUser?.delete();
     }
 
+    //-------------------------Methods for customTimer-object-----------------------//
+
   getCustomTimer() async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/customtimer');
       DataSnapshot snapshot = await ref.get();
@@ -381,4 +386,100 @@ class FirebaseHelper{
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/customtimer/${timer.id}');
       await ref.remove();
     }
+
+    //-------------------------Methods for Components-object-----------------------//
+
+    getFilterByAquarium(String aquariumId) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/$aquariumId/filter');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Filter> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['filterId'] = key;
+          Filter filter = Filter.fromFirebaseMap(Map<String, dynamic>.from(value));
+          list.add(filter);
+        });
+      }
+      return list;
+    }
+
+    insertFilter(Filter filter) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${filter.aquariumId}/filter/${filter.filterId}');
+      await ref.set(filter.toFirebaseMap());
+    }
+
+    updateFilter(Filter filter) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${filter.aquariumId}/filter/${filter.filterId}');
+      await ref.update(filter.toFirebaseMap());
+    }
+
+    deleteFilter(Filter filter) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${filter.aquariumId}/filter/${filter.filterId}');
+      await ref.remove();
+    }
+
+    getLightingByAquarium(String aquariumId) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/$aquariumId/lighting');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Lighting> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['lightingId'] = key;
+          Lighting lighting = Lighting.fromFirebaseMap(Map<String, dynamic>.from(value));
+          list.add(lighting);
+        });
+      }
+      return list;
+    }
+
+    insertLighting(Lighting lighting) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${lighting.aquariumId}/lighting/${lighting.lightingId}');
+      await ref.set(lighting.toFirebaseMap());
+    }
+
+    updateLighting(Lighting lighting) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${lighting.aquariumId}/lighting/${lighting.lightingId}');
+      await ref.update(lighting.toFirebaseMap());
+    }
+
+    deleteLighting(Lighting lighting) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${lighting.aquariumId}/lighting/${lighting.lightingId}');
+      await ref.remove();
+    }
+
+    getHeaterByAquarium(String aquariumId) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/$aquariumId/heater');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Heater> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['heaterId'] = key;
+          Heater heater = Heater.fromFirebaseMap(Map<String, dynamic>.from(value));
+          list.add(heater);
+        });
+      }
+      return list;
+    }
+
+    insertHeater(Heater heater) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${heater.aquariumId}/heater/${heater.heaterId}');
+      await ref.set(heater.toFirebaseMap());
+    }
+
+    updateHeater(Heater heater) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${heater.aquariumId}/heater/${heater.heaterId}');
+      await ref.update(heater.toFirebaseMap());
+    }
+
+    deleteHeater(Heater heater) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${heater.aquariumId}/heater/${heater.heaterId}');
+      await ref.remove();
+    }
+
 }
