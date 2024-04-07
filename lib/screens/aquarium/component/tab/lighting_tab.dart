@@ -100,6 +100,7 @@ class _LightingTabState extends State<LightingTab> {
                 },
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _brightnessController,
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(
@@ -116,6 +117,7 @@ class _LightingTabState extends State<LightingTab> {
                 },
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _onTimeController,
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(
@@ -126,6 +128,7 @@ class _LightingTabState extends State<LightingTab> {
                 ),
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _powerController,
                 decoration: const InputDecoration(
                   labelText: 'Leistung',

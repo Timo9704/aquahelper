@@ -88,6 +88,7 @@ class _HeaterTabState extends State<HeaterTab> {
                 },
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _powerController,
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(

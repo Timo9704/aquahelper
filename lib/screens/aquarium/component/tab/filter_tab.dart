@@ -61,8 +61,8 @@ class _FilterTabState extends State<FilterTab> {
         widget.aquarium.aquariumId,
         _manufacturerModelNameController.text,
         int.parse(_filtertypeController.text),
-        parseTextFieldValue(_flowRateController),
         parseTextFieldValue(_powerController),
+        parseTextFieldValue(_flowRateController),
         lastMaintaincaneEpoch,
       );
     }else{
@@ -71,8 +71,8 @@ class _FilterTabState extends State<FilterTab> {
         widget.aquarium.aquariumId,
         _manufacturerModelNameController.text,
         _filterTypes.indexOf(_selectedFilterType),
-        parseTextFieldValue(_flowRateController),
         parseTextFieldValue(_powerController),
+        parseTextFieldValue(_flowRateController),
         lastMaintaincaneEpoch,
       );
     }
@@ -146,6 +146,7 @@ class _FilterTabState extends State<FilterTab> {
                 ],
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _flowRateController,
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(
@@ -156,6 +157,7 @@ class _FilterTabState extends State<FilterTab> {
                 ),
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _powerController,
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(
