@@ -169,6 +169,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                     imagePath: 'assets/buttons/osmosis_deactivated.png',
                     text: 'Osmose-Rechner',
                     onPressed: () {
+                      logEvent('osmosisCalculator');
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => const OsmosisCalculator()),
@@ -179,6 +180,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                     imagePath: 'assets/buttons/osmosis_activated.png',
                     text: 'Osmose-Rechner',
                     onPressed: () {
+                      logEvent('osmosisCalculator');
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => const OsmosisCalculator()),

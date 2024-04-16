@@ -1,9 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:purchases_flutter/models/customer_info_wrapper.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:purchases_ui_flutter/paywall_result.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
 import '../../../model/aquarium.dart';
@@ -192,7 +190,7 @@ class _OsmosisWaterChangeTabState extends State<OsmosisWaterChangeTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text("0 Liter"),
-                Text("${aquariumLiter} Liter"),
+                Text("$aquariumLiter Liter"),
               ],
             ),
             const SizedBox(height: 10),
