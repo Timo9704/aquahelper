@@ -4,6 +4,7 @@ import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
 import 'package:aquahelper/screens/tools/ground_calculator.dart';
 import 'package:aquahelper/screens/tools/light_calculator.dart';
 import 'package:aquahelper/screens/tools/multitimer/multitimer.dart';
+import 'package:aquahelper/screens/tools/osmosis/osmosis_calculator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,9 @@ class ToolsStartPage extends StatefulWidget {
 
 class _ToolsStartPageState extends State<ToolsStartPage> {
   bool isPremiumUser = false;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     // Initialize isPremiumUser in initState
     isUserPremium().then((result) {
@@ -53,14 +55,14 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey)),
+                        MaterialStateProperty.all<Color>(Colors.grey)),
                 child: const Text("Zurück!"),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                        MaterialStateProperty.all<Color>(Colors.lightGreen)),
                 child: const Text("Jetzt anmelden!"),
                 onPressed: () => {
                   Navigator.pop(context),
@@ -79,20 +81,21 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
   Future<bool> isUserPremium() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      return (
-          customerInfo.entitlements.all["Premium"] != null &&
-              customerInfo.entitlements.all["Premium"]!.isActive == true);
+      return (customerInfo.entitlements.all["Premium"] != null &&
+          customerInfo.entitlements.all["Premium"]!.isActive == true);
     } catch (e) {
       return false;
     }
   }
 
   Future<void> showPaywall() async {
-    await FirebaseAnalytics.instance.logEvent(name: 'openPaywall', parameters: null);
+    await FirebaseAnalytics.instance
+        .logEvent(name: 'openPaywall', parameters: null);
     if (user == null) {
       showLoginRequest();
     } else {
-      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded("Premium",
+      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded(
+          "Premium",
           displayCloseButton: true);
       if (result == PaywallResult.purchased) {
         setState(() {
@@ -108,113 +111,122 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
   }
 
   @override
-  Widget build(BuildContext context){
-    return Column(children: [
-      Expanded(
+  Widget build(BuildContext context) {
+    return Stack(alignment: Alignment.bottomCenter, children: [
+      Column(children: [
+        Expanded(
           child:
-              GridView.count(crossAxisCount: 2, childAspectRatio: 1, children: [
-        IconTextButton(
-          imagePath: 'assets/buttons/soil_calculator.png',
-          text: 'Bodengrund-Rechner',
-          onPressed: () {
-            logEvent('openGroundCalculator');
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const GroundCalculator()),
-            );
-          },
-        ),
-        IconTextButton(
-          imagePath: 'assets/buttons/fertilizer_calculator.png',
-          text: 'Dünger-Rechner',
-          onPressed: () {
-            logEvent('openFertilizerCalculator');
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => const FertilizerCalculator()),
-            );
-          },
-        ),
-        IconTextButton(
-          imagePath: 'assets/buttons/explorer.png',
-          text: 'Content-Explorer',
-          onPressed: () {
-            logEvent('openContentExplorer');
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const Explorer()),
-            );
-          },
-        ),
-        IconTextButton(
-          imagePath: 'assets/buttons/light_calculator.png',
-          text: 'Licht-Rechner',
-          onPressed: () {
-            logEvent('openLightCalculator');
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const LightCalculator()),
-            );
-          },
-        ),
-                !isPremiumUser ?
-                IconTextButton(
-                  imagePath: 'assets/buttons/stopwatch_deactivated.png',
-                  text: 'Multitimer',
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const MultiTimer()),
-                    );
-                  },
-                ):
-                IconTextButton(
-                  imagePath: 'assets/buttons/stopwatch_activated.png',
-                  text: 'Multitimer',
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const MultiTimer()),
-                    );
-                  },
-                ),
-      ])),
-      Column(
-        children: [
-          const SizedBox(height: 10),
-          const Text(
-              'Premium-Tools',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+              GridView.count(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                  crossAxisCount: 2,
+                  childAspectRatio: 1,
+                  children: [
+            IconTextButton(
+              imagePath: 'assets/buttons/soil_calculator.png',
+              text: 'Bodengrund-Rechner',
+              onPressed: () {
+                logEvent('openGroundCalculator');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const GroundCalculator()),
+                );
+              },
             ),
-          const Padding(padding: EdgeInsets.all(10), child:
-          Text(
-            'Derzeit befinden sich weitere Premium-Funktionen in der Entwicklung!',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontSize: 12),
-          ),),
-          const SizedBox(height: 10),
-          isPremiumUser ?
-          const Text('Danke für deine Unterstützung!', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),):
-          ElevatedButton(
-              onPressed: showPaywall,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
-                elevation: MaterialStateProperty.all<double>(0),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+            IconTextButton(
+              imagePath: 'assets/buttons/fertilizer_calculator.png',
+              text: 'Dünger-Rechner',
+              onPressed: () {
+                logEvent('openFertilizerCalculator');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const FertilizerCalculator()),
+                );
+              },
+            ),
+            IconTextButton(
+              imagePath: 'assets/buttons/explorer.png',
+              text: 'Content-Explorer',
+              onPressed: () {
+                logEvent('openContentExplorer');
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const Explorer()),
+                );
+              },
+            ),
+            IconTextButton(
+              imagePath: 'assets/buttons/light_calculator.png',
+              text: 'Licht-Rechner',
+              onPressed: () {
+                logEvent('openLightCalculator');
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const LightCalculator()),
+                );
+              },
+            ),
+            !isPremiumUser
+                ? IconTextButton(
+                    imagePath: 'assets/buttons/osmosis_deactivated.png',
+                    text: 'Osmose-Rechner',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const OsmosisCalculator()),
+                      );
+                    },
+                  )
+                : IconTextButton(
+                    imagePath: 'assets/buttons/osmosis_activated.png',
+                    text: 'Osmose-Rechner',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const OsmosisCalculator()),
+                      );
+                    },
+                  ),
+            !isPremiumUser
+                ? IconTextButton(
+                    imagePath: 'assets/buttons/stopwatch_deactivated.png',
+                    text: 'Multitimer',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const MultiTimer()),
+                      );
+                    },
+                  )
+                : IconTextButton(
+                    imagePath: 'assets/buttons/stopwatch_activated.png',
+                    text: 'Multitimer',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const MultiTimer()),
+                      );
+                    },
+                  ),
+          ]),
+        ),
+      ]),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (!isPremiumUser)
+            ElevatedButton(
+                onPressed: showPaywall,
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.lightGreen),
+                  elevation: MaterialStateProperty.all<double>(0),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
                   ),
                 ),
-              ),
-              child: const Text('Premium-Features freischalten')),
-          /*IconTextButton(
-            imagePath: 'assets/buttons/ai_assistant.png',
-            text: 'pH-KH-CO2-Rechner',
-            onPressed: () async {
-              if(await isUserPremium()) {
-                showLightCalculator();
-              } else {
-                showPaywall();
-              }
-            },
-          ),*/
-          const SizedBox(height: 20),
+                child: const Text('Premium-Features freischalten')),
+          const SizedBox(height: 10),
         ],
       ),
     ]);

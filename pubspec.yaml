@@ -77,3 +77,5 @@ flutter:
     - assets/buttons/light_calculator.png
     - assets/buttons/stopwatch_deactivated.png
     - assets/buttons/stopwatch_activated.png
+    - assets/buttons/osmosis_deactivated.png
+    - assets/buttons/osmosis_activated.png
