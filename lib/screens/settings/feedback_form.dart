@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aquahelper/config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -53,6 +54,14 @@ class FeedbackFormState extends State<FeedbackForm> {
       'Bitte gebe keine personenbezogene Daten an.';
 
   void sendRequest(String title, String description) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    String local = "Ja";
+
+    if(user != null && user.uid.isNotEmpty){
+      local = "Nein";
+    }
+
     if(ticketType == 0) {
       title = "BUG: $title";
     }else{
@@ -60,7 +69,7 @@ class FeedbackFormState extends State<FeedbackForm> {
 
     }
     if(description.isNotEmpty){
-      description += "\n App-Version: ${_packageInfo.version}\n Lokal: ${getUserId().isEmpty ? "Ja" : "Nein"}";
+      description += "\n App-Version: ${_packageInfo.version}\n Lokal: $local}";
       final httpResponse = await  http.post(
         Uri.parse('https://api.trello.com/1/cards?idList=65d20760344a48e372e37eb6&key=c188c3c92a0aad1e758b0b2906333e2e&token=ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A'),
         headers: <String, String>{
