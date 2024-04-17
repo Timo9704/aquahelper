@@ -95,5 +95,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database'
-    implementation 'com.android.billingclient:billing:6.2.0'
+    implementation 'com.android.billingclient:billing:6.2.1'
 }
