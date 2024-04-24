@@ -68,7 +68,7 @@ class FeedbackFormState extends State<FeedbackForm> {
 
     }
     if(description.isNotEmpty){
-      description += "\n App-Version: ${_packageInfo.version}\n Lokal: $local}";
+      description += "\n App-Version: ${_packageInfo.version}\n Lokal: $local";
       final httpResponse = await  http.post(
         Uri.parse('https://api.trello.com/1/cards?idList=65d20760344a48e372e37eb6&key=c188c3c92a0aad1e758b0b2906333e2e&token=ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A'),
         headers: <String, String>{
