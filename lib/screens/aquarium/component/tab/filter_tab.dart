@@ -199,7 +199,7 @@ class _FilterTabState extends State<FilterTab> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     Datastore.db.updateFilter(getEditedFilter());
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => AquariumOverview(aquarium: widget.aquarium),

@@ -106,7 +106,7 @@ class _HeaterTabState extends State<HeaterTab> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     Datastore.db.updateHeater(getEditedHeater());
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => AquariumOverview(aquarium: widget.aquarium),

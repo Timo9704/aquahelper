@@ -146,7 +146,7 @@ class _LightingTabState extends State<LightingTab> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     Datastore.db.updateLighting(getEditedLighting());
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => AquariumOverview(aquarium: widget.aquarium),
