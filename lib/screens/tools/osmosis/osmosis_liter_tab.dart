@@ -80,9 +80,9 @@ class _OsmosisLiterTabState extends State<OsmosisLiterTab> {
         double relationPart = aquariumLiter / sumRelation;
 
         setState(() {
-          _osmosisLiterController = double.parse(
+          _tapLiterController = double.parse(
               (osmosisIntermediate * relationPart).toStringAsFixed(1));
-          _tapLiterController =
+          _osmosisLiterController =
               double.parse((tapIntermediate * relationPart).toStringAsFixed(1));
         });
       }
@@ -161,7 +161,7 @@ class _OsmosisLiterTabState extends State<OsmosisLiterTab> {
 
   Widget getLumenIndicator() {
     Color color = Colors.lightGreen;
-    double position = (_osmosisLiterController / 60).clamp(0.0, 1.0);
+
     int aquariumLiter = 0;
     if (_selectedAquarium != null) {
       aquariumLiter = _selectedAquarium!.liter;
@@ -170,6 +170,7 @@ class _OsmosisLiterTabState extends State<OsmosisLiterTab> {
         aquariumLiter = int.parse(_aquariumLiterController.text);
       }
     }
+    double position = (_osmosisLiterController / aquariumLiter).clamp(0.0, 1.0);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         double barPosition = position * constraints.maxWidth;
