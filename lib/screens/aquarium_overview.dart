@@ -1,4 +1,5 @@
 import 'package:aquahelper/screens/aquarium_components.dart';
+import 'package:aquahelper/screens/runin/runin_intro.dart';
 import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
@@ -30,7 +31,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
         AquariumMeasurementReminder(aquarium: aquarium),
         AquariumComponents(aquarium: aquarium),
         ChartAnalysis(aquariumId: aquarium.aquariumId),
-        //AquariumMeasurementReminder(aquarium: aquarium),
+        const RunInIntro()
       ];
     });
   }
@@ -63,10 +64,10 @@ class _AquariumOverviewState extends State<AquariumOverview> {
             icon: Icon(Icons.bar_chart),
             label: 'Diagramm',
           ),
-          /*BottomNavigationBarItem(
-            icon: Icon(Icons.bubble_chart),
-            label: 'Besatz',
-          ),*/
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restart_alt),
+            label: 'Einfahrphase',
+          ),
         ],
         currentIndex: selectedPage,
         onTap: (index){

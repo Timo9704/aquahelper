@@ -45,6 +45,7 @@ dependencies:
   firebase_crashlytics: ^3.4.18
   purchases_flutter: ^6.24.0
   purchases_ui_flutter: ^6.24.0
+  table_calendar: ^3.1.1
 
 dependency_overrides:
   flutter_keyboard_visibility: ^6.0.0
@@ -79,3 +80,4 @@ flutter:
     - assets/buttons/stopwatch_activated.png
     - assets/buttons/osmosis_deactivated.png
     - assets/buttons/osmosis_activated.png
+    - assets/images/runin_intro.png
