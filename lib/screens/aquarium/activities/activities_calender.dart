@@ -8,9 +8,9 @@ import '../../../util/datastore.dart';
 import 'create_or_edit_activities.dart';
 
 class ActivitiesCalendar extends StatefulWidget {
-  ActivitiesCalendar({super.key, required this.aquariumId});
+  const ActivitiesCalendar({super.key, required this.aquariumId});
 
-  String aquariumId;
+  final String aquariumId;
 
   @override
   State<ActivitiesCalendar> createState() => _ActivitiesCalendarState();
