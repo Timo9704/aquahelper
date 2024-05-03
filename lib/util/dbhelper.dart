@@ -14,6 +14,7 @@ import 'dart:io';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
+import '../model/activity.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
@@ -21,7 +22,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 7;
+  static const newDbVersion = 8;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -91,6 +92,9 @@ class DBHelper {
           if (version >= 7) {
             await _databaseVersion7(db);
           }
+          if (version >= 8) {
+            await _databaseVersion8(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -121,6 +125,9 @@ class DBHelper {
         break;
       case 7:
         await _databaseVersion7(db);
+        break;
+      case 8:
+        await _databaseVersion8(db);
         break;
     }
   }
@@ -197,6 +204,17 @@ class DBHelper {
         aquariumId TEXT,
         manufacturerModelName TEXT,
         power REAL,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+  }
+
+  _databaseVersion8(Database db) {
+    db.execute('''CREATE TABLE activities(
+        id TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        activities TEXT,
+        notes REAL,
+        date TEXT,
         FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
     )''');
   }
@@ -701,6 +719,35 @@ class DBHelper {
   deleteHeater(Heater heater) async {
     final db = await openDatabase('aquarium_database.db');
     await db.delete("heater", where: "heaterId = ?", whereArgs: [heater.heaterId]);
+  }
+
+  getActivitiesByAquarium(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("activities", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Activity> list = res.isNotEmpty ? res.map((c) => Activity.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertActivity(Activity activity) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'activities',
+        activity.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteActivity(Activity activity) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("activities", where: "id = ?", whereArgs: [activity.id]);
+  }
+
+  updateActivity(Activity activity) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("activities",
+        activity.toMap(),
+        where: 'id = ?',
+        whereArgs: [activity.id],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
   }
 
 }
