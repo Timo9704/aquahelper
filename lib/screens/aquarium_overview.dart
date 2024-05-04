@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/aquarium/activities/activities_calender.dart';
 import 'package:aquahelper/screens/aquarium_components.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +30,8 @@ class _AquariumOverviewState extends State<AquariumOverview> {
       _pageOptions = [
         AquariumMeasurementReminder(aquarium: aquarium),
         AquariumComponents(aquarium: aquarium),
+        ActivitiesCalendar(aquariumId: aquarium.aquariumId),
         ChartAnalysis(aquariumId: aquarium.aquariumId),
-        //AquariumMeasurementReminder(aquarium: aquarium),
       ];
     });
   }
@@ -60,13 +61,13 @@ class _AquariumOverviewState extends State<AquariumOverview> {
             label: 'Technik',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.bubble_chart),
+            label: 'Aktivitäten',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
             label: 'Diagramm',
           ),
-          /*BottomNavigationBarItem(
-            icon: Icon(Icons.bubble_chart),
-            label: 'Besatz',
-          ),*/
         ],
         currentIndex: selectedPage,
         onTap: (index){
