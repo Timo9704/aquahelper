@@ -52,12 +52,13 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
     kEvents.clear();
     Datastore.db.getActivitiesForAquarium(widget.aquariumId).then((value) {
       for (Activity activity in value) {
-        activity.activitites.split(",").forEach((element) {
+        activity.activities.split(",").forEach((element) {
           addEventToMap(DateTime.fromMillisecondsSinceEpoch(activity.date),
               Event(element, activity));
         });
       }
     });
+    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
 
   List<Event> _getEventsForDay(DateTime day) {
@@ -148,8 +149,10 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
                                   ),
                                 ),
                               );
-                              if (result != null) {
-                                getActivitiesFromDb();
+                              if (result == true) {
+                                setState(() {
+                                  getActivitiesFromDb();
+                                });
                               }
                             },
                             title: Text('${value[index]}'),
@@ -161,7 +164,7 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
                 ),
                 Positioned(
                   right: 16,
-                  bottom: 16,
+                  bottom: 10,
                   child: FloatingActionButton(
                     onPressed: () async {
                       final result = await Navigator.push(
@@ -174,10 +177,13 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
                         ),
                       );
                       if (result != null) {
-                        getActivitiesFromDb();
+                        setState(() {
+                          getActivitiesFromDb();
+                        });
                       }
                     },
                     backgroundColor: Colors.lightGreen,
+                    foregroundColor: Colors.white,
                     child: const Icon(Icons.add),
                   ),
                 ),

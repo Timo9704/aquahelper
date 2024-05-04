@@ -213,8 +213,8 @@ class DBHelper {
         id TEXT PRIMARY KEY,
         aquariumId TEXT,
         activities TEXT,
-        notes REAL,
-        date TEXT,
+        notes TEXT,
+        date INTEGER,
         FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
     )''');
   }

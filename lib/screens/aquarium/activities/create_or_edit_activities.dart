@@ -36,7 +36,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
   void initState() {
     super.initState();
     if (widget.activity.id.isNotEmpty) {
-      selectedTags = widget.activity.activitites.split(",").toSet();
+      selectedTags = widget.activity.activities.split(",").toSet();
       selectedDate = DateTime.fromMillisecondsSinceEpoch(widget.activity.date);
       _noteController.text = widget.activity.notes;
       createMode = false;
@@ -100,6 +100,23 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
+      cancelText: "Abbrechen",
+      builder: (context, child) => Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.lightGreen,
+              onPrimary: Colors.black,
+              surface: Colors.white,
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.black, // ok , cancel    buttons
+              ),
+            ),
+          ),
+          child: child!,
+        )
     );
 
     if (picked != null && picked != selectedDate) {
@@ -133,7 +150,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Welche Aufgaben hast du erledigt?",
-                          style: TextStyle(fontSize: 22, color: Colors.black)),
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
                       const SizedBox(height: 10),
                       Wrap(
                         spacing: 10.0,
@@ -171,7 +188,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Notizen:",
-                          style: TextStyle(fontSize: 22, color: Colors.black)),
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
                       TextFormField(
                         maxLines: 5,
                         cursorColor: Colors.black,
@@ -197,7 +214,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                       : 'Datum: ${DateFormat('dd.MM.yyyy').format(selectedDate!)}',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      fontSize: 16),
+                      fontSize: 18),
                 ),
               ),
               const SizedBox(height: 20),
@@ -210,7 +227,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   child: const Text("Aktivität speichern",
-                      style: TextStyle(fontSize: 20))) :
+                      style: TextStyle(fontSize: 18))) :
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -222,7 +239,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: const Text("Löschen",
-                          style: TextStyle(fontSize: 20))),
+                          style: TextStyle(fontSize: 18))),
                   ElevatedButton(
                       onPressed: updateActivity,
                       style: ElevatedButton.styleFrom(
@@ -231,7 +248,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: const Text("Aktualisieren",
-                          style: TextStyle(fontSize: 20)))
+                          style: TextStyle(fontSize: 18)))
                 ],
               )
             ],

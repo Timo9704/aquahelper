@@ -1,14 +1,14 @@
 class Activity {
   String id;
   String aquariumId;
-  String activitites;
+  String activities;
   int date;
   String notes;
 
   Activity(
       this.id,
       this.aquariumId,
-      this.activitites,
+      this.activities,
       this.date,
       this.notes
       );
@@ -17,7 +17,7 @@ class Activity {
     return Activity(
         json["id"],
         json["aquariumId"],
-        json["activitites"],
+        json["activities"],
         json["date"],
         json["notes"]
     );
@@ -27,7 +27,7 @@ class Activity {
     return {
       'id': id,
       'aquariumId': aquariumId,
-      'activitites': activitites,
+      'activities': activities,
       'date': date,
       'notes': notes
     };
@@ -37,7 +37,7 @@ class Activity {
     return {
       'id': id,
       'aquariumId': aquariumId,
-      'activitites': activitites,
+      'activities': activities,
       'date': date,
       'notes': notes
     };
