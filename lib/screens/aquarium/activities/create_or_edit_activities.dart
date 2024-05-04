@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -62,6 +63,8 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
       _noteController.text,
     );
 
+    logEvent("Activity_Created");
+
     Datastore.db.addActivity(activity);
     Navigator.pop(context, true);
   }
@@ -124,6 +127,11 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
         selectedDate = picked;
       });
     }
+  }
+
+  Future<void> logEvent(String logFunction) async {
+    await FirebaseAnalytics.instance
+        .logEvent(name: logFunction, parameters: null);
   }
 
   @override
