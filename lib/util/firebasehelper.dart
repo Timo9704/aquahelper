@@ -30,6 +30,7 @@ class FirebaseHelper{
           ref.set({
             "email": user.email,
             "created": DateTime.now().millisecondsSinceEpoch,
+            "privacypolicy": DateTime.now().millisecondsSinceEpoch,
           });
         }
       });

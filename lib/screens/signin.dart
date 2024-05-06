@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../model/aquarium.dart';
 import '../util/datastore.dart';
@@ -25,6 +26,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isCheckboxChecked = false;
 
   void signIn() async {
     try {
@@ -40,6 +42,94 @@ class _SignInState extends State<SignIn> {
     } on FirebaseAuthException catch (e) {
       showErrorMessage(e.message!);
     }
+  }
+
+  Future<void> _launchprivacyPolicy() async {
+    await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
+  }
+
+  privacyPolicyWithGoogleSignIn() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Datenschutzrichtlinien"),
+              content: SizedBox(
+                height: 80,
+                child: Row(
+                  children: [
+                    Checkbox(
+                        value: _isCheckboxChecked,
+                        checkColor: Colors.black,
+                        activeColor: Colors.lightGreen,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isCheckboxChecked = value!;
+                          });
+                        }),
+                    GestureDetector(
+                      onTap: () {
+                        _launchprivacyPolicy();
+                      },
+                      child: const Text.rich(
+                        TextSpan(
+                          text: 'Ich bestätige hiermit die \n',
+                          style: TextStyle(
+                              fontSize: 12.0, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Datenschutzbestimmungen',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '\ngelesen zu haben und akzeptiere diese.',
+                              style: TextStyle(
+                                  fontSize: 12.0, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              actions: [
+                Row(children: [
+                  Expanded(child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.grey)),
+                    child: const Text("Abbrechen!"),
+                    onPressed: () => Navigator.pop(context),
+                  ),),
+                  const SizedBox(width: 10),
+                  Expanded(child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                    onPressed: _isCheckboxChecked
+                        ? () {
+                      Navigator.pop(context);
+                      signInWithGoogle();
+                    }
+                        : null,
+                    child: const Text("Weiter!"),
+                  ),),
+
+                ],)
+              ],
+              elevation: 0,
+            );
+          },
+        );
+      },
+    );
   }
 
   Future<User?> signInWithGoogle() async {
@@ -178,7 +268,7 @@ class _SignInState extends State<SignIn> {
                       child: Image.asset('assets/images/google.png', scale: 3),
                     ),
                     onTap: () async {
-                      signInWithGoogle();
+                      privacyPolicyWithGoogleSignIn();
                     },
                     ),
                   const SizedBox(height: 20),
@@ -260,34 +350,6 @@ class _SignInState extends State<SignIn> {
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const Text('oder',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.bold,
-                      )),
-                  const SizedBox(height: 15),
-                  InkWell(
-                    onTap: () {
-                      setUserId("");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const Homepage()));
-                    },
-                    child: const Text(
-                        'Ohne Konto fortfahren - nur lokale Datenbank',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline)),
-                  ),
-                  const SizedBox(height: 20),
                 ],
               ),
             )

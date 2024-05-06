@@ -571,7 +571,7 @@ class DBHelper {
   uploadDataToFirebase() async {
     final db = await openDatabase('aquarium_database.db');
     User user = FirebaseAuth.instance.currentUser!;
-    FirebaseHelper.db.initializeUser(user);
+    await FirebaseHelper.db.initializeUser(user);
     FirebaseHelper.db.user = user;
 
     try {
@@ -609,6 +609,11 @@ class DBHelper {
       List<Map<String, dynamic>> customTimers = await db.query('customtimer');
       for (var element in customTimers) {
         FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> activities = await db.query('activities');
+      for (var element in activities) {
+        FirebaseHelper.db.addActivity(Activity.fromMap(element));
       }
       return true;
     } catch (e) {
