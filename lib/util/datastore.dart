@@ -360,4 +360,10 @@ class Datastore {
     return ref.getDownloadURL();
   }
 
+  void updateLastLogin() {
+    if (user != null) {
+      FirebaseHelper.db.updateLastLogin();
+    }
+  }
+
 }

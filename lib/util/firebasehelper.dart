@@ -36,6 +36,13 @@ class FirebaseHelper{
       });
     }
 
+    updateLastLogin() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      ref.update({
+        "lastlogin": DateTime.now().millisecondsSinceEpoch,
+      });
+    }
+
     Future<List<Aquarium>> getAllAquariums() async {
       List<Aquarium> aquariums = [];
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tanks');

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../util/datastore.dart';
 import 'homepage.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   @override
   initState(){
     super.initState();
+    Datastore.db.updateLastLogin();
     checkIntroShown();
   }
 
