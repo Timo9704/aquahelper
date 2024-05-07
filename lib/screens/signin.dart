@@ -55,9 +55,10 @@ class _SignInState extends State<SignIn> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text("Datenschutzrichtlinien"),
+              title: const Text("Datenschutzrichtlinien", style: TextStyle(fontSize: 20)),
               content: SizedBox(
                 height: 80,
+                width: MediaQuery.of(context).size.width * 0.9,
                 child: Row(
                   children: [
                     Checkbox(
@@ -105,7 +106,7 @@ class _SignInState extends State<SignIn> {
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.grey)),
-                    child: const Text("Abbrechen!"),
+                    child: const Text("Abbruch"),
                     onPressed: () => Navigator.pop(context),
                   ),),
                   const SizedBox(width: 10),
@@ -119,7 +120,7 @@ class _SignInState extends State<SignIn> {
                       signInWithGoogle();
                     }
                         : null,
-                    child: const Text("Weiter!"),
+                    child: const Text("Weiter"),
                   ),),
 
                 ],)
