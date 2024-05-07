@@ -350,6 +350,22 @@ class Datastore {
     }
   }
 
+  Future<bool> checkLatestPrivacyPolicy() async {
+    if (user == null) {
+      return await DBHelper.db.checkLatestPrivacyPolicy();
+    } else {
+      return await FirebaseHelper.db.checkLatestPrivacyPolicy();
+    }
+  }
+
+  Future<void> updateLatestPrivacyPolicy() async {
+    if (user == null) {
+      return await DBHelper.db.updateLatestPrivacyPolicy();
+    } else {
+      return await FirebaseHelper.db.updateLatestPrivacyPolicy();
+    }
+  }
+
   saveImages(File file){
     final ref = firebase_storage.FirebaseStorage.instance.ref().child('images/${file.path}');
     ref.putFile(file);

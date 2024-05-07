@@ -50,6 +50,7 @@ class _SignInState extends State<SignIn> {
 
   privacyPolicyWithGoogleSignIn() {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return StatefulBuilder(
@@ -102,14 +103,6 @@ class _SignInState extends State<SignIn> {
               ),
               actions: [
                 Row(children: [
-                  Expanded(child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey)),
-                    child: const Text("Abbruch"),
-                    onPressed: () => Navigator.pop(context),
-                  ),),
-                  const SizedBox(width: 10),
                   Expanded(child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:

@@ -22,7 +22,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 8;
+  static const newDbVersion = 9;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -95,6 +95,9 @@ class DBHelper {
           if (version >= 8) {
             await _databaseVersion8(db);
           }
+          if (version >= 9) {
+            await _databaseVersion9(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -128,6 +131,9 @@ class DBHelper {
         break;
       case 8:
         await _databaseVersion8(db);
+        break;
+      case 9:
+        await _databaseVersion9(db);
         break;
     }
   }
@@ -219,7 +225,11 @@ class DBHelper {
     )''');
   }
 
-
+  _databaseVersion9(Database db) {
+    db.execute('''CREATE TABLE user(
+        privacypolicy TEXT
+    )''');
+  }
 
   //-------------------------Methods for Aquarium-object-----------------------//
 
@@ -444,6 +454,23 @@ class DBHelper {
     }
   }
 
+  Future<bool> checkLatestPrivacyPolicy() async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("user");
+    if(res.isNotEmpty){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  Future<void> updateLatestPrivacyPolicy() async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert('user',
+        {'privacypolicy': DateTime.now().millisecondsSinceEpoch},
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
 
   //-------------------------Methods for import and export-----------------------//
 
@@ -473,6 +500,12 @@ class DBHelper {
     fileContent.add('## CustomTimers ##');
     for (var customTimer in customTimers) {
       fileContent.add(customTimer.values.join(','));
+    }
+
+    List<Map<String, dynamic>> activities = await db.query('activities');
+    fileContent.add('## Activities ##');
+    for (var activity in activities) {
+      fileContent.add(activity.values.join(','));
     }
 
     try {
@@ -556,6 +589,15 @@ class DBHelper {
               'id': values[0],
               'name': values[1],
               'seconds': values[2]
+            });
+          }
+          else if (currentTable == '## Activities ##') {
+            await db.insert('activities', {
+              'id': values[0],
+              'aquariumId': values[1],
+              'activities': values[2],
+              'notes': values[3],
+              'date': values[4]
             });
           }
         }

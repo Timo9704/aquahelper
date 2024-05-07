@@ -43,6 +43,29 @@ class FirebaseHelper{
       });
     }
 
+    Future<bool> checkLatestPrivacyPolicy() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        if(items.containsKey('privacypolicy')){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }
+
+    updateLatestPrivacyPolicy() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      ref.update({
+        "privacypolicy": DateTime.now().millisecondsSinceEpoch,
+      });
+    }
+
     Future<List<Aquarium>> getAllAquariums() async {
       List<Aquarium> aquariums = [];
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tanks');
