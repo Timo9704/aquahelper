@@ -46,6 +46,7 @@ dependencies:
   purchases_flutter: ^6.28.0
   purchases_ui_flutter: ^6.28.0
   table_calendar: ^3.1.1
+  flutter_ringtone_player: ^4.0.0+1
 
 
 dependency_overrides:
@@ -54,7 +55,7 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^3.0.2
   sqflite_common_ffi: ^2.3.0+4
 
 flutter_icons:
