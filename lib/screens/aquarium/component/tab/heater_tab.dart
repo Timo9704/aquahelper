@@ -3,7 +3,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../model/aquarium.dart';
 import '../../../../model/components/heater.dart';
 import '../../../../util/datastore.dart';
-import '../../../aquarium_overview.dart';
+import '../../aquarium_overview.dart';
 
 class HeaterTab extends StatefulWidget {
   final Heater heater;

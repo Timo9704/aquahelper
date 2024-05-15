@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/measurement.dart';
 
-import '../util/datastore.dart';
+import '../../util/datastore.dart';
 
 var waterValueMap = {
   'Temperatur': 'temperature',

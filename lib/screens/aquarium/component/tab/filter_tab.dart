@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../model/components/filter.dart';
 import '../../../../util/datastore.dart';
-import '../../../aquarium_overview.dart';
+import '../../aquarium_overview.dart';
 
 class FilterTab extends StatefulWidget {
   final Filter filter;

@@ -16,7 +16,7 @@ import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/task.dart' as model;
 import 'package:aquahelper/util/scalesize.dart';
 
-import '../util/datastore.dart';
+import '../../util/datastore.dart';
 
 class CreateOrEditAquarium extends StatefulWidget {
   final Aquarium? aquarium;

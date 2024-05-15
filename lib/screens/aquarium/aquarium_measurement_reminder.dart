@@ -5,13 +5,13 @@ import 'dart:io';
 
 import 'package:aquahelper/model/aquarium.dart';
 
-import '../model/measurement.dart';
-import '../model/task.dart';
-import '../util/datastore.dart';
-import '../widget/measurement_item.dart';
-import '../widget/reminder_item.dart';
-import 'create_or_edit_aquarium.dart';
-import 'measurement_form.dart';
+import '../../model/measurement.dart';
+import '../../model/task.dart';
+import '../../util/datastore.dart';
+import '../../widget/measurement_item.dart';
+import '../../widget/reminder_item.dart';
+import '../general/create_or_edit_aquarium.dart';
+import '../general/measurement_form.dart';
 
 class AquariumMeasurementReminder extends StatefulWidget {
   const AquariumMeasurementReminder({super.key,  required this.aquarium});

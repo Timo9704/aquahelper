@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
-import '../../signin.dart';
+import '../../usermanagement/signin.dart';
 import 'button_widget.dart';
 
 class TimerWidget extends StatefulWidget {

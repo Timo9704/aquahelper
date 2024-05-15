@@ -1,5 +1,5 @@
 import 'package:aquahelper/model/user_settings.dart';
-import 'package:aquahelper/screens/onboarding_page.dart';
+import 'package:aquahelper/screens/general/onboarding_page.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

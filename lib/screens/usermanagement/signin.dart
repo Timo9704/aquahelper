@@ -1,6 +1,6 @@
 import 'package:aquahelper/config.dart';
-import 'package:aquahelper/screens/homepage.dart';
-import 'package:aquahelper/screens/signup.dart';
+import 'package:aquahelper/screens/general/homepage.dart';
+import 'package:aquahelper/screens/usermanagement/signup.dart';
 import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../model/aquarium.dart';
-import '../util/datastore.dart';
-import '../util/dbhelper.dart';
+import '../../model/aquarium.dart';
+import '../../util/datastore.dart';
+import '../../util/dbhelper.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

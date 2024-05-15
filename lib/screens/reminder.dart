@@ -1,4 +1,4 @@
-import 'package:aquahelper/screens/aquarium_overview.dart';
+import 'package:aquahelper/screens/aquarium/aquarium_overview.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';

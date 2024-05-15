@@ -11,10 +11,10 @@ import 'package:uuid/uuid.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
-import 'package:aquahelper/screens/aquarium_overview.dart';
+import 'package:aquahelper/screens/aquarium/aquarium_overview.dart';
 import 'package:aquahelper/config.dart';
 
-import '../util/datastore.dart';
+import '../../util/datastore.dart';
 
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
