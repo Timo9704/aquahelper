@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
@@ -15,6 +12,7 @@ import 'package:aquahelper/screens/aquarium/aquarium_overview.dart';
 import 'package:aquahelper/config.dart';
 
 import '../../util/datastore.dart';
+import '../../util/image_selector.dart';
 
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
@@ -171,43 +169,6 @@ class MeasurementFormState extends State<MeasurementForm> {
     );
   }
 
-  Future<void> getImage({required BuildContext context}) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      final croppedImage = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Bild zuschneiden',
-              toolbarColor: Colors.lightGreen,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Cropper',
-          ),
-        ],
-      );
-      //GallerySaver.saveImage(croppedImage!.path, albumName: "AquaHelper");
-      final directory = await getExternalStorageDirectory();
-      final newImagePath = '${directory?.path}/images/AquaAffin';
-      final newImage = File('$newImagePath/test1.jpg');
-
-      if (!await newImage.parent.exists()) {
-        await newImage.parent.create(recursive: true);
-      }
-
-      File(image.path).copy(newImage.path);
-
-      setState(() {
-        imagePath = croppedImage!.path;
-      });
-    }
-  }
-
   void _presentDatePicker() {
     DatePicker.showDateTimePicker(
       context,
@@ -263,22 +224,6 @@ class MeasurementFormState extends State<MeasurementForm> {
     );
   }
 
-  Widget localImageCheck(String imagePath) {
-    try {
-      return Image.file(File(imagePath), fit: BoxFit.cover);
-    } catch (e) {
-      return Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Image.asset('assets/images/aquarium.jpg',
-              fit: BoxFit.fill),
-          const Icon(Icons.camera_alt,
-              size: 100, color: Colors.white),
-        ],
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -292,7 +237,12 @@ class MeasurementFormState extends State<MeasurementForm> {
           child: Column(
             children: <Widget>[
               GestureDetector(
-                onTap: () => {getImage(context: context)},
+                onTap: () async {
+                  String futurePath = await ImageSelector().getImage(context);
+                  setState(() {
+                    imagePath = futurePath;
+                  });
+                },
                 child: ClipRRect(
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(10),
@@ -302,13 +252,24 @@ class MeasurementFormState extends State<MeasurementForm> {
                         ? Stack(
                       alignment: Alignment.center,
                       children: <Widget>[
-                        Image.asset(imagePath,
-                            fit: BoxFit.fill), // Standard-Bild
+                        Image.asset(imagePath, fit: BoxFit.fill),
                         const Icon(Icons.camera_alt,
                             size: 100, color: Colors.white),
                       ],
                     )
-                        : localImageCheck(imagePath)),
+                        : Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        imagePath.startsWith('https://')
+                            ? CachedNetworkImage(
+                            imageUrl: imagePath,
+                            fit: BoxFit.fill,
+                            height: 250)
+                            : ImageSelector().localImageCheck(imagePath),
+                        const Icon(Icons.camera_alt,
+                            size: 100, color: Colors.white),
+                      ],
+                    )),
               ),
               const SizedBox(
                 height: 10,
