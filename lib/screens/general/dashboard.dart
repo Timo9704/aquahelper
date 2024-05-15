@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../util/scalesize.dart';
-import '../widget/dashboard/dashboard_health_status.dart';
-import '../widget/dashboard/dashboard_measurements.dart';
-import '../widget/dashboard/dashboard_news.dart';
-import '../widget/dashboard/dashboard_reminder.dart';
+import '../../util/scalesize.dart';
+import '../../widget/dashboard/dashboard_health_status.dart';
+import '../../widget/dashboard/dashboard_measurements.dart';
+import '../../widget/dashboard/dashboard_news.dart';
+import '../../widget/dashboard/dashboard_reminder.dart';
 
 import 'package:http/http.dart' as http;
 

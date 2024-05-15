@@ -1,6 +1,6 @@
 import 'package:aquahelper/model/user_settings.dart';
-import 'package:aquahelper/screens/homepage.dart';
-import 'package:aquahelper/screens/signin.dart';
+import 'package:aquahelper/screens/general/homepage.dart';
+import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

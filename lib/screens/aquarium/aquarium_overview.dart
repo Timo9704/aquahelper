@@ -1,8 +1,8 @@
 import 'package:aquahelper/screens/aquarium/activities/activities_calender.dart';
-import 'package:aquahelper/screens/aquarium_components.dart';
+import 'package:aquahelper/screens/aquarium/aquarium_components.dart';
 import 'package:flutter/material.dart';
 
-import '../model/aquarium.dart';
+import '../../model/aquarium.dart';
 import 'aquarium_measurement_reminder.dart';
 import 'chart_analysis.dart';
 

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
 
-import '../model/components/filter.dart';
-import '../model/components/lighting.dart';
-import '../util/datastore.dart';
-import '../widget/aquarium_components/filter_item.dart';
-import '../widget/aquarium_components/heater_item.dart';
-import 'aquarium/component/create_or_edit_component.dart';
+import '../../model/components/filter.dart';
+import '../../model/components/lighting.dart';
+import '../../util/datastore.dart';
+import '../../widget/aquarium_components/filter_item.dart';
+import '../../widget/aquarium_components/heater_item.dart';
+import 'component/create_or_edit_component.dart';
 
 class AquariumComponents extends StatefulWidget {
   const AquariumComponents({super.key, required this.aquarium});
