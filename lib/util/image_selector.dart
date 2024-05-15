@@ -51,7 +51,6 @@ class ImageSelector {
         final file = File(croppedImage!.path);
         await imageRef.putFile(file);
         imagePath = await imageRef.getDownloadURL();
-        print(imagePath);
       } else {
         imagePath = croppedImage!.path;
         try {
