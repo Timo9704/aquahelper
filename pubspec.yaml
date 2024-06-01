@@ -84,3 +84,7 @@ flutter:
     - assets/buttons/osmosis_deactivated.png
     - assets/buttons/osmosis_activated.png
     - assets/images/plant.png
+    - assets/images/increase_ground.jpg
+    - assets/images/island_ground.jpg
+    - assets/images/increase.jpg
+    - assets/images/island.jpg

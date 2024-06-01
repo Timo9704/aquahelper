@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
-import '../../model/aquarium.dart';
-import '../../util/datastore.dart';
+import '../../../model/aquarium.dart';
+import '../../../util/datastore.dart';
 
-class GroundCalculator extends StatefulWidget {
-  const GroundCalculator({super.key});
+class GroundCalculatorIsland extends StatefulWidget {
+  const GroundCalculatorIsland({super.key});
 
   @override
-  State<GroundCalculator> createState() => _GroundCalculatorState();
+  State<GroundCalculatorIsland> createState() => _GroundCalculatorIslandState();
 }
 
-class _GroundCalculatorState extends State<GroundCalculator> {
+class _GroundCalculatorIslandState extends State<GroundCalculatorIsland> {
   String? _selectedGround = "Soil";
   final List<String> _groundNames = ["Soil", "Kies", "Sand"];
   Aquarium? _selectedAquarium;
@@ -20,8 +21,9 @@ class _GroundCalculatorState extends State<GroundCalculator> {
 
   final _aquariumHeightController = TextEditingController();
   final _aquariumDepthController = TextEditingController();
-  final _startHeightController = TextEditingController();
-  final _endHeightController = TextEditingController();
+  final _islandHeightController = TextEditingController();
+  final _islandWidthController = TextEditingController();
+  final _groundHeightController = TextEditingController();
 
   @override
   void initState() {
@@ -49,25 +51,26 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     String result = "";
     double triangleVol = 0.0;
     try {
-      double start = parseTextFieldValue(_startHeightController);
-      double end = parseTextFieldValue(_endHeightController);
-      double rectVol = 0;
-      if (start > 0) {
-        rectVol = start *
-            parseTextFieldValue(_aquariumDepthController) *
-            parseTextFieldValue(_aquariumHeightController) /
-            1000;
-        end -= start;
-      }
-      triangleVol = (end * parseTextFieldValue(_aquariumDepthController) /
-          2) *
-          parseTextFieldValue(_aquariumHeightController) /
-          1000;
-      triangleVol += rectVol;
 
+      double aquariumHeight = parseTextFieldValue(_aquariumHeightController);
+      double aquariumDepth = parseTextFieldValue(_aquariumDepthController);
+
+      double plainGroundVolume = aquariumHeight * aquariumDepth * parseTextFieldValue(_groundHeightController);
+
+      double topRadius = parseTextFieldValue(_islandWidthController) * (1/3);
+      double bottomRadius = parseTextFieldValue(_islandWidthController);
+
+      if(bottomRadius > aquariumHeight){
+        double islandVolume = (1/3) * pi * (parseTextFieldValue(_islandHeightController)-parseTextFieldValue(_groundHeightController))
+            * (pow(topRadius, 2) + topRadius * bottomRadius + pow(bottomRadius, 2));
+
+        triangleVol = (plainGroundVolume + (islandVolume/2)) / 1000;
+      }else{
+        inputFailure();
+      }
     } catch (e) {
-     triangleVol = 0.0;
-     inputFailure();
+      triangleVol = 0.0;
+      inputFailure();
     }
 
     if (_selectedGround == "Soil") {
@@ -110,148 +113,42 @@ class _GroundCalculatorState extends State<GroundCalculator> {
     );
   }
 
- /*Widget threeDRectangle() {
-    return Stack(
-      children: [
-        // Vorderseite
-        Transform(
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..translate(0.0, 50.0)
-            ..rotateX(0)
-            ..rotateY(0)
-            ..rotateZ(0),
-          alignment: FractionalOffset.center,
-          child: Container(
-            height: 100,
-            width: 200,
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
-          ),
-        ),
-        // Oberseite
-        Transform(
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..translate(0.0, 50.0)
-            ..rotateX(0)
-            ..rotateY(-3.14 / 3) // -45 Grad Rotation
-            ..rotateZ(0),
-          alignment: Alignment.centerLeft,
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
-          ),
-        ),
-        // Seite
-        Transform(
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..translate(200.0, 50.0)
-            ..rotateX(0)
-            ..rotateY(-3.14 / 3) // -45 Grad Rotation
-            ..rotateZ(0),
-          alignment: Alignment.centerLeft,
-          child: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.3),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
-          ),
-        ),
-        Transform(
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..translate(50.0, 50.0 ,100.0)
-            ..rotateX(0)
-            ..rotateY(0) // -45 Grad Rotation
-            ..rotateZ(0),
-          alignment: Alignment.centerLeft,
-          child: Container(
-            height: 100,
-            width: 205,
-            decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.7),
-              border: Border.all(
-                color: Colors.black,
-                width: 2,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          title: const Text("Bodengrund-Rechner"),
-          backgroundColor: Colors.lightGreen,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+    return SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    child: Image.asset(
+                      'assets/images/island.jpg',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
             child: Column(
               children: [
-                const Text("Berechne die benötigte Bodengrund-Menge:",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800)),
-                const SizedBox(height: 10),
-                Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      const Text("aufsteigender Bodengrund",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      const SizedBox(height: 10),
-                      Image.asset(
-                        'assets/quader.png',
-                        height: 110,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
                 DropdownButton<Aquarium>(
                   value: _selectedAquarium,
                   hint: const Text('Wähle dein Aquarium',
                       style: TextStyle(
                           fontSize: 17,
                           color: Colors.black,
-                      fontWeight: FontWeight.normal)),
+                          fontWeight: FontWeight.normal)),
                   onChanged: (newValue) {
                     setState(() {
                       _selectedAquarium = newValue;
@@ -271,11 +168,6 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                     );
                   }).toList(),
                 ),
-                const Text("oder",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        )),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -300,8 +192,10 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
                             controller: _aquariumHeightController,
-                            style: const TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 17),
                             decoration: const InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(3),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
@@ -333,6 +227,8 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             controller: _aquariumDepthController,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(3),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
@@ -360,7 +256,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Bodengrund-Höhe (vorn in cm)",
+                          const Text("Insel-Breite (in cm)",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.black,
@@ -369,9 +265,11 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
-                            controller: _startHeightController,
+                            controller: _islandWidthController,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(3),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
@@ -391,7 +289,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Bodengrund-Höhe (hinten in cm)",
+                          const Text("Insel-Höhe (in cm)",
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.black,
@@ -400,9 +298,11 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                             keyboardType: TextInputType.number,
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.center,
-                            controller: _endHeightController,
+                            controller: _islandHeightController,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(3),
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
@@ -415,6 +315,47 @@ class _GroundCalculatorState extends State<GroundCalculator> {
                   ],
                 ),
                 const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.sizeOf(context).width / 2 - 25,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Höhe vorn/seitlich (in cm)",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black,
+                              )),
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.center,
+                            controller: _groundHeightController,
+                            style: const TextStyle(fontSize: 20),
+                            decoration: const InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(3),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              fillColor: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text('Wähle deine Bodengrund-Art:',
                     style: TextStyle(fontSize: 15, color: Colors.black)),
                 DropdownButton<String>(
@@ -469,6 +410,7 @@ class _GroundCalculatorState extends State<GroundCalculator> {
               ],
             ),
           ),
-        ));
+          ],)
+        );
   }
 }
