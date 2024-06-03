@@ -14,6 +14,7 @@ class Measurement {
   int measurementDate;
   String imagePath;
   double conductance;
+  double silicate;
 
   Measurement(
       this.measurementId,
@@ -30,7 +31,8 @@ class Measurement {
       this.magnesium,
       this.measurementDate,
       this.imagePath,
-      this.conductance
+      this.conductance,
+      this.silicate
   );
 
   factory Measurement.fromMap(Map<String, dynamic> json){
@@ -49,7 +51,8 @@ class Measurement {
         json["magnesium"],
         json["measurementDate"],
         json["imagePath"],
-        json["conductance"]
+        json["conductance"],
+        json["silicate"]
     );
   }
 
@@ -69,7 +72,8 @@ class Measurement {
         double.parse(json["magnesium"]),
         json["measurementDate"],
         json["imagePath"],
-        double.parse(json["conductance"])
+        double.parse(json["conductance"]),
+        double.parse(json["silicate"] ?? "0.0")
     );
   }
 
@@ -89,7 +93,8 @@ class Measurement {
       'magnesium': magnesium,
       'measurementDate': measurementDate,
       'imagePath': imagePath,
-      'conductance': conductance
+      'conductance': conductance,
+      'silicate': silicate
     };
   }
 
@@ -108,7 +113,8 @@ class Measurement {
       'magnesium': magnesium.toString(),
       'measurementDate': measurementDate,
       'imagePath': imagePath,
-      'conductance': conductance.toString()
+      'conductance': conductance.toString(),
+      'silicate': silicate.toString()
     };
   }
 
@@ -160,6 +166,9 @@ class Measurement {
         case 'conductance':
           conductance = value as double;
           break;
+        case 'silicate':
+          silicate = value as double;
+          break;
         default:
         // Handle unknown key, if necessary
           break;
@@ -191,6 +200,8 @@ class Measurement {
         return magnesium;
       case 'conductance':
         return conductance;
+      case 'silicate':
+        return silicate;
       default:
         return 0;
     }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/general/onboarding_page.dart';
 import 'package:aquahelper/widget/rate_app_init_widget.dart';
@@ -51,6 +53,12 @@ Future<void> main() async {
   await DBHelper.db.initDB();
   List<UserSettings> usList = await DBHelper.db.getUserSettings();
   if(usList.isNotEmpty){
+    List<bool> currentList = json.decode(usList.first.measurementItems).cast<bool>().toList();
+    if(currentList.length < waterValues.length){
+      currentList.add(true);
+      userSettings = UserSettings(currentList.toString());
+      DBHelper.db.saveUserSettings(userSettings);
+    }
     userSettings = usList.first;
   }else{
     List<bool> measurementItems = List.generate(waterValues.length, (index) => true);

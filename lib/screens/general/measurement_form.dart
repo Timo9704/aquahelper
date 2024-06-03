@@ -49,6 +49,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     'iron': TextEditingController(),
     'magnesium': TextEditingController(),
     'conductance': TextEditingController(),
+    'silicate': TextEditingController(),
   };
 
   @override
@@ -134,6 +135,7 @@ class MeasurementFormState extends State<MeasurementForm> {
         0.0,
         selectedDate.millisecondsSinceEpoch,
         imagePath,
+        0.0,
         0.0
     );
 
