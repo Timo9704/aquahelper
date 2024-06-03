@@ -78,7 +78,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                               ),
                             ),
                             TextSpan(
-                              text: '\ngelesen zu haben und akzeptiere diese.',
+                              text: '\ngelesen zu haben und \n akzeptiere diese.',
                               style: TextStyle(
                                   fontSize: 12.0, color: Colors.black),
                             ),

@@ -18,8 +18,8 @@ class _RateWidgetState extends State<RateAppInitWidget> {
     return RateMyAppBuilder(
         rateMyApp: RateMyApp(
           preferencesPrefix: 'rateMyApp_',
-          minDays: 0,
-          minLaunches: 0,
+          minDays: 7,
+          minLaunches: 10,
           remindDays: 7,
           remindLaunches: 10,
           googlePlayIdentifier: 'com.aquarium.aquahelper',
