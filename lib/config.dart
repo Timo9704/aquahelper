@@ -12,6 +12,7 @@ const List<String> waterValues = [
   'iron',
   'magnesium',
   'conductance',
+  'silicate',
 ];
 
 const Map<String, String> waterValuesTextMap = {
@@ -26,6 +27,7 @@ const Map<String, String> waterValuesTextMap = {
   'iron': 'Eisen - FE',
   'magnesium': 'Magnesium - MG',
   'conductance': 'Leitwert',
+  'silicate': 'Silikat - SiO2',
 };
 
 late UserSettings userSettings;
