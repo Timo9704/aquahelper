@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:aquahelper/util/datastore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rate_my_app/rate_my_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../util/scalesize.dart';

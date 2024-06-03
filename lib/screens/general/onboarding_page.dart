@@ -1,10 +1,8 @@
 import 'package:aquahelper/screens/usermanagement/signin.dart';
-import 'package:aquahelper/widget/rate_app_init_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:rate_my_app/rate_my_app.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../util/datastore.dart';
@@ -13,7 +11,7 @@ import 'homepage.dart';
 class OnBoardingPage extends StatefulWidget {
   final RateMyApp rateMyApp;
 
-  const OnBoardingPage({Key? key, required this.rateMyApp}) : super(key: key);
+  const OnBoardingPage({super.key, required this.rateMyApp});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();

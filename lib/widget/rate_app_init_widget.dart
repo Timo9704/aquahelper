@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 
 class RateAppInitWidget extends StatefulWidget {
   final Widget Function(RateMyApp) builder;
 
-  const RateAppInitWidget({Key? key, required this.builder}) : super(key: key);
+  const RateAppInitWidget({super.key, required this.builder});
 
   @override
   State<RateAppInitWidget> createState() => _RateWidgetState();
