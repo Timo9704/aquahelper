@@ -2,14 +2,16 @@ import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../util/datastore.dart';
 import 'homepage.dart';
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({super.key});
+  final RateMyApp rateMyApp;
+
+  const OnBoardingPage({super.key, required this.rateMyApp});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();
@@ -24,7 +26,14 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     super.initState();
     Datastore.db.updateLastLogin();
     checkPrivacyPolicy();
+    showRateAppDialog();
     checkIntroShown();
+  }
+
+  showRateAppDialog() {
+    widget.rateMyApp.showRateDialog(
+      context
+    );
   }
 
   privacyPolicyPopUp() {
@@ -69,7 +78,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                               ),
                             ),
                             TextSpan(
-                              text: '\ngelesen zu haben und akzeptiere diese.',
+                              text: '\ngelesen zu haben und \n akzeptiere diese.',
                               style: TextStyle(
                                   fontSize: 12.0, color: Colors.black),
                             ),

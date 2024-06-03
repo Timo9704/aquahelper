@@ -1,5 +1,6 @@
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/general/onboarding_page.dart';
+import 'package:aquahelper/widget/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -82,8 +83,8 @@ class AquaHelper extends StatelessWidget {
   const AquaHelper({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) =>
+    MaterialApp(
       title: 'AquaHelper',
       theme: ThemeData(
           textSelectionTheme: const TextSelectionThemeData(
@@ -117,7 +118,6 @@ class AquaHelper extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(Colors.white),
             ),
           )),
-      home: const OnBoardingPage(),
-    );
+      home: RateAppInitWidget(builder: (rateMyApp) => OnBoardingPage(rateMyApp: rateMyApp)),
+  );
   }
-}

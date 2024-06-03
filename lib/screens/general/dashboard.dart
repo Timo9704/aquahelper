@@ -31,7 +31,6 @@ class DashboardState extends State<Dashboard> {
   String announcement = '';
   String announcementUrl = '';
 
-
   @override
   void initState() {
     super.initState();
