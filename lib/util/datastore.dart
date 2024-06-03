@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aquahelper/model/activity.dart';
 import 'package:aquahelper/model/custom_timer.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -295,6 +296,40 @@ class Datastore {
     }
   }
 
+  //-------------------------Methods for Activity-object-----------------------//
+
+  getActivitiesForAquarium(String aquariumId) async {
+    if (user == null) {
+      return await DBHelper.db.getActivitiesByAquarium(aquariumId);
+    } else {
+      return await FirebaseHelper.db.getActivitiesByAquarium(aquariumId);
+    }
+  }
+
+  addActivity(Activity activity) async {
+    if (user == null) {
+      await DBHelper.db.insertActivity(activity);
+    } else {
+      await FirebaseHelper.db.addActivity(activity);
+    }
+  }
+
+  updateActivity(Activity activity) async {
+    if (user == null) {
+      await DBHelper.db.updateActivity(activity);
+    } else {
+      await FirebaseHelper.db.updateActivity(activity);
+    }
+  }
+
+  deleteActivity(Activity activity) async {
+    if (user == null) {
+      await DBHelper.db.deleteActivity(activity);
+    } else {
+      await FirebaseHelper.db.deleteActivity(activity);
+    }
+  }
+
 
   //-------------------------Methods for UserSettings-object-----------------------//
 
@@ -315,6 +350,22 @@ class Datastore {
     }
   }
 
+  Future<bool> checkLatestPrivacyPolicy() async {
+    if (user == null) {
+      return await DBHelper.db.checkLatestPrivacyPolicy();
+    } else {
+      return await FirebaseHelper.db.checkLatestPrivacyPolicy();
+    }
+  }
+
+  Future<void> updateLatestPrivacyPolicy() async {
+    if (user == null) {
+      return await DBHelper.db.updateLatestPrivacyPolicy();
+    } else {
+      return await FirebaseHelper.db.updateLatestPrivacyPolicy();
+    }
+  }
+
   saveImages(File file){
     final ref = firebase_storage.FirebaseStorage.instance.ref().child('images/${file.path}');
     ref.putFile(file);
@@ -323,6 +374,12 @@ class Datastore {
   getImage(String path){
     final ref = firebase_storage.FirebaseStorage.instance.ref().child(path);
     return ref.getDownloadURL();
+  }
+
+  void updateLastLogin() {
+    if (user != null) {
+      FirebaseHelper.db.updateLastLogin();
+    }
   }
 
 }

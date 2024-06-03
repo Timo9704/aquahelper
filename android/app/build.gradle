@@ -37,7 +37,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "com.aquarium.aquahelper"
     compileSdkVersion flutter.compileSdkVersion
-    ndkVersion "25.1.8937393"
+    ndkVersion "26.1.10909125"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -91,9 +91,9 @@ flutter {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-database'
-    implementation 'com.android.billingclient:billing:6.2.1'
+    implementation 'com.android.billingclient:billing:7.0.0'
 }

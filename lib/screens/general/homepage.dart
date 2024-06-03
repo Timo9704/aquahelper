@@ -1,6 +1,6 @@
-import 'package:aquahelper/screens/dashboard.dart';
+import 'package:aquahelper/screens/general/dashboard.dart';
 import 'package:aquahelper/screens/settings/settings.dart';
-import 'package:aquahelper/screens/tools_startpage.dart';
+import 'package:aquahelper/screens/tools/tools_startpage.dart';
 import 'package:flutter/material.dart';
 
 import 'aquarium_startpage.dart';

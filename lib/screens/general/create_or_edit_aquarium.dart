@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:aquahelper/util/image_selector.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:aquahelper/main.dart';
@@ -16,7 +12,7 @@ import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/task.dart' as model;
 import 'package:aquahelper/util/scalesize.dart';
 
-import '../util/datastore.dart';
+import '../../util/datastore.dart';
 
 class CreateOrEditAquarium extends StatefulWidget {
   final Aquarium? aquarium;
@@ -124,54 +120,6 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     );
   }
 
-  Future<void> getImage({required BuildContext context}) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      final croppedImage = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
-        uiSettings: [
-          AndroidUiSettings(
-              toolbarTitle: 'Bild zuschneiden',
-              toolbarColor: Colors.lightGreen,
-              toolbarWidgetColor: Colors.white,
-              initAspectRatio: CropAspectRatioPreset.original,
-              lockAspectRatio: false),
-          IOSUiSettings(
-            title: 'Cropper',
-          ),
-        ],
-      );
-      final directory = await getExternalStorageDirectory();
-      final newImagePath = '${directory?.path}/images/AquaAffin';
-      final imageName = DateTime.now().toIso8601String();
-      final newImage = File('$newImagePath/$imageName.jpg');
-
-      if (!await newImage.parent.exists()) {
-        await newImage.parent.create(recursive: true);
-      }
-
-      File(image.path).copy(newImage.path);
-
-      if (user != null) {
-        final storageRef = FirebaseStorage.instance.ref();
-        final imageRef = storageRef.child('${user?.uid}/$imageName.jpg');
-        final file = File(croppedImage!.path);
-        await imageRef.putFile(file);
-        final path = await imageRef.getDownloadURL();
-        setState(() {
-          imagePath = path;
-        });
-      } else {
-        setState(() {
-          imagePath = croppedImage!.path;
-        });
-      }
-    }
-  }
-
   void _deleteAquarium() {
     showDialog(
       context: context,
@@ -255,14 +203,6 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
     return boolList;
   }
 
-  Widget localImageCheck(String imagePath) {
-    try {
-      return Image.file(File(imagePath), fit: BoxFit.fill, height: 250);
-    } catch (e) {
-      return Image.asset('assets/images/aquarium.jpg', fit: BoxFit.fill);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     textScaleFactor = ScaleSize.textScaleFactor(context);
@@ -283,7 +223,12 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () => {getImage(context: context)},
+                    onTap: () async {
+                      String futurePath = await ImageSelector().getImage(context);
+                      setState(() {
+                        imagePath = futurePath;
+                      });
+                    },
                     child: ClipRRect(
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(10),
@@ -306,7 +251,7 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
                                           imageUrl: imagePath,
                                           fit: BoxFit.fill,
                                           height: 250)
-                                      : localImageCheck(imagePath),
+                                      : ImageSelector().localImageCheck(imagePath),
                                   const Icon(Icons.camera_alt,
                                       size: 100, color: Colors.white),
                                 ],

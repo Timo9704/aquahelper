@@ -1,13 +1,17 @@
-import 'package:aquahelper/screens/signin.dart';
+import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rate_my_app/rate_my_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../util/datastore.dart';
 import 'homepage.dart';
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({super.key});
+  final RateMyApp rateMyApp;
+
+  const OnBoardingPage({super.key, required this.rateMyApp});
 
   @override
   OnBoardingPageState createState() => OnBoardingPageState();
@@ -15,12 +19,112 @@ class OnBoardingPage extends StatefulWidget {
 
 class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
+  bool _isCheckboxChecked = false;
 
   @override
   initState(){
     super.initState();
+    Datastore.db.updateLastLogin();
+    checkPrivacyPolicy();
+    showRateAppDialog();
     checkIntroShown();
   }
+
+  showRateAppDialog() {
+    widget.rateMyApp.showRateDialog(
+      context
+    );
+  }
+
+  privacyPolicyPopUp() {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text("Datenschutzrichtlinien", style: TextStyle(fontSize: 20)),
+              content: SizedBox(
+                height: 80,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: Row(
+                  children: [
+                    Checkbox(
+                        value: _isCheckboxChecked,
+                        checkColor: Colors.black,
+                        activeColor: Colors.lightGreen,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isCheckboxChecked = value!;
+                          });
+                        }),
+                    GestureDetector(
+                      onTap: () {
+                        _launchprivacyPolicy();
+                      },
+                      child: const Text.rich(
+                        TextSpan(
+                          text: 'Ich bestätige hiermit die \n',
+                          style: TextStyle(
+                              fontSize: 12.0, color: Colors.black),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Datenschutzbestimmungen',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '\ngelesen zu haben und \n akzeptiere diese.',
+                              style: TextStyle(
+                                  fontSize: 12.0, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              actions: [
+                Row(children: [
+                  Expanded(child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                    onPressed: _isCheckboxChecked
+                        ? () {
+                      Datastore.db.updateLatestPrivacyPolicy();
+                      Navigator.pop(context);
+                    }
+                        : null,
+                    child: const Text("Weiter"),
+                  ),),
+
+                ],)
+              ],
+              elevation: 0,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  checkPrivacyPolicy() async {
+    bool privacyPolicyAccepted = await Datastore.db.checkLatestPrivacyPolicy();
+    if(!privacyPolicyAccepted){
+      privacyPolicyPopUp();
+    }
+  }
+
+  Future<void> _launchprivacyPolicy() async {
+    await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
+  }
+
 
   Future<void> checkIntroShown() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

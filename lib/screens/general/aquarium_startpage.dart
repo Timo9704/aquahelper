@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/widget/aquarium_item.dart';
-import 'package:aquahelper/screens/create_or_edit_aquarium.dart';
+import 'package:aquahelper/screens/general/create_or_edit_aquarium.dart';
 
-import '../util/datastore.dart';
+import '../../util/datastore.dart';
 
 
 class AquariumStartPage extends StatefulWidget {

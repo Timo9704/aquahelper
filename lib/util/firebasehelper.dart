@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../model/activity.dart';
 import '../model/aquarium.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
@@ -29,8 +30,39 @@ class FirebaseHelper{
           ref.set({
             "email": user.email,
             "created": DateTime.now().millisecondsSinceEpoch,
+            "privacypolicy": DateTime.now().millisecondsSinceEpoch,
           });
         }
+      });
+    }
+
+    updateLastLogin() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      ref.update({
+        "lastlogin": DateTime.now().millisecondsSinceEpoch,
+      });
+    }
+
+    Future<bool> checkLatestPrivacyPolicy() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        if(items.containsKey('privacypolicy')){
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }
+
+    updateLatestPrivacyPolicy() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+      ref.update({
+        "privacypolicy": DateTime.now().millisecondsSinceEpoch,
       });
     }
 
@@ -479,6 +511,40 @@ class FirebaseHelper{
 
     deleteHeater(Heater heater) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/components/${heater.aquariumId}/heater/${heater.heaterId}');
+      await ref.remove();
+    }
+
+    //-------------------------Methods for Activity-object-----------------------//
+
+    getActivitiesByAquarium(String aquariumId) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/activities/$aquariumId');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Activity> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['id'] = key;
+          Activity activity = Activity.fromMap(Map<String, dynamic>.from(value));
+          list.add(activity);
+        });
+      }
+
+      return list;
+    }
+
+    addActivity(Activity activity) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/activities/${activity.aquariumId}/${activity.id}');
+      await ref.set(activity.toFirebaseMap());
+    }
+
+    updateActivity(Activity activity) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/activities/${activity.aquariumId}/${activity.id}');
+      await ref.update(activity.toFirebaseMap());
+    }
+
+    deleteActivity(Activity activity) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/activities/${activity.aquariumId}/${activity.id}');
       await ref.remove();
     }
 

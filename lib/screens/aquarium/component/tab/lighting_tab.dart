@@ -1,5 +1,5 @@
 import 'package:aquahelper/model/components/lighting.dart';
-import 'package:aquahelper/screens/aquarium_overview.dart';
+import 'package:aquahelper/screens/aquarium/aquarium_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 

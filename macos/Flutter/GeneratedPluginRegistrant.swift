@@ -13,12 +13,13 @@ import firebase_core
 import firebase_crashlytics
 import firebase_database
 import firebase_storage
+import gal
 import google_sign_in_ios
 import package_info_plus
 import path_provider_foundation
 import photo_manager
 import purchases_flutter
-import purchases_ui_flutter
+import rate_my_app
 import shared_preferences_foundation
 import sqflite
 import url_launcher_macos
@@ -32,12 +33,13 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTFirebaseCrashlyticsPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCrashlyticsPlugin"))
   FLTFirebaseDatabasePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseDatabasePlugin"))
   FLTFirebaseStoragePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseStoragePlugin"))
+  GalPlugin.register(with: registry.registrar(forPlugin: "GalPlugin"))
   FLTGoogleSignInPlugin.register(with: registry.registrar(forPlugin: "FLTGoogleSignInPlugin"))
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
   PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))
   PurchasesFlutterPlugin.register(with: registry.registrar(forPlugin: "PurchasesFlutterPlugin"))
-  PurchasesUiFlutterPlugin.register(with: registry.registrar(forPlugin: "PurchasesUiFlutterPlugin"))
+  SwiftRateMyAppPlugin.register(with: registry.registrar(forPlugin: "SwiftRateMyAppPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
   UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))

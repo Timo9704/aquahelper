@@ -14,6 +14,7 @@ import 'dart:io';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
+import '../model/activity.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
@@ -21,7 +22,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 7;
+  static const newDbVersion = 9;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -91,6 +92,12 @@ class DBHelper {
           if (version >= 7) {
             await _databaseVersion7(db);
           }
+          if (version >= 8) {
+            await _databaseVersion8(db);
+          }
+          if (version >= 9) {
+            await _databaseVersion9(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -121,6 +128,12 @@ class DBHelper {
         break;
       case 7:
         await _databaseVersion7(db);
+        break;
+      case 8:
+        await _databaseVersion8(db);
+        break;
+      case 9:
+        await _databaseVersion9(db);
         break;
     }
   }
@@ -201,7 +214,22 @@ class DBHelper {
     )''');
   }
 
+  _databaseVersion8(Database db) {
+    db.execute('''CREATE TABLE activities(
+        id TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        activities TEXT,
+        notes TEXT,
+        date INTEGER,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+  }
 
+  _databaseVersion9(Database db) {
+    db.execute('''CREATE TABLE user(
+        privacypolicy TEXT
+    )''');
+  }
 
   //-------------------------Methods for Aquarium-object-----------------------//
 
@@ -426,6 +454,23 @@ class DBHelper {
     }
   }
 
+  Future<bool> checkLatestPrivacyPolicy() async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("user");
+    if(res.isNotEmpty){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  Future<void> updateLatestPrivacyPolicy() async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert('user',
+        {'privacypolicy': DateTime.now().millisecondsSinceEpoch},
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
 
   //-------------------------Methods for import and export-----------------------//
 
@@ -455,6 +500,12 @@ class DBHelper {
     fileContent.add('## CustomTimers ##');
     for (var customTimer in customTimers) {
       fileContent.add(customTimer.values.join(','));
+    }
+
+    List<Map<String, dynamic>> activities = await db.query('activities');
+    fileContent.add('## Activities ##');
+    for (var activity in activities) {
+      fileContent.add(activity.values.join(','));
     }
 
     try {
@@ -540,6 +591,15 @@ class DBHelper {
               'seconds': values[2]
             });
           }
+          else if (currentTable == '## Activities ##') {
+            await db.insert('activities', {
+              'id': values[0],
+              'aquariumId': values[1],
+              'activities': values[2],
+              'notes': values[3],
+              'date': values[4]
+            });
+          }
         }
         return true;
       } catch (e) {
@@ -553,7 +613,7 @@ class DBHelper {
   uploadDataToFirebase() async {
     final db = await openDatabase('aquarium_database.db');
     User user = FirebaseAuth.instance.currentUser!;
-    FirebaseHelper.db.initializeUser(user);
+    await FirebaseHelper.db.initializeUser(user);
     FirebaseHelper.db.user = user;
 
     try {
@@ -591,6 +651,11 @@ class DBHelper {
       List<Map<String, dynamic>> customTimers = await db.query('customtimer');
       for (var element in customTimers) {
         FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> activities = await db.query('activities');
+      for (var element in activities) {
+        FirebaseHelper.db.addActivity(Activity.fromMap(element));
       }
       return true;
     } catch (e) {
@@ -701,6 +766,35 @@ class DBHelper {
   deleteHeater(Heater heater) async {
     final db = await openDatabase('aquarium_database.db');
     await db.delete("heater", where: "heaterId = ?", whereArgs: [heater.heaterId]);
+  }
+
+  getActivitiesByAquarium(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("activities", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Activity> list = res.isNotEmpty ? res.map((c) => Activity.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertActivity(Activity activity) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'activities',
+        activity.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteActivity(Activity activity) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("activities", where: "id = ?", whereArgs: [activity.id]);
+  }
+
+  updateActivity(Activity activity) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("activities",
+        activity.toMap(),
+        where: 'id = ?',
+        whereArgs: [activity.id],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
   }
 
 }

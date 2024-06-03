@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../model/aquarium.dart';
 import '../model/task.dart';
-import '../screens/aquarium_overview.dart';
+import '../screens/aquarium/aquarium_overview.dart';
 import '../util/datastore.dart';
 
 class AquariumItem extends StatefulWidget {
