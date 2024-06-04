@@ -42,7 +42,7 @@ dependencies:
   introduction_screen: ^3.1.14
   shared_preferences: ^2.2.3
   firebase_analytics: ^10.10.4
-  firebase_crashlytics: ^3.5.4
+  firebase_crashlytics: ^4.0.0
   purchases_flutter: ^6.28.0
   purchases_ui_flutter: ^6.28.0
   table_calendar: ^3.1.1
