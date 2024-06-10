@@ -103,7 +103,6 @@ class ChartAnalysisState extends State<ChartAnalysis> {
     if(points.isEmpty){
     }else {
       setState(() {
-        print(points);
         chartPoints = points;
         getXYMinMax();
       });
