@@ -20,7 +20,6 @@ class ImageSelector {
     if (image != null) {
       final croppedImage = await ImageCropper().cropImage(
         sourcePath: image.path,
-        aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Bild zuschneiden',
@@ -28,6 +27,9 @@ class ImageSelector {
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.ratio16x9
+            ],
           ),
           IOSUiSettings(
             title: 'Cropper',
