@@ -16,13 +16,17 @@ var waterValueMap = {
   'Kalium': 'potassium',
   'Eisen': 'iron',
   'Magnesium': 'magnesium',
+  'Leitwert': 'conductance',
+  'Silikat': 'silicate'
 };
 
 var intervalMap = {
   '1 Woche': 604800000,
   '2 Wochen': 1209600000,
   '3 Wochen': 1814400000,
-  '4 Wochen': 2419200000
+  '4 Wochen': 2419200000,
+  '2 Monate': 5184000000,
+  '3 Monate': 7776000000
 };
 
 class ChartAnalysis extends StatefulWidget {
@@ -96,10 +100,14 @@ class ChartAnalysisState extends State<ChartAnalysis> {
               .elementAt(i)
               .getValueByName(waterValueMap[dropdownWaterValue]!)));
     }
-    setState(() {
-      chartPoints = points;
-      getXYMinMax();
-    });
+    if(points.isEmpty){
+    }else {
+      setState(() {
+        print(points);
+        chartPoints = points;
+        getXYMinMax();
+      });
+    }
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
@@ -249,6 +257,14 @@ class ChartAnalysisState extends State<ChartAnalysis> {
                   ),
                 ),
                 ),
+                chartPoints.isEmpty
+                    ? const Text(
+                        "Keine Messungen vorhanden",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.red,
+                        ),
+                      ) :
                 const Text(
                   "Messung",
                   style: TextStyle(
