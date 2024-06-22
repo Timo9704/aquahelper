@@ -22,7 +22,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 9;
+  static const newDbVersion = 10;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -135,6 +135,9 @@ class DBHelper {
       case 9:
         await _databaseVersion9(db);
         break;
+      case 10:
+        await _databaseVersion10(db);
+        break;
     }
   }
 
@@ -229,6 +232,11 @@ class DBHelper {
     db.execute('''CREATE TABLE user(
         privacypolicy TEXT
     )''');
+  }
+
+  _databaseVersion10(Database db) {
+    db.execute("ALTER TABLE measurement ADD silicate REAL");
+    db.execute("UPDATE measurement SET silicate = 0.0");
   }
 
   //-------------------------Methods for Aquarium-object-----------------------//
