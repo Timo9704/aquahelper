@@ -25,32 +25,32 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
       body: ListView(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(22.0),
+            padding: const EdgeInsets.all(22.0),
             child: Column(
               children: [
-                Text("KI-Assistent",
+                const Text("KI-Assistent",
                     style: TextStyle(
                         fontSize: 30,
                         color: Colors.black,
                         fontWeight: FontWeight.w800)),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                     "Der KI-Assistent hilft dir bei allen Fragen rund um die Aquaristik. Was sind Fadenalgen und wie kann ich sie bekämpfen? Welche Pflanzen passen in mein Aquarium? Der KI-Assistent beantwortet dir alle Fragen.",
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.black)),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Image.asset(
                     'assets/ai_assistant/ai_assistant.png',
                     fit: BoxFit.contain,
                   ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                     "Der KI-Assistent hilft dir bei allen Fragen rund um die Aquaristik. Was sind Fadenalgen und wie kann ich sie bekämpfen? Welche Pflanzen passen in mein Aquarium? Der KI-Assistent beantwortet dir alle Fragen.",
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.black)),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
@@ -59,9 +59,9 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
                       MaterialStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AiAssistantChat()), // Seite wechseln zu AiAssistantIntro
+                    MaterialPageRoute(builder: (context) => const AiAssistantChat()), // Seite wechseln zu AiAssistantIntro
                   ),
-                  child: Text('KI-Assistent starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+                  child: const Text('KI-Assistent starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
                 )
               ],
             ),
