@@ -3,6 +3,7 @@ import 'package:aquahelper/screens/settings/settings.dart';
 import 'package:aquahelper/screens/tools/tools_startpage.dart';
 import 'package:flutter/material.dart';
 
+import '../aifeatures/aiassistant/ai_assistant_intro.dart';
 import 'aquarium_startpage.dart';
 
 
@@ -72,6 +73,17 @@ class _HomepageState extends State<Homepage> {
         },
       ),
       body: _pageOptions[selectedPage],
+      floatingActionButton: selectedPage == 1 ? ElevatedButton(
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all<double>(10),
+            backgroundColor:
+            MaterialStateProperty.all<Color>(Colors.lightGreen)),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AiAssistantIntro()), // Seite wechseln zu AiAssistantIntro
+        ),
+        child: Text('KI\nAssistent', style: TextStyle(fontSize: 12, color: Colors.white), textAlign: TextAlign.center),
+      ) : null,
     );
   }
 }
