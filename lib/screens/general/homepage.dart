@@ -80,9 +80,9 @@ class _HomepageState extends State<Homepage> {
             MaterialStateProperty.all<Color>(Colors.lightGreen)),
         onPressed: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AiAssistantIntro()), // Seite wechseln zu AiAssistantIntro
+          MaterialPageRoute(builder: (context) => const AiAssistantIntro()),
         ),
-        child: Text('KI\nAssistent', style: TextStyle(fontSize: 12, color: Colors.white), textAlign: TextAlign.center),
+        child: const Text('KI\nAssistent', style: const TextStyle(fontSize: 12, color: Colors.white), textAlign: TextAlign.center),
       ) : null,
     );
   }
