@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../util/loading_indicator.dart';
+import 'ai_assistant_guide.dart';
 import 'ai_assistant_preferences.dart';
 
 class AiAssistantChat extends StatefulWidget {
@@ -16,6 +17,7 @@ class AiAssistantChat extends StatefulWidget {
 class _AiAssistantChatState extends State<AiAssistantChat> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _controller = TextEditingController();
+  String sessionId = "";
   final List<Map<String, dynamic>> _messages = [
     {'text': 'Hallo! Ich bin dein neuer KI-Assistent. Wobei kann ich dir helfen?', 'isMe': false},
   ];
@@ -35,22 +37,60 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
       _isLoading = true;
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
-    //_controller.clear();
+    _controller.clear();
 
-    // Hier wird der API-Request abgesetzt
+    final Map<String, dynamic> preferences = {
+      "experience_level": "Anfänger",
+      "detail_level": "ausführlich"
+    };
+
+    final Map<String, String> latestWaterParameters = {
+      "ph": "7.0",
+      "gh": "10",
+      "kh": "8",
+      "no2": "0.1",
+      "no3": "10",
+      "po4": "0.1",
+      "fe": "0.1",
+      "k": "10"
+    };
+
+    final Map<String, dynamic> aquariumData = {
+      "aquarium_liter": "100",
+      "water_parameters": latestWaterParameters
+    };
+
+    Map<String, dynamic> aiInput;
+    if(sessionId.isEmpty) {
+      aiInput = {
+        "human_input": messageText
+      };
+    } else {
+      aiInput = {
+        "human_input": messageText,
+        "session_id": sessionId
+      };
+    }
+
+    final postData = jsonEncode({
+      "preferences": preferences,
+      "aquarium_data": aquariumData,
+      "ai_input": aiInput
+    });
+
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8000/assistant/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        "human_input": messageText,
-        "session_id": ""
-      }),
+      body: postData,
     );
 
     if (response.statusCode == 200) {
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+      setState(() {
+        sessionId = responseData['session_id'];
+      });
       setState(() {
         _messages.add({'text': responseData['answer'], 'isMe': false});
       });
@@ -115,8 +155,10 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
           context,
           MaterialPageRoute(builder: (context) => const AiAssistantPreferences()));
         break;
-      case 'Anelitung':
-      // Fügen Sie hier den Einstellungs-Code hinzu
+      case 'Anleitung':
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AiAssistantGuide()));
         break;
     }
   }
@@ -170,6 +212,12 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
                     controller: _controller,
                     decoration: InputDecoration(
                       hintText: 'Nachricht eingeben...',
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.lightGreen,
+                        ),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
