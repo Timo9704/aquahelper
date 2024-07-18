@@ -55,10 +55,7 @@ class _AiPlannerIntroState extends State<AiPlannerIntro> {
                   style: ButtonStyle(
                       backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.lightGreen)),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AiAssistantChat()), // Seite wechseln zu AiPlannerIntro
-                  ),
+                  onPressed: () => {},
                   child: const Text('KI-Planer starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
                 )
               ],

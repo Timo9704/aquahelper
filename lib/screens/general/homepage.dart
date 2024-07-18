@@ -82,7 +82,7 @@ class _HomepageState extends State<Homepage> {
           context,
           MaterialPageRoute(builder: (context) => const AiAssistantIntro()),
         ),
-        child: const Text('KI\nAssistent', style: const TextStyle(fontSize: 12, color: Colors.white), textAlign: TextAlign.center),
+        child: const Text('KI\nAssistent', style: TextStyle(fontSize: 12, color: Colors.white), textAlign: TextAlign.center),
       ) : null,
     );
   }
