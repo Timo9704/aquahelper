@@ -77,9 +77,7 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
       "aquarium_data": aquariumData,
       "ai_input": aiInput
     });
-
-    print(postData);
-
+    
     final response = await http.post(
       Uri.parse('https://1gbk36sq3g.execute-api.eu-west-2.amazonaws.com/v1/assistant'),
       headers: <String, String>{
