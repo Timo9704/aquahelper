@@ -78,8 +78,10 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
       "ai_input": aiInput
     });
 
+    print(postData);
+
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8000/assistant/'),
+      Uri.parse('https://1gbk36sq3g.execute-api.eu-west-2.amazonaws.com/v1/assistant'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
