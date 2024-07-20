@@ -98,6 +98,9 @@ class DBHelper {
           if (version >= 9) {
             await _databaseVersion9(db);
           }
+          if (version >= 10) {
+            await _databaseVersion10(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
