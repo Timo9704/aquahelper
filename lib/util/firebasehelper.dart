@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../model/activity.dart';
 import '../model/aquarium.dart';
+import '../model/assistantpreferences.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
@@ -97,6 +98,18 @@ class FirebaseHelper{
     deleteAquarium(String aquariumId) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tanks/$aquariumId');
       await ref.remove();
+    }
+
+    getAquariumById(String aquariumId) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tanks/$aquariumId');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items['aquariumId'] = aquariumId;
+        return Aquarium.fromMap(Map<String, dynamic>.from(items));
+      }
+      throw Exception('Aquarium not found');
     }
 
 
@@ -546,6 +559,23 @@ class FirebaseHelper{
     deleteActivity(Activity activity) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/activities/${activity.aquariumId}/${activity.id}');
       await ref.remove();
+    }
+
+    //-------------------------Methods for AI-functions-----------------------//
+
+    getAIAssistantPreferences() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/ai/assistant/preferences');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        return AssistantPreferences.fromMap(Map<String, dynamic>.from(items));
+      }
+    }
+
+    saveAIAssistantPreferences(AssistantPreferences assistantPreferences) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/ai/assistant/preferences');
+      await ref.set(assistantPreferences.toFirebaseMap());
     }
 
 }

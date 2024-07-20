@@ -75,14 +75,15 @@ class _HomepageState extends State<Homepage> {
       body: _pageOptions[selectedPage],
       floatingActionButton: selectedPage == 1 ? ElevatedButton(
         style: ButtonStyle(
-          elevation: MaterialStateProperty.all<double>(10),
+          elevation: MaterialStateProperty.all<double>(20),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(10)),
             backgroundColor:
             MaterialStateProperty.all<Color>(Colors.lightGreen)),
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const AiAssistantIntro()),
         ),
-        child: const Text('KI\nAssistent', style: TextStyle(fontSize: 12, color: Colors.white), textAlign: TextAlign.center),
+        child: const Text('KI\nAssistent', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
       ) : null,
     );
   }

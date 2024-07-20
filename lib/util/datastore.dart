@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../model/aquarium.dart';
+import '../model/assistantpreferences.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
@@ -57,6 +58,14 @@ class Datastore {
       await DBHelper.db.deleteAquarium(aquariumId);
     } else {
       await FirebaseHelper.db.deleteAquarium(aquariumId);
+    }
+  }
+
+  getAquariumById(String aquariumId) async {
+    if (user == null) {
+      return null;
+    } else {
+      return await FirebaseHelper.db.getAquariumById(aquariumId);
     }
   }
 
@@ -328,6 +337,16 @@ class Datastore {
     } else {
       await FirebaseHelper.db.deleteActivity(activity);
     }
+  }
+
+  //-------------------------Methods for AI-functions-----------------------//
+
+  getAIAssistantPreferences(){
+    return FirebaseHelper.db.getAIAssistantPreferences();
+  }
+
+  saveAIAssistantPreferences(AssistantPreferences preferences){
+    FirebaseHelper.db.saveAIAssistantPreferences(preferences);
   }
 
 

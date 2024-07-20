@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../model/aquarium.dart';
+import '../../../model/assistantpreferences.dart';
+import '../../../model/measurement.dart';
+import '../../../util/datastore.dart';
 import '../../../util/loading_indicator.dart';
 import 'ai_assistant_guide.dart';
 import 'ai_assistant_preferences.dart';
@@ -22,9 +26,17 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
     {'text': 'Hallo! Ich bin dein neuer KI-Assistent. Wobei kann ich dir helfen?', 'isMe': false},
   ];
   bool _isLoading = false;
+  late AssistantPreferences assistantPreferences;
   @override
   void initState() {
     super.initState();
+  }
+
+  getPreferences() async {
+    AssistantPreferences preferences = await Datastore.db.getAIAssistantPreferences();
+    setState(() {
+      assistantPreferences = preferences;
+    });
   }
 
   Future<void> _sendMessage() async {
@@ -39,24 +51,30 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     _controller.clear();
 
+    Aquarium aquarium = Datastore.db.getAquariumById(assistantPreferences.aquarium);
+
+    List<Measurement> measurementsList = Datastore.db.getSortedMeasurmentsList(aquarium);
+
+    Measurement latestMeasurement = measurementsList.first;
+
     final Map<String, dynamic> preferences = {
-      "experience_level": "Anfänger",
-      "detail_level": "ausführlich"
+      "experience_level": assistantPreferences.experienceLevel,
+      "detail_level": assistantPreferences.detailLevel,
     };
 
     final Map<String, String> latestWaterParameters = {
-      "ph": "7.0",
-      "gh": "10",
-      "kh": "8",
-      "no2": "0.1",
-      "no3": "10",
-      "po4": "0.1",
-      "fe": "0.1",
-      "k": "10"
+      "ph": latestMeasurement.ph.toString(),
+      "gh": latestMeasurement.totalHardness.toString(),
+      "kh": latestMeasurement.carbonateHardness.toString(),
+      "no2": latestMeasurement.nitrite.toString(),
+      "no3": latestMeasurement.nitrate.toString(),
+      "po4": latestMeasurement.phosphate.toString(),
+      "fe": latestMeasurement.iron.toString(),
+      "k": latestMeasurement.potassium.toString()
     };
 
     final Map<String, dynamic> aquariumData = {
-      "aquarium_liter": "100",
+      "aquarium_liter": aquarium.liter.toString(),
       "water_parameters": latestWaterParameters
     };
 
@@ -77,7 +95,7 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
       "aquarium_data": aquariumData,
       "ai_input": aiInput
     });
-    
+
     final response = await http.post(
       Uri.parse('https://1gbk36sq3g.execute-api.eu-west-2.amazonaws.com/v1/assistant'),
       headers: <String, String>{
@@ -210,6 +228,7 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
+                    maxLines: 3,
                     decoration: InputDecoration(
                       hintText: 'Nachricht eingeben...',
                       focusedBorder: OutlineInputBorder(
@@ -224,7 +243,7 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 5),
                 IconButton(
                   onPressed: _sendMessage,
                   style: ButtonStyle(
@@ -236,6 +255,13 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
               ],
             ),
           ),
+          const Text("Der KI-Assistent kann Fehler machen. Überprüfe wichtige Informationen.",
+              style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300)),
+          const SizedBox(
+            height: 10,)
         ],
       ),
     );
