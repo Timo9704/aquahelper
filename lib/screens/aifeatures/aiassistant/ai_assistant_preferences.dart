@@ -168,13 +168,6 @@ class _AiAssistantPreferencesState extends State<AiAssistantPreferences> {
                     });
                   },
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(onPressed: () => {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.lightGreen)),
-                    child: const Text("Einstellungen speichern")
-                ),
               ],
             ),
           ),

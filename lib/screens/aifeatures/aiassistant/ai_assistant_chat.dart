@@ -30,6 +30,7 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
   @override
   void initState() {
     super.initState();
+    getPreferences();
   }
 
   getPreferences() async {
@@ -51,9 +52,9 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     _controller.clear();
 
-    Aquarium aquarium = Datastore.db.getAquariumById(assistantPreferences.aquarium);
+    Aquarium aquarium = await Datastore.db.getAquariumById(assistantPreferences.aquarium);
 
-    List<Measurement> measurementsList = Datastore.db.getSortedMeasurmentsList(aquarium);
+    List<Measurement> measurementsList = await Datastore.db.getSortedMeasurmentsList(aquarium);
 
     Measurement latestMeasurement = measurementsList.first;
 
