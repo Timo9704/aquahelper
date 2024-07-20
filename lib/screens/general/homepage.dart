@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
       floatingActionButton: selectedPage == 1 ? ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(20),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(10)),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(10)),
             backgroundColor:
             MaterialStateProperty.all<Color>(Colors.lightGreen)),
         onPressed: () => Navigator.push(
