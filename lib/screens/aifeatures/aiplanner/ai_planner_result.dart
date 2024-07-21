@@ -1,25 +1,114 @@
-import 'package:aquahelper/model/ai_planner_storage.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_guide.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/qa_process/ai_planner_animals.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/qa_process/ai_planner_aquarium.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/qa_process/ai_planner_plants.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../../util/scalesize.dart';
+import 'ai_planner_guide.dart';
+class AiPlannerResult extends StatefulWidget {
 
-class AiPlanner extends StatefulWidget {
-  const AiPlanner({super.key});
+  const AiPlannerResult({super.key});
 
   @override
-  State<AiPlanner> createState() => _AiPlannerState();
+  State<AiPlannerResult> createState() => _AiPlannerResultState();
 }
 
-class _AiPlannerState extends State<AiPlanner> {
-  double textScaleFactor = 0;
+class _AiPlannerResultState extends State<AiPlannerResult> {
+
   @override
   void initState() {
     super.initState();
   }
+
+  final jsonData = '''
+  {
+    "aquarium": {
+      "aquarium_name" : "Juwel Rio 125",
+      "aquarium_liter" : "180",
+      "aquarium_price" : "299.99",
+      "aquarium_technic" : ["Filter", "Heizer"]
+    },
+    "special_technic": {
+      "filter" : "eingebaut",
+      "light" : "Chihiros WRGB2",
+      "co2" : "Dennerle ProFlora 360"
+    },
+    "plants": {
+      "foreground" : [
+          {
+              "name" : "Eleocharis acicularis",
+              "amount" : "5",
+              "price" : "2.99"
+          },
+          {
+              "name" : "Lilaeopsis brasiliensis",
+              "amount" : "3",
+              "price" : "3.99"
+          }
+      ],
+      "midground" : [
+          {
+              "name" : "Cryptocoryne wendtii",
+              "amount" : "2",
+              "price" : "4.99"
+          },
+          {
+              "name" : "Hygrophila pinnatifida",
+              "amount" : "1",
+              "price" : "5.99"
+          }
+      ],
+      "background" : [
+          {
+              "name" : "Echinodorus bleheri",
+              "amount" : "1",
+              "price" : "6.99"
+          },
+          {
+              "name" : "Vallisneria spiralis",
+              "amount" : "3",
+              "price" : "7.99"
+          }
+      ]
+    },
+    "animals": {
+      "fishes" : [
+          {
+              "name" : "Neons",
+              "amount" : "10",
+              "price" : "1.99"
+          },
+          {
+              "name" : "Guppys",
+              "amount" : "5",
+              "price" : "2.99"
+          }
+      ],
+      "shrimps" : [
+          {
+              "name" : "Red Fire",
+              "amount" : "5",
+              "price" : "3.99"
+          },
+          {
+              "name" : "Amano",
+              "amount" : "3",
+              "price" : "4.99"
+          }
+      ],
+      "snails" : [
+          {
+              "name" : "Posthorn",
+              "amount" : "2",
+              "price" : "5.99"
+          },
+          {
+              "name" : "Turmdeckelschnecke",
+              "amount" : "1",
+              "price" : "6.99"
+          }
+      ]
+    }
+  }
+  ''';
 
   void handleClick(String value) {
     switch (value) {
@@ -32,118 +121,79 @@ class _AiPlannerState extends State<AiPlanner> {
 
   @override
   Widget build(BuildContext context) {
-    textScaleFactor = ScaleSize.textScaleFactor(context);
+    final data = jsonDecode(jsonData);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("KI-Assistent"),
-        backgroundColor: Colors.lightGreen,
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: handleClick,
-            itemBuilder: (BuildContext context) {
-              return {'Anleitung'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-            child: Column(
-              children: [
-                const Text("KI-Planer",
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800)),
-                Text(
-                    "Willkommen zum Beratungsprozess deines KI-Planers! Mit dem KI-Planer hast du die Möglichkeit ein ganz neues Aquarium zu planen. Falls du schon ein eingerichtetes Aquarium hast, brauchst du keine Sorge zu haben, denn du kannst auch nur einzelne Bereiche planen. Der KI-Planer wird dich durch den gesamten Prozess führen und dir dabei helfen, die besten Entscheidungen für dein Aquarium zu treffen.\nAm Ende erhältst du eine Liste mit allen Produkten, Pflanzen und Tieren, die du für dein Aquarium benötigst.",
-                    textScaler: TextScaler.linear(textScaleFactor),
-                    style: const TextStyle(
-                        fontSize: 17,
-                        color: Colors.black)),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text("Wie möchtest du beginnen?",
-                    textScaler: TextScaler.linear(textScaleFactor),
-                    style: const TextStyle(
-                        fontSize: 30,
-                        color: Colors.black)),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    AiPlannerStorage aiPlannerObj = AiPlannerStorage();
-                    aiPlannerObj.planningMode = 0;
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AiPlannerAquarium(aiPlannerObject: aiPlannerObj)));
-                  },
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
-                  ),
-                    child: Text(
-                      "Gesamtes Aquarium planen",
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.black)),
-                    ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    AiPlannerStorage aiPlannerObj = AiPlannerStorage();
-                    aiPlannerObj.planningMode = 1;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AiPlannerPlants(aiPlannerObject: aiPlannerObj)));
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
-                  ),
-                  child: Text(
-                      "Bepflanzung planen",
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.black)),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    AiPlannerStorage aiPlannerObj = AiPlannerStorage();
-                    aiPlannerObj.planningMode = 2;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AiPlannerAnimals(aiPlannerObject: aiPlannerObj)));
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
-                  ),
-                  child: Text(
-                      "Besatz planen",
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.black)),
-                ),
-              ],
+        appBar: AppBar(
+          title: const Text("KI-Planer - Bepflanzung"),
+          backgroundColor: Colors.lightGreen,
+          actions: <Widget>[
+            PopupMenuButton<String>(
+              onSelected: handleClick,
+              itemBuilder: (BuildContext context) {
+                return {'Anleitung'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
             ),
-          ),
+          ],
+        ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+        children: [
+          buildSection('Aquarium & Technik', data['aquarium']),
+          buildSection('Zubehör', data['special_technic']),
+          buildSection('Besatz', data['animals']),
+          buildSection('Bepflanzung', data['plants']),
         ],
       ),
+      )
     );
+  }
+
+  Widget buildSection(String title, Map<String, dynamic> sectionData) {
+    List<Widget> tiles = [Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))];
+    sectionData.forEach((key, value) {
+      if (value is Map) {
+        tiles.add(
+            ListTile(
+              title: Text(key),
+              subtitle: Text(value['name']),
+              trailing: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () => launch('https://example.com/${value['name']}'),
+              ),
+            )
+        );
+      } else if (value is List) {
+        for (var item in value) {
+          tiles.add(
+              ListTile(
+                title: Text(key),
+                subtitle: Text('Test'),
+                trailing: IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () => launch('https://example.com/${item['name']}'),
+                ),
+              )
+          );
+        }
+      } else {
+        tiles.add(
+            ListTile(
+              title: Text(key),
+              subtitle: Text(value.toString()),
+              trailing: IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () => launch('https://example.com/$key'),
+              ),
+            )
+        );
+      }
+    });
+    return Card(child: Column(children: tiles));
   }
 }
