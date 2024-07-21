@@ -216,6 +216,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                             valueColor:
                             const AlwaysStoppedAnimation<Color>(Colors.lightGreen),
                           ),
+                          const SizedBox(height: 20),
                           Text("Fortschritt: 66%",
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(fontSize: 20, color: Colors.black)),

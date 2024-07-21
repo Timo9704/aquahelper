@@ -231,7 +231,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                             valueColor:
                             const AlwaysStoppedAnimation<Color>(Colors.lightGreen),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text("Fortschritt: 99%",
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(fontSize: 20, color: Colors.black)),
