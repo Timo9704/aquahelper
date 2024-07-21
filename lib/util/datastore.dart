@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 import '../model/aquarium.dart';
-import '../model/assistantpreferences.dart';
+import '../model/assistant_preferences.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';

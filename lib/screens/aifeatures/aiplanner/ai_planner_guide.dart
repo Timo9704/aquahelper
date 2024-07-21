@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../util/scalesize.dart';
+
 class AiPlannerGuide extends StatefulWidget {
   const AiPlannerGuide({super.key});
 
@@ -8,6 +10,7 @@ class AiPlannerGuide extends StatefulWidget {
 }
 
 class _AiPlannerGuideState extends State<AiPlannerGuide> {
+  double textScaleFactor = 0;
   @override
   void initState() {
     super.initState();
@@ -15,6 +18,7 @@ class _AiPlannerGuideState extends State<AiPlannerGuide> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("KI-Planer"),
@@ -33,7 +37,7 @@ class _AiPlannerGuideState extends State<AiPlannerGuide> {
                         fontWeight: FontWeight.w800)),
                 SizedBox(height: 10),
                 Text(
-                    "Der KI-Assistent hilft dir bei allen Fragen rund um die Aquaristik. Was sind Fadenalgen und wie kann ich sie bekämpfen? Welche Pflanzen passen in mein Aquarium? Der KI-Assistent beantwortet dir alle Fragen.",
+                    "Entdecke den KI-Planer, dein perfekter Begleiter für die Gestaltung deines Traumaquariums! Durch eine Reihe gezielter Fragen analysiert unser KI-Planer deine Vorstellungen und Bedingungen, um das optimale Setup für dein Aquarium zu entwerfen, sei es in Bezug auf die Bepflanzung oder den Fischbesatz. Erhalte personalisierte Vorschläge, die genau zu deinen Wünschen und den Bedürfnissen deiner zukünftigen Wasserbewohner passen.",
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.black)),

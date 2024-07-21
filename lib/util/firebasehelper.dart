@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../model/activity.dart';
 import '../model/aquarium.dart';
-import '../model/assistantpreferences.dart';
+import '../model/assistant_preferences.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';

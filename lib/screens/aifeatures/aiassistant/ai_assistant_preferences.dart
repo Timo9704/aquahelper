@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/aquarium.dart';
-import '../../../model/assistantpreferences.dart';
+import '../../../model/assistant_preferences.dart';
 import '../../../util/datastore.dart';
 import '../../../util/scalesize.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../model/aquarium.dart';
-import '../../../model/assistantpreferences.dart';
+import '../../../model/assistant_preferences.dart';
 import '../../../model/measurement.dart';
 import '../../../util/datastore.dart';
 import '../../../util/loading_indicator.dart';
