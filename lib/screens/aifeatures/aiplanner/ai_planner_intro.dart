@@ -1,5 +1,6 @@
 import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner.dart';
 import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_result.dart';
+import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_fish_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../util/scalesize.dart';
@@ -67,7 +68,7 @@ class _AiPlannerIntroState extends State<AiPlannerIntro> {
                       MaterialStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AiPlannerResult()), // Seite wechseln zu AiAssistantIntro
+                    MaterialPageRoute(builder: (context) => AiPlanner()), // Seite wechseln zu AiAssistantIntro
                   ),
                   child: const Text('KI-Planer starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
                 )

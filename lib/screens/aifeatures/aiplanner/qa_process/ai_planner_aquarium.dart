@@ -210,7 +210,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                       const SizedBox(height: 20),
                       Column(children: [
                         LinearProgressIndicator(
-                          value: 0.66,
+                          value: 0.33,
                           backgroundColor: Colors.grey[300],
                           valueColor:
                           const AlwaysStoppedAnimation<Color>(Colors.lightGreen),

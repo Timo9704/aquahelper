@@ -104,7 +104,7 @@ class _AiPlannerState extends State<AiPlanner> {
                     aiPlannerObj.planningMode = 1;
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AiPlannerPlants(aiPlannerObject: aiPlannerObj)));
+                        MaterialPageRoute(builder: (context) => AiPlannerAnimals(aiPlannerObject: aiPlannerObj)));
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -112,7 +112,7 @@ class _AiPlannerState extends State<AiPlanner> {
                     minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
                   ),
                   child: Text(
-                      "Bepflanzung planen",
+                      "Besatz planen",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(
                           fontSize: 20,
@@ -125,7 +125,7 @@ class _AiPlannerState extends State<AiPlanner> {
                     aiPlannerObj.planningMode = 2;
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AiPlannerAnimals(aiPlannerObject: aiPlannerObj)));
+                        MaterialPageRoute(builder: (context) => AiPlannerPlants(aiPlannerObject: aiPlannerObj)));
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -133,7 +133,7 @@ class _AiPlannerState extends State<AiPlanner> {
                     minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
                   ),
                   child: Text(
-                      "Besatz planen",
+                      "Bepflanzung planen",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(
                           fontSize: 20,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../model/ai_planner_storage.dart';
+import '../../../../model/aquarium.dart';
+import '../../../../util/datastore.dart';
 import '../../../../util/scalesize.dart';
+import '../ai_planner_result.dart';
 import 'ai_planner_plants.dart';
 
 class AiPlannerAnimals extends StatefulWidget {
@@ -14,6 +17,7 @@ class AiPlannerAnimals extends StatefulWidget {
 
 class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
   double textScaleFactor = 0;
+  bool _isLoading = false;
   bool? favoritAnimals;
   final _formKey = GlobalKey<FormState>();
   final List<String> favoriteFishList = [];
@@ -23,6 +27,42 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
     'GH': TextEditingController(),
     'KH': TextEditingController(),
   };
+  Aquarium? _selectedAquarium;
+  List<Aquarium> _aquariumNames = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadAquariums();
+  }
+
+  void loadAquariums() async {
+    List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
+    setState(() {
+      _aquariumNames = dbAquariums;
+      _selectedAquarium = dbAquariums.first;
+      widget.aiPlannerObject.aquariumId = _selectedAquarium!.aquariumId;
+    });
+  }
+
+  Future<void> _executePlanning() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      Map<String, dynamic> map = await widget.aiPlannerObject.executePlanning();
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => AiPlannerResult(jsonData: map, planningMode: widget.aiPlannerObject.planningMode)),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +72,9 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
         title: const Text("KI-Planer - Besatz"),
         backgroundColor: Colors.lightGreen,
       ),
-      body: ListView(
+      body: Stack(
+          children: [
+      ListView(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -53,6 +95,34 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                   key: _formKey,
                   child: Column(
                     children: [
+                      if (widget.aiPlannerObject.planningMode == 1)
+                        Column(children: [
+                          Text(
+                              'Für welches Aquarium möchtest du die Bepflanzung planen?',
+                              textScaler:
+                              TextScaler.linear(textScaleFactor),
+                              style: const TextStyle(
+                                  fontSize: 22, color: Colors.black)),
+                          DropdownButton<Aquarium>(
+                            value: _selectedAquarium,
+                            items: _aquariumNames
+                                .map<DropdownMenuItem<Aquarium>>(
+                                    (Aquarium value) {
+                                  return DropdownMenuItem<Aquarium>(
+                                    value: value,
+                                    child: Text(value.name,
+                                        style: const TextStyle(
+                                            fontSize: 18, color: Colors.black)),
+                                  );
+                                }).toList(),
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedAquarium = newValue;
+                                widget.aiPlannerObject.aquariumId = _selectedAquarium!.aquariumId;
+                              });
+                            },
+                          ),
+                        ]),
                       Text('Hast du schon Fische auf deiner Favoritenliste?',
                           textScaler: TextScaler.linear(textScaleFactor),
                           style: const TextStyle(fontSize: 22, color: Colors.black)),
@@ -148,7 +218,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                         }).toList(),
                       ),
                       const SizedBox(height: 20),
-                      widget.aiPlannerObject.planningMode == 2
+                      widget.aiPlannerObject.planningMode == 1
                           ? ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
@@ -157,7 +227,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                                 minimumSize: MaterialStateProperty.all<Size>(
                                     const Size(200, 40)),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState?.validate() ??
                                     false) {
                                   _formKey.currentState?.save();
@@ -166,14 +236,8 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                                   widget.aiPlannerObject.favoriteFishList =
                                       favoriteFishList.toString();
                                   widget.aiPlannerObject.waterValues =
-                                      "ph + ${waterValues['pH-Wert'].toString()}, gh + ${waterValues['GH'].toString()}, kh + ${waterValues['KH'].toString()}";
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AiPlannerPlants(
-                                            aiPlannerObject:
-                                                widget.aiPlannerObject)),
-                                  );
+                                      "pH-Wert: ${waterValues['pH-Wert']?.value.text}, GH-Wert: ${waterValues['GH']?.value.text}, KH-Wert: ${waterValues['KH']?.value.text}";
+                                  await _executePlanning();
                                 }
                               },
                               child: const Text("Planung abschließen"),
@@ -186,7 +250,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                                 minimumSize: MaterialStateProperty.all<Size>(
                                     const Size(200, 40)),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState?.validate() ??
                                     false) {
                                   _formKey.currentState?.save();
@@ -195,20 +259,19 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                                   widget.aiPlannerObject.favoriteFishList =
                                       favoriteFishList.toString();
                                   widget.aiPlannerObject.waterValues =
-                                      waterValues.toString();
+                                  "pH-Wert: ${waterValues['pH-Wert']?.value.text}, GH-Wert: ${waterValues['GH']?.value.text}, KH-Wert: ${waterValues['KH']?.value.text}";
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AiPlannerPlants(
-                                            aiPlannerObject:
-                                                widget.aiPlannerObject)),
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                      builder: (context) => AiPlannerPlants(
+                                      aiPlannerObject:
+                                      widget.aiPlannerObject)));
                                 }
                               },
                               child: const Text("Weiter zur Bepflanzung"),
                             ),
                       const SizedBox(height: 20),
-                      if (widget.aiPlannerObject.planningMode != 2)
+                      if (widget.aiPlannerObject.planningMode != 1)
                         Column(children: [
                           LinearProgressIndicator(
                             value: 0.66,
@@ -228,6 +291,54 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
             ),
           ),
         ],
+      ),
+            if (_isLoading)
+              Container(
+                color: Colors.black87,
+                child: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          width: 150,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 15,
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+                          ),
+                        ),
+                        SizedBox(height: 20), // Abstände hinzufügen
+                        Text(
+                          "Einen Moment Geduld, bitte!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Dein Aquarium wird gerade geplant.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          "Dieser Vorgang kann einige Zeit\nin Anspruch nehmen.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+          ],
       ),
     );
   }
