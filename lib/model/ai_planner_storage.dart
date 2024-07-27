@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:aquahelper/model/measurement.dart';
 import 'package:http/http.dart' as http;
 
-import '../util/datastore.dart';
-import 'aquarium.dart';
 
 class AiPlannerStorage {
   int planningMode = 0;
@@ -70,6 +66,8 @@ class AiPlannerStorage {
     if (planningMode == 0) {
       return "";
     }
+    //TODO: Implement dynamic aquarium information
+    /*
     Aquarium aquarium = await Datastore.db.getAquariumById(aquariumId);
     Measurement measurement = await Datastore.db.getSortedMeasurmentsList(
         aquarium).then((value) => value.first);
@@ -78,14 +76,13 @@ class AiPlannerStorage {
         "Aquarium-Beleuchtung: hoch\n"
             "zusätzliche Technik: ${aquarium.co2Type > 0
             ? "eine"
-            : "keine"} CO2-Anlage\n";
+            : "keine"} CO2-Anlage\n";*/
 
     return "Das Aquarium hat 80 Liter, eine CO2-Anlage und eine mittlere Beleuchtungsstärke";
   }
 
   Future<Map<String, dynamic>> executePlanning() async {
     final json = await createJson();
-    print(jsonEncode(json));
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8001/planner/'),
       headers: <String, String>{
@@ -96,18 +93,17 @@ class AiPlannerStorage {
 
     if (response.statusCode == 200) {
       String jsonString = utf8.decode(response.bodyBytes);
-      print('Received response with length: ${jsonString.length}');
 
       try {
         Map<String, dynamic> json = jsonDecode(jsonString);
         log(json.toString());
         return json;
       } catch (e) {
-        print('Error decoding JSON: $e');
+        Exception('Failed to load data');
         return {};
       }
     } else {
-      print('Request failed with status: ${response.statusCode}');
+      Exception('Failed to load data');
       return {};
     }
   }

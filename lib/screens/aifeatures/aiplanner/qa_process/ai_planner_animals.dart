@@ -50,18 +50,17 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
       _isLoading = true;
     });
 
-    try {
-      Map<String, dynamic> map = await widget.aiPlannerObject.executePlanning();
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => AiPlannerResult(jsonData: map, planningMode: widget.aiPlannerObject.planningMode)),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    widget.aiPlannerObject.executePlanning().then((map) {
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AiPlannerResult(jsonData: map, planningMode: widget.aiPlannerObject.planningMode)),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    });
   }
 
   @override
