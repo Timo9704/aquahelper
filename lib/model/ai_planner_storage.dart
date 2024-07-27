@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:aquahelper/model/measurement.dart';
 import 'package:http/http.dart' as http;
@@ -77,7 +76,7 @@ class AiPlannerStorage {
 
     String aquariumInformation =
         "Aquarium-Beleuchtung: hoch\n"
-            + "zusätzliche Technik: ${aquarium.co2Type > 0
+            "zusätzliche Technik: ${aquarium.co2Type > 0
             ? "eine"
             : "keine"} CO2-Anlage\n";
 

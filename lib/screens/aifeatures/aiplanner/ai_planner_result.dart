@@ -168,9 +168,9 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                     MaterialStateProperty.all<Color>(Colors.lightGreen),
                     minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
                   ),
-                  child: Text(
+                  child: const Text(
                       "Planung finalisieren & Links suchen",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 18,
                           color: Colors.black)),
                 ),

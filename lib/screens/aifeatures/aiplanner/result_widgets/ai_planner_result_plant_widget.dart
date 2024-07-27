@@ -52,7 +52,7 @@ class AiPlannerResultPlantWidget extends StatelessWidget {
                       'Typ: $plantType',
                       style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       'Wachstumsrate: $plantGrowthRate',
                       style: const TextStyle(fontSize: 16),
@@ -65,7 +65,7 @@ class AiPlannerResultPlantWidget extends StatelessWidget {
                       'Lichtbedarf: $plantLightDemand',
                       style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       'CO2-Bedarf: $plantCo2Demand',
                       style: const TextStyle(fontSize: 16),
