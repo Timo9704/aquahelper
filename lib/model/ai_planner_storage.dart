@@ -84,7 +84,7 @@ class AiPlannerStorage {
   Future<Map<String, dynamic>> executePlanning() async {
     final json = await createJson();
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8001/planner/'),
+      Uri.parse('https://qklobhln70.execute-api.eu-west-2.amazonaws.com/v1/planner/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

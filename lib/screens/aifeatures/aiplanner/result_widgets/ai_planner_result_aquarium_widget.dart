@@ -65,12 +65,12 @@ class AiPlannerResultAquariumWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Volumen: $aquariumLiter Liter',
-                            style: const TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14)
                           ),
                           const SizedBox(width: 10),
                           Text(
                             'Preis: $aquariumPrice',
-                            style: const TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14)
                           ),
                         ],
                       ),
@@ -79,12 +79,12 @@ class AiPlannerResultAquariumWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Filter: $filterName',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                           const SizedBox(width: 10),
                           Text(
                             '- als Set: $filterIncluded',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                         ],
                       ),
@@ -92,13 +92,13 @@ class AiPlannerResultAquariumWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Heizung: $heaterName',
-                            style: const TextStyle(fontSize: 12),
+                            'Heizer: $heaterName',
+                            style: const TextStyle(fontSize: 12)
                           ),
                           const SizedBox(width: 10),
                           Text(
                             '- als Set: $heaterIncluded',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                         ],
                       ),
@@ -106,13 +106,13 @@ class AiPlannerResultAquariumWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Beleuchtung: $lightName',
-                            style: const TextStyle(fontSize: 12),
+                            'Leuchte: $lightName',
+                            style: const TextStyle(fontSize: 12)
                           ),
                           const SizedBox(width: 10),
                           Text(
                             '- als Set: $lightIncluded',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                         ],
                       ),
@@ -121,17 +121,17 @@ class AiPlannerResultAquariumWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Länge: $aquariumLength',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                           const SizedBox(width: 10),
                           Text(
                             'Tiefe: $aquariumDepth',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                           const SizedBox(width: 10),
                           Text(
                             'Höhe: $aquariumHeight',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12)
                           ),
                         ],
                       ),

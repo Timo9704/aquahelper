@@ -43,7 +43,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
       _isLoading = true; // Ladezustand aktivieren
     });
 
-    const apiUrl = 'http://10.0.2.2:8001/links/'; // Ersetzen Sie dies durch Ihre API-URL
+    const apiUrl = 'https://qklobhln70.execute-api.eu-west-2.amazonaws.com/v1/links/'; // Ersetzen Sie dies durch Ihre API-URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       "aquarium": {"aquarium_name": widget.jsonData['aquarium']['aquarium_name']},
@@ -57,11 +57,11 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
 
     final response = await http.post(Uri.parse(apiUrl), headers: headers, body: body);
     if (response.statusCode == 200) {
+      try{
       final data = jsonDecode(response.body);
-      log(data.toString());
 
       setState(() {
-        try{
+
         widget.jsonData['aquarium']['link'] = data['aquarium'][0]['link'];
         log(widget.jsonData['aquarium']['link']);
 
@@ -82,15 +82,17 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
             plant['link'] = matchingPlant['plant_link'];
           }
         }
-        } catch (e) {
-          log(e.toString());
-          setState(() {
-            _isLoading = false;
-          });
-        }
       });
+      } catch (e) {
+        log(e.toString());
+        setState(() {
+          _isLoading = false;
+        });
+      }
     } else {
-      print('Failed to load links: ${response.statusCode}');
+      setState(() {
+        _isLoading = false;
+      });
     }
 
     setState(() {
@@ -249,7 +251,13 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                               fontSize: 18,
                               color: Colors.black)),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
+                    const Text("Der KI-Planer kann Fehler machen. Überprüfe wichtige Informationen.",
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w300)),
+                    const SizedBox(height: 12),
                   ],
                 ),
               ),
