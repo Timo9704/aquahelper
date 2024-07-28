@@ -61,9 +61,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
       final data = jsonDecode(response.body);
 
       setState(() {
-
-        widget.jsonData['aquarium']['link'] = data['aquarium'][0]['link'];
-        log(widget.jsonData['aquarium']['link']);
+        widget.jsonData['aquarium']['link'] = data['aquarium']['link'];
 
         for (var fish in widget.jsonData['fishes']) {
           var matchingFish = data['fishes']?.firstWhere(
