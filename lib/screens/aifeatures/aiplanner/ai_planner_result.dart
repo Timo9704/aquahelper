@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_aquarium_widget.dart';
 import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_fish_widget.dart';
 import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_plant_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'ai_planner_guide.dart';
 
@@ -18,6 +22,7 @@ class AiPlannerResult extends StatefulWidget {
 
 class _AiPlannerResultState extends State<AiPlannerResult> {
   double textScaleFactor = 0;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -33,151 +38,271 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
     }
   }
 
+  Future<void> fetchLinks() async {
+    setState(() {
+      _isLoading = true; // Ladezustand aktivieren
+    });
+
+    const apiUrl = 'http://10.0.2.2:8001/links/'; // Ersetzen Sie dies durch Ihre API-URL
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      "aquarium": {"aquarium_name": widget.jsonData['aquarium']['aquarium_name']},
+      "fishes": widget.jsonData['fishes'].map((fish) => {
+        "fish_lat_name": fish['fish_lat_name']
+      }).toList(),
+      "plants": widget.jsonData['plants'].map((plant) => {
+        "plant_name": plant['plant_name']
+      }).toList()
+    });
+
+    final response = await http.post(Uri.parse(apiUrl), headers: headers, body: body);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      log(data.toString());
+
+      setState(() {
+        try{
+        widget.jsonData['aquarium']['link'] = data['aquarium'][0]['link'];
+        log(widget.jsonData['aquarium']['link']);
+
+        for (var fish in widget.jsonData['fishes']) {
+          var matchingFish = data['fishes']?.firstWhere(
+                  (element) => element['fish_lat_name'] == fish['fish_lat_name'],
+              orElse: () => null);
+          if (matchingFish != null) {
+            fish['link'] = matchingFish['fish_link'];
+          }
+        }
+
+        for (var plant in widget.jsonData['plants']) {
+          var matchingPlant = data['plants']?.firstWhere(
+                  (element) => element['plant_name'] == plant['plant_name'],
+              orElse: () => null);
+          if (matchingPlant != null) {
+            plant['link'] = matchingPlant['plant_link'];
+          }
+        }
+        } catch (e) {
+          log(e.toString());
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      });
+    } else {
+      print('Failed to load links: ${response.statusCode}');
+    }
+
+    setState(() {
+      _isLoading = false; // Ladezustand deaktivieren
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> data = widget.jsonData;
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("KI-Planer"),
-          backgroundColor: Colors.lightGreen,
-          actions: <Widget>[
-            PopupMenuButton<String>(
-              onSelected: handleClick,
-              itemBuilder: (BuildContext context) {
-                return {'Anleitung'}.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(choice),
-                  );
-                }).toList();
-              },
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-            child: Column(children: [
-          const SizedBox(height: 5),
-          const Text("Planungsergebnis",
-              style: TextStyle(fontSize: 25, color: Colors.black)),
-          const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Column(
-              children: [
-                if (widget.planningMode == 0)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          "Aquarium",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      AiPlannerResultAquariumWidget(
-                        aquariumName: data['aquarium']['aquarium_name'],
-                        aquariumLength: data['aquarium']['aquarium_length'],
-                        aquariumDepth: data['aquarium']['aquarium_depth'],
-                        aquariumHeight: data['aquarium']['aquarium_height'],
-                        aquariumLiter: data['aquarium']['aquarium_liter'],
-                        aquariumPrice: data['aquarium']['aquarium_price'],
-                      ),
-                    ],
-                  ),
-                if (widget.planningMode == 0 || widget.planningMode == 1)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          "Fische",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: data['fishes'].map<Widget>((fish) {
-                          return AiPlannerResultFishWidget(
-                            fishCommonName: fish['fish_common_name'],
-                            fishLatName: fish['fish_lat_name'],
-                            fishPh: fish['fish_ph'],
-                            fishGh: fish['fish_gh'],
-                            fishKh: fish['fish_kh'],
-                            fishMinTemp: fish['fish_min_temp'],
-                            fishMinLiters: fish['fish_min_liters'],
-                            fishLink: fish['fish_link'],
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                if (widget.planningMode == 0 || widget.planningMode == 2)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          "Pflanzen",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: data['plants'].map<Widget>((plant) {
-                          return AiPlannerResultPlantWidget(
-                            plantName: plant['plant_name'],
-                            plantType: plant['plant_type'],
-                            plantGrowthRate: plant['plant_growth_rate'],
-                            plantLightDemand: plant['plant_light_demand'],
-                            plantCo2Demand: plant['plant_co2_demand'],
-                            plantLink: plant['plant_link'],
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.93,
-                  ),
-                  child: Text(data['reason'], style: const TextStyle(fontSize: 16)),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
-                  ),
-                  child: const Text(
-                      "Planung finalisieren & Links suchen",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black)),
-                ),
-                const SizedBox(height: 20),
-              ],
-            ),
+      appBar: AppBar(
+        title: const Text("KI-Planer"),
+        backgroundColor: Colors.lightGreen,
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: handleClick,
+            itemBuilder: (BuildContext context) {
+              return {'Anleitung'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
           ),
-        ])));
+        ],
+      ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(children: [
+              const SizedBox(height: 5),
+              const Text("Planungsergebnis",
+                  style: TextStyle(fontSize: 25, color: Colors.black)),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Column(
+                  children: [
+                    if (widget.planningMode == 0)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              "Aquarium",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          AiPlannerResultAquariumWidget(
+                            aquariumName: data['aquarium']['aquarium_name'],
+                            aquariumLength: data['aquarium']['aquarium_length'],
+                            aquariumDepth: data['aquarium']['aquarium_depth'],
+                            aquariumHeight: data['aquarium']['aquarium_height'],
+                            aquariumLiter: data['aquarium']['aquarium_liter'],
+                            aquariumPrice: data['aquarium']['aquarium_price'],
+                            filterName: data['technic'][0]['filter_name'],
+                            filterIncluded: data['technic'][0]['filter_included'],
+                            heaterName: data['technic'][1]['heater_name'],
+                            heaterIncluded: data['technic'][1]['heater_included'],
+                            lightName: data['technic'][2]['lighting_name'],
+                            lightIncluded: data['technic'][2]['lighting_included'],
+                            link: data['aquarium']['link'],
+                          ),
+                        ],
+                      ),
+                    if (widget.planningMode == 0 || widget.planningMode == 1)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              "Fische",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Column(
+                            children: data['fishes'].map<Widget>((fish) {
+                              return AiPlannerResultFishWidget(
+                                fishCommonName: fish['fish_common_name'],
+                                fishLatName: fish['fish_lat_name'],
+                                fishPh: fish['fish_ph'],
+                                fishGh: fish['fish_gh'],
+                                fishKh: fish['fish_kh'],
+                                fishMinTemp: fish['fish_min_temp'],
+                                fishMinLiters: fish['fish_min_liters'],
+                                link: fish['link'], // Hinzufügen des Links
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    if (widget.planningMode == 0 || widget.planningMode == 2)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              "Pflanzen",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Column(
+                            children: data['plants'].map<Widget>((plant) {
+                              return AiPlannerResultPlantWidget(
+                                plantName: plant['plant_name'],
+                                plantType: plant['plant_type'],
+                                plantGrowthRate: plant['plant_growth_rate'],
+                                plantLightDemand: plant['plant_light_demand'],
+                                plantCo2Demand: plant['plant_co2_demand'],
+                                link: plant['link'], // Hinzufügen des Links
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.93,
+                      ),
+                      child: Text(data['reason'], style: const TextStyle(fontSize: 16)),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        fetchLinks();
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.lightGreen),
+                        minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
+                      ),
+                      child: const Text(
+                          "Planung finalisieren & Links suchen",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black)),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            ]),
+          ),
+          if (_isLoading)
+            Container(
+              color: Colors.black87,
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 15,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        "Einen Moment Geduld, bitte!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Die Links werden geladen.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      SizedBox(height: 3),
+                      Text(
+                        "Dieser Vorgang kann einige Zeit in Anspruch nehmen.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }

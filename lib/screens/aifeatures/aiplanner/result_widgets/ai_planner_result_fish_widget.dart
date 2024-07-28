@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AiPlannerResultFishWidget extends StatelessWidget {
   final String fishCommonName;
@@ -8,7 +9,7 @@ class AiPlannerResultFishWidget extends StatelessWidget {
   final String fishKh;
   final String fishMinTemp;
   final String fishMinLiters;
-  final String fishLink;
+  final String? link;
 
   const AiPlannerResultFishWidget({
     super.key,
@@ -19,7 +20,7 @@ class AiPlannerResultFishWidget extends StatelessWidget {
     required this.fishKh,
     required this.fishMinTemp,
     required this.fishMinLiters,
-    required this.fishLink,
+    this.link,
   });
 
   @override
@@ -35,55 +36,64 @@ class AiPlannerResultFishWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: [
-              Text(
-                fishCommonName,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+            Row(
+              children: [
+                Expanded(
+                  flex: link == null ? 1 : 9,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        fishCommonName,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        fishLatName,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                fishLatName,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-            ],),
-            Flex(
-              direction: Axis.horizontal,
-              crossAxisAlignment: CrossAxisAlignment.start,
+                if (link != null)
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      icon: const Icon(Icons.shopping_cart),
+                      onPressed: () async {
+                        if (await canLaunchUrl(Uri.parse(link!))) {
+                          await launchUrl(Uri.parse(link!));
+                        } else {
+                          throw 'Could not launch $link';
+                        }
+                      },
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 3),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('ab $fishMinLiters Liter', style: const TextStyle(fontSize: 12)),
+                const SizedBox(width: 20),
+                Text('Temperatur: $fishMinTemp°C', style: const TextStyle(fontSize: 12)),
+              ],
+            ),
+            const SizedBox(height: 3), // Ein bisschen Abstand zwischen den Reihen
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  'pH: $fishPh',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                Text(
-                  'GH: $fishGh',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                Text(
-                  'KH: $fishKh',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],),
-            Flex(
-              direction: Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-
-                Text(
-                  'ab $fishMinLiters Liter',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                Text(
-                  'Temperatur: $fishMinTemp°C',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],),
+                Text('pH-Bereich: $fishPh', style: const TextStyle(fontSize: 12)),
+                Text('GH-Bereich: $fishGh', style: const TextStyle(fontSize: 12)),
+                Text('KH-Bereich: $fishKh', style: const TextStyle(fontSize: 12)),
+              ],
+            ),
           ],
         ),
       ),
