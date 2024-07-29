@@ -19,9 +19,9 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
   final _formKey = GlobalKey<FormState>();
   double textScaleFactor = 0;
 
-  bool? useForegroundPlants = true;
-  double plantingIntensity = 3;
-  double maintenanceEffort = 3;
+  bool useForegroundPlants = true;
+  bool useMossPlants = true;
+  double growthRate = 2;
   bool _isLoading = false;
   Aquarium? _selectedAquarium;
   List<Aquarium> _aquariumNames = [];
@@ -59,7 +59,10 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
       if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AiPlannerResult(jsonData: map, planningMode: widget.aiPlannerObject.planningMode)),
+          MaterialPageRoute(
+              builder: (context) => AiPlannerResult(
+                  jsonData: map,
+                  planningMode: widget.aiPlannerObject.planningMode)),
         );
         setState(() {
           _isLoading = false;
@@ -121,7 +124,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                                   textScaler:
                                       TextScaler.linear(textScaleFactor),
                                   style: const TextStyle(
-                                      fontSize: 22, color: Colors.black)),
+                                      fontSize: 20, color: Colors.black)),
                               DropdownButton<Aquarium>(
                                 value: _selectedAquarium,
                                 items: _aquariumNames
@@ -137,16 +140,18 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                                 onChanged: (newValue) {
                                   setState(() {
                                     _selectedAquarium = newValue;
-                                    widget.aiPlannerObject.aquariumId = _selectedAquarium!.aquariumId;
+                                    widget.aiPlannerObject.aquariumId =
+                                        _selectedAquarium!.aquariumId;
                                   });
                                 },
                               ),
                             ]),
+                          const SizedBox(height: 10),
                           Text(
                               'Soll dein Aquarium auch mit Bodendeckern/Rasen bepflanzt werden?',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 22, color: Colors.black)),
+                                  fontSize: 20, color: Colors.black)),
                           Row(
                             children: [
                               Expanded(
@@ -157,7 +162,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                                   groupValue: useForegroundPlants,
                                   onChanged: (value) {
                                     setState(() {
-                                      useForegroundPlants = value;
+                                      useForegroundPlants = value!;
                                     });
                                   },
                                 ),
@@ -170,7 +175,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                                   groupValue: useForegroundPlants,
                                   onChanged: (value) {
                                     setState(() {
-                                      useForegroundPlants = value;
+                                      useForegroundPlants = value!;
                                     });
                                   },
                                 ),
@@ -178,100 +183,68 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          Text('Wie stark soll dein Aquarium bepflanzt werden?',
+                          Text(
+                              'Soll dein Aquarium auch mit Moos bepflanzt werden?',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 22, color: Colors.black)),
-                          Slider(
-                            value: plantingIntensity,
-                            min: 1,
-                            max: 5,
-                            divisions: 4,
-                            activeColor: Colors.lightGreen,
-                            label: plantingIntensity.round().toString(),
-                            onChanged: (value) {
-                              setState(() {
-                                plantingIntensity = value;
-                              });
-                            },
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  fontSize: 20, color: Colors.black)),
+                          Row(
                             children: [
-                              Text('sehr wenig'),
-                              Text('sehr stark'),
+                              Expanded(
+                                child: RadioListTile<bool>(
+                                  title: const Text('Ja'),
+                                  value: true,
+                                  activeColor: Colors.lightGreen,
+                                  groupValue: useMossPlants,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      useMossPlants = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                child: RadioListTile<bool>(
+                                  title: const Text('Nein'),
+                                  value: false,
+                                  activeColor: Colors.lightGreen,
+                                  groupValue: useMossPlants,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      useMossPlants = value!;
+                                    });
+                                  },
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 20),
-                          Text('Wie hoch darf der Pflegeaufwand maximal sein?',
+                          Text(
+                              'Möchtest du Pflanzen mit geringem, mittlerem oder hohem Wachstum einsetzen?',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 22, color: Colors.black)),
+                                  fontSize: 20, color: Colors.black)),
                           Slider(
-                            value: maintenanceEffort,
+                            value: growthRate,
                             min: 1,
-                            max: 5,
-                            divisions: 4,
+                            max: 3,
+                            divisions: 2,
                             activeColor: Colors.lightGreen,
-                            label: maintenanceEffort.round().toString(),
+                            label: growthRate.round().toString(),
                             onChanged: (value) {
                               setState(() {
-                                maintenanceEffort = value;
+                                growthRate = value;
                               });
                             },
                           ),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('sehr gering'),
-                              Text('sehr hoch'),
+                              Text('gering'),
+                              Text('hoch'),
                             ],
                           ),
                           const SizedBox(height: 30),
-                          ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Colors.lightGreen),
-                                    minimumSize:
-                                        MaterialStateProperty.all<Size>(
-                                            const Size(200, 40)),
-                                  ),
-                                  onPressed: () async {
-                                    if (_formKey.currentState?.validate() ??
-                                        false) {
-                                      _formKey.currentState?.save();
-                                      widget.aiPlannerObject
-                                              .useForegroundPlants =
-                                          useForegroundPlants;
-                                      widget.aiPlannerObject.plantingIntensity =
-                                          plantingIntensity.toInt();
-                                      widget.aiPlannerObject.maintenanceEffort =
-                                          maintenanceEffort.toInt();
-                                      await _executePlanning();
-                                    }
-                                  },
-                                  child: const Text("Planung abschließen"),
-                                ),
-                          const SizedBox(height: 40),
-                          if (widget.aiPlannerObject.planningMode != 2)
-                            Column(
-                              children: [
-                                LinearProgressIndicator(
-                                  value: 0.99,
-                                  backgroundColor: Colors.grey[300],
-                                  valueColor:
-                                      const AlwaysStoppedAnimation<Color>(
-                                          Colors.lightGreen),
-                                ),
-                                const SizedBox(height: 10),
-                                Text("Fortschritt: 99%",
-                                    textScaler:
-                                        TextScaler.linear(textScaleFactor),
-                                    style: const TextStyle(
-                                        fontSize: 20, color: Colors.black)),
-                              ],
-                            )
                         ],
                       ),
                     ),
@@ -327,6 +300,49 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
               ),
             ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: widget.aiPlannerObject.planningMode != 2 ? 120 : 80,
+        child: Column(
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.lightGreen),
+                minimumSize:
+                    MaterialStateProperty.all<Size>(const Size(200, 40)),
+              ),
+              onPressed: () async {
+                if (_formKey.currentState?.validate() ?? false) {
+                  _formKey.currentState?.save();
+                  widget.aiPlannerObject.useForegroundPlants =
+                      useForegroundPlants;
+                  widget.aiPlannerObject.useMossPlants = useMossPlants;
+                  widget.aiPlannerObject.growthRate = growthRate.toInt();
+                  await _executePlanning();
+                }
+              },
+              child: const Text("Planung abschließen"),
+            ),
+            if (widget.aiPlannerObject.planningMode != 2)
+              Column(
+                children: [
+                  const SizedBox(height: 10),
+                  LinearProgressIndicator(
+                    value: 0.99,
+                    backgroundColor: Colors.grey[300],
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+                  ),
+                  const SizedBox(height: 10),
+                  Text("Fortschritt: 99%",
+                      textScaler: TextScaler.linear(textScaleFactor),
+                      style:
+                          const TextStyle(fontSize: 20, color: Colors.black)),
+                ],
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -1,5 +1,10 @@
 import 'dart:convert';
+import 'package:aquahelper/model/components/lighting.dart';
 import 'package:http/http.dart' as http;
+
+import '../util/datastore.dart';
+import 'aquarium.dart';
+import 'measurement.dart';
 
 
 class AiPlannerStorage {
@@ -9,12 +14,11 @@ class AiPlannerStorage {
   int? maxVolume;
   bool? needCabinet;
   int? maxCost;
-  bool? favoritAnimals;
   String? favoriteFishList;
   String? waterValues;
   bool? useForegroundPlants;
-  int? plantingIntensity;
-  int? maintenanceEffort;
+  bool? useMossPlants;
+  int? growthRate;
 
   AiPlannerStorage();
 
@@ -26,27 +30,22 @@ class AiPlannerStorage {
       'maxVolume': maxVolume ?? 0,
       'needCabinet': needCabinet ?? false,
       'maxCost': maxCost ?? 0,
-      'favoritAnimals': favoritAnimals ?? false,
       'favoriteFishList': favoriteFishList ?? "",
       'waterValues': waterValues ?? "",
       'useForegroundPlants': useForegroundPlants ?? false,
-      'plantingIntensity': convertSliderIntensity() ?? "",
+      'useMossPlants': useMossPlants ?? false,
       'maintenanceEffort': convertSliderIntensity() ?? "",
     };
   }
 
   convertSliderIntensity() {
-    switch (plantingIntensity) {
+    switch (growthRate) {
       case 1:
-        return 'sehr gering';
+        return 'niedrig';
       case 2:
-        return 'gering';
-      case 3:
         return 'mittel';
-      case 4:
+      case 3:
         return 'hoch';
-      case 5:
-        return 'sehr hoch';
     }
   }
 
@@ -62,22 +61,34 @@ class AiPlannerStorage {
   }
 
   getAquariumInformation() async {
-    if (planningMode == 0) {
+    double brightnessLevel = 0;
+    double ph = 0;
+    double gh = 0;
+    double kh = 0;
+
+    if (planningMode == 0 || aquariumId == "") {
       return "";
     }
-    //TODO: Implement dynamic aquarium information
-    /*
+
     Aquarium aquarium = await Datastore.db.getAquariumById(aquariumId);
+    Lighting lighting = Datastore.db.getLightingByAquarium(aquarium.aquariumId);
+    if(lighting.brightness != 0) {
+      int brightness = lighting.brightness;
+      brightnessLevel = brightness / aquarium.liter;
+    }
     Measurement measurement = await Datastore.db.getSortedMeasurmentsList(
         aquarium).then((value) => value.first);
+    if(measurement.ph != 0 && measurement.totalHardness != 0 && measurement.carbonateHardness != 0) {
+      ph = measurement.ph;
+      gh = measurement.totalHardness;
+      kh = measurement.carbonateHardness;
+    }
 
     String aquariumInformation =
-        "Aquarium-Beleuchtung: hoch\n"
-            "zusätzliche Technik: ${aquarium.co2Type > 0
-            ? "eine"
-            : "keine"} CO2-Anlage\n";*/
+        "Das Aquarium hat ${aquarium.liter} Liter. Es hat ${aquarium.co2Type > 0 ? "EINE" : "KEINE"} CO2-Anlage. Die Beleuchtungstärke der Beleuchtung ist ${brightnessLevel < 20 ? "NIEDRIG" : brightnessLevel < 40 ? "MITTEL" : "HOCH"}."
+        "Die Wasserwerte sind: pH: $ph, GH: $gh, KH: $kh";
 
-    return "Das Aquarium hat 80 Liter, eine CO2-Anlage und eine mittlere Beleuchtungsstärke";
+    return aquariumInformation;
   }
 
   Future<Map<String, dynamic>> executePlanning() async {
