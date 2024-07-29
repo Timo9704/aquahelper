@@ -63,10 +63,12 @@ class _AiPlannerIntroState extends State<AiPlannerIntro> {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      MaterialStateProperty.all<Color>(Colors.lightGreen),
+                      minimumSize: MaterialStateProperty.all<Size>(const Size(250, 70)),
+                  ),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AiPlanner()), // Seite wechseln zu AiAssistantIntro
+                    MaterialPageRoute(builder: (context) => const AiPlanner()),
                   ),
                   child: const Text('KI-Planer starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
                 )

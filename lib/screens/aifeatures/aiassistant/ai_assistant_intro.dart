@@ -64,7 +64,9 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      MaterialStateProperty.all<Color>(Colors.lightGreen),
+                      minimumSize: MaterialStateProperty.all<Size>(const Size(250, 70)),
+                  ),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const AiAssistantChat()), // Seite wechseln zu AiAssistantIntro
