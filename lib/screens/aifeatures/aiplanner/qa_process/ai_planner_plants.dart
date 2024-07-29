@@ -56,12 +56,6 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
     });
 
     widget.aiPlannerObject.executePlanning().then((map) {
-      if(map == null) {
-        setState(() {
-          _isLoading = false;
-        });
-        return;
-      }
       if (mounted) {
         Navigator.push(
           context,
