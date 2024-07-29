@@ -17,10 +17,10 @@ class AiPlannerAquarium extends StatefulWidget {
 class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
   double textScaleFactor = 0;
   final _formKey = GlobalKey<FormState>();
-  int? availableSpace;
-  int? maxVolume;
-  bool? needCabinet;
-  int? maxCost;
+  double availableSpace = 100;
+  double maxVolume = 100;
+  bool needCabinet = false;
+  double maxCost = 300;
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                         color: Colors.black)),
                 const SizedBox(height: 10),
                 Text(
-                    "Hier kannst du die Ausstattung deines Aquariums planen. Die folgenden Fragen helfen uns dabei, die passenden technischen Geräte für dein Aquarium zu finden. Wir berücksichtigen dabei deine Wünsche und Bedürfnisse, um ein harmonisches Gesamtbild zu schaffen.",
+                    "Hier kannst du die Eingenschaften des Aquariums planen. Die folgenden Fragen helfen uns dabei, das passende Aquarium für deine Anforderungen zu finden. Wir berücksichtigen dabei deine Bedürfnisse, um ein harmonisches Gesamtbild zu schaffen.",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
                         fontSize: 17,
@@ -81,58 +81,85 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      Text('Wie viel Platz steht dir für dein Aquarium zur Verfügung? (in cm)',
+                      Text('Wie viel Platz steht dir für dein Aquarium zur Verfügung?',
                           textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           color: Colors.black)),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.lightGreen),
-                          ),
-                        ),
-                        onSaved: (value) {
-                          availableSpace = int.tryParse(value ?? '');
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte gib eine Zahl ein';
-                          }
-                          return null;
+                      Slider(
+                        value: availableSpace,
+                        min: 10,
+                        max: 250,
+                        divisions: 24,
+                        activeColor: Colors.lightGreen,
+                        label: availableSpace.round().toString(),
+                        onChanged: (value) {
+                          setState(() {
+                            availableSpace = value;
+                          });
                         },
                       ),
+                      Text('maximale Kantenlänge: ${availableSpace.round()} cm',
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black)),
                       const SizedBox(height: 20),
-                      Text('Wie viel Liter soll dein Aquarium maximal fassen? (in Liter)',
+                      Text('Wie viel Liter soll dein Aquarium maximal fassen?',
                           textScaler: TextScaler.linear(textScaleFactor),
                           style: const TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               color: Colors.black)),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.lightGreen),
-                          ),
-                        ),
-                        onSaved: (value) {
-                          maxVolume = int.tryParse(value ?? '');
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte gib eine Zahl ein';
-                          }
-                          return null;
+                      Slider(
+                        value: maxVolume,
+                        min: 10,
+                        max: 500,
+                        divisions: 49,
+                        activeColor: Colors.lightGreen,
+                        label: maxVolume.round().toString(),
+                        onChanged: (value) {
+                          setState(() {
+                            maxVolume = value;
+                          });
                         },
                       ),
+                      Text('maximale Literanzahl: ${maxVolume.round()} Liter',
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black)),
+                      const SizedBox(height: 20),
+                      Text('Wie viel soll das Aquarium maximal kosten?',
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.black)),
+                      Slider(
+                        value: maxCost,
+                        min: 100,
+                        max: 1000,
+                        divisions: 9,
+                        activeColor: Colors.lightGreen,
+                        label: '${maxCost.round()} €',
+                        onChanged: (value) {
+                          setState(() {
+                            maxCost = value;
+                          });
+                        },
+                      ),
+                      Text('maximaler Preis: ${maxCost.round()} Euro',
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black)),
                       const SizedBox(height: 20),
                       Text('Brauchst du einen Unterschrank?',
                           textScaler: TextScaler.linear(textScaleFactor),
                           style: const TextStyle(
-                              fontSize: 22,
+                              fontSize: 20,
                               color: Colors.black)),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                             child: RadioListTile<bool>(
@@ -142,7 +169,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                               groupValue: needCabinet,
                               onChanged: (value) {
                                 setState(() {
-                                  needCabinet = value;
+                                  needCabinet = value!;
                                 });
                               },
                             ),
@@ -155,7 +182,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                               groupValue: needCabinet,
                               onChanged: (value) {
                                 setState(() {
-                                  needCabinet = value;
+                                  needCabinet = value!;
                                 });
                               },
                             ),
@@ -163,63 +190,8 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      Text('Wie viel soll das Aquarium mit Technik maximal kosten? (in Euro)',
-                          textScaler: TextScaler.linear(textScaleFactor),
-                          style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.black)),
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.lightGreen),
-                          ),
-                        ),
-                        onSaved: (value) {
-                          maxCost = int.tryParse(value ?? '');
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Bitte gib eine Zahl ein';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
-                          minimumSize: MaterialStateProperty.all<Size>(const Size(200, 40)),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            _formKey.currentState?.save();
-                            widget.aiPlannerObject.availableSpace = availableSpace;
-                            widget.aiPlannerObject.maxVolume = maxVolume;
-                            widget.aiPlannerObject.needCabinet = needCabinet;
-                            widget.aiPlannerObject.maxCost = maxCost;
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => AiPlannerAnimals(aiPlannerObject: widget.aiPlannerObject)),
-                            );
-                          }
-                        },
-                        child: const Text("Weiter zum Besatz"),
-                      ),
-                      const SizedBox(height: 20),
-                      Column(children: [
-                        LinearProgressIndicator(
-                          value: 0.33,
-                          backgroundColor: Colors.grey[300],
-                          valueColor:
-                          const AlwaysStoppedAnimation<Color>(Colors.lightGreen),
-                        ),
-                        const SizedBox(height: 10),
-                        Text("Fortschritt: 33%",
-                            textScaler: TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontSize: 20, color: Colors.black)),
-                      ],)
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),
@@ -228,6 +200,44 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
           ),
         ],
       ),
+        bottomNavigationBar: BottomAppBar(
+          height: 120,
+          child: Column(children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
+                minimumSize: MaterialStateProperty.all<Size>(const Size(200, 40)),
+              ),
+              onPressed: () {
+                if (_formKey.currentState?.validate() ?? false) {
+                  _formKey.currentState?.save();
+                  widget.aiPlannerObject.availableSpace = availableSpace.toInt();
+                  widget.aiPlannerObject.maxVolume = maxVolume.toInt();
+                  widget.aiPlannerObject.needCabinet = needCabinet;
+                  widget.aiPlannerObject.maxCost = maxCost.toInt();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AiPlannerAnimals(aiPlannerObject: widget.aiPlannerObject)),
+                  );
+                }
+              },
+              child: const Text("Weiter zum Besatz"),
+            ),
+            const SizedBox(height: 10),
+            LinearProgressIndicator(
+              value: 0.33,
+              backgroundColor: Colors.grey[300],
+              valueColor:
+              const AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+            ),
+            const SizedBox(height: 10),
+            Text("Fortschritt: 33%",
+                textScaler: TextScaler.linear(textScaleFactor),
+                style: const TextStyle(fontSize: 20, color: Colors.black)),
+          ],)
+        ),
+
     );
   }
 }
