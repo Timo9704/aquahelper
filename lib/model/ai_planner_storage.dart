@@ -96,7 +96,6 @@ class AiPlannerStorage {
 
       try {
         Map<String, dynamic> json = jsonDecode(jsonString);
-        log(json.toString());
         return json;
       } catch (e) {
         Exception('Failed to load data');

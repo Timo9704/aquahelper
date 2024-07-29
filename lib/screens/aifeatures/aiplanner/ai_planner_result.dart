@@ -40,7 +40,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
 
   Future<void> fetchLinks() async {
     setState(() {
-      _isLoading = true; // Ladezustand aktivieren
+      _isLoading = true;
     });
 
     const apiUrl = 'https://qklobhln70.execute-api.eu-west-2.amazonaws.com/v1/links/'; // Ersetzen Sie dies durch Ihre API-URL
@@ -58,29 +58,29 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
     final response = await http.post(Uri.parse(apiUrl), headers: headers, body: body);
     if (response.statusCode == 200) {
       try{
-      final data = jsonDecode(response.body);
+        final data = jsonDecode(response.body);
 
-      setState(() {
-        widget.jsonData['aquarium']['link'] = data['aquarium']['link'];
+        setState(() {
+          widget.jsonData['aquarium']['link'] = data['aquarium']['link'];
 
-        for (var fish in widget.jsonData['fishes']) {
-          var matchingFish = data['fishes']?.firstWhere(
-                  (element) => element['fish_lat_name'] == fish['fish_lat_name'],
-              orElse: () => null);
-          if (matchingFish != null) {
-            fish['link'] = matchingFish['fish_link'];
+          for (var fish in widget.jsonData['fishes']) {
+            var matchingFish = data['fishes']?.firstWhere(
+                    (element) => element['fish_lat_name'] == fish['fish_lat_name'],
+                orElse: () => null);
+            if (matchingFish != null) {
+              fish['link'] = matchingFish['fish_link'];
+            }
           }
-        }
 
-        for (var plant in widget.jsonData['plants']) {
-          var matchingPlant = data['plants']?.firstWhere(
-                  (element) => element['plant_name'] == plant['plant_name'],
-              orElse: () => null);
-          if (matchingPlant != null) {
-            plant['link'] = matchingPlant['plant_link'];
+          for (var plant in widget.jsonData['plants']) {
+            var matchingPlant = data['plants']?.firstWhere(
+                    (element) => element['plant_name'] == plant['plant_name'],
+                orElse: () => null);
+            if (matchingPlant != null) {
+              plant['link'] = matchingPlant['plant_link'];
+            }
           }
-        }
-      });
+        });
       } catch (e) {
         log(e.toString());
         setState(() {
@@ -215,7 +215,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                                 plantGrowthRate: plant['plant_growth_rate'],
                                 plantLightDemand: plant['plant_light_demand'],
                                 plantCo2Demand: plant['plant_co2_demand'],
-                                link: plant['link'], // Hinzufügen des Links
+                                link: plant['link'],
                               );
                             }).toList(),
                           ),
