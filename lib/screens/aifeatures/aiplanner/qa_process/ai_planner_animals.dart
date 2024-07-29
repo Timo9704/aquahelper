@@ -48,7 +48,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
     });
 
     widget.aiPlannerObject.executePlanning().then((map) {
-      if (mounted) {
+      if (mounted && map.isNotEmpty) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -56,10 +56,10 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                   jsonData: map,
                   planningMode: widget.aiPlannerObject.planningMode)),
         );
-        setState(() {
-          _isLoading = false;
-        });
       }
+      setState(() {
+        _isLoading = false;
+      });
     });
   }
 
@@ -150,7 +150,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    if(fishController.text.isNotEmpty){
+                                    if (fishController.text.isNotEmpty) {
                                       favoriteFishList.add(fishController.text);
                                       fishController.clear();
                                     }
@@ -172,7 +172,8 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                                 .toList(),
                           ),
                           const SizedBox(height: 20),
-                          Text('Welche Wasserwerte besitzt dein Leitungwasser ungefähr?',
+                          Text(
+                              'Welche Wasserwerte besitzt dein Leitungwasser ungefähr?',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
                                   fontSize: 20, color: Colors.black)),
@@ -186,15 +187,15 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                             label: phValue.toStringAsFixed(1),
                             onChanged: (value) {
                               setState(() {
-                                phValue = double.parse(value.toStringAsFixed(1));
+                                phValue =
+                                    double.parse(value.toStringAsFixed(1));
                               });
                             },
                           ),
                           Text('pH-Wert: $phValue',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black)),
+                                  fontSize: 18, color: Colors.black)),
                           Slider(
                             value: ghValue,
                             min: 0,
@@ -211,8 +212,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                           Text('GH-Wert: ${ghValue.round()}',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black)),
+                                  fontSize: 18, color: Colors.black)),
                           Slider(
                             value: khValue,
                             min: 0,
@@ -222,15 +222,15 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                             label: khValue.round().toString(),
                             onChanged: (value) {
                               setState(() {
-                                khValue = double.parse(value.toStringAsFixed(1));
+                                khValue =
+                                    double.parse(value.toStringAsFixed(1));
                               });
                             },
                           ),
                           Text('KH-Wert: ${khValue.round()}',
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black)),
+                                  fontSize: 18, color: Colors.black)),
                         ],
                       ),
                     ),
@@ -287,73 +287,76 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-          height: 120,
-          child: Column(
-            children: [
-              widget.aiPlannerObject.planningMode == 1
-                  ? ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.lightGreen),
-                        minimumSize: MaterialStateProperty.all<Size>(
-                            const Size(200, 40)),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _formKey.currentState?.save();
-                          widget.aiPlannerObject.favoriteFishList =
-                              favoriteFishList.toString();
-                          widget.aiPlannerObject.waterValues =
-                              "pH-Wert: $phValue, GH-Wert: $ghValue, KH-Wert: $khValue";
-                          await _executePlanning();
-                        }
-                      },
-                      child: const Text("Planung abschließen"),
-                    )
-                  : ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.lightGreen),
-                        minimumSize: MaterialStateProperty.all<Size>(
-                            const Size(200, 40)),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          _formKey.currentState?.save();
-                          widget.aiPlannerObject.favoriteFishList =
-                              favoriteFishList.toString();
-                          widget.aiPlannerObject.waterValues =
-                          "pH-Wert: $phValue, GH-Wert: $ghValue, KH-Wert: $khValue";
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AiPlannerPlants(
-                                      aiPlannerObject:
-                                          widget.aiPlannerObject)));
-                        }
-                      },
-                      child: const Text("Weiter zur Bepflanzung"),
+      bottomNavigationBar: _isLoading
+          ? null
+          : BottomAppBar(
+              height: 120,
+              child: Column(
+                children: [
+                  widget.aiPlannerObject.planningMode == 1
+                      ? ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightGreen),
+                            minimumSize: MaterialStateProperty.all<Size>(
+                                const Size(200, 40)),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState?.save();
+                              widget.aiPlannerObject.favoriteFishList =
+                                  favoriteFishList.toString();
+                              widget.aiPlannerObject.waterValues =
+                                  "pH-Wert: $phValue, GH-Wert: $ghValue, KH-Wert: $khValue";
+                              await _executePlanning();
+                            }
+                          },
+                          child: const Text("Planung abschließen"),
+                        )
+                      : ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.lightGreen),
+                            minimumSize: MaterialStateProperty.all<Size>(
+                                const Size(200, 40)),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState?.validate() ?? false) {
+                              _formKey.currentState?.save();
+                              widget.aiPlannerObject.favoriteFishList =
+                                  favoriteFishList.toString();
+                              widget.aiPlannerObject.waterValues =
+                                  "pH-Wert: $phValue, GH-Wert: $ghValue, KH-Wert: $khValue";
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AiPlannerPlants(
+                                          aiPlannerObject:
+                                              widget.aiPlannerObject)));
+                            }
+                          },
+                          child: const Text("Weiter zur Bepflanzung"),
+                        ),
+                  const SizedBox(height: 10),
+                  if (widget.aiPlannerObject.planningMode != 1)
+                    Column(
+                      children: [
+                        LinearProgressIndicator(
+                          value: 0.66,
+                          backgroundColor: Colors.grey[300],
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              Colors.lightGreen),
+                        ),
+                        const SizedBox(height: 10),
+                        Text("Fortschritt: 66%",
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.black)),
+                      ],
                     ),
-              const SizedBox(height: 10),
-              if (widget.aiPlannerObject.planningMode != 1)
-                Column(
-                  children: [
-                    LinearProgressIndicator(
-                      value: 0.66,
-                      backgroundColor: Colors.grey[300],
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                          Colors.lightGreen),
-                    ),
-                    const SizedBox(height: 10),
-                    Text("Fortschritt: 66%",
-                        textScaler: TextScaler.linear(textScaleFactor),
-                        style:
-                            const TextStyle(fontSize: 20, color: Colors.black)),
-                  ],
-                )
-            ],
-          )),
+                ],
+              ),
+            ),
     );
   }
 }

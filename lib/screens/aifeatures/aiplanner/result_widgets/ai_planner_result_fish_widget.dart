@@ -82,16 +82,16 @@ class AiPlannerResultFishWidget extends StatelessWidget {
               children: [
                 Text('ab $fishMinLiters Liter', style: const TextStyle(fontSize: 12)),
                 const SizedBox(width: 20),
-                Text('Temperatur: $fishMinTemp°C', style: const TextStyle(fontSize: 12)),
+                Text('Temperatur: $fishMinTemp', style: const TextStyle(fontSize: 12)),
               ],
             ),
             const SizedBox(height: 3), // Ein bisschen Abstand zwischen den Reihen
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('pH-Bereich: $fishPh', style: const TextStyle(fontSize: 12)),
-                Text('GH-Bereich: $fishGh', style: const TextStyle(fontSize: 12)),
-                Text('KH-Bereich: $fishKh', style: const TextStyle(fontSize: 12)),
+                Text('pH ca. $fishPh', style: const TextStyle(fontSize: 12)),
+                Text('GH ca. $fishGh', style: const TextStyle(fontSize: 12)),
+                Text('KH ca. $fishKh', style: const TextStyle(fontSize: 12)),
               ],
             ),
           ],

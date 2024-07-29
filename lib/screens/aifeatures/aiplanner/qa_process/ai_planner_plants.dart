@@ -56,7 +56,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
     });
 
     widget.aiPlannerObject.executePlanning().then((map) {
-      if (mounted) {
+      if (mounted && map.isNotEmpty) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -64,10 +64,10 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
                   jsonData: map,
                   planningMode: widget.aiPlannerObject.planningMode)),
         );
-        setState(() {
-          _isLoading = false;
-        });
       }
+      setState(() {
+        _isLoading = false;
+      });
     });
   }
 
@@ -301,7 +301,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: _isLoading ? null : BottomAppBar(
         height: widget.aiPlannerObject.planningMode != 2 ? 120 : 80,
         child: Column(
           children: [

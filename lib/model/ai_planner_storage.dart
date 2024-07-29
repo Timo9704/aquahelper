@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:aquahelper/model/components/lighting.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../util/datastore.dart';
 import 'aquarium.dart';
@@ -91,7 +92,8 @@ class AiPlannerStorage {
     return aquariumInformation;
   }
 
-  Future<Map<String, dynamic>> executePlanning() async {
+
+  Future<Response> executeRequest() async {
     final json = await createJson();
     final response = await http.post(
       Uri.parse('https://qklobhln70.execute-api.eu-west-2.amazonaws.com/v1/planner/'),
@@ -101,6 +103,12 @@ class AiPlannerStorage {
       body: jsonEncode(json),
     ).timeout(const Duration(seconds: 120));
 
+    return response;
+  }
+
+  Future<Map<String, dynamic>> executePlanning() async {
+    final response = await executeRequest();
+
     if (response.statusCode == 200) {
       String jsonString = utf8.decode(response.bodyBytes);
 
@@ -108,11 +116,27 @@ class AiPlannerStorage {
         Map<String, dynamic> json = jsonDecode(jsonString);
         return json;
       } catch (e) {
-        Exception('Failed to load data');
+        Exception('Can not decode json');
         return {};
       }
-    } else {
-      Exception('Failed to load data');
+      //in case of 500 status code retry the request once
+    } else if(response.statusCode == 500) {
+      final response = await executeRequest();
+
+      if (response.statusCode == 200) {
+        String jsonString = utf8.decode(response.bodyBytes);
+
+        try {
+          Map<String, dynamic> json = jsonDecode(jsonString);
+          return json;
+        } catch (e) {
+          Exception('Can not decode json');
+          return {};
+        }
+      }else{
+        return {};
+      }
+    } else{
       return {};
     }
   }
