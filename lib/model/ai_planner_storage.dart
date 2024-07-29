@@ -34,7 +34,7 @@ class AiPlannerStorage {
       'waterValues': waterValues ?? "",
       'useForegroundPlants': useForegroundPlants ?? false,
       'useMossPlants': useMossPlants ?? false,
-      'maintenanceEffort': convertSliderIntensity() ?? "",
+      'growthRate': convertSliderIntensity() ?? "",
     };
   }
 
