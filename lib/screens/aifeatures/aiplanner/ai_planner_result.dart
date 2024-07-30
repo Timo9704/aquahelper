@@ -43,41 +43,52 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
       _isLoading = true;
     });
 
-    const apiUrl = 'https://qklobhln70.execute-api.eu-west-2.amazonaws.com/v1/links/'; // Ersetzen Sie dies durch Ihre API-URL
+    const apiUrl =
+        'https://qklobhln70.execute-api.eu-west-2.amazonaws.com/v1/links/'; // Ersetzen Sie dies durch Ihre API-URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
-      "aquarium": {"aquarium_name": widget.jsonData['aquarium']['aquarium_name']},
-      "fishes": widget.jsonData['fishes'].map((fish) => {
-        "fish_lat_name": fish['fish_lat_name']
-      }).toList(),
-      "plants": widget.jsonData['plants'].map((plant) => {
-        "plant_name": plant['plant_name']
-      }).toList()
+      "aquarium": {
+        "aquarium_name": widget.planningMode == 0 ? widget.jsonData['aquarium']['aquarium_name'] : "",
+      },
+      "fishes": widget.planningMode == 0 || widget.planningMode == 1 ? widget.jsonData['fishes']
+          .map((fish) => {"fish_lat_name": fish['fish_lat_name']})
+          .toList() : [],
+      "plants": widget.planningMode == 0 || widget.planningMode == 2 ? widget.jsonData['plants']['plants']
+          .map((plant) => {"plant_name": plant['plant_name']})
+          .toList() : [],
     });
 
-    final response = await http.post(Uri.parse(apiUrl), headers: headers, body: body);
+    final response =
+        await http.post(Uri.parse(apiUrl), headers: headers, body: body);
     if (response.statusCode == 200) {
-      try{
+      try {
         final data = jsonDecode(response.body);
 
         setState(() {
-          widget.jsonData['aquarium']['link'] = data['aquarium']['link'];
+          if(widget.planningMode == 0){
+            widget.jsonData['aquarium']['link'] = data['aquarium']['link'];
+          }
 
-          for (var fish in widget.jsonData['fishes']) {
-            var matchingFish = data['fishes']?.firstWhere(
-                    (element) => element['fish_lat_name'] == fish['fish_lat_name'],
-                orElse: () => null);
-            if (matchingFish != null) {
-              fish['link'] = matchingFish['fish_link'];
+          if(widget.planningMode == 0 || widget.planningMode == 1) {
+            for (var fish in widget.jsonData['fishes']) {
+              var matchingFish = data['fishes']?.firstWhere(
+                      (element) =>
+                  element['fish_lat_name'] == fish['fish_lat_name'],
+                  orElse: () => null);
+              if (matchingFish != null) {
+                fish['link'] = matchingFish['fish_link'];
+              }
             }
           }
 
-          for (var plant in widget.jsonData['plants']) {
-            var matchingPlant = data['plants']?.firstWhere(
-                    (element) => element['plant_name'] == plant['plant_name'],
-                orElse: () => null);
-            if (matchingPlant != null) {
-              plant['link'] = matchingPlant['plant_link'];
+          if(widget.planningMode == 0 || widget.planningMode == 2) {
+            for (var plant in widget.jsonData['plants']['plants']) {
+              var matchingPlant = data['plants']?.firstWhere(
+                      (element) => element['plant_name'] == plant['plant_name'],
+                  orElse: () => null);
+              if (matchingPlant != null) {
+                plant['link'] = matchingPlant['plant_link'];
+              }
             }
           }
         });
@@ -208,7 +219,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                             ),
                           ),
                           Column(
-                            children: data['plants'].map<Widget>((plant) {
+                            children: data['plants']['plants'].map<Widget>((plant) {
                               return AiPlannerResultPlantWidget(
                                 plantName: plant['plant_name'],
                                 plantType: plant['plant_type'],
@@ -219,6 +230,101 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                               );
                             }).toList(),
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Card(
+                                elevation: 4,
+                                color: Colors.lightGreen[100],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "empf. Menge\nVordergrund",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        "ca. ${data['plants']['foreground_plants']}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                elevation: 4,
+                                color: Colors.lightGreen[100],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "empf. Menge\nMittelgrund",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        "ca. ${data['plants']['foreground_plants']}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                elevation: 4,
+                                color: Colors.lightGreen[100],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "empf. Menge\nHintergrund",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      Text(
+                                        "ca. ${data['plants']['foreground_plants']}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
                         ],
                       ),
                     const SizedBox(height: 20),
@@ -231,7 +337,8 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                       constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width * 0.93,
                       ),
-                      child: Text(data['reason'], style: const TextStyle(fontSize: 16)),
+                      child: Text(data['reason'],
+                          style: const TextStyle(fontSize: 16)),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
@@ -240,17 +347,16 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.lightGreen),
-                        minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
+                            MaterialStateProperty.all<Color>(Colors.lightGreen),
+                        minimumSize: MaterialStateProperty.all<Size>(
+                            const Size(300, 70)),
                       ),
-                      child: const Text(
-                          "Planung finalisieren & Links suchen",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black)),
+                      child: const Text("Planung finalisieren & Links suchen",
+                          style: TextStyle(fontSize: 18, color: Colors.black)),
                     ),
                     const SizedBox(height: 10),
-                    const Text("Der KI-Planer kann Fehler machen. Überprüfe wichtige Informationen.",
+                    const Text(
+                        "Der KI-Planer kann Fehler machen. Überprüfe wichtige Informationen.",
                         style: TextStyle(
                             fontSize: 10,
                             color: Colors.black,
@@ -277,7 +383,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                         child: CircularProgressIndicator(
                           strokeWidth: 15,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.lightGreen),
+                              AlwaysStoppedAnimation<Color>(Colors.lightGreen),
                         ),
                       ),
                       SizedBox(height: 20),

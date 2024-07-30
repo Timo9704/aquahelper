@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:aquahelper/model/components/lighting.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -12,9 +13,11 @@ class AiPlannerStorage {
   int planningMode = 0;
   String aquariumId = "";
   int? availableSpace;
+  int? minVolume;
   int? maxVolume;
   bool? needCabinet;
   int? maxCost;
+  bool? isSet;
   String? favoriteFishList;
   String? waterValues;
   bool? useForegroundPlants;
@@ -28,8 +31,10 @@ class AiPlannerStorage {
       'planningMode': convertPlanningMode(),
       'aquariumInfo': await getAquariumInformation(),
       'availableSpace': availableSpace ?? 0,
+      'minVolume': minVolume ?? 0,
       'maxVolume': maxVolume ?? 0,
       'needCabinet': needCabinet ?? false,
+      'isSet': isSet ?? false,
       'maxCost': maxCost ?? 0,
       'favoriteFishList': favoriteFishList ?? "",
       'waterValues': waterValues ?? "",
@@ -72,11 +77,13 @@ class AiPlannerStorage {
     }
 
     Aquarium aquarium = await Datastore.db.getAquariumById(aquariumId);
-    Lighting lighting = Datastore.db.getLightingByAquarium(aquarium.aquariumId);
+    List<Lighting> lightingList = await Datastore.db.getLightingByAquarium(aquarium.aquariumId);
+    Lighting lighting = lightingList.first;
     if(lighting.brightness != 0) {
       int brightness = lighting.brightness;
       brightnessLevel = brightness / aquarium.liter;
     }
+    String level = brightnessLevel < 20 ? "NIEDRIG" : brightnessLevel < 40 ? "MITTEL" : "HOCH";
     Measurement measurement = await Datastore.db.getSortedMeasurmentsList(
         aquarium).then((value) => value.first);
     if(measurement.ph != 0 && measurement.totalHardness != 0 && measurement.carbonateHardness != 0) {
@@ -84,11 +91,7 @@ class AiPlannerStorage {
       gh = measurement.totalHardness;
       kh = measurement.carbonateHardness;
     }
-
-    String aquariumInformation =
-        "Das Aquarium hat ${aquarium.liter} Liter. Es hat ${aquarium.co2Type > 0 ? "EINE" : "KEINE"} CO2-Anlage. Die Beleuchtungstärke der Beleuchtung ist ${brightnessLevel < 20 ? "NIEDRIG" : brightnessLevel < 40 ? "MITTEL" : "HOCH"}."
-        "Die Wasserwerte sind: pH: $ph, GH: $gh, KH: $kh";
-
+    String aquariumInformation = "Das Aquarium hat ${aquarium.liter} Liter. Länge: ${aquarium.width}, Breite: ${aquarium.depth}, Höhe: ${aquarium.height}  Es hat ${aquarium.co2Type > 0 ? "EINE" : "KEINE"} CO2-Anlage. Die Beleuchtungstärke der Beleuchtung ist $level.Die Wasserwerte sind: pH: $ph, GH: $gh, KH: $kh";
     return aquariumInformation;
   }
 
