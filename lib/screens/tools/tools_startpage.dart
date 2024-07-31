@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/aifeatures/aioptimizer/ai_optimizer_intro.dart';
 import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_intro.dart';
 import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:aquahelper/screens/tools/explorer/explorer.dart';
@@ -131,6 +132,16 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) => const AiPlannerIntro()),
+                      );
+                    },
+                  ),
+                  IconTextButton(
+                    imagePath: 'assets/buttons/ai_assistant.png',
+                    text: 'KI-Optimierer',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const AiOptimizerIntro()),
                       );
                     },
                   ),

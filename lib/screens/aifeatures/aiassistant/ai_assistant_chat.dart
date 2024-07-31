@@ -12,7 +12,8 @@ import 'ai_assistant_guide.dart';
 import 'ai_assistant_preferences.dart';
 
 class AiAssistantChat extends StatefulWidget {
-  const AiAssistantChat({super.key});
+  final String optimizerText;
+  const AiAssistantChat({super.key, required this.optimizerText});
 
   @override
   State<AiAssistantChat> createState() => _AiAssistantChatState();
@@ -38,6 +39,10 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
     setState(() {
       assistantPreferences = preferences;
     });
+    if(widget.optimizerText.isNotEmpty) {
+      _controller.text = widget.optimizerText;
+      _sendMessage();
+    }
   }
 
   Future<void> _sendMessage() async {

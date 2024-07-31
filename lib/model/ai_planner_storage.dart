@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:aquahelper/model/components/lighting.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';

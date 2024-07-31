@@ -69,7 +69,7 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
                   ),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AiAssistantChat()), // Seite wechseln zu AiAssistantIntro
+                    MaterialPageRoute(builder: (context) => const AiAssistantChat(optimizerText: "")), // Seite wechseln zu AiAssistantIntro
                   ),
                   child: const Text('KI-Assistent starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
                 ),
