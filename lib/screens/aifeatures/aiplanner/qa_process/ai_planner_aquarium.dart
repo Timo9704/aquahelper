@@ -201,6 +201,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
         ],
       ),
         bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
           height: 120,
           child: Column(children: [
             ElevatedButton(

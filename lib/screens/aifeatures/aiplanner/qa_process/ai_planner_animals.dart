@@ -290,6 +290,7 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
       bottomNavigationBar: _isLoading
           ? null
           : BottomAppBar(
+              color: Colors.white,
               height: 120,
               child: Column(
                 children: [
@@ -328,11 +329,12 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                               widget.aiPlannerObject.waterValues =
                                   "pH-Wert: $phValue, GH-Wert: $ghValue, KH-Wert: $khValue";
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AiPlannerPlants(
-                                          aiPlannerObject:
-                                              widget.aiPlannerObject)));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AiPlannerPlants(
+                                      aiPlannerObject: widget.aiPlannerObject),
+                                ),
+                              );
                             }
                           },
                           child: const Text("Weiter zur Bepflanzung"),

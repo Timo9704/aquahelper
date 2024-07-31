@@ -16,7 +16,7 @@ class _AiOptimizerPlantsState extends State<AiOptimizerPlants> {
   double textScaleFactor = 0;
   TextEditingController problemDescriptionController = TextEditingController();
   bool _isLoading = false;
-  bool plantGrowthProblem = false;
+  bool plantGrowthProblem = true;
   bool plantDeficiencySymptom = false;
   Set<String> selectedTags = <String>{};
   final _formKey = GlobalKey<FormState>();
@@ -275,7 +275,8 @@ class _AiOptimizerPlantsState extends State<AiOptimizerPlants> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar:  _isLoading ? null : BottomAppBar(
+        color: Colors.white,
         height: 120,
         child: Column(
           children: [

@@ -21,7 +21,7 @@ class _AiPlannerGuideState extends State<AiPlannerGuide> {
     textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("KI-Planer"),
+        title: const Text("KI-Optimizer"),
         backgroundColor: Colors.lightGreen,
       ),
       body: ListView(
@@ -37,12 +37,17 @@ class _AiPlannerGuideState extends State<AiPlannerGuide> {
                         fontWeight: FontWeight.w800)),
                 SizedBox(height: 10),
                 Text(
-                    "Entdecke den KI-Planer, dein perfekter Begleiter für die Gestaltung deines Traumaquariums! Durch eine Reihe gezielter Fragen analysiert unser KI-Planer deine Vorstellungen und Bedingungen, um das optimale Setup für dein Aquarium zu entwerfen, sei es in Bezug auf die Bepflanzung oder den Fischbesatz. Erhalte personalisierte Vorschläge, die genau zu deinen Wünschen und den Bedürfnissen deiner zukünftigen Wasserbewohner passen.",
+                    "Erlebe den KI-Optimierer – deinen cleveren Assistenten für ein vitales und florierendes Aquarium. Unser innovativer KI-Optimierer wertet Pflegeroutinen, Wasserqualität und die technische Ausrüstung deines Aquariums aus. Er versorgt dich mit individuellen Tipps, um die Lebensbedingungen in deinem Aquarium ideal zu gestalten.\n",
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.black)),
                 Text(
-                    "Der KI-Assistent hilft dir bei allen Fragen rund um die Aquaristik. Was sind Fadenalgen und wie kann ich sie bekämpfen? Welche Pflanzen passen in mein Aquarium? Der KI-Assistent beantwortet dir alle Fragen.",
+                    "Wichtig für die Nutzung des KI-Optimierers ist die regelmäßige Speicherung deiner Wasserwerte und Pflegeaufgaben. So kann der KI-Optimierer dir die besten Empfehlungen geben, um die Bedingungen in deinem Aquarium zu optimieren. Sobald du genügend Daten gesammelt hast, kannst du den KI-Optimierer starten und von seinen Vorschlägen profitieren.\n",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black)),
+                Text(
+                  "Der KI-Optimierer sammelt die folgenden Daten: alle Aquariumdaten, Wasserwerte, Pflegeaufgaben und technische Ausstattung. Diese Informationen werden anonymisiert verarbeitet. Deine Daten werden nicht an Dritte weitergegeben.",
                     style: TextStyle(
                         fontSize: 16,
                         color: Colors.black)),

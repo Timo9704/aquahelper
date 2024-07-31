@@ -1,14 +1,12 @@
-
 import 'package:aquahelper/screens/aifeatures/aiassistant/ai_assistant_chat.dart';
 import 'package:flutter/material.dart';
+import '../../../util/scalesize.dart';
 import 'ai_optimizer_guide.dart';
 
 class AiOptimizerResult extends StatefulWidget {
   final Map<String, dynamic> jsonData;
 
-
-  const AiOptimizerResult(
-      {super.key, required this.jsonData});
+  const AiOptimizerResult({super.key, required this.jsonData});
 
   @override
   State<AiOptimizerResult> createState() => _AiOptimizerResultState();
@@ -16,17 +14,10 @@ class AiOptimizerResult extends StatefulWidget {
 
 class _AiOptimizerResultState extends State<AiOptimizerResult> {
   double textScaleFactor = 0;
-  final bool _isLoading = false;
-  final ScrollController _scrollController = ScrollController();
-  final List<Map<String, dynamic>> _messages = [
-    {'text': 'Hallo! Ich bin dein neuer KI-Optimierer. Ich habe deine Daten gerade analysiert und kann dir endlich die Ergebnisse zeigen:', 'isMe': false},
-  ];
 
   @override
   void initState() {
     super.initState();
-    _messages.add({'text': widget.jsonData['identified_problems'], 'isMe': false});
-    _messages.add({'text': widget.jsonData['suggested_solutions'], 'isMe': false});
   }
 
   void handleClick(String value) {
@@ -38,33 +29,9 @@ class _AiOptimizerResultState extends State<AiOptimizerResult> {
     }
   }
 
-  Widget _buildMessage(Map<String, dynamic> message) {
-    final bool isMe = message['isMe'];
-    final color = isMe ? Colors.blue[100] : Colors.grey[300];
-    final textAlign = isMe ? TextAlign.start : TextAlign.start;
-
-    return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.9,
-        ),
-        child: Text(
-          message['text'],
-          textAlign: textAlign,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("KI-Optimierer"),
@@ -83,38 +50,146 @@ class _AiOptimizerResultState extends State<AiOptimizerResult> {
           ),
         ],
       ),
-      body: Column(
-          children: [
-            const Text("KI-Optimierer",
-                style: TextStyle(
-                    fontSize: 30,
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              Text("KI-Optimierer",
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800)),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                ),
+                child: Text(
+                  "Hallo! Ich bin dein neuer KI-Optimierer. Ich habe deine Daten gerade analysiert und kann dir endlich die Ergebnisse zeigen:",
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                    fontSize: 17,
                     color: Colors.black,
-                    fontWeight: FontWeight.w800)),
-            Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: _messages.length + (_isLoading ? 1 : 0),
-                itemBuilder: (context, index) {
-                  return _buildMessage(_messages[index]);
-                },
+                  ),
+                ),
               ),
-            ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                ),
+                child: Text(
+                  "Diese Probleme konnte ich finden:",
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                ),
+                child: Text(
+                  widget.jsonData['identified_problems'],
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                ),
+                child: Text(
+                  "Meine Lösungsvorschläge für dich:",
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                ),
+                child: Text(
+                  widget.jsonData['suggested_solutions'],
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: Column(
+          children: [
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.lightGreen),
-                minimumSize: MaterialStateProperty.all<Size>(const Size(250, 70)),
+                    MaterialStateProperty.all<Color>(Colors.lightGreen),
+                minimumSize:
+                    MaterialStateProperty.all<Size>(const Size(200, 40)),
               ),
               onPressed: () {
+                String problems = widget.jsonData['identified_problems'];
+                String solutions = widget.jsonData['suggested_solutions'];
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AiAssistantChat(optimizerText: 'Analysiere die Probleme und gebe eine ausführliche Antwort: \n $widget.jsonData[\'identified_problems\'] $widget.jsonData[\'suggested_solutions\']')),
+                  MaterialPageRoute(
+                      builder: (context) => AiAssistantChat(
+                          optimizerText:
+                              'Analysiere die Probleme und gebe eine ausführliche Antwort: $problems $solutions')),
                 );
               },
-              child: const Text('Mehr Informaionen im KI-Assistent ', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+              child: const Text('Mehr Informaionen im KI-Assistent ',
+                  style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             ),
-            const SizedBox(height: 20),
-            ]),);
-
+          ],
+        ),
+      ),
+    );
   }
 }

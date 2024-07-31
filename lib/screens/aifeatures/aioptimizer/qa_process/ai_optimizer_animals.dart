@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../model/ai_optimizer_storage.dart';
 import '../../../../util/scalesize.dart';
-import 'ai_planner_plants.dart';
+import 'ai_optimizer_plants.dart';
 
 class AiOptimizerAnimals extends StatefulWidget {
   final AiOptimizerStorage aiOptimizerObject;
@@ -15,7 +15,7 @@ class AiOptimizerAnimals extends StatefulWidget {
 class _AiOptimizerAnimalsState extends State<AiOptimizerAnimals> {
   TextEditingController problemDescriptionController = TextEditingController();
   double textScaleFactor = 0;
-  bool fishHealthProblem = false;
+  bool fishHealthy = true;
   bool fishDiverseFeed = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -65,10 +65,10 @@ class _AiOptimizerAnimalsState extends State<AiOptimizerAnimals> {
                                   title: const Text('Ja'),
                                   value: true,
                                   activeColor: Colors.lightGreen,
-                                  groupValue: fishHealthProblem,
+                                  groupValue: fishHealthy,
                                   onChanged: (value) {
                                     setState(() {
-                                      fishHealthProblem = value!;
+                                      fishHealthy = value!;
                                     });
                                   },
                                 ),
@@ -78,10 +78,10 @@ class _AiOptimizerAnimalsState extends State<AiOptimizerAnimals> {
                                   title: const Text('Nein'),
                                   value: false,
                                   activeColor: Colors.lightGreen,
-                                  groupValue: fishHealthProblem,
+                                  groupValue: fishHealthy,
                                   onChanged: (value) {
                                     setState(() {
-                                      fishHealthProblem = value!;
+                                      fishHealthy = value!;
                                     });
                                   },
                                 ),
@@ -155,6 +155,7 @@ class _AiOptimizerAnimalsState extends State<AiOptimizerAnimals> {
             ],
       ),
       bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
         height: 120,
         child: Column(
           children: [
@@ -168,7 +169,7 @@ class _AiOptimizerAnimalsState extends State<AiOptimizerAnimals> {
               onPressed: () async {
                 if (_formKey.currentState?.validate() ?? false) {
                   _formKey.currentState?.save();
-                  widget.aiOptimizerObject.fishHealthProblem = fishHealthProblem;
+                  widget.aiOptimizerObject.fishHealthProblem = fishHealthy;
                   widget.aiOptimizerObject.fishDiverseFeed = fishDiverseFeed;
                   widget.aiOptimizerObject.fishProblemDescription = problemDescriptionController.text;
                   Navigator.push(

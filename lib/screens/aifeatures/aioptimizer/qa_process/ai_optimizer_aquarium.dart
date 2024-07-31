@@ -238,6 +238,7 @@ class _AiOptimizerAquariumState extends State<AiOptimizerAquarium> {
         ],
       ),
         bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
           height: 120,
           child: Column(children: [
             ElevatedButton(

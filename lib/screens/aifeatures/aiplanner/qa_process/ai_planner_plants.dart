@@ -302,6 +302,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
         ],
       ),
       bottomNavigationBar: _isLoading ? null : BottomAppBar(
+        color: Colors.white,
         height: widget.aiPlannerObject.planningMode != 2 ? 120 : 80,
         child: Column(
           children: [
