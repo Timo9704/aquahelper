@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../../../../model/aquarium.dart';
 import '../../../../util/datastore.dart';
@@ -57,6 +59,7 @@ class _AiPlannerPlantsState extends State<AiPlannerPlants> {
 
     widget.aiPlannerObject.executePlanning().then((map) {
       if (mounted && map.isNotEmpty) {
+        log(map.toString());
         Navigator.push(
           context,
           MaterialPageRoute(

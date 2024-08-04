@@ -19,6 +19,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
   final _formKey = GlobalKey<FormState>();
   double availableSpace = 100;
   double maxVolume = 100;
+  double minVolume = 50;
   bool needCabinet = false;
   double maxCost = 300;
 
@@ -104,6 +105,30 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                             style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.black)),
+                      const SizedBox(height: 20),
+                      Text('Wie viel Liter soll dein Aquarium minimal fassen?',
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.black)),
+                      Slider(
+                        value: minVolume,
+                        min: 10,
+                        max: 500,
+                        divisions: 49,
+                        activeColor: Colors.lightGreen,
+                        label: minVolume.round().toString(),
+                        onChanged: (value) {
+                          setState(() {
+                            minVolume = value;
+                          });
+                        },
+                      ),
+                      Text('minimale Literanzahl: ${minVolume.round()} Liter',
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black)),
                       const SizedBox(height: 20),
                       Text('Wie viel Liter soll dein Aquarium maximal fassen?',
                           textScaler: TextScaler.linear(textScaleFactor),
@@ -213,6 +238,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                 if (_formKey.currentState?.validate() ?? false) {
                   _formKey.currentState?.save();
                   widget.aiPlannerObject.availableSpace = availableSpace.toInt();
+                  widget.aiPlannerObject.minVolume = minVolume.toInt();
                   widget.aiPlannerObject.maxVolume = maxVolume.toInt();
                   widget.aiPlannerObject.needCabinet = needCabinet;
                   widget.aiPlannerObject.maxCost = maxCost.toInt();

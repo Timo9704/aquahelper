@@ -249,7 +249,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                                         "empf. Menge\nVordergrund",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -279,7 +279,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                                         "empf. Menge\nMittelgrund",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -309,7 +309,7 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                                         "empf. Menge\nHintergrund",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
