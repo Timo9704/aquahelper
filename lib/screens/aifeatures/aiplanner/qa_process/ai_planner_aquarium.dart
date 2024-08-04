@@ -21,6 +21,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
   double maxVolume = 100;
   double minVolume = 50;
   bool needCabinet = false;
+  bool isSet = true;
   double maxCost = 300;
 
   @override
@@ -177,6 +178,42 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                           style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black)),
+                  const SizedBox(height: 20),
+                  Text('Soll das Aquarium ein Set-Aquarium sein?',
+                      textScaler: TextScaler.linear(textScaleFactor),
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.black)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: RadioListTile<bool>(
+                          title: const Text('als Set'),
+                          value: true,
+                          activeColor: Colors.lightGreen,
+                          groupValue: isSet,
+                          onChanged: (value) {
+                            setState(() {
+                              isSet = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: RadioListTile<bool>(
+                          title: const Text('Einzeln'),
+                          value: false,
+                          activeColor: Colors.lightGreen,
+                          groupValue: isSet,
+                          onChanged: (value) {
+                            setState(() {
+                              isSet = value!;
+                            });
+                          },
+                        ),
+                      ),
+                    ]),
                       const SizedBox(height: 20),
                       Text('Brauchst du einen Unterschrank?',
                           textScaler: TextScaler.linear(textScaleFactor),
@@ -240,6 +277,7 @@ class _AiPlannerAquariumState extends State<AiPlannerAquarium> {
                   widget.aiPlannerObject.availableSpace = availableSpace.toInt();
                   widget.aiPlannerObject.minVolume = minVolume.toInt();
                   widget.aiPlannerObject.maxVolume = maxVolume.toInt();
+                  widget.aiPlannerObject.isSet = isSet;
                   widget.aiPlannerObject.needCabinet = needCabinet;
                   widget.aiPlannerObject.maxCost = maxCost.toInt();
 

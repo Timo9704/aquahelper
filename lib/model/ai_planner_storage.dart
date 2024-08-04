@@ -33,7 +33,7 @@ class AiPlannerStorage {
       'minVolume': minVolume ?? 0,
       'maxVolume': maxVolume ?? 0,
       'needCabinet': needCabinet ?? false,
-      'isSet': isSet ?? false,
+      'isSet': isSet ?? true,
       'maxCost': maxCost ?? 0,
       'favoriteFishList': favoriteFishList ?? "",
       'waterValues': waterValues ?? "",
