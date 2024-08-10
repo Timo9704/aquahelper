@@ -73,7 +73,11 @@ class ChartAnalysisState extends State<ChartAnalysis> {
       }
     }
     this.xMin = xMin;
-    this.yMin = yMin;
+    if(yMin == 0){
+      this.yMin = yMin;
+    }else{
+      this.yMin = yMin-1;
+    }
     this.xMax = xMax;
     this.yMax = yMax + 1;
   }
@@ -94,13 +98,19 @@ class ChartAnalysisState extends State<ChartAnalysis> {
         await getMeasurementsByInterval();
     
     for (int i = 0; i < measurementsInInterval.length; i++) {
-      points.add(FlSpot(
-          (i * 10) / 10,
-          measurementsInInterval
-              .elementAt(i)
-              .getValueByName(waterValueMap[dropdownWaterValue]!)));
+      double value = measurementsInInterval.elementAt(i).getValueByName(waterValueMap[dropdownWaterValue]!);
+      print(value);
+
+      if(value == 9999.0) {
+        //points.add(FlSpot.nullSpot);
+      }else{
+        points.add(FlSpot((i * 10) / 10, value));
+      }
+
+      print(points);
     }
     if(points.isEmpty){
+
     }else {
       setState(() {
         chartPoints = points;
@@ -246,10 +256,14 @@ class ChartAnalysisState extends State<ChartAnalysis> {
                       maxY: yMax,
                       lineBarsData: [
                         LineChartBarData(
+                          isCurved: true,
+                          preventCurveOverShooting: true,
                           spots: chartPoints,
-                          barWidth: 5,
+                          barWidth: 4,
                           dotData: const FlDotData(),
-                          belowBarData: BarAreaData(),
+                          belowBarData: BarAreaData(
+                            show: true,
+                          ),
                         ),
                       ],
                     ),

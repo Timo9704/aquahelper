@@ -106,7 +106,7 @@ class MeasurementFormState extends State<MeasurementForm> {
 
   double parseTextFieldValue(String value){
     if(value.isEmpty){
-      return 0.0;
+      return 9999;
     }
     return double.parse(value.replaceAll(RegExp(r','), '.'));
   }
@@ -123,20 +123,20 @@ class MeasurementFormState extends State<MeasurementForm> {
     Measurement mes = Measurement(
         const Uuid().v4().toString(),
         widget.aquarium.aquariumId,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
+        9999,
+        9999,
+        9999,
+        9999,
+        9999,
+        9999,
+        9999,
+        9999,
+        9999,
+        9999,
         selectedDate.millisecondsSinceEpoch,
         imagePath,
-        0.0,
-        0.0
+        9999,
+        9999,
     );
 
     mes.updateMeasurement(updateValues);
@@ -226,6 +226,29 @@ class MeasurementFormState extends State<MeasurementForm> {
     );
   }
 
+  Color? determineValueColor(String key, double value) {
+    if(userSettings.measurementLimits == 0 || value == 9999){
+      return Colors.white;
+    }
+
+    final interval = waterValuesInterval[key];
+    if (interval == null) {
+      return Colors.red; // Falls der Schlüssel nicht existiert, gebe Rot zurück
+    }
+
+    double min = interval['min']!;
+    double max = interval['max']!;
+    double tolerance = 0.05; // 5% Toleranz
+
+    if (value > min && value < max || (min == 0 && value == min)) {
+      return Colors.green[300]; // Wert liegt genau im Intervall
+    } else if (value == min || value == max || value <= max * (1 + tolerance) && value >= max) {
+      return Colors.yellow[300]; // Wert liegt auf dem Grenzwert oder bis zu 5% darüber
+    } else {
+      return Colors.red[300]; // Alle anderen Fälle
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -301,12 +324,17 @@ class MeasurementFormState extends State<MeasurementForm> {
                 itemCount: allWaterValuesWithController.length,
                 itemBuilder: (BuildContext context, int index) {
                   String key =  allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).key;
+                  String identifier = allWaterValuesWithController.entries.elementAt(index).key;
+                  double currentValue = 9999;
+                  if(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text.isNotEmpty){
+                    currentValue = double.parse(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text);
+                  }
                   return Card(
                     elevation: 10,
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: determineValueColor(identifier, currentValue), // Setzt die Farbe basierend auf dem Messwert
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
