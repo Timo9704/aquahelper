@@ -80,8 +80,12 @@ class MeasurementFormState extends State<MeasurementForm> {
     await Datastore.db.getMeasurementById(widget.aquarium.aquariumId, widget.measurementId);
     measurement = measurementDbObj;
     for(int i = 0; i < activeItems; i++){
-      allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text
+      if(measurement.getValueByName(allWaterValuesWithController.entries.elementAt(i).key) != 9999){
+        allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text
         = measurement.getValueByName(allWaterValuesWithController.entries.elementAt(i).key).toString();
+      }else{
+        allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text = "";
+      }
     }
     setState(() {
       imagePath = measurement.imagePath;
@@ -93,7 +97,11 @@ class MeasurementFormState extends State<MeasurementForm> {
     Map<String ,double> updateValues = {};
 
     for (int i = 0; i < allWaterValuesWithController.length; i++) {
-      final entry = {allWaterValuesWithController.entries.elementAt(i).key : double.parse(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text.replaceAll(RegExp(r','), '.'))};
+      double value = parseTextFieldValue(allWaterValuesWithController.entries.elementAt(i).value.entries.elementAt(0).value.text);
+      if(value == 9999){
+        continue;
+      }
+      final entry = {allWaterValuesWithController.entries.elementAt(i).key : value};
       updateValues.addEntries(entry.entries);
     }
 
