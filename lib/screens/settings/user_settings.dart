@@ -305,7 +305,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                   children: <Widget>[
                       Column(
                       children: [
-                      Text('Grenzwerte für Wasserwerte visuell dargestellen?\n grün = optimal, gelb = grenzwertig, rot = schlecht'),
+                      const Text('Grenzwerte für Wasserwerte visuell dargestellen?\n grün = optimal, gelb = grenzwertig, rot = schlecht'),
                       Checkbox(
                         checkColor: Colors.white,
                         fillColor: MaterialStateProperty.all(Colors.lightGreen),
@@ -313,7 +313,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                         onChanged: (bool? value) {
                           setState(() {
                               measurementLimits = value!;
-                              us.measurementLimits = value! ? 1 : 0;
+                              us.measurementLimits = value ? 1 : 0;
                               saveSettings();
                             },
                           );

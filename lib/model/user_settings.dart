@@ -8,7 +8,6 @@ class UserSettings {
   );
 
   factory UserSettings.fromMap(Map<String, dynamic> json){
-    print(json);
     return UserSettings(
         json["measurementItems"],
         json["measurementLimits"]

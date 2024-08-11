@@ -99,15 +99,12 @@ class ChartAnalysisState extends State<ChartAnalysis> {
     
     for (int i = 0; i < measurementsInInterval.length; i++) {
       double value = measurementsInInterval.elementAt(i).getValueByName(waterValueMap[dropdownWaterValue]!);
-      print(value);
 
       if(value == 9999.0) {
         //points.add(FlSpot.nullSpot);
       }else{
         points.add(FlSpot((i * 10) / 10, value));
       }
-
-      print(points);
     }
     if(points.isEmpty){
 
