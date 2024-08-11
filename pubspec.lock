@@ -628,26 +628,26 @@ packages:
     dependency: "direct main"
     description:
       name: image_cropper
-      sha256: f111a37a88457f661aebe937108c752c59791cafa9bc4e92ced07ebd87917743
+      sha256: "7c3a85e54ec591738ee68f3cc9b8849bab0ec8e908bf8970645be959a079e17f"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.4"
+    version: "8.0.1"
   image_cropper_for_web:
     dependency: transitive
     description:
       name: image_cropper_for_web
-      sha256: "9e927a8bd5ee8618b608a6530eee6c35780d7225c1ccb174d0b461b02fafe9a4"
+      sha256: "65f3f23fb82ff153601f22864e07e2ec14a7859db9e6ee5f643f0cde5243e9f2"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.3"
+    version: "6.0.1"
   image_cropper_platform_interface:
     dependency: transitive
     description:
       name: image_cropper_platform_interface
-      sha256: "04d0eebd5f901a4109f486d211c888f1fb25c6b70704a405fb1505cb742b05f0"
+      sha256: e8e9d2ca36360387aee39295ce49029362ae4df3071f23e8e71f2b81e40b7531
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.3"
+    version: "7.0.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -820,18 +820,18 @@ packages:
     dependency: "direct main"
     description:
       name: package_info_plus
-      sha256: b93d8b4d624b4ea19b0a5a208b2d6eff06004bc3ce74c06040b120eeadd00ce0
+      sha256: a75164ade98cb7d24cfd0a13c6408927c6b217fa60dee5a7ff5c116a58f28918
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "8.0.2"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
       name: package_info_plus_platform_interface
-      sha256: f49918f3433a3146047372f9d4f1f847511f2acd5cd030e1f44fe5a50036b70e
+      sha256: ac1f4a4847f1ade8e6a87d1f39f5d7c67490738642e2542f559ec38c37489a66
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   path:
     dependency: "direct main"
     description:
