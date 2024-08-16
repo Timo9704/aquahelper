@@ -49,6 +49,7 @@ dependencies:
   flutter_ringtone_player: ^4.0.0+1
   gal: ^2.3.0
   rate_my_app: ^2.2.0
+  flutter_markdown: ^0.7.3+1
 
 
 dependency_overrides:

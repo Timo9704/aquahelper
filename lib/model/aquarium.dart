@@ -8,6 +8,8 @@ class Aquarium {
   int height;
   int depth;
   int healthStatus;
+  int runInStatus;
+  int runInStartDate;
   String imagePath;
 
   Aquarium(
@@ -20,6 +22,8 @@ class Aquarium {
     this.height,
     this.depth,
     this.healthStatus,
+    this.runInStatus,
+    this.runInStartDate,
     this.imagePath,
   );
 
@@ -34,6 +38,8 @@ class Aquarium {
         json["height"],
         json["depth"],
         json["healthStatus"],
+        json["runInStatus"] ?? 0,
+        json["runInStartDate"] ?? 0,
         json["imagePath"]
     );
   }
@@ -49,6 +55,8 @@ class Aquarium {
         'height': height,
         'depth': depth,
         'healthStatus': healthStatus,
+        'runInStatus': runInStatus,
+        'runInStartDate': runInStartDate,
         'imagePath': imagePath
       };
     }
@@ -63,6 +71,8 @@ class Aquarium {
       'height': height,
       'depth': depth,
       'healthStatus': healthStatus,
+      'runInStatus': runInStatus,
+      'runInStartDate': runInStartDate,
       'imagePath': imagePath
     };
   }

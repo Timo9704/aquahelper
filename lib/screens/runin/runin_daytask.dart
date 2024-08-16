@@ -1,112 +1,116 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
-class RunInDayTask extends StatelessWidget {
-  RunInDayTask({super.key});
+import '../../model/runin_daytask.dart';
+import '../../util/runin_calender.dart';
+import '../../util/scalesize.dart';
+class RunInDayTask extends StatefulWidget {
+  final int day;
+  const RunInDayTask({super.key, required this.day});
 
-  String infoText = "Super, dass du dich für ein neues Aquarium entschieden hast. " +
-      "Heute beginnen wir mit der Einrichtung deines Aquariums und starten die Einlaufphase! " +
-      "Die Einlaufphase dient dazu das biologische Gleichgewicht in deinem Aquarium herzustellen. " +
-      "Hier unten findest du die Aufgaben für den heutigen Tag:";
+  @override
+  State<RunInDayTask> createState() => _RunInDayTaskState();
+}
+
+class _RunInDayTaskState extends State<RunInDayTask> {
+  double textScaleFactor = 0;
+  String infoText = "";
+  String detailedInfoText = "";
+  List<Event> eventsForDay = [];
+
+  @override
+  void initState() {
+    super.initState();
+    RunInDayTaskModel task = RunInDayTaskModel(1,"", "");
+    task = task.getTaskById(widget.day, dayTasksData);
+    infoText = task.runInDayDescription;
+    detailedInfoText = task.runInDayDetailedDescription;
+
+    // Lade die Events für den spezifischen Tag
+    DateTime selectedDate = kToday.add(Duration(days: widget.day)); //
+    if(widget.day == 1){
+      selectedDate = kToday;
+    }
+    eventsForDay = kEvents[selectedDate] ?? [];
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
-          title: const Text("60-Tage Einfahrphase"),
+          title: const Text("6-Wochen Einfahrphase"),
           backgroundColor: Colors.lightGreen),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
           child: Column(
             children: [
-              const Text("Starten wir mit Tag 1",
+              Text("Starten wir den ${widget.day}.ten Tag ...",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 25,
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                      fontSize: 30,
                       color: Colors.black,
                       fontWeight: FontWeight.w800)),
               const SizedBox(height: 10),
-              Text(infoText,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(fontSize: 16, color: Colors.black)),
-              const SizedBox(height: 10),
-              const Image(image: AssetImage('assets/images/runin_intro.png')),
+              MarkdownBody(
+                data: infoText,
+                styleSheet: MarkdownStyleSheet(
+                  p: const TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ),
               const SizedBox(height: 10),
               Container(
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+                padding: const EdgeInsets.all(10),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Deine To-Do-Liste für heute:",
+                        textScaler: TextScaler.linear(textScaleFactor),
+                        style: const TextStyle(fontSize: 28, color: Colors.black)),
+                    const SizedBox(height: 10),
+                    ...eventsForDay.map((event) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.check_box_outlined,
+                              color: Colors.lightGreen),
+                          const SizedBox(width: 15),
+                          Expanded(
+                            child: Text(event.title,
+                                textScaler: TextScaler.linear(textScaleFactor),
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800)),
+                          ),
+                        ],
+                      ),
+                    )),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: MarkdownBody(
+                  data: detailedInfoText,
+                  styleSheet: MarkdownStyleSheet(
+                    p: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("Deine To-Do-Liste für heute:",
-                          style: TextStyle(fontSize: 23, color: Colors.black)),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(Icons.check_box_outlined,
-                              color: Colors.lightGreen),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Text("Aquarium einrichten & befüllen",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(Icons.check_box_outlined,
-                              color: Colors.lightGreen),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Text("Filter anschließen & einschalten",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(Icons.check_box_outlined,
-                              color: Colors.lightGreen),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Text("Beleuchtung auf 6 Stunden einstellen",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Icon(Icons.check_box_outlined,
-                              color: Colors.lightGreen),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Text("Filter-Bakterien hinzufügen",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          ),
-                        ],
-                      )
-                    ],
-                  )),
+                ),
+              ),
             ],
           ),
         ),

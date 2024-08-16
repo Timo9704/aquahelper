@@ -73,6 +73,8 @@ class CreateOrEditAquariumState extends State<CreateOrEditAquarium> {
           int.parse(
               _depthController.text.isEmpty ? "0" : _depthController.text),
           int.parse("0"),
+          int.parse("0"),
+          int.parse("0"),
           imagePath);
     } else {
       aquarium.waterType = waterType;

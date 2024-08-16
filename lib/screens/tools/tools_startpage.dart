@@ -1,3 +1,4 @@
+import 'package:aquahelper/screens/runin/runin_intro.dart';
 import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:aquahelper/screens/tools/explorer/explorer.dart';
 import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
@@ -116,100 +117,126 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
     return Stack(alignment: Alignment.bottomCenter, children: [
       Column(children: [
         Expanded(
-          child:
-              GridView.count(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  children: [
-            IconTextButton(
-              imagePath: 'assets/buttons/soil_calculator.png',
-              text: 'Bodengrund-Rechner',
-              onPressed: () {
-                logEvent('openGroundCalculator');
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => const GroundCalculator()),
-                );
-              },
-            ),
-            IconTextButton(
-              imagePath: 'assets/buttons/fertilizer_calculator.png',
-              text: 'Dünger-Rechner',
-              onPressed: () {
-                logEvent('openFertilizerCalculator');
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => const FertilizerCalculator()),
-                );
-              },
-            ),
-            IconTextButton(
-              imagePath: 'assets/buttons/explorer.png',
-              text: 'Content-Explorer',
-              onPressed: () {
-                logEvent('openContentExplorer');
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const Explorer()),
-                );
-              },
-            ),
-            IconTextButton(
-              imagePath: 'assets/buttons/light_calculator.png',
-              text: 'Licht-Rechner',
-              onPressed: () {
-                logEvent('openLightCalculator');
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => const LightCalculator()),
-                );
-              },
-            ),
-            !isPremiumUser
-                ? IconTextButton(
-                    imagePath: 'assets/buttons/osmosis_deactivated.png',
-                    text: 'Osmose-Rechner',
-                    onPressed: () {
-                      logEvent('osmosisCalculator');
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const OsmosisCalculator()),
-                      );
-                    },
-                  )
-                : IconTextButton(
-                    imagePath: 'assets/buttons/osmosis_activated.png',
-                    text: 'Osmose-Rechner',
-                    onPressed: () {
-                      logEvent('osmosisCalculator');
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const OsmosisCalculator()),
-                      );
-                    },
-                  ),
-            !isPremiumUser
-                ? IconTextButton(
-                    imagePath: 'assets/buttons/stopwatch_deactivated.png',
-                    text: 'Multitimer',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const MultiTimer()),
-                      );
-                    },
-                  )
-                : IconTextButton(
-                    imagePath: 'assets/buttons/stopwatch_activated.png',
-                    text: 'Multitimer',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const MultiTimer()),
-                      );
-                    },
-                  ),
-          ]),
+          child: GridView.count(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+              crossAxisCount: 2,
+              childAspectRatio: 1,
+              children: [
+                IconTextButton(
+                  imagePath: 'assets/buttons/soil_calculator.png',
+                  text: 'Bodengrund-Rechner',
+                  onPressed: () {
+                    logEvent('openGroundCalculator');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const GroundCalculator()),
+                    );
+                  },
+                ),
+                IconTextButton(
+                  imagePath: 'assets/buttons/fertilizer_calculator.png',
+                  text: 'Dünger-Rechner',
+                  onPressed: () {
+                    logEvent('openFertilizerCalculator');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const FertilizerCalculator()),
+                    );
+                  },
+                ),
+                IconTextButton(
+                  imagePath: 'assets/buttons/explorer.png',
+                  text: 'Content-Explorer',
+                  onPressed: () {
+                    logEvent('openContentExplorer');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const Explorer()),
+                    );
+                  },
+                ),
+                IconTextButton(
+                  imagePath: 'assets/buttons/light_calculator.png',
+                  text: 'Licht-Rechner',
+                  onPressed: () {
+                    logEvent('openLightCalculator');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const LightCalculator()),
+                    );
+                  },
+                ),
+                !isPremiumUser
+                    ? IconTextButton(
+                        imagePath: 'assets/buttons/osmosis_deactivated.png',
+                        text: '6-Wochen Einfahrguide',
+                        onPressed: () {
+                          logEvent('osmosisCalculator');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const RunInIntro()),
+                          );
+                        },
+                      )
+                    : IconTextButton(
+                        imagePath: 'assets/buttons/osmosis_activated.png',
+                        text: '6-Wochen Einfahrguide',
+                        onPressed: () {
+                          logEvent('osmosisCalculator');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const RunInIntro()),
+                          );
+                        },
+                      ),
+                !isPremiumUser
+                    ? IconTextButton(
+                        imagePath: 'assets/buttons/osmosis_deactivated.png',
+                        text: 'Osmose-Rechner',
+                        onPressed: () {
+                          logEvent('osmosisCalculator');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const OsmosisCalculator()),
+                          );
+                        },
+                      )
+                    : IconTextButton(
+                        imagePath: 'assets/buttons/osmosis_activated.png',
+                        text: 'Osmose-Rechner',
+                        onPressed: () {
+                          logEvent('osmosisCalculator');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const OsmosisCalculator()),
+                          );
+                        },
+                      ),
+                !isPremiumUser
+                    ? IconTextButton(
+                        imagePath: 'assets/buttons/stopwatch_deactivated.png',
+                        text: 'Multitimer',
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const MultiTimer()),
+                          );
+                        },
+                      )
+                    : IconTextButton(
+                        imagePath: 'assets/buttons/stopwatch_activated.png',
+                        text: 'Multitimer',
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const MultiTimer()),
+                          );
+                        },
+                      ),
+              ]),
         ),
       ]),
       Column(
@@ -263,6 +290,7 @@ class IconTextButton extends StatelessWidget {
             Image.asset(imagePath, width: 120, height: 120),
             Text(
               text,
+              textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.w800),
             ),
           ],
