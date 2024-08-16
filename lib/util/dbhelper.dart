@@ -22,7 +22,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 10;
+  static const newDbVersion = 11;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -101,6 +101,9 @@ class DBHelper {
           if (version >= 10) {
             await _databaseVersion10(db);
           }
+          if (version >= 11) {
+            await _databaseVersion11(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -140,6 +143,9 @@ class DBHelper {
         break;
       case 10:
         await _databaseVersion10(db);
+        break;
+      case 11:
+        await _databaseVersion11(db);
         break;
     }
   }
@@ -240,6 +246,11 @@ class DBHelper {
   _databaseVersion10(Database db) {
     db.execute("ALTER TABLE measurement ADD silicate REAL");
     db.execute("UPDATE measurement SET silicate = 0.0");
+  }
+
+  _databaseVersion11(Database db) {
+    db.execute("ALTER TABLE usersettings ADD measurementLimits INTEGER");
+    db.execute("UPDATE usersettings SET measurementLimits = 1");
   }
 
   //-------------------------Methods for Aquarium-object-----------------------//

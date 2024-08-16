@@ -56,13 +56,13 @@ Future<void> main() async {
     List<bool> currentList = json.decode(usList.first.measurementItems).cast<bool>().toList();
     if(currentList.length < waterValues.length){
       currentList.add(true);
-      userSettings = UserSettings(currentList.toString());
+      userSettings = UserSettings(currentList.toString(), 1);
       DBHelper.db.saveUserSettings(userSettings);
     }
     userSettings = usList.first;
   }else{
     List<bool> measurementItems = List.generate(waterValues.length, (index) => true);
-    userSettings = UserSettings(measurementItems.toString());
+    userSettings = UserSettings(measurementItems.toString(), 1);
     DBHelper.db.saveUserSettings(userSettings);
   }
   configureRevenueCat();
