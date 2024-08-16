@@ -91,6 +91,7 @@ class ImageSelector {
                     completer.complete(ImageSource.camera);
                   },
                 ),),
+                const SizedBox(height: 10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
