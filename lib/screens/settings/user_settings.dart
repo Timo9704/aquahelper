@@ -22,6 +22,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
   User? user = FirebaseAuth.instance.currentUser;
   List<bool> measurementItemsList = [];
   bool isPremiumUser = false;
+  bool measurementLimits = true;
 
   String infoText = 'Hier kannst du die App nach deinen Bedürfnissen anpassen. '
       'Aktiviere oder deaktiviere verschiedene Eingabefelder für die Wasserwerte. '
@@ -49,18 +50,21 @@ class UserSettingsPageState extends State<UserSettingsPage> {
         List.generate(waterValues.length, (index) => true);
     if (usList.isEmpty) {
       Map<String, dynamic> map = {
-        'measurementItems': measurementItems.toString()
+        'measurementItems': measurementItems.toString(),
+        'measurementLimits': 1
       };
       setState(() {
         us = UserSettings.fromMap(map);
         measurementItemsList =
             json.decode(us.measurementItems).cast<bool>().toList();
+        measurementLimits = us.measurementLimits == 1;
       });
     } else {
       setState(() {
         us = usList.first;
         measurementItemsList =
             json.decode(us.measurementItems).cast<bool>().toList();
+        measurementLimits = us.measurementLimits == 1;
       });
     }
   }
@@ -293,6 +297,30 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                         );
                       },
                     ),
+                  ],
+                ),
+                ExpansionTile(
+                  title: const Text('Messwerte-Limits'),
+                  subtitle: const Text('Stelle deine Messwerte-Limits ein!'),
+                  children: <Widget>[
+                      Column(
+                      children: [
+                      const Text('Grenzwerte für Wasserwerte visuell dargestellen?\n grün = optimal, gelb = grenzwertig, rot = schlecht'),
+                      Checkbox(
+                        checkColor: Colors.white,
+                        fillColor: MaterialStateProperty.all(Colors.lightGreen),
+                        value: measurementLimits,
+                        onChanged: (bool? value) {
+                          setState(() {
+                              measurementLimits = value!;
+                              us.measurementLimits = value ? 1 : 0;
+                              saveSettings();
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  )
                   ],
                 ),
               ],
