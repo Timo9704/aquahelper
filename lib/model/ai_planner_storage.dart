@@ -79,8 +79,7 @@ class AiPlannerStorage {
     List<Lighting> lightingList = await Datastore.db.getLightingByAquarium(aquarium.aquariumId);
     Lighting lighting = lightingList.first;
     if(lighting.brightness != 0) {
-      int brightness = lighting.brightness;
-      brightnessLevel = brightness / aquarium.liter;
+      brightnessLevel = lighting.brightness / aquarium.liter;
     }
     String level = brightnessLevel < 20 ? "NIEDRIG" : brightnessLevel < 40 ? "MITTEL" : "HOCH";
     Measurement measurement = await Datastore.db.getSortedMeasurmentsList(
@@ -90,8 +89,7 @@ class AiPlannerStorage {
       gh = measurement.totalHardness;
       kh = measurement.carbonateHardness;
     }
-    String aquariumInformation = "Das Aquarium hat ${aquarium.liter} Liter. Länge: ${aquarium.width}, Breite: ${aquarium.depth}, Höhe: ${aquarium.height}  Es hat ${aquarium.co2Type > 0 ? "EINE" : "KEINE"} CO2-Anlage. Die Beleuchtungstärke der Beleuchtung ist $level.Die Wasserwerte sind: pH: $ph, GH: $gh, KH: $kh";
-    return aquariumInformation;
+    return "Das Aquarium hat ${aquarium.liter} Liter. Länge: ${aquarium.width}, Breite: ${aquarium.depth}, Höhe: ${aquarium.height}  Es hat ${aquarium.co2Type > 0 ? "EINE" : "KEINE"} CO2-Anlage. Die Beleuchtungstärke der Beleuchtung ist $level.Die Wasserwerte sind: pH: $ph, GH: $gh, KH: $kh";
   }
 
 
