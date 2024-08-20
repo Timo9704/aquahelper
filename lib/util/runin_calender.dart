@@ -16,7 +16,7 @@ class Event {
 LinkedHashMap<DateTime, List<Event>> allRunInEvents(DateTime startDate){
   DateTime kToday = startDate;
 
-  final Map<DateTime, List<Event>> _kEventSource = {
+  final Map<DateTime, List<Event>> kEventSource = {
     DateTime.utc(kToday.year, kToday.month, kToday.day): [
       const Event('Aquarium einrichten'),
       const Event('Filter anschließen und einschalten'),
@@ -57,7 +57,7 @@ LinkedHashMap<DateTime, List<Event>> allRunInEvents(DateTime startDate){
   return LinkedHashMap<DateTime, List<Event>>(
     equals: isSameDay,
     hashCode: getHashCode,
-  )..addAll(_kEventSource);
+  )..addAll(kEventSource);
 }
 
 
