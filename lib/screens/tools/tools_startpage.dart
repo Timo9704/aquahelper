@@ -120,16 +120,15 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
           child: GridView.count(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
               crossAxisCount: 2,
-              childAspectRatio: 1,
+              childAspectRatio: 1.25,
               children: [
                 IconTextButton(
-                  imagePath: 'assets/buttons/soil_calculator.png',
-                  text: 'Bodengrund-Rechner',
+                  imagePath: 'assets/buttons/explorer.png',
+                  text: 'Content-Explorer',
                   onPressed: () {
-                    logEvent('openGroundCalculator');
+                    logEvent('openContentExplorer');
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => const GroundCalculator()),
+                      MaterialPageRoute(builder: (context) => const Explorer()),
                     );
                   },
                 ),
@@ -144,33 +143,62 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                     );
                   },
                 ),
-                IconTextButton(
-                  imagePath: 'assets/buttons/explorer.png',
-                  text: 'Content-Explorer',
+                !isPremiumUser
+                    ? IconTextButton(
+                  imagePath: 'assets/buttons/soil_calculator_deactivated.png',
+                  text: 'Bodengrund-Rechner',
                   onPressed: () {
-                    logEvent('openContentExplorer');
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Explorer()),
-                    );
-                  },
-                ),
-                IconTextButton(
-                  imagePath: 'assets/buttons/light_calculator.png',
-                  text: 'Licht-Rechner',
-                  onPressed: () {
-                    logEvent('openLightCalculator');
+                    logEvent('openGroundCalculator');
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: (context) => const LightCalculator()),
+                          builder: (context) =>
+                          const GroundCalculator()),
+                    );
+                  },
+                )
+                    : IconTextButton(
+                  imagePath: 'assets/buttons/soil_calculator_activated.png',
+                  text: 'Bodengrund-Rechner',
+                  onPressed: () {
+                    logEvent('openGroundCalculator');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const GroundCalculator()),
                     );
                   },
                 ),
                 !isPremiumUser
                     ? IconTextButton(
-                        imagePath: 'assets/buttons/osmosis_deactivated.png',
+                  imagePath: 'assets/buttons/light_calculator_deactivated.png',
+                  text: 'Licht-Rechner',
+                  onPressed: () {
+                    logEvent('openLightCalculator');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const LightCalculator()),
+                    );
+                  },
+                )
+                    : IconTextButton(
+                  imagePath: 'assets/buttons/light_calculator_activated.png',
+                  text: 'Licht-Rechner',
+                  onPressed: () {
+                    logEvent('openLightCalculator');
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const LightCalculator()),
+                    );
+                  },
+                ),
+                !isPremiumUser
+                    ? IconTextButton(
+                        imagePath: 'assets/buttons/runin_deactivated.png',
                         text: '6-Wochen Einfahrguide',
                         onPressed: () {
-                          logEvent('osmosisCalculator');
+                          logEvent('runIn');
                           Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>
@@ -179,10 +207,10 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                         },
                       )
                     : IconTextButton(
-                        imagePath: 'assets/buttons/osmosis_activated.png',
+                        imagePath: 'assets/buttons/runin_activated.png',
                         text: '6-Wochen Einfahrguide',
                         onPressed: () {
-                          logEvent('osmosisCalculator');
+                          logEvent('runIn');
                           Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>

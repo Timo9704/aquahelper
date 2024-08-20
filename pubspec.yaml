@@ -77,10 +77,12 @@ flutter:
     - assets/soil.png
     - assets/quader.png
     - assets/buttons/fertilizer_calculator.png
-    - assets/buttons/soil_calculator.png
+    - assets/buttons/soil_calculator_activated.png
+    - assets/buttons/soil_calculator_deactivated.png
     - assets/buttons/explorer.png
     - assets/buttons/ai_assistant.png
-    - assets/buttons/light_calculator.png
+    - assets/buttons/light_calculator_activated.png
+    - assets/buttons/light_calculator_deactivated.png
     - assets/buttons/stopwatch_deactivated.png
     - assets/buttons/stopwatch_activated.png
     - assets/buttons/osmosis_deactivated.png
@@ -91,3 +93,5 @@ flutter:
     - assets/images/island_ground.jpg
     - assets/images/increase.jpg
     - assets/images/island.jpg
+    - assets/buttons/runin_activated.png
+    - assets/buttons/runin_deactivated.png

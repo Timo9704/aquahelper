@@ -1,7 +1,14 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/models/customer_info_wrapper.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_ui_flutter/paywall_result.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
 import '../../model/aquarium.dart';
 import '../../util/datastore.dart';
+import '../usermanagement/signin.dart';
 
 class LightCalculator extends StatefulWidget {
   const LightCalculator({super.key});
@@ -11,6 +18,8 @@ class LightCalculator extends StatefulWidget {
 }
 
 class _LightCalculatorState extends State<LightCalculator> {
+  bool isPremiumUser = false;
+  User? user = FirebaseAuth.instance.currentUser;
   Aquarium? _selectedAquarium;
   List<Aquarium> _aquariumNames = [];
   final TextEditingController _aquariumLiterController = TextEditingController();
@@ -39,9 +48,88 @@ class _LightCalculatorState extends State<LightCalculator> {
     setState(() {
       _aquariumNames = dbAquariums;
     });
+    isUserPremium().then((result) {
+      setState(() {
+        isPremiumUser = result;
+      });
+    });
+  }
+
+  Future<bool> isUserPremium() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      return (customerInfo.entitlements.all["Premium"] != null &&
+          customerInfo.entitlements.all["Premium"]!.isActive == true);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> showPaywall() async {
+    await FirebaseAnalytics.instance
+        .logEvent(name: 'openPaywall', parameters: null);
+    if (user == null) {
+      showLoginRequest();
+    } else {
+      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded(
+          "Premium",
+          displayCloseButton: true);
+      if (result == PaywallResult.purchased) {
+        setState(() {
+          isPremiumUser = true;
+        });
+      }
+    }
+  }
+
+  void showLoginRequest() {
+    if (user == null) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Du bist aktuell nicht angemeldet!"),
+            content: const SizedBox(
+              height: 80,
+              child: Column(
+                children: [
+                  Text(
+                      "Um Premium-Features zu nutzen, musst du dich anmelden. Möchtest du jetzt dein AquaHelper-Konto anlegen?"),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.grey)),
+                child: const Text("Zurück!"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                child: const Text("Jetzt anmelden!"),
+                onPressed: () => {
+                  Navigator.pop(context),
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const SignIn())),
+                },
+              ),
+            ],
+            elevation: 0,
+          );
+        },
+      );
+    }
   }
 
   void calculateLumenPerLiter() {
+    if(!isPremiumUser) {
+      showPaywall();
+      return;
+    }
     num volume = _selectedAquarium != null
         ? _selectedAquarium!.liter
         : double.tryParse(_aquariumLiterController.text) ?? 0.0;
@@ -266,7 +354,7 @@ class _LightCalculatorState extends State<LightCalculator> {
                   child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.lightGreen)),
+                              isPremiumUser ? Colors.lightGreen : Colors.grey)),
                       onPressed: calculateLumenPerLiter,
                       child: const Text("Berechnen")),
                 )

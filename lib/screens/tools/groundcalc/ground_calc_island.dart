@@ -1,8 +1,14 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:purchases_ui_flutter/paywall_result.dart';
+import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'dart:math';
 
 import '../../../model/aquarium.dart';
 import '../../../util/datastore.dart';
+import '../../usermanagement/signin.dart';
 
 class GroundCalculatorIsland extends StatefulWidget {
   const GroundCalculatorIsland({super.key});
@@ -12,6 +18,9 @@ class GroundCalculatorIsland extends StatefulWidget {
 }
 
 class _GroundCalculatorIslandState extends State<GroundCalculatorIsland> {
+  bool isPremiumUser = false;
+  User? user = FirebaseAuth.instance.currentUser;
+
   String? _selectedGround = "Soil";
   final List<String> _groundNames = ["Soil", "Kies", "Sand"];
   Aquarium? _selectedAquarium;
@@ -29,6 +38,11 @@ class _GroundCalculatorIslandState extends State<GroundCalculatorIsland> {
   void initState() {
     super.initState();
     loadAquariums();
+    isUserPremium().then((result) {
+      setState(() {
+        isPremiumUser = result;
+      });
+    });
   }
 
   void loadAquariums() async {
@@ -36,6 +50,76 @@ class _GroundCalculatorIslandState extends State<GroundCalculatorIsland> {
     setState(() {
       _aquariumNames = dbAquariums;
     });
+  }
+
+  Future<bool> isUserPremium() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      return (customerInfo.entitlements.all["Premium"] != null &&
+          customerInfo.entitlements.all["Premium"]!.isActive == true);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> showPaywall() async {
+    await FirebaseAnalytics.instance
+        .logEvent(name: 'openPaywall', parameters: null);
+    if (user == null) {
+      showLoginRequest();
+    } else {
+      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded(
+          "Premium",
+          displayCloseButton: true);
+      if (result == PaywallResult.purchased) {
+        setState(() {
+          isPremiumUser = true;
+        });
+      }
+    }
+  }
+
+  void showLoginRequest() {
+    if (user == null) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Du bist aktuell nicht angemeldet!"),
+            content: const SizedBox(
+              height: 80,
+              child: Column(
+                children: [
+                  Text(
+                      "Um Premium-Features zu nutzen, musst du dich anmelden. Möchtest du jetzt dein AquaHelper-Konto anlegen?"),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.grey)),
+                child: const Text("Zurück!"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                child: const Text("Jetzt anmelden!"),
+                onPressed: () => {
+                  Navigator.pop(context),
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const SignIn())),
+                },
+              ),
+            ],
+            elevation: 0,
+          );
+        },
+      );
+    }
   }
 
   double parseTextFieldValue(TextEditingController controller){

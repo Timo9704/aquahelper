@@ -90,6 +90,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                   color: Colors.black54,
                   ),
                 ),
+
                 Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

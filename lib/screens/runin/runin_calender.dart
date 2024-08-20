@@ -1,10 +1,14 @@
+import 'dart:collection';
+
 import 'package:aquahelper/screens/runin/runin_daytask.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../model/aquarium.dart';
+import '../../util/datastore.dart';
 import '../../util/runin_calender.dart';
 import '../../util/scalesize.dart';
+import '../aquarium/aquarium_overview.dart';
 
 class RunInCalender extends StatefulWidget {
   final Aquarium aquarium;
@@ -18,6 +22,7 @@ class RunInCalender extends StatefulWidget {
 class _RunInCalenderState extends State<RunInCalender> {
   double textScaleFactor = 0;
   late ValueNotifier<List<Event>> _selectedEvents;
+  late LinkedHashMap<DateTime, List<Event>> _events;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _preSelectedDay;
@@ -27,12 +32,60 @@ class _RunInCalenderState extends State<RunInCalender> {
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    setState(() {
+      _selectedDay = _focusedDay;
+      _events = allRunInEvents(DateTime.fromMillisecondsSinceEpoch(widget.aquarium.runInStartDate));
+      _selectedEvents = ValueNotifier(_events[_selectedDay] ?? []);
+      calculateRunInDays();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(widget.aquarium.runInStatus == 1 && ((DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(widget.aquarium.runInStartDate)).inDays) > 0)) {
+        showEndOfRunIn();
+      }
+    });
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
-    return kEvents[day] ?? [];
+  Future<void> showEndOfRunIn() async {
+    widget.aquarium.runInStatus = 0;
+    await Datastore.db.updateAquarium(widget.aquarium);
+    if (mounted){
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Herzlichen Glückwunsch!"),
+            content: const SizedBox(
+              height: 120,
+              child: Column(
+                children: [
+                  Text(
+                      "Deine Einfahrphase ist nun erstmal abgeschlossen. Du kannst nun mit der regulären Pflege deines Aquariums beginnen. Hast du noch Fragen oder benötigst Hilfe?"),
+                ],
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.grey)),
+                child: const Text("Zurück zur Übersicht"),
+                onPressed: () =>
+                {
+                  Navigator.pop(context),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AquariumOverview(aquarium: widget.aquarium)),
+                  ),
+                },
+              ),
+            ],
+            elevation: 0,
+          );
+        },
+      );
+  }
   }
 
   void calculateRunInDays() {
@@ -151,7 +204,9 @@ class _RunInCalenderState extends State<RunInCalender> {
                       titleTextStyle:
                           TextStyle(fontSize: 25, color: Colors.black),
                     ),
-                    eventLoader: _getEventsForDay,
+                    eventLoader: (day) {
+                      return _events[day] ?? [];
+                    },
                     selectedDayPredicate: (day) {
                       return isSameDay(_selectedDay, day);
                     },
@@ -161,14 +216,13 @@ class _RunInCalenderState extends State<RunInCalender> {
                         _preSelectedDay = _selectedDay;
                         _selectedDay = selectedDay;
                         _focusedDay = focusedDay;
-                        _selectedEvents = ValueNotifier(_getEventsForDay(
-                            _selectedDay!));
+                        _selectedEvents = ValueNotifier(_events[_selectedDay] ?? []);
                       });
                       if(_selectedEvents.value.isNotEmpty && selectedDay == _preSelectedDay) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RunInDayTask(day: calculateRunInDayFromSelectedDay(selectedDay))));
+                                builder: (context) => RunInDayTask(day: calculateRunInDayFromSelectedDay(selectedDay), events: _events, startDate: DateTime.fromMillisecondsSinceEpoch(widget.aquarium.runInStartDate))));
                       }
                     },
                   ),
@@ -195,7 +249,7 @@ class _RunInCalenderState extends State<RunInCalender> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              RunInDayTask(day: calculateRunInDayFromSelectedDay(_selectedDay!))))
+                                              RunInDayTask(day: calculateRunInDayFromSelectedDay(_selectedDay!), events: _events, startDate: DateTime.fromMillisecondsSinceEpoch(widget.aquarium.runInStartDate))))
                                 },
                                 title: Text('${value[index]}'),
                               ),
