@@ -43,7 +43,7 @@ dependencies:
   shared_preferences: ^2.2.3
   firebase_analytics: ^11.0.0
   firebase_crashlytics: ^4.0.0
-  purchases_flutter: ^7.0.0
+  purchases_flutter: ^8.0.0
   purchases_ui_flutter: ^7.0.0
   table_calendar: ^3.1.1
   flutter_ringtone_player: ^4.0.0+1
