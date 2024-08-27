@@ -63,4 +63,42 @@ class Filter {
       'lastMaintenance': lastMaintenance
     };
   }
+
+  String getFilterType() {
+    String type = "";
+
+    switch (filterType) {
+      case 0:
+        {
+          type = "Innenfilter";
+          break;
+        }
+      case 1:
+        {
+          type = "Außenfilter";
+          break;
+        }
+      case 2:
+        {
+          type = "Hang-On-Filter";
+          break;
+        }
+      case 3:
+        {
+          type = "Bodenfilter";
+          break;
+        }
+      case 4:
+        {
+          type = "Lufthebe-Filter";
+          break;
+        }
+      case 5:
+        {
+          type = "HMF";
+          break;
+        }
+    }
+    return type;
+  }
 }

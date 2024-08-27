@@ -93,5 +93,6 @@ flutter:
     - assets/images/island_ground.jpg
     - assets/images/increase.jpg
     - assets/images/island.jpg
+    - assets/ai_assistant/ai_assistant.png
     - assets/buttons/runin_activated.png
     - assets/buttons/runin_deactivated.png
