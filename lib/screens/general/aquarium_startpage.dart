@@ -80,7 +80,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                               height: bannerAd!.size.height.toDouble(),
-                              width: bannerAd!.size.width.toDouble()-20,
+                              width: bannerAd.size.width.toDouble()-20,
                               child: AdWidget(ad: bannerAd),
                             ),
                             const SizedBox(height: 10),
