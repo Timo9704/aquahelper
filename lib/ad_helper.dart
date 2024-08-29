@@ -19,5 +19,4 @@ class AdHelper {
     onAdFailedToLoad: (ad, error) => {},
     onAdOpened: (ad) => {},
   );
-
 }
