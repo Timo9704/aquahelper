@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../util/premium.dart';
+
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
@@ -13,6 +15,8 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
+  Premium premium = Premium();
+  bool _isPremium = false;
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -29,6 +33,7 @@ class SettingsState extends State<Settings> {
   }
 
   Future<void> _initPackageInfo() async {
+    _isPremium = await premium.isUserPremium();
     final info = await PackageInfo.fromPlatform();
     setState(() {
       _packageInfo = info;
@@ -177,6 +182,28 @@ class SettingsState extends State<Settings> {
             child: const Text("Benutzereinstellungen", style: TextStyle(color: Colors.black)),
           ),
         ),
+        if(!_isPremium)
+          Column(
+            children: [
+              const SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    shape:
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onPressed: () => premium.showPaywall(context),
+                  child: const Text("AquaHelper-Premium (werbefrei & alle Funktionen)", style: TextStyle(color: Colors.black)),
+                ),
+              ),
+            ],
+          ),
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,

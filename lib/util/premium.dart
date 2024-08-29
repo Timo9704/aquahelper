@@ -7,6 +7,7 @@ import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import '../screens/usermanagement/signin.dart';
 
 class Premium{
+
   static bool isPremiumUser = false;
   User? user = FirebaseAuth.instance.currentUser;
 

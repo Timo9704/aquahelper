@@ -87,6 +87,7 @@ Future<void> configureRevenueCat() async {
   if(configuration != null) {
     await Purchases.configure(configuration);
   }
+
 }
 
 class AquaHelper extends StatelessWidget {
