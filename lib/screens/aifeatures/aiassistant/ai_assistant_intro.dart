@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../util/scalesize.dart';
 import 'ai_assistant_chat.dart';
 
@@ -40,7 +39,7 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 10),
                 Text(
-                    "ntdecke deinen digitalen Aquaristik-Experten! Unser KI-Assistent ist dein persönlicher Berater in der Welt der Aquarienpflege. Stellst du dich der Herausforderung von Fadenalgen? Fragst du dich, welche Pflanzen am besten zu deinem Wasserbiotop passen?",
+                    "Entdecke deinen digitalen Aquaristik-Experten! Unser KI-Assistent ist dein persönlicher Berater in der Welt der Aquarienpflege. Stellst du dich der Herausforderung von Fadenalgen? Fragst du dich, welche Pflanzen am besten zu deinem Wasserbiotop passen?",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
                         fontSize: 18,

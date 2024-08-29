@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../../ad_helper.dart';
 import '../../model/measurement.dart';
 import '../../model/task.dart';
 import '../../util/datastore.dart';
+import '../../util/premium.dart';
 import '../../widget/measurement_item.dart';
 import '../../widget/reminder_item.dart';
 import '../general/create_or_edit_aquarium.dart';
@@ -26,15 +29,30 @@ class AquariumMeasurementReminder extends StatefulWidget {
 class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminder> {
   List<Measurement> measurementList = [];
   List<Task> taskList = [];
+  Premium premium = Premium();
+  bool _isPremium = false;
+  BannerAd? _bannerAd;
 
   @override
   void initState() {
     super.initState();
     loadMeasurements();
     loadTasks();
+    _bannerAd = createBannerAd();
   }
 
+  BannerAd? createBannerAd(){
+    return BannerAd(
+      size: AdSize.banner,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: AdHelper.bannerListener,
+      request: const AdRequest(),
+    )..load();
+  }
+
+
   void loadMeasurements() async {
+    _isPremium = await premium.isUserPremium();
     List<Measurement> dbMeasurements =
     await Datastore.db.getMeasurementsForAquarium(widget.aquarium);
     setState(() {
@@ -218,6 +236,13 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
             )
         ),
         ),
+        if(!_isPremium)
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            width: MediaQuery.of(context).size.width, // Nimmt die volle Breite des Bildschirms
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          ),
       ],
     );
   }

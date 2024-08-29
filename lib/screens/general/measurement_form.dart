@@ -335,7 +335,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                   String identifier = allWaterValuesWithController.entries.elementAt(index).key;
                   double currentValue = 9999;
                   if(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text.isNotEmpty){
-                    currentValue = double.parse(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text);
+                    currentValue = parseTextFieldValue(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text);
                   }
                   return Card(
                     elevation: 10,
