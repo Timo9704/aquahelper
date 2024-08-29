@@ -1,3 +1,4 @@
+import 'package:aquahelper/model/measurement.dart';
 import 'package:flutter/material.dart';
 import '../../model/aquarium.dart';
 import '../../util/datastore.dart';
@@ -23,6 +24,36 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
     setState(() {
       aquariums = dbAquariums;
     });
+    checkHealthStatus();
+  }
+
+  checkHealthStatus() async {
+    for (int i = 0; i < aquariums.length; i++) {
+      DateTime now = DateTime.now();
+      DateTime interval7 = now.subtract(const Duration(days: 7));
+      DateTime interval14 = now.subtract(const Duration(days: 14));
+      DateTime interval30 = now.subtract(const Duration(days: 30));
+      List<Measurement> list = await Datastore.db.getMeasurementsByInterval(aquariums[i].aquariumId, now.millisecondsSinceEpoch, interval7.millisecondsSinceEpoch);
+      if(list.isEmpty){
+        list = await Datastore.db.getMeasurementsByInterval(aquariums[i].aquariumId, now.millisecondsSinceEpoch, interval14.millisecondsSinceEpoch);
+        if(list.isEmpty) {
+          list = await Datastore.db.getMeasurementsByInterval(aquariums[i].aquariumId, now.millisecondsSinceEpoch, interval30.millisecondsSinceEpoch);
+          if(list.isEmpty){
+            aquariums[i].healthStatus = 3;
+          }else {
+            aquariums[i].healthStatus = 2;
+          }
+        }else{
+          aquariums[i].healthStatus = 1;
+        }
+      }else{
+        aquariums[i].healthStatus = 0;
+      }
+      await Datastore.db.updateAquarium(aquariums[i]);
+    }
+    setState(() {
+      aquariums = aquariums;
+    });
   }
 
   @override
@@ -40,8 +71,10 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         child: Column(
           children: [
             const Text('Health Status', style: TextStyle(fontSize: 17, color: Colors.black)),
+            const Text('keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ', style: TextStyle(fontSize: 10, color: Colors.black)),
+            const SizedBox(height: 5),
             SizedBox(
-              height: 70, // Festgelegte Höhe für den scrollbaren Bereich
+              height: 60,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: IntrinsicHeight(
@@ -65,8 +98,8 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.lightbulb, size: 35, color: colorCodes.elementAt(aquarium.healthStatus)),
-          const SizedBox(height: 10),
+          Icon(Icons.lightbulb, size: 30, color: colorCodes.elementAt(aquarium.healthStatus)),
+          const SizedBox(height: 3),
           Text(aquarium.name, style: const TextStyle(fontSize: 12, color: Colors.black))
         ],
       ),
