@@ -73,7 +73,7 @@ class _HomepageState extends State<Homepage> {
         },
       ),
       body: _pageOptions[selectedPage],
-      floatingActionButton: selectedPage == 1 ? ElevatedButton(
+      floatingActionButton: selectedPage == 9999 ? ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(20),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(10)),

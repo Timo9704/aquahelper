@@ -12,6 +12,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:aquahelper/util/dbhelper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import 'config.dart';
@@ -66,6 +67,7 @@ Future<void> main() async {
     DBHelper.db.saveUserSettings(userSettings);
   }
   configureRevenueCat();
+  MobileAds.instance.initialize();
   runApp(const AquaHelper());
 }
 

@@ -1,9 +1,10 @@
+import 'package:aquahelper/util/premium.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/widget/aquarium_item.dart';
-import 'package:aquahelper/screens/general/create_or_edit_aquarium.dart';
-
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import '../../ad_helper.dart';
 import '../../util/datastore.dart';
 
 
@@ -18,15 +19,29 @@ class AquariumStartPage extends StatefulWidget {
 
 class _AquariumStartPageState extends State<AquariumStartPage> {
   List<Aquarium> aquariums = [];
+  Premium premium = Premium();
+  bool _isPremium = false;
+
 
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     loadAquariums();
+    createBannerAd();
+  }
+
+  BannerAd? createBannerAd(){
+    return BannerAd(
+      size: AdSize.fullBanner,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: AdHelper.bannerListener,
+      request: const AdRequest(),
+    )..load();
   }
 
   void loadAquariums() async {
+    _isPremium = await premium.isUserPremium();
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     setState(() {
       aquariums = dbAquariums;
@@ -35,47 +50,50 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                const Text('Alle Aquarien:', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800)),
-                IconButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CreateOrEditAquarium()),
-                  ),
-                  icon: const Icon(Icons.add,
-                    color: Colors.lightGreen,
-                  ),
+          Expanded(
+            child: aquariums.isEmpty
+                ? const Center(
+              child: Text("Lege dein erstes Aquarium an!",
+                style: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
                 ),
-              ],
-            ),
-          ),
-          aquariums.isEmpty ?
-          Center(
-            heightFactor: MediaQuery.of(context).size.height < 650 ? 10 : 15,
-            child: const Text("Lege dein erstes Aquarium an!",
-              style: TextStyle(
-                fontSize: 25,
-                color: Colors.black,
               ),
-            ),
-          ):
-          SizedBox(
-            height: MediaQuery.of(context).size.height-205,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
+            )
+                : ListView.builder(
               itemCount: aquariums.length,
               itemBuilder: (context, index) {
-                return AquariumItem(aquarium: aquariums.elementAt(index));
+                premium.isUserPremium();
+                BannerAd? _bannerAd = createBannerAd();
+                  return Column(
+                    children:[
+                      AquariumItem(aquarium: aquariums.elementAt(index)),
+                      if(!_isPremium)
+                        Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              height: _bannerAd!.size.height.toDouble(),
+                              width: _bannerAd!.size.width.toDouble()-20,
+                              child: AdWidget(ad: _bannerAd),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                    ]
+                  );
               },
             ),
-          )
+          ),
         ],
-      );
+      ),
+    );
   }
+
 }

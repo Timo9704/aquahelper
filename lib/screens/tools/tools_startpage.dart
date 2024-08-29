@@ -127,7 +127,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                   crossAxisCount: 2,
                   childAspectRatio: 1.25,
                   children: [
-                    IconTextButton(
+                    /*IconTextButton(
                       imagePath: 'assets/buttons/ai_assistant.png',
                       text: 'KI-Planer',
                       onPressed: () {
@@ -146,7 +146,7 @@ class _ToolsStartPageState extends State<ToolsStartPage> {
                               builder: (context) => const AiOptimizerIntro()),
                         );
                       },
-                    ),
+                    ),*/
                     IconTextButton(
                       imagePath: 'assets/buttons/explorer.png',
                       text: 'Content-Explorer',
