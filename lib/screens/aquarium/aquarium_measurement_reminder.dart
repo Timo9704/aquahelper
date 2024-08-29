@@ -43,7 +43,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
 
   BannerAd? createBannerAd(){
     return BannerAd(
-      size: AdSize.fullBanner,
+      size: AdSize.banner,
       adUnitId: AdHelper.bannerAdUnitId,
       listener: AdHelper.bannerListener,
       request: const AdRequest(),
@@ -239,8 +239,8 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
         if(!_isPremium)
           Container(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            width: MediaQuery.of(context).size.width, // Nimmt die volle Breite des Bildschirms
             height: _bannerAd!.size.height.toDouble(),
-            width: _bannerAd!.size.width.toDouble(),
             child: AdWidget(ad: _bannerAd!),
           ),
       ],

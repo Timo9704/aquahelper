@@ -6,6 +6,7 @@ import 'package:aquahelper/widget/aquarium_item.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../../ad_helper.dart';
 import '../../util/datastore.dart';
+import 'create_or_edit_aquarium.dart';
 
 
 class AquariumStartPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
 
   BannerAd? createBannerAd(){
     return BannerAd(
-      size: AdSize.fullBanner,
+      size: AdSize.banner,
       adUnitId: AdHelper.bannerAdUnitId,
       listener: AdHelper.bannerListener,
       request: const AdRequest(),
@@ -50,12 +51,26 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: <Widget>[
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              const Text('Alle Aquarien:', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800)),
+              IconButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CreateOrEditAquarium()),
+                ),
+                icon: const Icon(Icons.add,
+                  color: Colors.lightGreen,
+                ),
+              ),
+            ],
+          ),
+        ),
           Expanded(
             child: aquariums.isEmpty
                 ? const Center(
@@ -79,8 +94,8 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
                           children: [
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              width: MediaQuery.of(context).size.width, // Nimmt die volle Breite des Bildschirms
                               height: bannerAd!.size.height.toDouble(),
-                              width: bannerAd.size.width.toDouble()-20,
                               child: AdWidget(ad: bannerAd),
                             ),
                             const SizedBox(height: 10),
@@ -92,8 +107,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
             ),
           ),
         ],
-      ),
-    );
+      );
   }
 
 }
