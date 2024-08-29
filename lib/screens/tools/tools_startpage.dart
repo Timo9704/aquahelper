@@ -1,5 +1,3 @@
-import 'package:aquahelper/screens/aifeatures/aioptimizer/ai_optimizer_intro.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_intro.dart';
 import 'package:aquahelper/screens/runin/runin_intro.dart';
 import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:aquahelper/screens/tools/explorer/explorer.dart';

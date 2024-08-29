@@ -70,7 +70,7 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
               itemCount: aquariums.length,
               itemBuilder: (context, index) {
                 premium.isUserPremium();
-                BannerAd? _bannerAd = createBannerAd();
+                BannerAd? bannerAd = createBannerAd();
                   return Column(
                     children:[
                       AquariumItem(aquarium: aquariums.elementAt(index)),
@@ -79,9 +79,9 @@ class _AquariumStartPageState extends State<AquariumStartPage> {
                           children: [
                             Container(
                               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                              height: _bannerAd!.size.height.toDouble(),
-                              width: _bannerAd!.size.width.toDouble()-20,
-                              child: AdWidget(ad: _bannerAd),
+                              height: bannerAd!.size.height.toDouble(),
+                              width: bannerAd!.size.width.toDouble()-20,
+                              child: AdWidget(ad: bannerAd),
                             ),
                             const SizedBox(height: 10),
                           ],

@@ -10,14 +10,14 @@ class AdHelper {
     } else if (Platform.isIOS) {
       return 'ca-app-pub-5870599475018009/1442923345';
     } else {
-      throw new UnsupportedError('Unsupported platform');
+      throw UnsupportedError('Unsupported platform');
     }
   }
 
   static final BannerAdListener bannerListener = BannerAdListener(
-    onAdLoaded: (ad) => print('Ad loaded: ${ad.adUnitId}.'),
-    onAdFailedToLoad: (ad, error) => print('Ad failed to load: ${ad.adUnitId}, $error'),
-    onAdOpened: (ad) => print('Ad opened: ${ad.adUnitId}.'),
+    onAdLoaded: (ad) => {},
+    onAdFailedToLoad: (ad, error) => {},
+    onAdOpened: (ad) => {},
   );
 
 }
