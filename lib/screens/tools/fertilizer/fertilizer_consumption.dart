@@ -15,9 +15,9 @@ class FertilizerConsumption extends StatefulWidget {
 
 class _FertilizerConsumptionState extends State<FertilizerConsumption> {
   List<Measurement> measurementList = [];
-  Measurement measurementIs1 = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0);
-  Measurement measurementIs2 = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0);
-  Measurement consumption = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0);
+  Measurement measurementIs1 = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0, 0);
+  Measurement measurementIs2 = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0, 0);
+  Measurement consumption = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0, 0);
   int measurementInterval = 0;
 
   Aquarium? _selectedAquarium;

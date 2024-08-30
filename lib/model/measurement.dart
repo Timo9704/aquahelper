@@ -15,6 +15,7 @@ class Measurement {
   String imagePath;
   double conductance;
   double silicate;
+  double ammonium;
 
   Measurement(
       this.measurementId,
@@ -32,7 +33,8 @@ class Measurement {
       this.measurementDate,
       this.imagePath,
       this.conductance,
-      this.silicate
+      this.silicate,
+      this.ammonium
   );
 
   factory Measurement.fromMap(Map<String, dynamic> json){
@@ -52,7 +54,8 @@ class Measurement {
         json["measurementDate"],
         json["imagePath"],
         json["conductance"],
-        json["silicate"]
+        json["silicate"],
+        json["ammonium"]
     );
   }
 
@@ -72,8 +75,9 @@ class Measurement {
         double.parse(json["magnesium"]),
         json["measurementDate"],
         json["imagePath"],
-        double.parse(json["conductance"]),
-        double.parse(json["silicate"] ?? "0.0")
+        double.parse(json["conductance"] ?? "9999.0"),
+        double.parse(json["silicate"] ?? "9999.0"),
+        double.parse(json["ammonium"] ?? "9999.0")
     );
   }
 
@@ -94,7 +98,8 @@ class Measurement {
       'measurementDate': measurementDate,
       'imagePath': imagePath,
       'conductance': conductance,
-      'silicate': silicate
+      'silicate': silicate,
+      'ammonium': ammonium
     };
   }
 
@@ -114,7 +119,8 @@ class Measurement {
       'measurementDate': measurementDate,
       'imagePath': imagePath,
       'conductance': conductance.toString(),
-      'silicate': silicate.toString()
+      'silicate': silicate.toString(),
+      'ammonium': ammonium.toString()
     };
   }
 
@@ -169,6 +175,9 @@ class Measurement {
         case 'silicate':
           silicate = value as double;
           break;
+        case 'ammonium':
+          ammonium = value as double;
+        break;
         default:
         // Handle unknown key, if necessary
           break;
@@ -202,6 +211,8 @@ class Measurement {
         return conductance;
       case 'silicate':
         return silicate;
+      case 'ammonium':
+        return ammonium;
       default:
         return 0;
     }

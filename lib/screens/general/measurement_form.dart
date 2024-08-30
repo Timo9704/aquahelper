@@ -50,6 +50,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     'magnesium': TextEditingController(),
     'conductance': TextEditingController(),
     'silicate': TextEditingController(),
+    'ammonium': TextEditingController(),
   };
 
   @override
@@ -145,6 +146,7 @@ class MeasurementFormState extends State<MeasurementForm> {
         imagePath,
         9999,
         9999,
+        9999
     );
 
     mes.updateMeasurement(updateValues);

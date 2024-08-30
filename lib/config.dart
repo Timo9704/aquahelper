@@ -13,6 +13,7 @@ const List<String> waterValues = [
   'magnesium',
   'conductance',
   'silicate',
+  'ammonium'
 ];
 
 const Map<String, String> waterValuesTextMap = {
@@ -28,6 +29,7 @@ const Map<String, String> waterValuesTextMap = {
   'magnesium': 'Magnesium - MG',
   'conductance': 'Leitwert',
   'silicate': 'Silikat - SiO2',
+  'ammonium': 'Ammonium - NH4'
 };
 
 const Map<String, Map<String, double>> waterValuesInterval = {
@@ -42,7 +44,8 @@ const Map<String, Map<String, double>> waterValuesInterval = {
   'iron': {'min' : 0.05, 'max' : 0.1},
   'magnesium': {'min' : 10, 'max' : 50},
   'conductance': {'min' : 0.0, 'max' : 1000.0},
-  'silicate': {'min' : 0.0, 'max' : 0.8}
+  'silicate': {'min' : 0.0, 'max' : 0.8},
+  'ammonium': {'min' : 0.0, 'max' : 0.1}
 };
 
 late UserSettings userSettings;
