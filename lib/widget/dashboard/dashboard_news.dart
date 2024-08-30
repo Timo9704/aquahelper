@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aquahelper/model/news.dart';
 
+import '../../util/scalesize.dart';
+
 class DashboardNews extends StatefulWidget {
   const DashboardNews({super.key});
 
@@ -12,6 +14,7 @@ class DashboardNews extends StatefulWidget {
 }
 
 class _DashboardNewsState extends State<DashboardNews> {
+  double textScaleFactor = 0;
   List<News> newsList = [];
 
   @override
@@ -47,6 +50,7 @@ class _DashboardNewsState extends State<DashboardNews> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       child: Container(
@@ -57,8 +61,9 @@ class _DashboardNewsState extends State<DashboardNews> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
-          const Text('Neuigkeiten',
-              style: TextStyle(fontSize: 17, color: Colors.black)),
+          Text('Neuigkeiten',
+              textScaler: TextScaler.linear(textScaleFactor),
+              style: const TextStyle(fontSize: 20, color: Colors.black)),
           Expanded(child: Column(
               children: [
                 Expanded(
@@ -89,7 +94,9 @@ class NewsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = 0;
     double textSize = MediaQuery.sizeOf(context).width > 400 ? 15 : 13;
+    textScaleFactor = ScaleSize.textScaleFactor(context);
 
     return Column(
       children: [
@@ -97,12 +104,14 @@ class NewsItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(date,
+                textScaler: TextScaler.linear(textScaleFactor),
                 style: TextStyle(fontSize: textSize, color: Colors.black)),
             const SizedBox(
               width: 10,
             ),
             Flexible(
               child: Text(text,
+                  textScaler: TextScaler.linear(textScaleFactor),
                   style: TextStyle(fontSize: textSize, color: Colors.black)),
             ),
           ],

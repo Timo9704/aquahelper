@@ -2,6 +2,7 @@ import 'package:aquahelper/model/measurement.dart';
 import 'package:flutter/material.dart';
 import '../../model/aquarium.dart';
 import '../../util/datastore.dart';
+import '../../util/scalesize.dart';
 
 class DashboardHealthStatus extends StatefulWidget {
   const DashboardHealthStatus({super.key});
@@ -12,6 +13,7 @@ class DashboardHealthStatus extends StatefulWidget {
 
 class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
   List<Aquarium> aquariums = [];
+  double textScaleFactor = 0;
 
   @override
   void initState() {
@@ -58,6 +60,7 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: Container(
@@ -70,8 +73,8 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         ),
         child: Column(
           children: [
-            const Text('Health Status', style: TextStyle(fontSize: 17, color: Colors.black)),
-            const Text('keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ', style: TextStyle(fontSize: 9, color: Colors.black)),
+            Text('Health Status', textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 20, color: Colors.black)),
+            Text('keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ', textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 10, color: Colors.black)),
             const SizedBox(height: 5),
             SizedBox(
               height: 60,

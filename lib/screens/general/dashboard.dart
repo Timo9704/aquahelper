@@ -92,7 +92,7 @@ class DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     textScaleFactor = ScaleSize.textScaleFactor(context);
-    heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.35 : 0.75;
+    heightFactor = MediaQuery.sizeOf(context).height < 700 ? 0.35 : 0.65;
     title = MediaQuery.sizeOf(context).height < 700
         ? "Dashboard"
         : "AquaHelper\nDashboard";
@@ -133,7 +133,7 @@ class DashboardState extends State<Dashboard> {
                           textScaler: TextScaler.linear(textScaleFactor),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                              fontSize: 50,
+                              fontSize: 45,
                               height: 1.2,
                               color: Colors.white,
                               fontWeight: FontWeight.w800)),
@@ -141,7 +141,7 @@ class DashboardState extends State<Dashboard> {
                           textScaler: TextScaler.linear(textScaleFactor),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                              fontSize: 20, color: Colors.white)),
+                              fontSize: 15, color: Colors.white)),
                     ],
                   )),
                 ))
