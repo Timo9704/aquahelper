@@ -95,7 +95,7 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = 0;
-    double textSize = MediaQuery.sizeOf(context).width > 400 ? 15 : 13;
+    double textSize = MediaQuery.sizeOf(context).width > 400 ? 18 : 15;
     textScaleFactor = ScaleSize.textScaleFactor(context);
 
     return Column(

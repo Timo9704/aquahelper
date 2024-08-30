@@ -199,7 +199,7 @@ class SettingsState extends State<Settings> {
                     ),
                   ),
                   onPressed: () => premium.showPaywall(context),
-                  child: const Text("AquaHelper-Premium (werbefrei & alle Funktionen)", style: TextStyle(color: Colors.black)),
+                  child: const Text("AquaHelper-Premium (werbefrei)", style: TextStyle(color: Colors.black)),
                 ),
               ),
             ],
