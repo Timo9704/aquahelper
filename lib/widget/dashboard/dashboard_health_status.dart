@@ -71,7 +71,7 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         child: Column(
           children: [
             const Text('Health Status', style: TextStyle(fontSize: 17, color: Colors.black)),
-            const Text('keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ', style: TextStyle(fontSize: 10, color: Colors.black)),
+            const Text('keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ', style: TextStyle(fontSize: 9, color: Colors.black)),
             const SizedBox(height: 5),
             SizedBox(
               height: 60,
