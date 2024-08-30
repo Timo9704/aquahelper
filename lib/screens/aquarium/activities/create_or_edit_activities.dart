@@ -246,13 +246,12 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                           TextFormField(
                             keyboardType: TextInputType.text,
                             textAlignVertical: TextAlignVertical.center,
-                            textAlign: TextAlign.center,
                             controller: _customTagController,
                             cursorColor: Colors.black,
                             style: const TextStyle(fontSize: 20),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.grey),
                               ),
                               hintText:
                               "eigene Aufgabe hinzufügen",
