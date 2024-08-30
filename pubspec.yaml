@@ -3,7 +3,7 @@ description: Dein Helfer wenn es um die Wasserwerte deines Aquariums geht!
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.20.3+69
+version: 1.20.4+70
 
 
 environment:
