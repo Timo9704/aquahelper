@@ -6,6 +6,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import '../model/animals.dart';
 import '../model/aquarium.dart';
 import '../model/assistant_preferences.dart';
 import '../model/components/filter.dart';
@@ -336,6 +337,40 @@ class Datastore {
       await DBHelper.db.deleteActivity(activity);
     } else {
       await FirebaseHelper.db.deleteActivity(activity);
+    }
+  }
+
+  //-------------------------Methods for Animals----------------------------//
+
+  getAnimalsByAquarium(Aquarium aquarium) async {
+    if (user == null) {
+      return await DBHelper.db.getAnimalsByAquarium(aquarium);
+    } else {
+      return await FirebaseHelper.db.getAnimalsByAquarium(aquarium);
+    }
+  }
+
+  insertAnimal(Aquarium aquarium, Animals animal) async {
+    if (user == null) {
+      return await DBHelper.db.insertAnimal(animal);
+    } else {
+      await FirebaseHelper.db.insertAnimal(aquarium, animal);
+    }
+  }
+
+  updateAnimal(Aquarium aquarium, Animals animal) async {
+    if (user == null) {
+      await DBHelper.db.updateAnimal(animal);
+    } else {
+      await FirebaseHelper.db.updateAnimal(aquarium, animal);
+    }
+  }
+
+  deleteAnimal(Aquarium aquarium, Animals animal) async {
+    if (user == null) {
+      await DBHelper.db.deleteAnimal(animal);
+    } else {
+      await FirebaseHelper.db.deleteAnimal(aquarium, animal);
     }
   }
 

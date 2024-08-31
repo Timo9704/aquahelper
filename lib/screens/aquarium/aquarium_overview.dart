@@ -4,6 +4,7 @@ import 'package:aquahelper/screens/runin/runin_calender.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/aquarium.dart';
+import 'animals/animals_list.dart';
 import 'aquarium_measurement_reminder.dart';
 import 'chart_analysis.dart';
 
@@ -30,6 +31,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
       aquarium = widget.aquarium;
       _pageOptions = [
         AquariumMeasurementReminder(aquarium: aquarium),
+        AnimalsList(aquarium: aquarium),
         AquariumComponents(aquarium: aquarium),
         ActivitiesCalendar(aquariumId: aquarium.aquariumId),
         ChartAnalysis(aquariumId: aquarium.aquariumId),
@@ -56,6 +58,10 @@ class _AquariumOverviewState extends State<AquariumOverview> {
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Übersicht',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Tiere',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.build),

@@ -15,6 +15,7 @@ import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
 import '../model/activity.dart';
+import '../model/animals.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
@@ -22,7 +23,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 14;
+  static const newDbVersion = 15;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -114,6 +115,9 @@ class DBHelper {
             //use v13 due to missconfiguration
             await _databaseVersion13(db);
           }
+          if (version >= 15) {
+            await _databaseVersion15(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -166,6 +170,9 @@ class DBHelper {
       case 14:
         //use v13 due to missconfiguration
         await _databaseVersion13(db);
+        break;
+      case 15:
+        await _databaseVersion15(db);
         break;
     }
   }
@@ -283,6 +290,18 @@ class DBHelper {
     db.execute("ALTER TABLE tank ADD runInStartDate INTEGER");
     db.execute("UPDATE tank SET runInStatus = 0");
     db.execute("UPDATE tank SET runInStartDate = 0");
+  }
+
+  _databaseVersion15(Database db) {
+    db.execute('''CREATE TABLE animals(
+        animalId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        name TEXT,
+        latName TEXT,
+        type TEXT,
+        amount INTEGER,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
   }
 
   //-------------------------Methods for Aquarium-object-----------------------//
@@ -848,6 +867,35 @@ class DBHelper {
         activity.toMap(),
         where: 'id = ?',
         whereArgs: [activity.id],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
+  getAnimalsByAquarium(Aquarium aquarium) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("animals", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId]);
+    List<Animals> list = res.isNotEmpty ? res.map((c) => Animals.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertAnimal(Animals animal) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'animals',
+        animal.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteAnimal(Animals animal) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("animals", where: "animalId = ?", whereArgs: [animal.animalId]);
+  }
+
+  updateAnimal(Animals animal) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("animals",
+        animal.toMap(),
+        where: 'animalId = ?',
+        whereArgs: [animal.animalId],
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
 

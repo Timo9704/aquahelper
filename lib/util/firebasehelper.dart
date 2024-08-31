@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../model/activity.dart';
+import '../model/animals.dart';
 import '../model/aquarium.dart';
 import '../model/assistant_preferences.dart';
 import '../model/components/filter.dart';
@@ -578,4 +579,38 @@ class FirebaseHelper{
       await ref.set(assistantPreferences.toFirebaseMap());
     }
 
+    //-------------------------Methods for Animals----------------------------//
+
+    getAnimalsByAquarium(Aquarium aquarium) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${aquarium.aquariumId}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Animals> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        print(items);
+        items.forEach((key, value) {
+          value['animalId'] = key;
+          Animals animal = Animals.fromMap(Map<String, dynamic>.from(value));
+          list.add(animal);
+        });
+      }
+
+      return list;
+    }
+
+    insertAnimal(Aquarium aquarium, Animals animal) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
+      await ref.set(animal.toFirebaseMap());
+    }
+
+    updateAnimal(Aquarium aquarium, Animals animal) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
+      await ref.update(animal.toFirebaseMap());
+    }
+
+    deleteAnimal(Aquarium aquarium, Animals animal) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
+      await ref.remove();
+    }
 }
