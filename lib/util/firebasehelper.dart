@@ -588,14 +588,12 @@ class FirebaseHelper{
       List<Animals> list = [];
       if (data != null) {
         Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
-        print(items);
         items.forEach((key, value) {
           value['animalId'] = key;
           Animals animal = Animals.fromMap(Map<String, dynamic>.from(value));
           list.add(animal);
         });
       }
-
       return list;
     }
 

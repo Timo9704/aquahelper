@@ -7,9 +7,9 @@ import '../../../model/aquarium.dart';
 
 class CreateOrEditAnimals extends StatefulWidget {
   final Aquarium aquarium;
-  Animals? animal;
+  final Animals? animal;
 
-  CreateOrEditAnimals({super.key, required this.aquarium, this.animal});
+  const CreateOrEditAnimals({super.key, required this.aquarium, this.animal});
 
   @override
   CreateOrEditAnimalsState createState() => CreateOrEditAnimalsState();

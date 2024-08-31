@@ -118,7 +118,7 @@ class _AnimalsListState extends State<AnimalsList> {
                             'Art',
                             textScaler:
                             TextScaler.linear(textScaleFactor),
-                            style: TextStyle(fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                         DataColumn(
@@ -126,7 +126,7 @@ class _AnimalsListState extends State<AnimalsList> {
                             'lat. Name',
                             textScaler:
                             TextScaler.linear(textScaleFactor),
-                            style: TextStyle(fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                         DataColumn(
@@ -134,7 +134,7 @@ class _AnimalsListState extends State<AnimalsList> {
                             'Anzahl',
                             textScaler:
                             TextScaler.linear(textScaleFactor),
-                            style: TextStyle(fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                       ],
