@@ -22,7 +22,7 @@ import '../model/custom_timer.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 13;
+  static const newDbVersion = 14;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -108,7 +108,11 @@ class DBHelper {
             await _databaseVersion12(db);
           }
           if (version >= 13) {
-            await _databaseVersion12(db);
+            await _databaseVersion13(db);
+          }
+          if (version >= 14) {
+            //use v13 due to missconfiguration
+            await _databaseVersion13(db);
           }
     },
     onUpgrade: _upgradeDb
@@ -157,6 +161,10 @@ class DBHelper {
         await _databaseVersion12(db);
         break;
       case 13:
+        await _databaseVersion13(db);
+        break;
+      case 14:
+        //use v13 due to missconfiguration
         await _databaseVersion13(db);
         break;
     }
