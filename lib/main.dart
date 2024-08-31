@@ -56,7 +56,11 @@ Future<void> main() async {
   if(usList.isNotEmpty){
     List<bool> currentList = json.decode(usList.first.measurementItems).cast<bool>().toList();
     if(currentList.length < waterValues.length){
-      currentList.add(true);
+      //this is needed to have same amount of items for the list of displayed measurements - loop needed if user is more than one addition behind
+      int diff = waterValues.length - currentList.length;
+      for(int i = 0; i < diff; i++){
+        currentList.add(true);
+      }
       userSettings = UserSettings(currentList.toString(), 1);
       DBHelper.db.saveUserSettings(userSettings);
     }
