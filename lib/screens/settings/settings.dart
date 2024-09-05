@@ -1,6 +1,5 @@
 import 'package:aquahelper/screens/settings/feedback_form.dart';
 import 'package:aquahelper/screens/settings/user_settings.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -59,7 +58,7 @@ class SettingsState extends State<Settings> {
     await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
   }
 
-  void _exportOrImport() {
+  /*void _exportOrImport() {
     showDialog(
       context: context,
       builder: (context) {
@@ -121,7 +120,7 @@ class SettingsState extends State<Settings> {
         );
       },
     );
-  }
+  }*/
 
   void _version() {
     showDialog(

@@ -265,7 +265,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     }
   }
   
-  Future<InterstitialAd?> createInterstitalAd() async {
+  void createInterstitalAd() async {
     _isPremium = await premium.isUserPremium();
       InterstitialAd.load(
           adUnitId: AdHelper.interstitalAdUnitId,
