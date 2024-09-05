@@ -138,7 +138,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                 )],
           ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -164,13 +164,13 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
           ),
         ),
         SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.07,
             width: MediaQuery.of(context).size.width,
             child: taskList.isNotEmpty
                 ? ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: taskList.length,
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               itemBuilder: (context, index) {
                 return ReminderItem(
                   task: taskList.elementAt(index),
@@ -187,7 +187,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
                   )),
             )),
         Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -214,7 +214,7 @@ class _AquariumMeasurementReminderState extends State<AquariumMeasurementReminde
         ),
         Expanded(child:
         Container(
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: measurementList.isNotEmpty ?
             ListView.builder(
               scrollDirection: Axis.vertical,

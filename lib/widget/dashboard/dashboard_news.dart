@@ -60,13 +60,15 @@ class _DashboardNewsState extends State<DashboardNews> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(children: [
-          Text('Neuigkeiten',
-              textScaler: TextScaler.linear(textScaleFactor),
-              style: const TextStyle(fontSize: 20, color: Colors.black)),
-          Expanded(child: Column(
-              children: [
-                Expanded(
+        child: Column(
+          children: [
+            Text('Neuigkeiten',
+                textScaler: TextScaler.linear(textScaleFactor),
+                style: const TextStyle(fontSize: 21, color: Colors.black)),
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -76,11 +78,13 @@ class _DashboardNewsState extends State<DashboardNews> {
                             date: newsList[index].date,
                             text: newsList[index].text);
                       },
-                    )),
-              ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -95,7 +99,7 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = 0;
-    double textSize = MediaQuery.sizeOf(context).width > 400 ? 18 : 15;
+    double textSize = 18;
     textScaleFactor = ScaleSize.textScaleFactor(context);
 
     return Column(
@@ -118,7 +122,7 @@ class NewsItem extends StatelessWidget {
         ),
         Container(
           height: 1,
-          width: MediaQuery.of(context).size.width-20,
+          width: MediaQuery.of(context).size.width - 20,
           decoration: const BoxDecoration(color: Colors.lightGreen),
         ),
         const SizedBox(height: 5)

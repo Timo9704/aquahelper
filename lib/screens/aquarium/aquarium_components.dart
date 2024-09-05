@@ -4,10 +4,13 @@ import 'package:aquahelper/widget/aquarium_components/lighting_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../../ad_helper.dart';
 import '../../model/components/filter.dart';
 import '../../model/components/lighting.dart';
 import '../../util/datastore.dart';
+import '../../util/premium.dart';
 import '../../widget/aquarium_components/filter_item.dart';
 import '../../widget/aquarium_components/heater_item.dart';
 import 'component/create_or_edit_component.dart';
@@ -25,8 +28,12 @@ class _AquariumComponentsState extends State<AquariumComponents> {
   Filter? filter;
   Lighting? lighting;
   Heater? heater;
+  Premium premium = Premium();
+  bool _isPremium = false;
+  BannerAd? _bannerAd;
 
   Future<void> loadComponents() async {
+    _isPremium = await premium.isUserPremium();
     List<Filter> filterList = await Datastore.db.getFilterByAquarium(widget.aquarium.aquariumId);
     if(filterList.isNotEmpty) {
       filter = filterList.first;
@@ -72,6 +79,16 @@ class _AquariumComponentsState extends State<AquariumComponents> {
   void initState() {
     super.initState();
     loadComponents();
+    _bannerAd = createBannerAd();
+  }
+
+  BannerAd? createBannerAd(){
+    return BannerAd(
+      size: AdSize.banner,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: AdHelper.bannerListener,
+      request: const AdRequest(),
+    )..load();
   }
 
   @override
@@ -82,6 +99,13 @@ class _AquariumComponentsState extends State<AquariumComponents> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (filter != null && lighting != null && heater != null) {
             return Column(children: <Widget>[
+              if(!_isPremium)
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  width: MediaQuery.of(context).size.width,
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
               FilterItem(filter: filter!),
               LightingItem(lighting: lighting!),
               HeaterItem(heater: heater!),

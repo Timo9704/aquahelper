@@ -1,8 +1,11 @@
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../../../ad_helper.dart';
 import '../../../model/animals.dart';
 import '../../../util/datastore.dart';
+import '../../../util/premium.dart';
 import '../../../util/scalesize.dart';
 import 'create_or_edit_animals.dart';
 
@@ -22,14 +25,28 @@ class _AnimalsListState extends State<AnimalsList> {
   List<Animals> fishes = [];
   List<Animals> shrimps = [];
   List<Animals> snails = [];
+  Premium premium = Premium();
+  bool _isPremium = false;
+  BannerAd? _bannerAd;
 
   @override
   void initState() {
     super.initState();
     loadAnimals();
+    _bannerAd = createBannerAd();
+  }
+
+  BannerAd? createBannerAd(){
+    return BannerAd(
+      size: AdSize.banner,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: AdHelper.bannerListener,
+      request: const AdRequest(),
+    )..load();
   }
 
   void loadAnimals() async {
+    _isPremium = await premium.isUserPremium();
     List<Animals> loadedAnimals =
         await Datastore.db.getAnimalsByAquarium(widget.aquarium);
     setState(() {
@@ -63,6 +80,14 @@ class _AnimalsListState extends State<AnimalsList> {
           buildSection('Garnelen', shrimps),
           const SizedBox(height: 5),
           buildSection('Schnecken', snails),
+          const SizedBox(height: 5),
+          if(!_isPremium)
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              width: MediaQuery.of(context).size.width, // Nimmt die volle Breite des Bildschirms
+              height: _bannerAd!.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd!),
+            ),
         ],
       ),
     );
@@ -86,7 +111,7 @@ class _AnimalsListState extends State<AnimalsList> {
                     textScaler:
                     TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 21,
                         fontWeight: FontWeight.bold),
                   ),
                   IconButton(
@@ -118,7 +143,7 @@ class _AnimalsListState extends State<AnimalsList> {
                             'Art',
                             textScaler:
                             TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
                           ),
                         ),
                         DataColumn(
@@ -126,7 +151,7 @@ class _AnimalsListState extends State<AnimalsList> {
                             'lat. Name',
                             textScaler:
                             TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
                           ),
                         ),
                         DataColumn(
@@ -134,7 +159,7 @@ class _AnimalsListState extends State<AnimalsList> {
                             'Anzahl',
                             textScaler:
                             TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontStyle: FontStyle.italic),
+                            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
                           ),
                         ),
                       ],
@@ -142,7 +167,11 @@ class _AnimalsListState extends State<AnimalsList> {
                           .map((animal) => DataRow(
                                 cells: <DataCell>[
                                   DataCell(
-                                    Text(animal.name),
+                                    Text(animal.name,
+                                      textScaler:
+                                      TextScaler.linear(textScaleFactor),
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
                                     onTap: () {
                                       Navigator.push(
                                         context,
@@ -155,7 +184,11 @@ class _AnimalsListState extends State<AnimalsList> {
                                     },
                                   ),
                                   DataCell(
-                                    Text(animal.latName),
+                                    Text(animal.latName,
+                                      textScaler:
+                                        TextScaler.linear(textScaleFactor),
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
                                     onTap: () {
                                       Navigator.push(
                                         context,
@@ -168,7 +201,10 @@ class _AnimalsListState extends State<AnimalsList> {
                                     },
                                   ),
                                   DataCell(
-                                    Text(animal.amount.toString()),
+                                    Text(animal.amount.toString(),
+                                      textScaler:
+                                      TextScaler.linear(textScaleFactor),
+                                      style: const TextStyle(fontSize: 16),),
                                     onTap: () {
                                       Navigator.push(
                                         context,
@@ -185,6 +221,7 @@ class _AnimalsListState extends State<AnimalsList> {
                           .toList(),
                     ),
                   ),
+
                 ),
               )
             ],

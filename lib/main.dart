@@ -4,6 +4,7 @@ import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/general/onboarding_page.dart';
 import 'package:aquahelper/widget/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -31,6 +32,8 @@ Future<void> main() async {
       : await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
+
 
   // Initialize sequence for AwesomeNotification (push notifications)
   await AwesomeNotifications().initialize(null, [
@@ -72,6 +75,7 @@ Future<void> main() async {
   }
   configureRevenueCat();
   MobileAds.instance.initialize();
+
   runApp(const AquaHelper());
 }
 

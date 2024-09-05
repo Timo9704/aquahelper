@@ -339,6 +339,13 @@ class DBHelper {
         whereArgs: [aquariumId]);
   }
 
+  Future<List<Aquarium>> getAquariumById(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("tank", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Aquarium> list = res.isNotEmpty ? res.map((c) => Aquarium.fromMap(c)).toList() : [];
+    return list;
+  }
+
   //-------------------------Methods for Measurement-object-----------------------//
 
   Future<Measurement> getMeasurementById(String measurementId) async {
@@ -730,6 +737,28 @@ class DBHelper {
       for (var element in activities) {
         FirebaseHelper.db.addActivity(Activity.fromMap(element));
       }
+
+      List<Map<String, dynamic>> filter = await db.query('filter');
+      for (var element in filter) {
+        FirebaseHelper.db.updateFilter(Filter.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> lighting = await db.query('lighting');
+      for (var element in lighting) {
+        FirebaseHelper.db.updateLighting(Lighting.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> heater = await db.query('heater');
+      for (var element in heater) {
+        FirebaseHelper.db.updateHeater(Heater.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> animals = await db.query('animals');
+      for (var element in animals) {
+        String aquariumId = Animals.fromMap(element).aquariumId;
+        Aquarium aquarium = (await FirebaseHelper.db.getAquariumById(aquariumId)).first;
+        FirebaseHelper.db.insertAnimal(aquarium, Animals.fromMap(element));
+      }
       return true;
     } catch (e) {
       return false;
@@ -753,6 +782,11 @@ class DBHelper {
     await db.delete("tasks");
     await db.delete("usersettings");
     await db.delete("customtimer");
+    await db.delete("activities");
+    await db.delete("filter");
+    await db.delete("lighting");
+    await db.delete("heater");
+    await db.delete("animals");
   }
 
 //-------------------------Methods for custom-timer-----------------------//

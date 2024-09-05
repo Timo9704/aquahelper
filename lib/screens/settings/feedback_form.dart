@@ -17,6 +17,7 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class FeedbackFormState extends State<FeedbackForm> {
+  final _mailController = TextEditingController();
   final _titleController = TextEditingController();
   String title = "Was funktioniert nicht? (Kurz-Titel)";
   final _descriptionController = TextEditingController();
@@ -50,9 +51,9 @@ class FeedbackFormState extends State<FeedbackForm> {
       'Hast du einen Fehler in der App gefunden oder möchtest du ein neues Feature vorschlagen? '
       'Hier kannst du ganz einfach Bugs und Fehler melden oder neue Features vorschlagen. '
       'Bitte beschreibe den Fehler oder das Feature so genau wie möglich und verwendete eine aussagekräftige Überschrift. '
-      'Bitte gebe keine personenbezogene Daten an.';
+      'Gebe gerne deine E-Mail für Rückfragen an!';
 
-  void sendRequest(String title, String description) async {
+  void sendRequest(String mail, String title, String description) async {
     User? user = FirebaseAuth.instance.currentUser;
 
     String local = "Ja";
@@ -68,7 +69,7 @@ class FeedbackFormState extends State<FeedbackForm> {
 
     }
     if(description.isNotEmpty){
-      description += "\n App-Version: ${_packageInfo.version}\n Lokal: $local";
+      description += "\n App-Version: ${_packageInfo.version}\n Lokal: $local \n Email: $mail";
       final httpResponse = await  http.post(
         Uri.parse('https://api.trello.com/1/cards?idList=65d20760344a48e372e37eb6&key=c188c3c92a0aad1e758b0b2906333e2e&token=ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A'),
         headers: <String, String>{
@@ -215,6 +216,41 @@ class FeedbackFormState extends State<FeedbackForm> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
+                      const Text("E-Mail (optional)",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          )),
+                      TextFormField(
+                        keyboardType: TextInputType.text,
+                        textAlignVertical: TextAlignVertical.center,
+                        textAlign: TextAlign.center,
+                        controller: _mailController,
+                        cursorColor: Colors.black,
+                        maxLengthEnforcement: MaxLengthEnforcement.none,
+                        style: const TextStyle(fontSize: 15),
+                        decoration: const InputDecoration(
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
                       Text(title,
                           style: const TextStyle(
                             fontSize: 15,
@@ -228,7 +264,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                         cursorColor: Colors.black,
                         maxLength: 50,
                         maxLengthEnforcement: MaxLengthEnforcement.none,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 15),
                         decoration: const InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
@@ -260,10 +296,10 @@ class FeedbackFormState extends State<FeedbackForm> {
                         textAlign: TextAlign.center,
                         controller: _descriptionController,
                         cursorColor: Colors.black,
-                        maxLines: 5,
+                        maxLines: 4,
                         maxLength: 500,
                         maxLengthEnforcement: MaxLengthEnforcement.none,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 15),
                         decoration: const InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.white),
@@ -284,7 +320,7 @@ class FeedbackFormState extends State<FeedbackForm> {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      sendRequest(_titleController.text, _descriptionController.text);
+                      sendRequest(_mailController.text, _titleController.text, _descriptionController.text);
                     },
                     child: const Text("Bug/Feedback absenden"),
                   ),
