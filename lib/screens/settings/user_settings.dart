@@ -133,7 +133,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           Padding(
-              padding: const EdgeInsets.all(0.0),
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: Column(children: [
                 Text(loginText,
                     textAlign: TextAlign.justify,
@@ -141,7 +141,7 @@ class UserSettingsPageState extends State<UserSettingsPage> {
               ])),
           const SizedBox(height: 10),
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 const Icon(Icons.account_circle,
                     size: 50, color: Colors.lightGreen),
@@ -149,14 +149,14 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                     ? Text(
                         user!.email!,
                         style: const TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.black,
                         ),
                       )
                     : const Text(
                         'Du bist nicht angemeldet!',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.black,
                         ),
                       ),
@@ -229,6 +229,10 @@ class UserSettingsPageState extends State<UserSettingsPage> {
                                 builder: (BuildContext context) =>
                                     const Homepage()))
                       },
+              style: ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(
+                      Colors.grey[300]!)),
                   child: const Text(
                     'Ausloggen',
                     style: TextStyle(

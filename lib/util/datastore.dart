@@ -433,6 +433,7 @@ class Datastore {
   void updateLastLogin() {
     if (user != null) {
       FirebaseHelper.db.updateLastLogin();
+      FirebaseHelper.db.checkInitStatus();
     }
   }
 

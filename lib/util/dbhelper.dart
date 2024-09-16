@@ -697,15 +697,16 @@ class DBHelper {
     FirebaseHelper.db.user = user;
 
     try {
-      List<Map<String, dynamic>> tanks = await db.query('tank');
-      for (var element in tanks) {
-        Aquarium aquarium = Aquarium.fromMap(element);
-        if(aquarium.imagePath != 'assets/images/aquarium.jpg'){
-          String newImagePath = await uploadImageToFirebase(user, aquarium.imagePath);
-          aquarium.imagePath = newImagePath;
+        List<Map<String, dynamic>> tanks = await db.query('tank');
+        for (var element in tanks) {
+          Aquarium aquarium = Aquarium.fromMap(element);
+          if (aquarium.imagePath != 'assets/images/aquarium.jpg') {
+            String newImagePath = await uploadImageToFirebase(
+                user, aquarium.imagePath);
+            aquarium.imagePath = newImagePath;
+          }
+          await FirebaseHelper.db.insertAquarium(aquarium);
         }
-        FirebaseHelper.db.insertAquarium(aquarium);
-      }
 
       List<Map<String, dynamic>> measurements = await db.query('measurement');
       for (var element in measurements) {
@@ -715,49 +716,49 @@ class DBHelper {
               user, measurement.imagePath);
           measurement.imagePath = newImagePath;
         }
-        FirebaseHelper.db.insertMeasurement(measurement);
+        await FirebaseHelper.db.insertMeasurement(measurement);
       }
 
       List<Map<String, dynamic>> tasks = await db.query('tasks');
       for (var element in tasks) {
-        FirebaseHelper.db.insertTask(Task.fromMap(element));
+        await FirebaseHelper.db.insertTask(Task.fromMap(element));
       }
 
       List<Map<String, dynamic>> userSettings = await db.query('usersettings');
       for (var element in userSettings) {
-        FirebaseHelper.db.saveUserSettings(UserSettings.fromMap(element));
+        await FirebaseHelper.db.saveUserSettings(UserSettings.fromMap(element));
       }
 
       List<Map<String, dynamic>> customTimers = await db.query('customtimer');
       for (var element in customTimers) {
-        FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
+        await FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
       }
 
       List<Map<String, dynamic>> activities = await db.query('activities');
       for (var element in activities) {
-        FirebaseHelper.db.addActivity(Activity.fromMap(element));
+        await FirebaseHelper.db.addActivity(Activity.fromMap(element));
       }
 
       List<Map<String, dynamic>> filter = await db.query('filter');
       for (var element in filter) {
-        FirebaseHelper.db.updateFilter(Filter.fromMap(element));
+        await FirebaseHelper.db.updateFilter(Filter.fromMap(element));
       }
 
       List<Map<String, dynamic>> lighting = await db.query('lighting');
       for (var element in lighting) {
-        FirebaseHelper.db.updateLighting(Lighting.fromMap(element));
+        await FirebaseHelper.db.updateLighting(Lighting.fromMap(element));
       }
 
       List<Map<String, dynamic>> heater = await db.query('heater');
       for (var element in heater) {
-        FirebaseHelper.db.updateHeater(Heater.fromMap(element));
+        await FirebaseHelper.db.updateHeater(Heater.fromMap(element));
       }
 
       List<Map<String, dynamic>> animals = await db.query('animals');
       for (var element in animals) {
         String aquariumId = Animals.fromMap(element).aquariumId;
-        Aquarium aquarium = (await FirebaseHelper.db.getAquariumById(aquariumId)).first;
-        FirebaseHelper.db.insertAnimal(aquarium, Animals.fromMap(element));
+        Aquarium aquarium = (await getAquariumById(aquariumId)).first;
+        await FirebaseHelper.db.insertAnimal(aquarium, Animals.fromMap(element));
       }
       return true;
     } catch (e) {

@@ -24,23 +24,35 @@ class FirebaseHelper{
 
     User? user = FirebaseAuth.instance.currentUser;
 
-    initializeUser(User user) {
+    initializeUser(User user) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user.uid}');
-      ref.onValue.listen((DatabaseEvent event) {
-        final data = event.snapshot.value;
-        if (data == null) {
-          ref.set({
-            "email": user.email,
-            "created": DateTime.now().millisecondsSinceEpoch,
-            "privacypolicy": DateTime.now().millisecondsSinceEpoch,
-          });
-        }
+      await ref.set({
+        "email": user.email,
+        "created": DateTime.now().millisecondsSinceEpoch,
+        "privacypolicy": DateTime.now().millisecondsSinceEpoch,
       });
     }
 
+    checkInitStatus() async {
+      if(user != null){
+        DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+        DataSnapshot snapshot = await ref.get();
+        final data = snapshot.value;
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        if(!items.containsKey('email')){
+          await ref.update({
+            "email": user?.email,
+            "created": DateTime.now().millisecondsSinceEpoch,
+            "privacypolicy": DateTime.now().millisecondsSinceEpoch,
+          });
+          }
+        }
+      }
+
+
     updateLastLogin() async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
-      ref.update({
+      await ref.update({
         "lastlogin": DateTime.now().millisecondsSinceEpoch,
       });
     }
@@ -63,7 +75,7 @@ class FirebaseHelper{
 
     updateLatestPrivacyPolicy() async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
-      ref.update({
+      await ref.update({
         "privacypolicy": DateTime.now().millisecondsSinceEpoch,
       });
     }
@@ -401,6 +413,7 @@ class FirebaseHelper{
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
       await ref.remove();
       FirebaseAuth.instance.currentUser?.delete();
+      FirebaseHelper.db.signOut();
     }
 
     //-------------------------Methods for customTimer-object-----------------------//
