@@ -12,6 +12,7 @@ import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
 import '../model/custom_timer.dart';
 import '../model/measurement.dart';
+import '../model/plant.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
 import 'datastore.dart';
@@ -624,4 +625,39 @@ class FirebaseHelper{
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
       await ref.remove();
     }
+
+    //-------------------------Methods for Plants----------------------------//
+
+    getPlantsByAquarium(Aquarium aquarium) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${aquarium.aquariumId}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Plant> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['plantId'] = key;
+          Plant plant = Plant.fromMap(Map<String, dynamic>.from(value));
+          list.add(plant);
+        });
+        list.sort((a, b) => a.plantNumber.compareTo(b.plantNumber));
+      }
+      return list;
+    }
+
+    insertPlant(Plant plant) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${plant.aquariumId}/${plant.plantId}');
+      await ref.set(plant.toFirebaseMap());
+    }
+
+    updatePlant(Plant plant) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${plant.aquariumId}/${plant.plantId}');
+      await ref.update(plant.toFirebaseMap());
+    }
+
+    deletePlant(Plant plant) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${plant.aquariumId}/${plant.plantId}');
+      await ref.remove();
+    }
+
 }
