@@ -13,6 +13,7 @@ import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
 import '../model/measurement.dart';
+import '../model/plant.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
 import 'dbhelper.dart';
@@ -371,6 +372,40 @@ class Datastore {
       await DBHelper.db.deleteAnimal(animal);
     } else {
       await FirebaseHelper.db.deleteAnimal(aquarium, animal);
+    }
+  }
+
+  //-------------------------Methods for Plants----------------------------//
+
+  getPlantsByAquarium(Aquarium aquarium) async {
+    if (user == null) {
+      return await DBHelper.db.getPlantsByAquarium(aquarium);
+    } else {
+      return await FirebaseHelper.db.getPlantsByAquarium(aquarium);
+    }
+  }
+
+  insertPlant(Plant plant) async {
+    if (user == null) {
+      return await DBHelper.db.insertPlant(plant);
+    } else {
+      await FirebaseHelper.db.insertPlant(plant);
+    }
+  }
+
+  updatePlant(Plant plant) async {
+    if (user == null) {
+      await DBHelper.db.updatePlant(plant);
+    } else {
+      await FirebaseHelper.db.updatePlant(plant);
+    }
+  }
+
+  deletePlant(Plant plant) async {
+    if (user == null) {
+      await DBHelper.db.deletePlant(plant);
+    } else {
+      await FirebaseHelper.db.deletePlant(plant);
     }
   }
 

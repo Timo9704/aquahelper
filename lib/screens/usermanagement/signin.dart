@@ -1,7 +1,6 @@
 import 'package:aquahelper/config.dart';
 import 'package:aquahelper/screens/general/homepage.dart';
 import 'package:aquahelper/screens/usermanagement/signup.dart';
-import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -172,7 +171,6 @@ class _SignInState extends State<SignIn> {
 
   Future<void> signInSuccess(User user) async {
     setUserId(user.uid);
-    FirebaseHelper.db.initializeUser(user);
     Purchases.logIn(user.uid);
     showMessageSnackbar("Erfolgreich angemeldet!");
     Navigator.push(context,

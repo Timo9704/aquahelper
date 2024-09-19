@@ -20,10 +20,11 @@ import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
 import '../model/custom_timer.dart';
+import '../model/plant.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 15;
+  static const newDbVersion = 16;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -113,10 +114,14 @@ class DBHelper {
           }
           if (version >= 14) {
             //use v13 due to missconfiguration
-            await _databaseVersion13(db);
+            //remove exec of v13, because it is already executed one before (18.09.2024)
+            //await _databaseVersion13(db);
           }
           if (version >= 15) {
             await _databaseVersion15(db);
+          }
+          if (version >= 16) {
+            await _databaseVersion16(db);
           }
     },
     onUpgrade: _upgradeDb
@@ -173,6 +178,9 @@ class DBHelper {
         break;
       case 15:
         await _databaseVersion15(db);
+        break;
+      case 16:
+        await _databaseVersion16(db);
         break;
     }
   }
@@ -300,6 +308,20 @@ class DBHelper {
         latName TEXT,
         type TEXT,
         amount INTEGER,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+  }
+
+  _databaseVersion16(Database db) {
+    db.execute('''CREATE TABLE plants(
+        plantId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        plantNumber INTEGER,
+        name TEXT,
+        latName TEXT,
+        amount INTEGER,
+        xPosition REAL,
+        yPosition REAL,
         FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
     )''');
   }
@@ -933,5 +955,35 @@ class DBHelper {
         whereArgs: [animal.animalId],
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
+
+  getPlantsByAquarium(Aquarium aquarium) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("plants", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId], orderBy: 'plantNumber ASC');
+    List<Plant> list = res.isNotEmpty ? res.map((c) => Plant.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertPlant(Plant plant) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'plants',
+        plant.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deletePlant(Plant plant) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("plants", where: "plantId = ?", whereArgs: [plant.plantId]);
+  }
+
+  updatePlant(Plant plant) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("plants",
+        plant.toMap(),
+        where: 'plantId = ?',
+        whereArgs: [plant.plantId],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
 
 }
