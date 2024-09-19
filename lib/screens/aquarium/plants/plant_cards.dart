@@ -4,17 +4,24 @@ import '../../../model/plant.dart';
 import '../../../util/datastore.dart';
 import '../../../util/scalesize.dart';
 
-class PlantCard extends StatelessWidget {
-  double textScaleFactor = 0;
+class PlantCard extends StatefulWidget{
   final Plant plant;
   final bool removeButton;
   final Function onPlantDeleted;
 
-  PlantCard(
+  const PlantCard(
       {super.key,
       required this.plant,
       this.removeButton = false,
       required this.onPlantDeleted});
+
+  @override
+  State<PlantCard> createState() => PlantCardState();
+}
+
+class PlantCardState extends State<PlantCard> {
+  double textScaleFactor = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +39,7 @@ class PlantCard extends StatelessWidget {
           CircleAvatar(
               backgroundColor: Colors.lightGreen,
               child: Text(
-                plant.plantNumber.toString(),
+                widget.plant.plantNumber.toString(),
                 textScaler: TextScaler.linear(textScaleFactor),
                 style: const TextStyle(fontSize: 20),
               )),
@@ -42,23 +49,23 @@ class PlantCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  plant.name,
+                  widget.plant.name,
                   textScaler: TextScaler.linear(textScaleFactor),
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                Text(plant.latName,
+                Text(widget.plant.latName,
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(fontSize: 16)),
               ],
             ),
           ),
-          if (removeButton)
+          if (widget.removeButton)
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                Datastore.db.deletePlant(plant);
-                onPlantDeleted(plant);
+                Datastore.db.deletePlant(widget.plant);
+                widget.onPlantDeleted(widget.plant);
               },
             ),
         ],
