@@ -43,13 +43,13 @@ class CreateOrEditPlantsState extends State<CreateOrEditPlants> {
   Widget build(BuildContext context) {
     textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
       resizeToAvoidBottomInset: true,
+      backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
       appBar: AppBar(
         title: const Text("Pflanzen bearbeiten"),
         backgroundColor: Colors.lightGreen,
       ),
-      body: Column(
+      body: SingleChildScrollView( child:Column(
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -88,8 +88,7 @@ class CreateOrEditPlantsState extends State<CreateOrEditPlants> {
               )
             ],
           ),
-          SingleChildScrollView(
-            child: Form(
+          Form(
               key: _formKey,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -179,9 +178,8 @@ class CreateOrEditPlantsState extends State<CreateOrEditPlants> {
                 ),
               ),
             ),
-          ),
         ],
       ),
-    );
+    ));
   }
 }

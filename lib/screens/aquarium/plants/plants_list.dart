@@ -26,6 +26,7 @@ class PlantsListState extends State<PlantsList> {
   Premium premium = Premium();
   bool _isPremium = false;
   BannerAd? _anchoredAdaptiveAd;
+  bool _isLoaded = false;
 
   @override
   void initState() {
@@ -48,8 +49,18 @@ class PlantsListState extends State<PlantsList> {
     _anchoredAdaptiveAd = BannerAd(
       size: size!,
       adUnitId: AdHelper.bannerAdUnitId,
-      listener: AdHelper.bannerListener,
       request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            _anchoredAdaptiveAd = ad as BannerAd;
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          ad.dispose();
+        },
+      ),
     );
     return _anchoredAdaptiveAd!.load();
   }
@@ -97,7 +108,7 @@ class PlantsListState extends State<PlantsList> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                if(!_isPremium)
+                if(!_isPremium && _anchoredAdaptiveAd != null && _isLoaded)
                   Column(
                     children: <Widget>[
                       SizedBox(
