@@ -30,7 +30,7 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
   }
 
   loadPlants() async {
-    Datastore.db.getPlantsByAquarium(widget.aquarium).then((value) {
+    await Datastore.db.getPlantsByAquarium(widget.aquarium).then((value) {
       setState(() {
         plantCount = value.length+1;
         plantList.clear();
