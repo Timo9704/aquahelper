@@ -63,8 +63,8 @@ class PlantCardState extends State<PlantCard> {
           if (widget.removeButton)
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {
-                Datastore.db.deletePlant(widget.plant);
+              onPressed: () async {
+                await Datastore.db.deletePlant(widget.plant);
                 widget.onPlantDeleted(widget.plant);
               },
             ),

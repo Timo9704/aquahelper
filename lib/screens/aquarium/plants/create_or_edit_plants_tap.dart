@@ -45,10 +45,6 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
 
   void removePlant(Plant plant) {
     loadPlants();
-    setState(() {
-      plantList.remove(plant);
-      positions.remove(Offset(plant.xPosition, plant.yPosition));
-    });
   }
 
 
@@ -84,7 +80,7 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
                           position: details.localPosition,
                           count: plantCount,
                         ),
-                      )).then((value) => loadPlants()
+                      )).then((value) async => await loadPlants()
                     );
                   });
                 },
@@ -135,17 +131,19 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: ListView(
-              shrinkWrap: true,
-              children: plantList.map((plant) => PlantCard(
-                plant: plant,
-                removeButton: true,
-                onPlantDeleted: removePlant,
-              )).toList(),
-            )
-          ),
+          Expanded(
+            child: Container(
+                padding: const EdgeInsets.all(10),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: plantList.map((plant) => PlantCard(
+                    plant: plant,
+                    removeButton: true,
+                    onPlantDeleted: removePlant,
+                  )).toList(),
+                )
+            ),
+          )
         ],
       ),
     );
