@@ -211,13 +211,12 @@ class _SignInState extends State<SignIn> {
                   MaterialStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () {
-                final BuildContext currentContext = context;
                 () async {
                   bool uploadSuccess = await DBHelper.db.uploadDataToFirebase();
-                  if (uploadSuccess && mounted) {
+                  if (uploadSuccess && context.mounted) {
                     showMessageSnackbar("Daten erfolgreich hochgeladen!");
                     DBHelper.db.deleteLocalDbAfterUpload();
-                    Navigator.pop(currentContext);
+                    Navigator.pop(context);
                   }
                 }();
               },

@@ -80,7 +80,7 @@ class SignupState extends State<Signup> {
                 final BuildContext currentContext = context;
                 () async {
                   bool uploadSuccess = await DBHelper.db.uploadDataToFirebase();
-                  if (uploadSuccess && mounted) {
+                  if (uploadSuccess && context.mounted) {
                     DBHelper.db.deleteLocalDbAfterUpload();
                     Navigator.pop(currentContext);
                     Navigator.of(currentContext).pushAndRemoveUntil(
