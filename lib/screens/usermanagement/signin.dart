@@ -210,11 +210,16 @@ class _SignInState extends State<SignIn> {
                   backgroundColor:
                   MaterialStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
-              onPressed: () => {
-                DBHelper.db.uploadDataToFirebase(),
-                DBHelper.db.deleteLocalDbAfterUpload(),
-                Navigator.pop(context),
-                showMessageSnackbar("Daten erfolgreich hochgeladen!"),
+              onPressed: () {
+                final BuildContext currentContext = context;
+                () async {
+                  bool uploadSuccess = await DBHelper.db.uploadDataToFirebase();
+                  if (uploadSuccess && mounted) {
+                    showMessageSnackbar("Daten erfolgreich hochgeladen!");
+                    DBHelper.db.deleteLocalDbAfterUpload();
+                    Navigator.pop(currentContext);
+                  }
+                }();
               },
             ),
           ],

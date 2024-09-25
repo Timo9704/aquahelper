@@ -76,14 +76,19 @@ class SignupState extends State<Signup> {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
-              onPressed: () => {
-                DBHelper.db.uploadDataToFirebase(),
-                showUploadSuccessMessage(),
-                DBHelper.db.deleteLocalDbAfterUpload(),
-                Navigator.pop(context),
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const SignIn()),
-                    (Route<dynamic> route) => false),
+              onPressed: () {
+                final BuildContext currentContext = context;
+                () async {
+                  bool uploadSuccess = await DBHelper.db.uploadDataToFirebase();
+                  if (uploadSuccess && mounted) {
+                    DBHelper.db.deleteLocalDbAfterUpload();
+                    Navigator.pop(currentContext);
+                    Navigator.of(currentContext).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => const SignIn()),
+                            (Route<dynamic> route) => false);
+                    showUploadSuccessMessage();
+                  }
+                }();
               },
             ),
           ],
