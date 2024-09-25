@@ -62,7 +62,7 @@ class CreateOrEditPlantsState extends State<CreateOrEditPlants> {
                       bottomRight: Radius.circular(10),
                     ),
                     child: widget.aquarium.imagePath.startsWith('assets/')
-                        ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.fitWidth)
+                        ? Image.asset(widget.aquarium.imagePath, fit: BoxFit.cover)
                         :  widget.aquarium.imagePath.startsWith('https://')
                         ? CachedNetworkImage(imageUrl:widget.aquarium.imagePath, fit: BoxFit.cover)
                         : localImageCheck(widget.aquarium.imagePath),

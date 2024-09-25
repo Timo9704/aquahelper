@@ -123,7 +123,7 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
           Container(
             padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
             child: Text(
-              'Tippe auf die Stelle im Aquarium, an der sich die Pflanze befindet, um eine Pflanze hinzuzufügen.',
+              'Tippe auf die Stelle im Aquarium, an der sich die Pflanze befindet, um eine Pflanze hinzuzufügen. Falls die Liste nicht aktualisiert wird, tippe auf das Aktualisieren-Symbol.',
               textAlign: TextAlign.justify,
               textScaler: TextScaler.linear(textScaleFactor),
               style: const TextStyle(
@@ -146,6 +146,13 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          loadPlants();
+        },
+        backgroundColor: Colors.lightGreen,
+        child: const Icon(Icons.refresh, color: Colors.white),
+      )
     );
   }
 }
