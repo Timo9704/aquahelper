@@ -22,3 +22,4 @@ jobs:
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
           track: internal
           status: draft
+          changesNotSentForReview: true
