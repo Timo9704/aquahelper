@@ -22,6 +22,7 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
   List<Offset> positions = [];
   List<Plant> plantList = [];
   int plantCount = 1;
+  bool refreshed = false;
 
   @override
   void initState() {
@@ -146,13 +147,14 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: !refreshed ? FloatingActionButton(
         onPressed: () {
           loadPlants();
+          refreshed = true;
         },
         backgroundColor: Colors.lightGreen,
         child: const Icon(Icons.refresh, color: Colors.white),
-      )
+      ) : null,
     );
   }
 }
