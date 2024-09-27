@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
         },
       ),
       body: _pageOptions[selectedPage],
-      floatingActionButton: selectedPage == 1 && user?.email == "test.account@aquaristik-kosmos.de" ? ElevatedButton(
+      /*floatingActionButton: selectedPage == 1 && user?.email == "test.account@aquaristik-kosmos.de" ? ElevatedButton(
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(20),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(10)),
@@ -87,7 +87,7 @@ class _HomepageState extends State<Homepage> {
           MaterialPageRoute(builder: (context) => const AiAssistantIntro()),
         ),
         child: const Text('KI\nAssistent', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
-      ) : null,
+      ) : null,*/
     );
   }
 }
