@@ -72,11 +72,34 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            "Aktivitäten-Kalender",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25, color: Colors.black),
-          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Aktivitäten-Kalender",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 25, color: Colors.black),
+              ),
+              IconButton(
+                onPressed: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateOrEditActivities(
+                          aquariumId: widget.aquariumId,
+                          activity: Activity("", "", "", 0, "")
+                      ),
+                    ),
+                  );
+                  if (result != null) {
+                    setState(() {
+                      getActivitiesFromDb();
+                    });
+                  }
+                },
+                icon: const Icon(Icons.add_circle, size: 35, color: Colors.lightGreen),
+              ),
+          ],),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(top: 0),
@@ -161,31 +184,6 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
                       },
                     );
                   },
-                ),
-                Positioned(
-                  right: 16,
-                  bottom: 10,
-                  child: FloatingActionButton(
-                    onPressed: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateOrEditActivities(
-                              aquariumId: widget.aquariumId,
-                              activity: Activity("", "", "", 0, "")
-                          ),
-                        ),
-                      );
-                      if (result != null) {
-                        setState(() {
-                          getActivitiesFromDb();
-                        });
-                      }
-                    },
-                    backgroundColor: Colors.lightGreen,
-                    foregroundColor: Colors.white,
-                    child: const Icon(Icons.add),
-                  ),
                 ),
               ],
             ),
