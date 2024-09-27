@@ -147,6 +147,7 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
           )
         ],
       ),
+      /*
       floatingActionButton: !refreshed ? FloatingActionButton(
         onPressed: () {
           loadPlants();
@@ -155,6 +156,7 @@ class CreateOrEditPlantsTapState extends State<CreateOrEditPlantsTap> {
         backgroundColor: Colors.lightGreen,
         child: const Icon(Icons.refresh, color: Colors.white),
       ) : null,
+      */
     );
   }
 }
