@@ -33,7 +33,7 @@ class _AquariumOverviewState extends State<AquariumOverview> {
       _pageOptions = [
         AquariumMeasurementReminder(aquarium: aquarium),
         AnimalsList(aquarium: aquarium),
-        PlantsList(aquarium: aquarium),
+        //PlantsList(aquarium: aquarium),
         AquariumComponents(aquarium: aquarium),
         ActivitiesCalendar(aquariumId: aquarium.aquariumId),
         ChartAnalysis(aquariumId: aquarium.aquariumId),
@@ -65,10 +65,10 @@ class _AquariumOverviewState extends State<AquariumOverview> {
             icon: Icon(Icons.list),
             label: 'Tiere',
           ),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'Pflanzen',
-          ),
+          ),*/
           BottomNavigationBarItem(
             icon: Icon(Icons.build),
             label: 'Technik',
