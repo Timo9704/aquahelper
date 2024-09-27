@@ -24,7 +24,7 @@ class OnBoardingPageState extends State<OnBoardingPage> {
   initState(){
     super.initState();
     Datastore.db.updateLastLogin();
-    checkPrivacyPolicy();
+    //checkPrivacyPolicy();
     showRateAppDialog();
     checkIntroShown();
   }
