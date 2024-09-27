@@ -109,6 +109,7 @@ class _ActivitiesCalendarState extends State<ActivitiesCalendar> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TableCalendar(
+                rowHeight: 40,
                 firstDay: DateTime.utc(2010, 1, 1),
                 lastDay: DateTime.utc(2030, 1, 1),
                 focusedDay: _focusedDay,
