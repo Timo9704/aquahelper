@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:aquahelper/model/user_settings.dart';
-import 'package:aquahelper/screens/general/onboarding_page.dart';
+import 'package:aquahelper/views/onboarding.dart';
 import 'package:aquahelper/widget/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -15,6 +15,7 @@ import 'dart:io';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config.dart';
 
@@ -137,6 +138,6 @@ class AquaHelper extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all(Colors.white),
             ),
           )),
-      home: RateAppInitWidget(builder: (rateMyApp) => OnBoardingPage(rateMyApp: rateMyApp)),
+      home: RateAppInitWidget(builder: (rateMyApp) => const OnBoardingPage()),
   );
   }
