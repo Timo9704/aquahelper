@@ -1,5 +1,5 @@
-import 'package:aquahelper/screens/settings/feedback_form.dart';
-import 'package:aquahelper/screens/settings/user_settings.dart';
+import 'package:aquahelper/views/settings/feedback_form.dart';
+import 'package:aquahelper/views/settings/user_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +42,7 @@ class SettingsStartPage extends StatelessWidget {
             onPressed: () => {
               Navigator.push(
                   context, MaterialPageRoute(
-                  builder: (BuildContext context) => const UserSettingsPage())),
+                  builder: (BuildContext context) => const UserSettings())),
             },
             child: const Text("Benutzereinstellungen", style: TextStyle(color: Colors.black)),
           ),

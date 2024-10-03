@@ -50,7 +50,7 @@ class DashboardMeasurements extends StatelessWidget {
                                   color: Colors.black,
                                 ))),
                         const Icon(Icons.check_box_outlined,
-                            color: Colors.green),
+                            color: Colors.green, size: 18),
                         Text('${viewModel.measurements30days}x',
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
@@ -77,7 +77,7 @@ class DashboardMeasurements extends StatelessWidget {
                               color: Colors.black,
                             )),
                         const Icon(Icons.check_box_outlined,
-                            color: Colors.green, size: 20),
+                            color: Colors.green, size: 18),
                         Text('${viewModel.measurementsAll}x',
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(

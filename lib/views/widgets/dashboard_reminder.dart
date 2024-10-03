@@ -63,20 +63,20 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
                                 child: Text('Für heute keine\n Erinnerungen!',
                                     textScaler: TextScaler.linear(textScaleFactor),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 16, color: Colors.black))):
+                                    style: const TextStyle(fontSize: 15, color: Colors.black))):
                             viewModel.taskList.length >= 2 ?
                             FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text('Noch ${viewModel.taskList.length} Aufgaben\n zu erledigen!',
                                     textScaler: TextScaler.linear(textScaleFactor),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 16, color: Colors.black))):
+                                    style: const TextStyle(fontSize: 15, color: Colors.black))):
                             FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text('Noch ${viewModel.taskList.length} Aufgabe\nzu erledigen!',
                                     textScaler: TextScaler.linear(textScaleFactor),
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 16, color: Colors.black))),
+                                    style: const TextStyle(fontSize: 15, color: Colors.black))),
                           ],
                         ),
                       );
