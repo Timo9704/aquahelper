@@ -6,6 +6,8 @@ import '../../util/scalesize.dart';
 
 class FilterItem extends StatelessWidget {
 
+  //TODO: Implement this with MVVM
+
   final Filter filter;
   FilterItem({super.key, required this.filter});
 

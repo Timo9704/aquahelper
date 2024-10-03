@@ -6,13 +6,13 @@ import 'dart:io';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../ad_helper.dart';
+import '../../util/ad_helper.dart';
 import '../../model/measurement.dart';
 import '../../model/task.dart';
 import '../../util/datastore.dart';
 import '../../util/premium.dart';
-import '../../widget/measurement_item.dart';
-import '../../widget/reminder_item.dart';
+import '../../views/items/measurement_item.dart';
+import '../../views/items/reminder_item.dart';
 import '../general/create_or_edit_aquarium.dart';
 import '../general/measurement_form.dart';
 

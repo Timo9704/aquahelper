@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../model/components/lighting.dart';
+
+import '../../model/components/heater.dart';
 import '../../util/scalesize.dart';
 
-class LightingItem extends StatelessWidget {
-
-  final Lighting lighting;
-  const LightingItem({super.key, required this.lighting});
+class HeaterItem extends StatelessWidget {
+  //TODO: Implement this with MVVM
+  final Heater heater;
+  const HeaterItem({super.key, required this.heater});
 
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return Flexible(
-      flex: 3,
+      flex: 2,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
         child: Container(
@@ -26,11 +27,9 @@ class LightingItem extends StatelessWidget {
           ),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-              Text("Beleuchtung",
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text("Heizer",
                   textScaler: TextScaler.linear(textScaleFactor),
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
                   textAlign: TextAlign.start),
@@ -44,39 +43,7 @@ class LightingItem extends StatelessWidget {
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
-                  child: Text(lighting.manufacturerModelName,
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
-                      textAlign: TextAlign.center),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text("Helligkeit",
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
-                      textAlign: TextAlign.start),
-                ),
-                Expanded(
-                  child: Text("${lighting.brightness} Lumen",
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
-                      textAlign: TextAlign.center),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text("Beleuchtungsdauer",
-                      textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
-                      textAlign: TextAlign.start),
-                ),
-                Expanded(
-                  child: Text("${lighting.onTime} Stunden",
+                  child: Text(heater.manufacturerModelName,
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.center),
@@ -92,7 +59,7 @@ class LightingItem extends StatelessWidget {
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
-                  child: Text("${lighting.power} Watt",
+                  child: Text("${heater.power} Watt",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.center),

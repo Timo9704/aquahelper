@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/views/onboarding.dart';
-import 'package:aquahelper/widget/rate_app_init_widget.dart';
+import 'package:aquahelper/util/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,8 +16,9 @@ import 'package:aquahelper/util/dbhelper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
-import 'config.dart';
+import 'util/config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,41 +104,47 @@ class AquaHelper extends StatelessWidget {
   const AquaHelper({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-    MaterialApp(
-      title: 'AquaHelper',
-      theme: ThemeData(
-          textSelectionTheme: const TextSelectionThemeData(
-              selectionHandleColor: Colors.lightGreen,
-              cursorColor: Colors.black
-          ),
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.black,
-          ),
-          primarySwatch: Colors.lightGreen,
-          scaffoldBackgroundColor: const Color.fromRGBO(242, 242, 242, 1),
-          textButtonTheme: TextButtonThemeData(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+  Widget build(BuildContext context) {
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return MaterialApp(
+          title: 'AquaHelper',
+          theme: ThemeData(
+              textSelectionTheme: const TextSelectionThemeData(
+                  selectionHandleColor: Colors.lightGreen,
+                  cursorColor: Colors.black
+              ),
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.black,
+              ),
+              primarySwatch: Colors.lightGreen,
+              scaffoldBackgroundColor: const Color.fromRGBO(242, 242, 242, 1),
+              textButtonTheme: TextButtonThemeData(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  foregroundColor: MaterialStateProperty.all(Colors.black),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
               ),
-              foregroundColor: MaterialStateProperty.all(Colors.black),
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-            ),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  foregroundColor: MaterialStateProperty.all(Colors.black),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
-              ),
-              foregroundColor: MaterialStateProperty.all(Colors.black),
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-            ),
-          )),
-      home: RateAppInitWidget(builder: (rateMyApp) => const OnBoardingPage()),
-  );
+              )
+          ),
+          home: RateAppInitWidget(builder: (rateMyApp) => const OnBoardingPage()),
+        );
+      },
+    );
   }
+}

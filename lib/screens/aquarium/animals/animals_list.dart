@@ -2,7 +2,7 @@ import 'package:aquahelper/model/aquarium.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../../ad_helper.dart';
+import '../../../util/ad_helper.dart';
 import '../../../model/animals.dart';
 import '../../../util/datastore.dart';
 import '../../../util/premium.dart';

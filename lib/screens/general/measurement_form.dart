@@ -10,9 +10,9 @@ import 'package:uuid/uuid.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/screens/aquarium/aquarium_overview.dart';
-import 'package:aquahelper/config.dart';
+import 'package:aquahelper/util/config.dart';
 
-import '../../ad_helper.dart';
+import '../../util/ad_helper.dart';
 import '../../util/datastore.dart';
 import '../../util/image_selector.dart';
 import '../../util/premium.dart';

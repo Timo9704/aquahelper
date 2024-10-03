@@ -1,5 +1,5 @@
-import 'package:aquahelper/config.dart';
-import 'package:aquahelper/screens/general/homepage.dart';
+import 'package:aquahelper/util/config.dart';
+
 import 'package:aquahelper/screens/usermanagement/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../model/aquarium.dart';
 import '../../util/datastore.dart';
 import '../../util/dbhelper.dart';
+import '../../views/homepage.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../model/aquarium.dart';
-import '../model/measurement.dart';
+import '../../model/aquarium.dart';
+import '../../model/measurement.dart';
 import 'package:aquahelper/screens/general/measurement_form.dart';
 
 class MeasurementItem extends StatelessWidget {

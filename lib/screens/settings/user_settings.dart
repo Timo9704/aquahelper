@@ -1,5 +1,4 @@
 import 'package:aquahelper/model/user_settings.dart';
-import 'package:aquahelper/screens/general/homepage.dart';
 import 'package:aquahelper/screens/usermanagement/signin.dart';
 import 'package:aquahelper/util/dbhelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'dart:convert';
 
-import '../../config.dart';
+import '../../util/config.dart';
 import '../../util/firebasehelper.dart';
+import '../../views/homepage.dart';
 
 class UserSettingsPage extends StatefulWidget {
   const UserSettingsPage({super.key});

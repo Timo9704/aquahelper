@@ -1,4 +1,4 @@
-import 'model/user_settings.dart';
+import '../model/user_settings.dart';
 
 const List<String> waterValues = [
   'temperature',

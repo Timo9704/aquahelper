@@ -1,18 +1,18 @@
 
 import 'package:aquahelper/model/components/heater.dart';
-import 'package:aquahelper/widget/aquarium_components/lighting_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../ad_helper.dart';
+import '../../util/ad_helper.dart';
 import '../../model/components/filter.dart';
 import '../../model/components/lighting.dart';
 import '../../util/datastore.dart';
 import '../../util/premium.dart';
-import '../../widget/aquarium_components/filter_item.dart';
-import '../../widget/aquarium_components/heater_item.dart';
+import '../../views/components/filter_item.dart';
+import '../../views/components/heater_item.dart';
+import '../../views/components/lighting_item.dart';
 import 'component/create_or_edit_component.dart';
 
 class AquariumComponents extends StatefulWidget {

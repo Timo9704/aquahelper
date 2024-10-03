@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../../../ad_helper.dart';
+import '../../../util/ad_helper.dart';
 import '../../../model/aquarium.dart';
 import '../../../model/plant.dart';
 import '../../../util/datastore.dart';

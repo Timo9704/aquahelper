@@ -10,10 +10,10 @@ class OnBoardingViewModel extends ChangeNotifier {
   bool _introShown = false;
   bool get introShown => _introShown;
 
-  Future<bool> checkIntroShown() async {
+  Future<void> checkIntroShown() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _introShown = prefs.getBool("introShown") ?? false;
-    return prefs.getBool("introShown") ?? false;
+    notifyListeners();
   }
 
   Future<void> setIntroShown(bool value) async {
