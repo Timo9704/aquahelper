@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../util/scalesize.dart';
+import '../../util/scalesize.dart';
 
 class AiPlannerGuide extends StatefulWidget {
   const AiPlannerGuide({super.key});

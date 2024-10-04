@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/aquarium.dart';
-import '../../../model/assistant_preferences.dart';
-import '../../../util/datastore.dart';
-import '../../../util/scalesize.dart';
+import '../../model/aquarium.dart';
+import '../../model/assistant_preferences.dart';
+import '../../util/datastore.dart';
+import '../../util/scalesize.dart';
 
 class AiAssistantPreferences extends StatefulWidget {
   const AiAssistantPreferences({super.key});

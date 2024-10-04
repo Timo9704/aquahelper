@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import '../../../../model/aquarium.dart';
-import '../../../../util/datastore.dart';
-import '../ai_planner_guide.dart';
+import '../../../model/aquarium.dart';
+import '../../../util/datastore.dart';
+import '../../aioptimizer/ai_optimizer_guide.dart';
 import '../ai_planner_result.dart';
-import '../../../../model/ai_planner_storage.dart';
-import '../../../../util/scalesize.dart';
+import '../../../model/ai_planner_storage.dart';
+import '../../../util/scalesize.dart';
 
 class AiPlannerPlants extends StatefulWidget {
   final AiPlannerStorage aiPlannerObject;

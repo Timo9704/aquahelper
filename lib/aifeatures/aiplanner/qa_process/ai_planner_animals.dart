@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../model/ai_planner_storage.dart';
-import '../../../../model/aquarium.dart';
-import '../../../../util/datastore.dart';
-import '../../../../util/scalesize.dart';
+import '../../../model/ai_planner_storage.dart';
+import '../../../model/aquarium.dart';
+import '../../../util/datastore.dart';
+import '../../../util/scalesize.dart';
 import '../ai_planner_result.dart';
 import 'ai_planner_plants.dart';
 

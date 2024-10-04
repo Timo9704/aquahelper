@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../model/aquarium.dart';
-import '../../../model/assistant_preferences.dart';
-import '../../../model/measurement.dart';
-import '../../../util/datastore.dart';
-import '../../../util/loading_indicator.dart';
+import '../../model/aquarium.dart';
+import '../../model/assistant_preferences.dart';
+import '../../model/measurement.dart';
+import '../../util/datastore.dart';
+import '../../util/loading_indicator.dart';
 import 'ai_assistant_guide.dart';
 import 'ai_assistant_preferences.dart';
 

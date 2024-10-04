@@ -1,17 +1,17 @@
+import 'package:aquahelper/aifeatures/aiplanner/ai_planner.dart';
 import 'package:flutter/material.dart';
-import '../../../util/scalesize.dart';
-import 'ai_assistant_chat.dart';
 
-class AiAssistantIntro extends StatefulWidget {
-  const AiAssistantIntro({super.key});
+import '../../util/scalesize.dart';
+
+class AiPlannerIntro extends StatefulWidget {
+  const AiPlannerIntro({super.key});
 
   @override
-  State<AiAssistantIntro> createState() => _AiAssistantIntroState();
+  State<AiPlannerIntro> createState() => _AiPlannerIntroState();
 }
 
-class _AiAssistantIntroState extends State<AiAssistantIntro> {
+class _AiPlannerIntroState extends State<AiPlannerIntro> {
   double textScaleFactor = 0;
-
   @override
   void initState() {
     super.initState();
@@ -22,7 +22,7 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
     textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("KI-Assistent"),
+        title: const Text("KI-Planer"),
         backgroundColor: Colors.lightGreen,
       ),
       body: ListView(
@@ -31,15 +31,15 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: Column(
               children: [
-                Text("KI-Assistent",
+                Text("KI-Planer",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
-                        fontSize: 35,
+                        fontSize: 30,
                         color: Colors.black,
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 10),
                 Text(
-                    "Entdecke deinen digitalen Aquaristik-Experten! Unser KI-Assistent ist dein persönlicher Berater in der Welt der Aquarienpflege. Stellst du dich der Herausforderung von Fadenalgen? Fragst du dich, welche Pflanzen am besten zu deinem Wasserbiotop passen?",
+                    "Entdecke den KI-Planer, dein perfekter Begleiter für die Gestaltung deines Traumaquariums! Durch eine Reihe gezielter Fragen analysiert unser KI-Planer deine Vorstellungen und Bedingungen, um das optimale Setup für dein Aquarium zu entwerfen, sei es in Bezug auf die Bepflanzung oder den Fischbesatz.",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
                         fontSize: 18,
@@ -52,7 +52,7 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
                   ),
                 const SizedBox(height: 10),
                 Text(
-                    "Kein Problem! Mit fundiertem Wissen und praktischen Tipps steht dir unser Assistent zur Seite, um all deine Fragen zu beantworten und dir zu helfen, dein Aquarium in ein blühendes Unterwasserparadies zu verwandeln. Egal ob Anfänger oder erfahrener Aquarianer, unser KI-Assistent ist immer bereit, dir mit Rat und Tat zur Seite zu stehen.",
+                    "Erhalte personalisierte Vorschläge, die genau zu deinen Wünschen passen, um eine harmonische Umgebung für deine Wasserbewohner zu schaffen, die sowohl ästhetisch ansprechend als auch biologisch nachhaltig ist.",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
                         fontSize: 18,
@@ -68,10 +68,10 @@ class _AiAssistantIntroState extends State<AiAssistantIntro> {
                   ),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AiAssistantChat(optimizerText: "")), // Seite wechseln zu AiAssistantIntro
+                    MaterialPageRoute(builder: (context) => const AiPlanner()),
                   ),
-                  child: const Text('KI-Assistent starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-                ),
+                  child: const Text('KI-Planer starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+                )
               ],
             ),
           ),

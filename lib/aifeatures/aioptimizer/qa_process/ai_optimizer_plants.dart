@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../model/ai_optimizer_storage.dart';
-import '../../../../util/scalesize.dart';
+import '../../../model/ai_optimizer_storage.dart';
+import '../../../util/scalesize.dart';
 import '../ai_optimizer_result.dart';
 
 class AiOptimizerPlants extends StatefulWidget {

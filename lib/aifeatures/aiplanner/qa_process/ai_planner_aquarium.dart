@@ -1,7 +1,7 @@
 import 'package:aquahelper/model/ai_planner_storage.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_guide.dart';
 import 'package:flutter/material.dart';
-import '../../../../util/scalesize.dart';
+import '../../../util/scalesize.dart';
+import '../../aioptimizer/ai_optimizer_guide.dart';
 import 'ai_planner_animals.dart';
 
 class AiPlannerAquarium extends StatefulWidget {

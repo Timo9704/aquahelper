@@ -1,18 +1,17 @@
-import 'package:aquahelper/screens/aifeatures/aioptimizer/qa_process/ai_optimizer_aquarium.dart';
 import 'package:flutter/material.dart';
+import '../../util/scalesize.dart';
+import 'ai_assistant_chat.dart';
 
-import '../../../model/ai_optimizer_storage.dart';
-import '../../../util/scalesize.dart';
-
-class AiOptimizerIntro extends StatefulWidget {
-  const AiOptimizerIntro({super.key});
+class AiAssistantIntro extends StatefulWidget {
+  const AiAssistantIntro({super.key});
 
   @override
-  State<AiOptimizerIntro> createState() => _AiOptimizerIntroState();
+  State<AiAssistantIntro> createState() => _AiAssistantIntroState();
 }
 
-class _AiOptimizerIntroState extends State<AiOptimizerIntro> {
+class _AiAssistantIntroState extends State<AiAssistantIntro> {
   double textScaleFactor = 0;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +22,7 @@ class _AiOptimizerIntroState extends State<AiOptimizerIntro> {
     textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("KI-Optimierer"),
+        title: const Text("KI-Assistent"),
         backgroundColor: Colors.lightGreen,
       ),
       body: ListView(
@@ -32,15 +31,15 @@ class _AiOptimizerIntroState extends State<AiOptimizerIntro> {
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: Column(
               children: [
-                Text("KI-Optimierer",
+                Text("KI-Assistent",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
-                        fontSize: 30,
+                        fontSize: 35,
                         color: Colors.black,
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 10),
                 Text(
-                    "Entdecke den KI-Optimierer – deinen intelligenten Helfer für ein gesundes und blühendes Aquarium. Unser fortschrittlicher KI-Optimierer analysiert Pflegeaufgaben, Wasserwerte und die technische Ausstattung deines Aquariums. Er gibt dir maßgeschneiderte Empfehlungen, um die Bedingungen in deinem Aquarium zu optimieren.",
+                    "Entdecke deinen digitalen Aquaristik-Experten! Unser KI-Assistent ist dein persönlicher Berater in der Welt der Aquarienpflege. Stellst du dich der Herausforderung von Fadenalgen? Fragst du dich, welche Pflanzen am besten zu deinem Wasserbiotop passen?",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
                         fontSize: 18,
@@ -53,7 +52,7 @@ class _AiOptimizerIntroState extends State<AiOptimizerIntro> {
                   ),
                 const SizedBox(height: 10),
                 Text(
-                    "Erhalte personalisierte Vorschläge für deine Aquarien! Egal ob es um die Verbesserung der Wasserqualität oder die Effizienz der Technik geht, der KI-Optimierer steht dir zur Seite, damit dein Aquarium nicht nur gut, sondern perfekt läuft.",
+                    "Kein Problem! Mit fundiertem Wissen und praktischen Tipps steht dir unser Assistent zur Seite, um all deine Fragen zu beantworten und dir zu helfen, dein Aquarium in ein blühendes Unterwasserparadies zu verwandeln. Egal ob Anfänger oder erfahrener Aquarianer, unser KI-Assistent ist immer bereit, dir mit Rat und Tat zur Seite zu stehen.",
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
                         fontSize: 18,
@@ -67,14 +66,12 @@ class _AiOptimizerIntroState extends State<AiOptimizerIntro> {
                       MaterialStateProperty.all<Color>(Colors.lightGreen),
                       minimumSize: MaterialStateProperty.all<Size>(const Size(250, 70)),
                   ),
-                  onPressed: () {
-                    AiOptimizerStorage aiOptimizerStorageObj = AiOptimizerStorage();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AiOptimizerAquarium(aiOptimizerObject: aiOptimizerStorageObj)));
-                  },
-                  child: const Text('KI-Optimierer starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-                )
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AiAssistantChat(optimizerText: "")), // Seite wechseln zu AiAssistantIntro
+                  ),
+                  child: const Text('KI-Assistent starten', style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+                ),
               ],
             ),
           ),

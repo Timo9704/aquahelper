@@ -1,7 +1,7 @@
-import 'package:aquahelper/screens/aifeatures/aiassistant/ai_assistant_chat.dart';
+import 'package:aquahelper/aifeatures/aiassistant/ai_assistant_chat.dart';
 import 'package:flutter/material.dart';
 import '../../../util/scalesize.dart';
-import 'ai_optimizer_guide.dart';
+import '../../../aifeatures/aioptimizer/ai_optimizer_guide.dart';
 
 class AiOptimizerResult extends StatefulWidget {
   final Map<String, dynamic> jsonData;

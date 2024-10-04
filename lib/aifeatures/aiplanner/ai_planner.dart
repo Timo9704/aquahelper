@@ -1,11 +1,11 @@
+import 'package:aquahelper/aifeatures/aiplanner/qa_process/ai_planner_aquarium.dart';
 import 'package:aquahelper/model/ai_planner_storage.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_guide.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/qa_process/ai_planner_animals.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/qa_process/ai_planner_aquarium.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/qa_process/ai_planner_plants.dart';
+import 'package:aquahelper/aifeatures/aiplanner/qa_process/ai_planner_animals.dart';
+import 'package:aquahelper/aifeatures/aiplanner/qa_process/ai_planner_plants.dart';
 import 'package:flutter/material.dart';
 
-import '../../../util/scalesize.dart';
+import '../../util/scalesize.dart';
+import '../aioptimizer/ai_optimizer_guide.dart';
 
 class AiPlanner extends StatefulWidget {
   const AiPlanner({super.key});

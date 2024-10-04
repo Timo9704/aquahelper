@@ -1,9 +1,9 @@
-import 'package:aquahelper/screens/aifeatures/aiplanner/ai_planner_guide.dart';
 import 'package:flutter/material.dart';
-import '../../../../model/ai_optimizer_storage.dart';
-import '../../../../model/aquarium.dart';
-import '../../../../util/datastore.dart';
-import '../../../../util/scalesize.dart';
+import '../../../model/ai_optimizer_storage.dart';
+import '../../../model/aquarium.dart';
+import '../../../util/datastore.dart';
+import '../../../util/scalesize.dart';
+import '../../aiplanner/ai_planner_guide.dart';
 import 'ai_optimizer_animals.dart';
 
 class AiOptimizerAquarium extends StatefulWidget {

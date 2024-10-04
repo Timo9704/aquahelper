@@ -1,13 +1,14 @@
 import 'dart:developer';
 
-import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_aquarium_widget.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_fish_widget.dart';
-import 'package:aquahelper/screens/aifeatures/aiplanner/result_widgets/ai_planner_result_plant_widget.dart';
+import 'package:aquahelper/aifeatures/aiplanner/result_widgets/ai_planner_result_aquarium_widget.dart';
+import 'package:aquahelper/aifeatures/aiplanner/result_widgets/ai_planner_result_fish_widget.dart';
+import 'package:aquahelper/aifeatures/aiplanner/result_widgets/ai_planner_result_plant_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'ai_planner_guide.dart';
+import '../aioptimizer/ai_optimizer_guide.dart';
+
 
 class AiPlannerResult extends StatefulWidget {
   final Map<String, dynamic> jsonData;
