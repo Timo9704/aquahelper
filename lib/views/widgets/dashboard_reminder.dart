@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '../../screens/aquarium/aquarium_overview.dart';
 import '../../util/scalesize.dart';
-import '../../viewmodels/widgets/dashboard_reminder_viewmodel.dart';
+import '../../viewmodels/dashboard_viewmodel.dart';
+import '../aquarium/aquarium_overview.dart';
 
 class DashboardReminder extends StatefulWidget {
   const DashboardReminder({super.key});
@@ -19,15 +19,13 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
   @override
   void initState() {
     super.initState();
-    vsync = this;
+    Provider.of<DashboardViewModel>(context, listen: false).setTickerProvider(this);
   }
 
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    return ChangeNotifierProvider(
-        create: (context) => DashboardReminderViewModel(vsync),
-        child: Consumer<DashboardReminderViewModel>(
+    return Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) => Expanded(
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -134,6 +132,6 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
           ],
         ),
       ),
-    ),),);
+    ),);
   }
 }

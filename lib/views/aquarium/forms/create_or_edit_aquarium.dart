@@ -1,0 +1,540 @@
+import 'dart:async';
+
+import 'package:aquahelper/util/image_selector.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+import 'package:aquahelper/main.dart';
+import 'package:aquahelper/model/aquarium.dart';
+
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:provider/provider.dart';
+
+import '../../../util/datastore.dart';
+import '../../../viewmodels/aquarium/forms/create_or_edit_aquarium_viewmodel.dart';
+
+class CreateOrEditAquarium extends StatelessWidget {
+  final Aquarium aquarium;
+
+  const CreateOrEditAquarium({super.key, required this.aquarium});
+
+  void createAquariumFailure(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Fehlerhafte Eingabe"),
+          content: const SizedBox(
+            height: 60,
+            child: Column(
+              children: [
+                Text(
+                    "Kontrolliere bitte deine Eingaben! Zahlenwerte sind immer ohne Komma und Leerzeichen einzugeben."),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Schließen"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
+  void deleteAquarium(
+      BuildContext context, CreateOrEditAquariumViewModel viewModel) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content: const Text("Willst du dieses Aquarium wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.grey)),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Nein"),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  onPressed: () async {
+                    viewModel.deleteAndCancelReminder(aquarium);
+                    Datastore.db.deleteAquarium(aquarium.aquariumId);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AquaHelper()),
+                        (Route<dynamic> route) => false);
+                  },
+                  child: const Text("Ja"),
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
+    return ChangeNotifierProvider(
+      create: (context) => CreateOrEditAquariumViewModel(aquarium),
+      child: Consumer<CreateOrEditAquariumViewModel>(
+        builder: (context, viewModel, child) => Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            title: viewModel.createMode
+                ? const Text('Neues Aquarium')
+                : const Text('Aquarium bearbeiten'),
+            backgroundColor: Colors.lightGreen,
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(0),
+              child: Form(
+                key: viewModel.formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        String futurePath =
+                            await ImageSelector().getImage(context);
+                        viewModel.imagePath = futurePath;
+                      },
+                      child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                          ),
+                          child: viewModel.imagePath ==
+                                  'assets/images/aquarium.jpg'
+                              ? Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Image.asset(viewModel.imagePath,
+                                        fit: BoxFit.fill),
+                                    const Icon(Icons.camera_alt,
+                                        size: 100, color: Colors.white),
+                                  ],
+                                )
+                              : Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    viewModel.imagePath.startsWith('https://')
+                                        ? CachedNetworkImage(
+                                            imageUrl: viewModel.imagePath,
+                                            fit: BoxFit.fill,
+                                            height: 250)
+                                        : ImageSelector().localImageCheck(
+                                            viewModel.imagePath),
+                                    const Icon(Icons.camera_alt,
+                                        size: 100, color: Colors.white),
+                                  ],
+                                )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Art des Aquariums",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          value: 0,
+                                          activeColor: Colors.lightGreen,
+                                          groupValue: viewModel.waterType,
+                                          onChanged: (int? value) {
+                                            viewModel.waterType = value!;
+                                          },
+                                        ),
+                                        Text(
+                                          'Süßwasser',
+                                          textScaler: TextScaler.linear(
+                                              textScaleFactor),
+                                          style: const TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          value: 1,
+                                          activeColor: Colors.lightGreen,
+                                          groupValue: viewModel.waterType,
+                                          onChanged: (int? value) {
+                                            viewModel.waterType = value!;
+                                          },
+                                        ),
+                                        Text(
+                                          'Salzwasser',
+                                          textScaler: TextScaler.linear(
+                                              textScaleFactor),
+                                          style: const TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Wie heißt das Aquarium?",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    )),
+                                TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  textAlign: TextAlign.center,
+                                  controller: viewModel.nameController,
+                                  cursorColor: Colors.black,
+                                  style: const TextStyle(fontSize: 20),
+                                  decoration: const InputDecoration(
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    fillColor: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Wie viel Liter hat das Aquarium?",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    )),
+                                TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  textAlign: TextAlign.center,
+                                  controller: viewModel.literController,
+                                  cursorColor: Colors.black,
+                                  style: const TextStyle(fontSize: 20),
+                                  decoration: const InputDecoration(
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    fillColor: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Hat das Aquarium eine CO2-Versorgung?",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          value: 0,
+                                          activeColor: Colors.lightGreen,
+                                          groupValue: viewModel.co2Type,
+                                          onChanged: (int? value) {
+                                            viewModel.co2Type = value!;
+                                          },
+                                        ),
+                                        Text(
+                                          'nein',
+                                          textScaler: TextScaler.linear(
+                                              textScaleFactor),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          value: 1,
+                                          activeColor: Colors.lightGreen,
+                                          groupValue: viewModel.co2Type,
+                                          onChanged: (int? value) {
+                                            viewModel.co2Type = value!;
+                                          },
+                                        ),
+                                        Text(
+                                          'bio./chem.',
+                                          textScaler: TextScaler.linear(
+                                              textScaleFactor),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const Spacer(),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Radio<int>(
+                                          value: 2,
+                                          activeColor: Colors.lightGreen,
+                                          groupValue: viewModel.co2Type,
+                                          onChanged: (int? value) {
+                                            viewModel.co2Type = value!;
+                                          },
+                                        ),
+                                        Text(
+                                          'Druckgas',
+                                          textScaler: TextScaler.linear(
+                                              textScaleFactor),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Welche Maße hat das Aquarium?",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    )),
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Flexible(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        textAlign: TextAlign.center,
+                                        controller: viewModel.widthController,
+                                        cursorColor: Colors.black,
+                                        style: const TextStyle(fontSize: 20),
+                                        decoration: const InputDecoration(
+                                          floatingLabelStyle: TextStyle(
+                                              color: Colors.lightGreen),
+                                          labelText: "Länge",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white),
+                                          ),
+                                          fillColor: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Flexible(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        textAlign: TextAlign.center,
+                                        controller: viewModel.heightController,
+                                        cursorColor: Colors.black,
+                                        style: const TextStyle(fontSize: 20),
+                                        decoration: const InputDecoration(
+                                          floatingLabelStyle: TextStyle(
+                                              color: Colors.lightGreen),
+                                          labelText: "Tiefe",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white),
+                                          ),
+                                          fillColor: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Flexible(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        textAlignVertical:
+                                            TextAlignVertical.center,
+                                        textAlign: TextAlign.center,
+                                        controller: viewModel.depthController,
+                                        cursorColor: Colors.black,
+                                        style: const TextStyle(fontSize: 20),
+                                        decoration: const InputDecoration(
+                                          floatingLabelStyle: TextStyle(
+                                              color: Colors.lightGreen),
+                                          labelText: "Höhe",
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white),
+                                          ),
+                                          fillColor: Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              if (!viewModel.createMode)
+                                SizedBox(
+                                  width: 150,
+                                  child: ElevatedButton(
+                                    onPressed: () =>
+                                        deleteAquarium(context, viewModel),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.grey),
+                                    ),
+                                    child: const Text("Löschen"),
+                                  ),
+                                ),
+                              SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      try {
+                                        viewModel.syncValuesToObject();
+                                        if (viewModel.createMode) {
+                                          Datastore.db.insertAquarium(aquarium);
+                                        } else {
+                                          Datastore.db.updateAquarium(aquarium);
+                                        }
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const AquaHelper()));
+                                      } catch (e) {
+                                        createAquariumFailure(context);
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.lightGreen)),
+                                    child: const Text("Speichern")),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

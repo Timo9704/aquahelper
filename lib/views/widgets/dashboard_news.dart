@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../util/scalesize.dart';
-import '../../viewmodels/widgets/dashboard_news_viewmodel.dart';
-import '../items/newsitem.dart';
+import '../../viewmodels/dashboard_viewmodel.dart';
+import '../items/news_item.dart';
 
 class DashboardNews extends StatelessWidget {
   const DashboardNews({super.key});
@@ -11,9 +11,7 @@ class DashboardNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    return ChangeNotifierProvider(
-      create: (context) => DashboardNewsViewModel(),
-      child: Consumer<DashboardNewsViewModel>(
+    return Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) => Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Container(
@@ -50,7 +48,6 @@ class DashboardNews extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

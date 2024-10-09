@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../model/aquarium.dart';
-import '../../screens/aquarium/aquarium_overview.dart';
 import '../../util/scalesize.dart';
 import '../../viewmodels/items/aquarium_item_viewmodel.dart';
+import '../aquarium/aquarium_overview.dart';
 
 class AquariumItem extends StatelessWidget {
   final Aquarium aquarium;

@@ -1,3 +1,6 @@
+import '../util/datastore.dart';
+import 'aquarium.dart';
+
 class Measurement {
   String measurementId;
   String aquariumId;
@@ -216,5 +219,11 @@ class Measurement {
       default:
         return 0;
     }
+  }
+
+  Future<List<Measurement>> getMeasurementListByAquarium(Aquarium aquarium) async {
+    List<Measurement> dbMeasurements =
+      await Datastore.db.getMeasurementsForAquarium(aquarium);
+    return dbMeasurements.reversed.toList();
   }
 }

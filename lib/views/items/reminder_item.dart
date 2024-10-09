@@ -1,9 +1,9 @@
+import 'package:aquahelper/views/aquarium/forms/create_or_edit_reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/aquarium.dart';
 import '../../model/task.dart';
-import '../../screens/reminder.dart';
 import '../../viewmodels/items/reminder_item_viewmodel.dart';
 
 class ReminderItem extends StatelessWidget {
@@ -28,7 +28,7 @@ class ReminderItem extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
-                          Reminder(task: task, aquarium: aquarium)));
+                          CreateOrEditReminder(task: task, aquarium: aquarium)));
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

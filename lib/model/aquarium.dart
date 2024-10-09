@@ -12,6 +12,24 @@ class Aquarium {
   int runInStartDate;
   String imagePath;
 
+  List<Aquarium> aquariumList = [];
+
+  static final Aquarium aquarium = Aquarium._();
+  Aquarium._(
+      {this.aquariumId = '',
+        this.name = '',
+        this.liter = 0,
+        this.waterType = 0,
+        this.co2Type = 0,
+        this.width = 0,
+        this.height = 0,
+        this.depth = 0,
+        this.healthStatus = 0,
+        this.runInStatus = 0,
+        this.runInStartDate = 0,
+        this.imagePath = ''}
+      );
+
   Aquarium(
     this.aquariumId,
     this.name,

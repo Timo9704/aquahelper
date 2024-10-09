@@ -1,24 +1,24 @@
+import 'package:aquahelper/model/aquarium.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-import '../util/ad_helper.dart';
-import '../util/premium.dart';
+import '../../util/ad_helper.dart';
+import '../../util/premium.dart';
 
-class HomepageViewModel extends ChangeNotifier {
-  int _selectedPage = 0;
+class AquariumOverviewViewModel extends ChangeNotifier {
+  late Aquarium aquarium;
+  int selectedPage = 0;
   Premium premium = Premium();
   bool isPremium = false;
   BannerAd? anchoredAdaptiveAd;
   bool isLoaded = false;
 
-  int get selectedPage => _selectedPage;
-
-  HomepageViewModel(int width) {
+  AquariumOverviewViewModel(this.aquarium, int width) {
     loadAd(width);
   }
 
   void setSelectedPage(int index) {
-    _selectedPage = index;
+    selectedPage = index;
     notifyListeners();
   }
 
@@ -33,10 +33,10 @@ class HomepageViewModel extends ChangeNotifier {
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) async {
-            anchoredAdaptiveAd = ad as BannerAd;
-            isLoaded = true;
-            isPremium = await premium.isUserPremium();
-            notifyListeners();
+          anchoredAdaptiveAd = ad as BannerAd;
+          isLoaded = true;
+          isPremium = await premium.isUserPremium();
+          notifyListeners();
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
           ad.dispose();

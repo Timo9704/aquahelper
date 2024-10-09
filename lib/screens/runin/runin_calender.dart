@@ -8,7 +8,7 @@ import '../../model/aquarium.dart';
 import '../../util/datastore.dart';
 import '../../util/runin_calender.dart';
 import '../../util/scalesize.dart';
-import '../aquarium/aquarium_overview.dart';
+import '../../views/aquarium/aquarium_overview.dart';
 
 class RunInCalender extends StatefulWidget {
   final Aquarium aquarium;

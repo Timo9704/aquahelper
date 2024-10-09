@@ -1,9 +1,9 @@
+import 'package:aquahelper/views/aquarium/forms/create_or_edit_measurement.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/aquarium.dart';
 import '../../model/measurement.dart';
-import 'package:aquahelper/screens/general/measurement_form.dart';
 
 class MeasurementItem extends StatelessWidget {
   final Measurement measurement;
@@ -27,7 +27,7 @@ class MeasurementItem extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => MeasurementForm(
+              builder: (context) => CreateOrEditMeasurement(
                   measurementId: measurement.measurementId,
                   aquarium: aquarium)
           ),

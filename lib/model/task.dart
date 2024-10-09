@@ -1,4 +1,19 @@
+import '../util/datastore.dart';
+import 'aquarium.dart';
+
 class Task {
+  static final Task task = Task._();
+  Task._(
+      {this.taskId = '',
+      this.aquariumId = '',
+      this.title = '',
+      this.description = '',
+      this.taskDate = 0,
+      this.scheduled = '',
+      this.scheduledDays = '',
+      this.scheduledTime = ''}
+      );
+
   String taskId;
   String aquariumId;
   String title;
@@ -7,6 +22,7 @@ class Task {
   String scheduled;
   String scheduledDays;
   String scheduledTime;
+  List<Task> taskList  = [];
 
   Task(
       this.taskId,
@@ -55,5 +71,10 @@ class Task {
       'scheduledDays': scheduledDays,
       'scheduledTime': scheduledTime
     };
+  }
+
+  Future<List<Task>> getTaskListByAquarium(Aquarium aquarium) async {
+    List<Task> list = await Datastore.db.getTasksForAquarium(aquarium);
+    return list;
   }
 }

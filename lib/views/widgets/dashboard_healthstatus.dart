@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/aquarium.dart';
 import '../../util/scalesize.dart';
-import '../../viewmodels/widgets/dashboard_healthstatus_viewmodel.dart';
+import '../../viewmodels/dashboard_viewmodel.dart';
 
 class DashboardHealthStatus extends StatelessWidget {
   const DashboardHealthStatus({super.key});
@@ -10,9 +10,7 @@ class DashboardHealthStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    return ChangeNotifierProvider(
-      create: (context) => DashboardHealthStatusViewModel(),
-      child: Consumer<DashboardHealthStatusViewModel>(
+    return Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) => Padding(
           padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: Container(
@@ -51,8 +49,7 @@ class DashboardHealthStatus extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget buildAquariumItem(Aquarium aquarium) {

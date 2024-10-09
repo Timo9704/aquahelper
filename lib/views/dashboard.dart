@@ -15,10 +15,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    final height = MediaQuery.of(context).size.height.toInt();
-    return ChangeNotifierProvider(
-        create: (context) => DashboardViewModel(height),
-        child: Consumer<DashboardViewModel>(
+    return Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) => Stack(
       children: [
         Column(
@@ -103,6 +100,6 @@ class Dashboard extends StatelessWidget {
                 ]),
           ),
       ],
-    ),),);
+    ),);
   }
 }
