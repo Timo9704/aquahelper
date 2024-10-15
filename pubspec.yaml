@@ -26,7 +26,7 @@ dependencies:
   fl_chart: 0.69.0
   flutter_launcher_icons: ^0.14.0
   http: ^1.0.0
-  awesome_notifications: ^0.9.3
+  awesome_notifications: ^0.10.0
   flutter_datetime_picker_plus: ^2.2.0
   url_launcher: ^6.2.6
   package_info_plus: ^8.0.2
