@@ -7,6 +7,7 @@ import 'package:aquahelper/views/tools/fertilizer/fertilizer_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../model/measurement.dart';
 import '../../util/datastore.dart';
 
 class FertilizerCalculatorViewModel extends ChangeNotifier {
@@ -18,6 +19,13 @@ class FertilizerCalculatorViewModel extends ChangeNotifier {
   double textScaleFactor = 0;
   Aquarium? selectedAquarium;
   List<Aquarium> aquariumNames = [];
+
+  List<Measurement> measurementList = [];
+  Measurement measurementIs1 = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0, 0);
+  Measurement measurementIs2 = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0, 0);
+  Measurement consumption = Measurement("X", "X", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "X", 0, 0, 0);
+  int measurementInterval = 0;
+
   final pageOptions = [
     const FertilizerConverter(),
     const FertilizerConsumption(),
@@ -95,6 +103,48 @@ class FertilizerCalculatorViewModel extends ChangeNotifier {
       body: jsonEncode(<String, Object>{
         'fertilizerInUse': [fertilizerInUse.first],
         'liter': liter
+      }),
+    );
+  }
+
+  loadSortedMeasurements(Aquarium aquarium) async {
+    List<Measurement> dbMeasurements = await Datastore.db.getSortedMeasurmentsList(aquarium);
+      measurementIs1 = dbMeasurements.elementAt(0);
+      measurementIs2 = dbMeasurements.elementAt(1);
+      measurementInterval = dbMeasurements.elementAt(1).measurementDate - dbMeasurements.elementAt(0).measurementDate;
+      notifyListeners();
+  }
+
+  Future<void> processConsumptionResponse() async {
+    await loadSortedMeasurements(selectedAquarium!);
+    final httpResponse = await sendConsumptionRequest(measurementIs1, measurementIs2);
+
+    if (httpResponse.statusCode == 200) {
+      Map<String, dynamic> response = json.decode(httpResponse.body);
+        consumption.nitrate = response['nitrate'];
+        consumption.phosphate = response['phosphate'];
+        consumption.potassium = response['potassium'];
+        consumption.iron = response['iron'];
+    }
+    notifyListeners();
+  }
+
+  Future<http.Response> sendConsumptionRequest(Measurement measurementIs1, Measurement measurementIs2) {
+    return http.post(
+      Uri.parse('https://q6h486sln5.execute-api.eu-west-2.amazonaws.com/v2/consumption'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, Object>{
+        "nitrateIs1": measurementIs1.nitrate,
+        "phosphateIs1": measurementIs1.phosphate,
+        "potassiumIs1": measurementIs1.potassium,
+        "ironIs1": measurementIs1.iron,
+        "nitrateIs2": measurementIs2.nitrate,
+        "phosphateIs2": measurementIs2.phosphate,
+        "potassiumIs2": measurementIs2.potassium,
+        "ironIs2": measurementIs2.iron,
+        "days":7
       }),
     );
   }
