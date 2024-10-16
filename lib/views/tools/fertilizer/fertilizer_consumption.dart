@@ -161,7 +161,7 @@ class FertilizerConsumption extends StatelessWidget {
                         backgroundColor:
                             MaterialStateProperty.all(Colors.lightGreen),
                       ),
-                      onPressed: () => {viewModel.processResponse()},
+                      onPressed: () => {viewModel.processConsumptionResponse()},
                       child: const Text("Berechnen")),
                 ),
               ]),

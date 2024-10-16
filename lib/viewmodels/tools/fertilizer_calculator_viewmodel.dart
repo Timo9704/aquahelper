@@ -60,7 +60,6 @@ class FertilizerCalculatorViewModel extends ChangeNotifier {
   Future<void> processResponse() async {
     int liter = 0;
     List<int> fertilizerIds = [];
-    print(selectedAquarium?.liter);
     if(selectedAquarium?.liter != null){
       liter = selectedAquarium!.liter;
       fertilizerIds.add((fertilizer.firstWhere((element) => element.name == selectedFertilizer)).id);
