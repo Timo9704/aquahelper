@@ -35,7 +35,7 @@ class GroundCalculator extends StatelessWidget {
             ],
             currentIndex: viewModel.selectedPage,
             onTap: (index) {
-              viewModel.selectedPage = index;
+              viewModel.setSelectedPage(index);
             },
           ),
           body: viewModel.pageOptions[viewModel.selectedPage],

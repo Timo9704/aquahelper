@@ -56,14 +56,17 @@ class ToolsStartPageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> isUserPremium() async {
+  void isUserPremium() async {
     try {
       CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      return (customerInfo.entitlements.all["Premium"] != null &&
-          customerInfo.entitlements.all["Premium"]!.isActive == true);
+      if(customerInfo.entitlements.all["Premium"] != null &&
+          customerInfo.entitlements.all["Premium"]!.isActive == true){
+        isPremiumUser = true;
+      }
     } catch (e) {
-      return false;
+      isPremiumUser = false;
     }
+    notifyListeners();
   }
 
   Future<void> showPaywall(BuildContext context) async {

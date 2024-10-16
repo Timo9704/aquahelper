@@ -46,6 +46,11 @@ class GroundCalculatorViewModel extends ChangeNotifier {
     });
   }
 
+  setSelectedPage(int value) {
+    selectedPage = value;
+    notifyListeners();
+  }
+
   void loadAquariums() async {
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     aquariumNames = dbAquariums;

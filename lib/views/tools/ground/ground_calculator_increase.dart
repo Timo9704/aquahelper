@@ -240,7 +240,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Du benötigst ungefähr: $viewModel.ergebnis",
+                        Text("Du benötigst ungefähr: ${viewModel.ergebnis}",
                             style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
