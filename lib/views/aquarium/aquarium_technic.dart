@@ -9,6 +9,7 @@ import 'forms/create_or_edit_technic.dart';
 
 class AquariumTechnic extends StatelessWidget {
   final Aquarium aquarium;
+
   const AquariumTechnic({super.key, required this.aquarium});
 
   @override
@@ -16,31 +17,38 @@ class AquariumTechnic extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AquariumTechnicViewModel(aquarium),
       child: Consumer<AquariumTechnicViewModel>(
-        builder: (context, viewModel, child) => Column(children: <Widget>[
-          FilterItem(filter: viewModel.filter!),
-          LightingItem(lighting: viewModel.lighting!),
-          HeaterItem(heater: viewModel.heater!),
-          const SizedBox(height: 10),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateOrEditComponent(
-                        filter: viewModel.filter!,
-                        lighting: viewModel.lighting!,
-                        heater: viewModel.heater!,
-                        aquarium: viewModel.aquarium),
-                  ),
-                );
-              },
-              child: const Text('Komponenten bearbeiten')),
-          const SizedBox(height: 10),
-        ]),
-      ),
+          builder: (context, viewModel, child) {
+        if (viewModel.filter == null ||
+            viewModel.lighting == null ||
+            viewModel.heater == null) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return Column(children: <Widget>[
+            FilterItem(filter: viewModel.filter!),
+            LightingItem(lighting: viewModel.lighting!),
+            HeaterItem(heater: viewModel.heater!),
+            const SizedBox(height: 10),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateOrEditComponent(
+                          filter: viewModel.filter!,
+                          lighting: viewModel.lighting!,
+                          heater: viewModel.heater!,
+                          aquarium: viewModel.aquarium),
+                    ),
+                  );
+                },
+                child: const Text('Komponenten bearbeiten')),
+            const SizedBox(height: 10),
+          ]);
+        }
+      }),
     );
   }
 }

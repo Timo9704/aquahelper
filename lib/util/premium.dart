@@ -1,10 +1,9 @@
+import 'package:aquahelper/views/login/login.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
-
-import '../screens/usermanagement/signin.dart';
 
 class Premium{
 
@@ -68,7 +67,7 @@ class Premium{
                 onPressed: () => {
                   Navigator.pop(context),
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const SignIn())),
+                      MaterialPageRoute(builder: (context) => const LogIn())),
                 },
               ),
             ],

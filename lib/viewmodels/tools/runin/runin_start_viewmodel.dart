@@ -1,3 +1,4 @@
+import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/views/login/login.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,12 +6,44 @@ import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
-class ToolsStartPageViewModel extends ChangeNotifier {
+import '../../../util/datastore.dart';
+
+class RunInStartViewModel extends ChangeNotifier {
   bool isPremiumUser = false;
   User? user = FirebaseAuth.instance.currentUser;
+  Aquarium aquarium;
+  static const String startText =
+      "Super, lass uns in den kommenden 6 Wochen dein Aquarium einfahren! \nDu bekommst von uns regelmäßig Tipps und Tricks, wie du dein Aquarium optimal pflegen kannst.";
 
-  ToolsStartPageViewModel() {
-    isUserPremium();
+  RunInStartViewModel(this.aquarium) {
+    isUserPremium().then((result) {
+      isPremiumUser = result;
+    });
+  }
+
+  Future<bool> isUserPremium() async {
+    try {
+      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+      return (customerInfo.entitlements.all["Premium"] != null &&
+          customerInfo.entitlements.all["Premium"]!.isActive == true);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> showPaywall(BuildContext context) async {
+    await FirebaseAnalytics.instance
+        .logEvent(name: 'openPaywall', parameters: null);
+    if (user == null) {
+      showLoginRequest(context);
+    } else {
+      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded(
+          "Premium",
+          displayCloseButton: true);
+      if (result == PaywallResult.purchased) {
+          isPremiumUser = true;
+      }
+    }
   }
 
   void showLoginRequest(BuildContext context) {
@@ -56,41 +89,9 @@ class ToolsStartPageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> isUserPremium() async {
-    try {
-      CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-      return (customerInfo.entitlements.all["Premium"] != null &&
-          customerInfo.entitlements.all["Premium"]!.isActive == true);
-    } catch (e) {
-      return false;
-    }
+  void setRunInData() {
+    aquarium.runInStatus = 1;
+    aquarium.runInStartDate = DateTime.now().millisecondsSinceEpoch;
+    Datastore.db.updateAquarium(aquarium);
   }
-
-  Future<void> showPaywall(BuildContext context) async {
-    await FirebaseAnalytics.instance
-        .logEvent(name: 'openPaywall', parameters: null);
-    if (user == null) {
-      showLoginRequest(context);
-    } else {
-      PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded(
-          "Premium",
-          displayCloseButton: true);
-      if (result == PaywallResult.purchased) {
-          isPremiumUser = true;
-          notifyListeners();
-        }
-      }
-    }
-
-  Future<void> logEvent(String logFunction) async {
-    await FirebaseAnalytics.instance
-        .logEvent(name: logFunction, parameters: null);
-  }
-  }
-
-
-
-
-
-
-
+}

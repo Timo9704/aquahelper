@@ -1,12 +1,13 @@
+import 'package:aquahelper/main.dart';
+import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:aquahelper/model/task.dart' as model;
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/aquarium.dart';
-import '../../../model/user.dart';
 import '../../../util/datastore.dart';
-
 
 class CreateOrEditAquariumViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -21,9 +22,9 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
   bool createMode = true;
   String imagePath = "assets/images/aquarium.jpg";
   Aquarium aquarium;
-  User user = Datastore.db.user as User;
+  DashboardViewModel dashboardViewModel;
 
-  CreateOrEditAquariumViewModel(this.aquarium) {
+  CreateOrEditAquariumViewModel(this.aquarium, this.dashboardViewModel) {
     if (aquarium.aquariumId != "") {
       aquarium = aquarium!;
       imagePath = aquarium.imagePath;
@@ -38,22 +39,79 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
     }
   }
 
-  void syncValuesToObject() {
-    if (aquarium == null) {
-      String uuid = const Uuid().v4().toString();
+  void saveAquarium(BuildContext context) async {
+    try {
+      syncValuesToObject(context);
+
+      if (createMode) {
+        Datastore.db.insertAquarium(aquarium);
+      } else {
+        Datastore.db.updateAquarium(aquarium);
+      }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => const AquaHelper()));
+    } catch (e) {
+      createAquariumFailure(context);
+    }
+  }
+
+  void deleteAquarium(BuildContext context, CreateOrEditAquariumViewModel viewModel) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content: const Text("Willst du dieses Aquarium wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.grey)),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Nein"),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  onPressed: () async {
+                    viewModel.deleteAndCancelReminder(aquarium);
+                    Datastore.db.deleteAquarium(aquarium.aquariumId);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const AquaHelper()),
+                        (Route<dynamic> route) => false);
+                  },
+                  child: const Text("Ja"),
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
+  void syncValuesToObject(BuildContext context) {
+    if (aquarium.aquariumId == "") {
       aquarium = Aquarium(
-          uuid,
+          const Uuid().v4().toString(),
           nameController.text,
-          int.parse(
-              literController.text.isEmpty ? "0" : literController.text),
+          int.parse(literController.text.isEmpty ? "0" : literController.text),
           waterType,
           co2Type,
-          int.parse(
-              widthController.text.isEmpty ? "0" : widthController.text),
+          int.parse(widthController.text.isEmpty ? "0" : widthController.text),
           int.parse(
               heightController.text.isEmpty ? "0" : heightController.text),
-          int.parse(
-              depthController.text.isEmpty ? "0" : depthController.text),
+          int.parse(depthController.text.isEmpty ? "0" : depthController.text),
           int.parse("0"),
           int.parse("0"),
           int.parse("0"),
@@ -61,17 +119,19 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
     } else {
       aquarium.waterType = waterType;
       aquarium.name = nameController.text;
-      aquarium.liter = int.parse(
-          literController.text.isEmpty ? "0" : literController.text);
+      aquarium.liter =
+          int.parse(literController.text.isEmpty ? "0" : literController.text);
       aquarium.co2Type = co2Type;
-      aquarium.width = int.parse(
-          widthController.text.isEmpty ? "0" : widthController.text);
+      aquarium.width =
+          int.parse(widthController.text.isEmpty ? "0" : widthController.text);
       aquarium.height = int.parse(
           heightController.text.isEmpty ? "0" : heightController.text);
-      aquarium.depth = int.parse(
-          depthController.text.isEmpty ? "0" : depthController.text);
+      aquarium.depth =
+          int.parse(depthController.text.isEmpty ? "0" : depthController.text);
       aquarium.imagePath = imagePath;
+      print("Updated Aquarium: ${aquarium.toMap().toString()}");
     }
+    dashboardViewModel.refresh();
   }
 
   Future<void> deleteAndCancelReminder(Aquarium aquarium) async {
@@ -109,8 +169,38 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
     String trimmedStr = str.substring(1, str.length - 1);
     List<String> strList = trimmedStr.split(', ');
     List<bool> boolList =
-    strList.map((s) => s.toLowerCase() == 'true').toList();
+        strList.map((s) => s.toLowerCase() == 'true').toList();
 
     return boolList;
+  }
+
+  void createAquariumFailure(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Fehlerhafte Eingabe"),
+          content: const SizedBox(
+            height: 60,
+            child: Column(
+              children: [
+                Text(
+                    "Kontrolliere bitte deine Eingaben! Zahlenwerte sind immer ohne Komma und Leerzeichen einzugeben."),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.grey)),
+              child: const Text("Schließen"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
   }
 }

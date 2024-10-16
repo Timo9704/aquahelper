@@ -1,5 +1,4 @@
-import 'package:aquahelper/model/user_settings.dart';
-import 'package:aquahelper/screens/usermanagement/signin.dart';
+import 'package:aquahelper/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -141,7 +140,7 @@ class UserSettings extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    const SignIn()))
+                                    const LogIn()))
                       },
                       child: const Text(
                         'Bei AquaHelper anmelden',

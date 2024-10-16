@@ -12,7 +12,7 @@ class DashboardReminder extends StatefulWidget {
   DashboardReminderState createState() => DashboardReminderState();
 }
 
-class DashboardReminderState extends State<DashboardReminder> with SingleTickerProviderStateMixin {
+class DashboardReminderState extends State<DashboardReminder> with TickerProviderStateMixin {
 
   late TickerProvider vsync;
 

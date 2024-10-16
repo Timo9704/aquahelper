@@ -6,4 +6,6 @@ class User{
   set isPremiumUser(bool value) {
     _isPremiumUser = value;
   }
+
+  
 }

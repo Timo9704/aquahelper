@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aquahelper/util/image_selector.dart';
+import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,85 +21,13 @@ class CreateOrEditAquarium extends StatelessWidget {
 
   const CreateOrEditAquarium({super.key, required this.aquarium});
 
-  void createAquariumFailure(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Fehlerhafte Eingabe"),
-          content: const SizedBox(
-            height: 60,
-            child: Column(
-              children: [
-                Text(
-                    "Kontrolliere bitte deine Eingaben! Zahlenwerte sind immer ohne Komma und Leerzeichen einzugeben."),
-              ],
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
-              child: const Text("Schließen"),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-          elevation: 0,
-        );
-      },
-    );
-  }
-
-  void deleteAquarium(
-      BuildContext context, CreateOrEditAquariumViewModel viewModel) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Warnung"),
-          content: const Text("Willst du dieses Aquarium wirklich löschen?"),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.grey)),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Nein"),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
-                  onPressed: () async {
-                    viewModel.deleteAndCancelReminder(aquarium);
-                    Datastore.db.deleteAquarium(aquarium.aquariumId);
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const AquaHelper()),
-                        (Route<dynamic> route) => false);
-                  },
-                  child: const Text("Ja"),
-                ),
-              ],
-            ),
-          ],
-          elevation: 0,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    DashboardViewModel dashboardViewModel =
+    Provider.of<DashboardViewModel>(context, listen: true);
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
-      create: (context) => CreateOrEditAquariumViewModel(aquarium),
+      create: (context) => CreateOrEditAquariumViewModel(aquarium, dashboardViewModel),
       child: Consumer<CreateOrEditAquariumViewModel>(
         builder: (context, viewModel, child) => Scaffold(
           resizeToAvoidBottomInset: true,
@@ -486,8 +415,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                 SizedBox(
                                   width: 150,
                                   child: ElevatedButton(
-                                    onPressed: () =>
-                                        deleteAquarium(context, viewModel),
+                                    onPressed: () => viewModel.deleteAquarium(context, viewModel),
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all<Color>(
@@ -499,24 +427,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                               SizedBox(
                                 width: 150,
                                 child: ElevatedButton(
-                                    onPressed: () {
-                                      try {
-                                        viewModel.syncValuesToObject();
-                                        if (viewModel.createMode) {
-                                          Datastore.db.insertAquarium(aquarium);
-                                        } else {
-                                          Datastore.db.updateAquarium(aquarium);
-                                        }
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const AquaHelper()));
-                                      } catch (e) {
-                                        createAquariumFailure(context);
-                                      }
-                                    },
+                                    onPressed: () => viewModel.saveAquarium(context),
                                     style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(

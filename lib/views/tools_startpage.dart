@@ -1,21 +1,14 @@
-import 'package:aquahelper/screens/runin/runin_intro.dart';
-import 'package:aquahelper/screens/usermanagement/signin.dart';
-import 'package:aquahelper/screens/tools/explorer/explorer.dart';
-import 'package:aquahelper/screens/tools/fertilizer_calculator.dart';
-import 'package:aquahelper/screens/tools/light_calculator.dart';
-import 'package:aquahelper/screens/tools/multitimer/multitimer.dart';
-import 'package:aquahelper/screens/tools/osmosis/osmosis_calculator.dart';
+import 'package:aquahelper/viewmodels/tools_startpage_viewmodel.dart';
 import 'package:aquahelper/views/items/icon_button.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:aquahelper/views/tools/explorer.dart';
+import 'package:aquahelper/views/tools/fertilizer_calculator.dart';
+import 'package:aquahelper/views/tools/ground_calculator.dart';
+import 'package:aquahelper/views/tools/light_calculator.dart';
+import 'package:aquahelper/views/tools/multitimer/multi_timer.dart';
+import 'package:aquahelper/views/tools/osmosis_calculator.dart';
+import 'package:aquahelper/views/tools/runin/runin_intro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
-
-import '../screens/tools/groundcalc/ground_calculator.dart';
-import '../viewmodels/tools_startpage_viewmodel.dart';
 
 class ToolsStartPage extends StatelessWidget {
   const ToolsStartPage({super.key});
@@ -43,7 +36,7 @@ class ToolsStartPage extends StatelessWidget {
                             viewModel.logEvent('openContentExplorer');
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => const Explorer()),
+                                  builder: (context) => Explorer()),
                             );
                           },
                         ),

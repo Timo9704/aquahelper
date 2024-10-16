@@ -225,4 +225,10 @@ class DashboardViewModel extends ChangeNotifier {
   setTickerProvider(TickerProvider vsync) {
     this.vsync = vsync;
   }
+
+  @override
+  void dispose() {
+    tabController?.dispose();
+    super.dispose();
+  }
 }
