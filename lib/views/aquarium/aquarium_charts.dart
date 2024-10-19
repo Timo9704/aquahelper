@@ -73,7 +73,7 @@ class AquariumCharts extends StatelessWidget {
                   ),
                   onChanged: (String? value) {
                       viewModel.dropdownInterval = value!;
-                      print("Interval: " + value);
+                      print("Interval: $value");
                       viewModel.getChartPoints();
                   },
                   items: viewModel.intervalMap.keys

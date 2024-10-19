@@ -55,7 +55,7 @@ class LogInViewModel extends ChangeNotifier {
           Datastore.db.user = user;
           if(context.mounted) {
             showMessageSnackbar("Erfolgreich mit Google angemeldet!", context);
-            signInSuccess(user!, context, dashboardViewModel);
+            signInSuccess(user, context, dashboardViewModel);
             checkForLocalData(context);
           }
         }

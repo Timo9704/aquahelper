@@ -36,7 +36,7 @@ class ToolsStartPage extends StatelessWidget {
                             viewModel.logEvent('openContentExplorer');
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => Explorer()),
+                                  builder: (context) => const Explorer()),
                             );
                           },
                         ),

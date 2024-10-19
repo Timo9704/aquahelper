@@ -1,6 +1,5 @@
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
-import 'package:aquahelper/views/aquarium/aquarium_animals_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';

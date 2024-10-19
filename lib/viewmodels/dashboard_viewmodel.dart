@@ -58,7 +58,7 @@ class DashboardViewModel extends ChangeNotifier {
 
   setUser(User? user) {
     loggedInOrLocal =
-    user != null ? "eingeloggt als: ${user!.email!}" : "lokaler Modus";
+    user != null ? "eingeloggt als: ${user.email!}" : "lokaler Modus";
     this.user = user;
   }
 

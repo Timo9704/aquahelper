@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aquahelper/model/animals.dart';
-import 'package:aquahelper/util/datastore.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../model/aquarium.dart';
 import '../../../viewmodels/aquarium/forms/create_or_edit_animal_viewmodel.dart';

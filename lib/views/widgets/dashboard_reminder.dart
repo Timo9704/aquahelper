@@ -44,7 +44,7 @@ class DashboardReminderState extends State<DashboardReminder> with TickerProvide
                   style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
                 )),
             const SizedBox(height: 5),
-            if(viewModel.tabController != null && viewModel.aquariums != null)
+            if(viewModel.tabController != null)
               Expanded(
                 child: TabBarView(
                   controller: viewModel.tabController,
@@ -84,7 +84,7 @@ class DashboardReminderState extends State<DashboardReminder> with TickerProvide
                               onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AquariumOverview(aquarium: viewModel.aquariums!.elementAt(index-1))),
+                                    builder: (context) => AquariumOverview(aquarium: viewModel.aquariums.elementAt(index-1))),
                               ),
                               child: Column(
                                 children: [
@@ -120,14 +120,14 @@ class DashboardReminderState extends State<DashboardReminder> with TickerProvide
                                         )
                                     ],
                                   ),
-                                  Text(viewModel.aquariums!.elementAt(index-1).name)
+                                  Text(viewModel.aquariums.elementAt(index-1).name)
                                 ],
                               )
                           ));}
                   }, growable: true),
                 ),
               ),
-            if(viewModel.tabController != null && viewModel.aquariums != null)
+            if(viewModel.tabController != null)
               TabPageSelector(indicatorSize: 7, controller: viewModel.tabController, color: Colors.grey, selectedColor: Colors.lightGreen),
           ],
         ),

@@ -3,16 +3,7 @@ import 'aquarium.dart';
 
 class Task {
   static final Task task = Task._();
-  Task._(
-      {this.taskId = '',
-      this.aquariumId = '',
-      this.title = '',
-      this.description = '',
-      this.taskDate = 0,
-      this.scheduled = '',
-      this.scheduledDays = '',
-      this.scheduledTime = ''}
-      );
+  Task._();
 
   String taskId;
   String aquariumId;

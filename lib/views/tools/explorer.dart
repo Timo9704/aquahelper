@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Explorer extends StatelessWidget {
+  const Explorer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

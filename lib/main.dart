@@ -4,7 +4,6 @@ import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
-import 'package:aquahelper/views/aquarium/aquarium_animals_overview.dart';
 import 'package:aquahelper/views/onboarding.dart';
 import 'package:aquahelper/util/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';

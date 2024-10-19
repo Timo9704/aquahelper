@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/aquarium.dart';
-import '../../model/task.dart';
 import '../../viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import '../../views/items/measurement_item.dart';
 import '../../views/items/reminder_item.dart';

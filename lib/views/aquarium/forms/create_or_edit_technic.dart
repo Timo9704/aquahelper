@@ -60,7 +60,7 @@ class _CreateOrEditComponentState extends State<CreateOrEditComponent> with Sing
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           FilterTab(),
           LightingTab(),
           HeaterTab(),

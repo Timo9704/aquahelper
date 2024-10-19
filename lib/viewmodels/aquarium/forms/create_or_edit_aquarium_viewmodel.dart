@@ -3,7 +3,6 @@ import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:aquahelper/model/task.dart' as model;
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/aquarium.dart';
@@ -26,7 +25,7 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
 
   CreateOrEditAquariumViewModel(this.aquarium, this.dashboardViewModel) {
     if (aquarium.aquariumId != "") {
-      aquarium = aquarium!;
+      aquarium = aquarium;
       imagePath = aquarium.imagePath;
       waterType = aquarium.waterType;
       co2Type = aquarium.co2Type;

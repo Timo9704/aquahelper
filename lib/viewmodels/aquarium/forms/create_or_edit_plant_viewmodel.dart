@@ -14,9 +14,7 @@ class CreateOrEditPlantViewModel extends ChangeNotifier {
   final latinNameController = TextEditingController();
   final amountController = TextEditingController();
 
-  CreateOrEditPlantViewModel(this.aquarium, this.position, this.count){
-
-  }
+  CreateOrEditPlantViewModel(this.aquarium, this.position, this.count);
 
   Widget localImageCheck(String imagePath) {
     try {

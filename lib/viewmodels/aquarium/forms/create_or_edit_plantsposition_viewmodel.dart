@@ -14,7 +14,7 @@ class CreateOrEditPlantsPositionViewModel extends ChangeNotifier {
   bool refreshed = false;
   Aquarium aquarium;
 
-  CreateOrEditPlantsPositionViewModel(this.aquarium){;
+  CreateOrEditPlantsPositionViewModel(this.aquarium){
     loadPlants();
   }
 

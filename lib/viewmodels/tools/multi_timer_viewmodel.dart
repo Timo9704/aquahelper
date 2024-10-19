@@ -1,20 +1,12 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:aquahelper/model/custom_timer.dart';
 import 'package:aquahelper/util/datastore.dart';
-import 'package:aquahelper/views/login/login.dart';
 import 'package:aquahelper/views/tools/multitimer/timer_widget.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
-import 'package:path/path.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../views/tools/multitimer/button_widget.dart';
 
 class MultiTimerViewModel extends ChangeNotifier {
   List<Widget> timerWidgetList = [];
