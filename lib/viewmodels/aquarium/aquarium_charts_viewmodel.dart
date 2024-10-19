@@ -83,14 +83,12 @@ class AquariumChartsViewModel extends ChangeNotifier {
 
   void getChartPoints() async {
     List<FlSpot> points = [];
-    print("Dropdown Water Value: " + dropdownWaterValue);
 
     List<Measurement> measurementsInInterval =
     await getMeasurementsByInterval();
 
     for (int i = 0; i < measurementsInInterval.length; i++) {
       double value = measurementsInInterval.elementAt(i).getValueByName(waterValueMap[dropdownWaterValue]!);
-      print("Value: " + value.toString());
       if(value == 9999.0) {
         //points.add(FlSpot.nullSpot);
       }else{

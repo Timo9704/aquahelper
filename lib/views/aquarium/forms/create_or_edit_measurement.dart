@@ -1,22 +1,15 @@
-import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/util/image_selector.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_measurement_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:provider/provider.dart';
 
-import '../../../util/image_selector.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_measurement_viewmodel.dart';
-import '../../../viewmodels/dashboard_viewmodel.dart';
-
 class CreateOrEditMeasurement extends StatelessWidget {
   final Aquarium aquarium;
   final String measurementId;
-
-  CreateOrEditMeasurement(
-      {super.key, required this.aquarium, required this.measurementId});
-
-  Map<String, TextEditingController> waterValuesMap = {
+  final Map<String, TextEditingController> waterValuesMap = {
     'temperature': TextEditingController(),
     'ph': TextEditingController(),
     'totalHardness': TextEditingController(),
@@ -32,10 +25,11 @@ class CreateOrEditMeasurement extends StatelessWidget {
     'ammonium': TextEditingController(),
   };
 
+  CreateOrEditMeasurement(
+      {super.key, required this.aquarium, required this.measurementId});
+
   @override
   Widget build(BuildContext context) {
-    DashboardViewModel dashboardViewModel =
-        Provider.of<DashboardViewModel>(context, listen: true);
     return ChangeNotifierProvider(
       create: (context) => CreateOrEditMeasurementViewModel(
           aquarium, measurementId, waterValuesMap),
@@ -211,7 +205,7 @@ class CreateOrEditMeasurement extends StatelessWidget {
                           ),
                         ),
                       ),
-                      onPressed: () => viewModel.presentDatePicker,
+                      onPressed: () => viewModel.presentDatePicker(context),
                       child: const Text(
                         'Datum und Uhrzeit wählen',
                         style: TextStyle(color: Colors.black),
@@ -263,7 +257,7 @@ class CreateOrEditMeasurement extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () => viewModel.onPressedSave(
-                                  context, dashboardViewModel),
+                                  context),
                               child: const Text("Speichern",
                                   style: TextStyle(color: Colors.black))),
                         ),

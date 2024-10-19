@@ -46,22 +46,21 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
   ];
 
   CreateOrEditReminderViewModel(this.aquarium, task) {
-    if (task == null) {
-
+    if (task != null) {
+      selectedSchedule = '0';
+      titleController.text = task.title;
+      descriptionController.text = task.description;
+      selectedDays = stringToBoolList(task.scheduledDays);
+      previousSelectedDays = stringToBoolList(task.scheduledDays);
+      selectedSchedule = task.scheduled;
+      task.scheduled == '1' ? repeat = true : repeat = false;
+      selectedTime = TimeOfDay(
+          hour: int.parse(task.scheduledTime.split(":")[0]),
+          minute: int.parse(task.scheduledTime.split(":")[1]));
+      selectedDate = DateTime.fromMillisecondsSinceEpoch(task.taskDate);
+      selectedDateInital = DateTime.fromMillisecondsSinceEpoch(task.taskDate);
+      createMode = false;
     }
-    selectedSchedule = '0';
-    titleController.text = task.title;
-    descriptionController.text = task.description;
-    selectedDays = stringToBoolList(task.scheduledDays);
-    previousSelectedDays = stringToBoolList(task.scheduledDays);
-    selectedSchedule = task.scheduled;
-    task.scheduled == '1' ? repeat = true : repeat = false;
-    selectedTime = TimeOfDay(
-        hour: int.parse(task.scheduledTime.split(":")[0]),
-        minute: int.parse(task.scheduledTime.split(":")[1]));
-    selectedDate = DateTime.fromMillisecondsSinceEpoch(task.taskDate);
-    selectedDateInital = DateTime.fromMillisecondsSinceEpoch(task.taskDate);
-    createMode = false;
   }
 
   List<bool> stringToBoolList(String str) {

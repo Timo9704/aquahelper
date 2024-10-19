@@ -1,5 +1,8 @@
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/aquarium_animals_overview.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/animals.dart';
@@ -7,25 +10,38 @@ import '../../../util/datastore.dart';
 
 class CreateOrEditAnimalViewModel extends ChangeNotifier {
   Aquarium aquarium;
-  Animals animal;
+  late Animals? animal;
   final formKey = GlobalKey<FormState>();
   final animalNameController = TextEditingController();
   final latinNameController = TextEditingController();
   final amountController = TextEditingController();
   String animalType = 'Fische';
 
-  CreateOrEditAnimalViewModel(this.aquarium, this.animal) {
-    animalNameController.text = animal!.name;
-    latinNameController.text = animal!.latName;
-    amountController.text = animal!.amount.toString();
-    animalType = animal!.type;
+  CreateOrEditAnimalViewModel(this.aquarium, animal){
+    if(animal != null) {
+      this.animal = animal;
+      animalNameController.text = animal.name;
+      latinNameController.text = animal.latName;
+      amountController.text = animal.amount.toString();
+      animalType = animal.type;
+      notifyListeners();
+    }else{
+      this.animal = Animals(
+        '',
+        '',
+        '',
+        '',
+        '',
+        0,
+      );
+    }
   }
 
   onPressedSave(BuildContext context){
     if (formKey.currentState!.validate()) {
-      if (animal != null) {
+      if (animal?.aquariumId != "") {
         var animal = Animals(
-          this.animal.animalId,
+          this.animal!.animalId,
           aquarium.aquariumId,
           animalNameController.text,
           latinNameController.text,
@@ -44,6 +60,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
         );
         Datastore.db.insertAnimal(aquarium, animal);
       }
+      Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
       Navigator.pop(context);
     }
   }
@@ -51,6 +68,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
   onPressedDelete(BuildContext context){
     if (animal != null) {
       Datastore.db.deleteAnimal(aquarium, animal!);
+      Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
       Navigator.pop(context);
     }
   }

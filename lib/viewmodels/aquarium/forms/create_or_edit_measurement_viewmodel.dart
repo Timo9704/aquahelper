@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -191,6 +192,8 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
                   onPressed: () {
                     Datastore.db.deleteMeasurement(aquarium.aquariumId, measurementId);
+                    Provider.of<DashboardViewModel>(context, listen: false).refresh();
+                    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -249,20 +252,25 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
         ));
   }
 
-  Future<void> onPressedSave(BuildContext context, DashboardViewModel dashboardViewModel) async {
+  Future<void> onPressedSave(BuildContext context) async {
     try {
       if (createMode) {
         await Datastore.db.insertMeasurement(getNewMeasurement());
       } else {
         await Datastore.db.updateMeasurement(getUpdatedMeasurement());
       }
-      Navigator.pop(context);
-      dashboardViewModel.refresh();
-      if (!isPremium) {
-        //viewModel.interstitialAd?.show();
+      if(context.mounted){
+        Provider.of<DashboardViewModel>(context, listen: false).refresh();
+        Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
+        Navigator.pop(context);
+        if (!isPremium) {
+          //viewModel.interstitialAd?.show();
+        }
       }
     } catch (e) {
-      createMeasurementFailure(context);
+      if(context.mounted){
+        createMeasurementFailure(context);
+      }
     }
   }
 }

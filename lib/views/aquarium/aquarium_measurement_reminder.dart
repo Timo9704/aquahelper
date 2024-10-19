@@ -17,9 +17,10 @@ class AquariumMeasurementReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AquariumMeasurementReminderViewModel(aquarium),
-      child: Consumer<AquariumMeasurementReminderViewModel>(
+    var viewModel = Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false);
+    viewModel.initAquarium(aquarium);
+    viewModel.refresh();
+    return Consumer<AquariumMeasurementReminderViewModel>(
         builder: (context, viewModel, child) => Column(
           children: <Widget>[
             Stack(
@@ -194,7 +195,6 @@ class AquariumMeasurementReminder extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

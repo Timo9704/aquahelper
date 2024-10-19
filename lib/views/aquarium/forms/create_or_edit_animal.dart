@@ -16,7 +16,7 @@ class CreateOrEditAnimal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => CreateOrEditAnimalViewModel(aquarium, animal!),
+      create: (context) => CreateOrEditAnimalViewModel(aquarium, animal),
       child: Consumer<CreateOrEditAnimalViewModel>(
         builder: (context, viewModel, child) => Scaffold(
           appBar: AppBar(

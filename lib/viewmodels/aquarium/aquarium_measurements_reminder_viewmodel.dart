@@ -1,18 +1,22 @@
 import 'dart:io';
 
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/model/task.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:flutter/material.dart';
-import '../../model/measurement.dart';
-import '../../model/task.dart';
-import '../../util/datastore.dart';
 
 class AquariumMeasurementReminderViewModel extends ChangeNotifier {
-  Aquarium aquarium;
+  late Aquarium aquarium;
   int taskAmount = 0;
   List<Measurement> measurementList = [];
   List<Task> taskList = [];
 
-  AquariumMeasurementReminderViewModel(this.aquarium) {
+  void initAquarium(Aquarium initAquarium) {
+    aquarium = initAquarium;
+  }
+
+  void refresh() {
     loadTasks();
     loadMeasurements();
   }

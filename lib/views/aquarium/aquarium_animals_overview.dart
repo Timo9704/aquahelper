@@ -8,7 +8,6 @@ import '../../model/aquarium.dart';
 import '../../viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'forms/create_or_edit_animal.dart';
 
-
 class AquariumAnimalsOverview extends StatelessWidget {
   final Aquarium aquarium;
 
@@ -16,26 +15,30 @@ class AquariumAnimalsOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => AquariumAnimalsOverviewViewModel(aquarium),
-        child: Consumer<AquariumAnimalsOverviewViewModel>(
-        builder: (context, viewModel, child) => Padding(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          buildSection('Fische', viewModel.fishes, context, viewModel),
-          const SizedBox(height: 5),
-          buildSection('Garnelen', viewModel.shrimps, context, viewModel),
-          const SizedBox(height: 5),
-          buildSection('Schnecken', viewModel.snails, context, viewModel),
-          const SizedBox(height: 5),
-        ],
+    var viewModel =
+        Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false);
+    viewModel.initAnimalsOverview(aquarium);
+    viewModel.refresh();
+    return Consumer<AquariumAnimalsOverviewViewModel>(
+      builder: (context, viewModel, child) => Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            buildSection('Fische', viewModel.fishes, context, viewModel),
+            const SizedBox(height: 5),
+            buildSection('Garnelen', viewModel.shrimps, context, viewModel),
+            const SizedBox(height: 5),
+            buildSection('Schnecken', viewModel.snails, context, viewModel),
+            const SizedBox(height: 5),
+          ],
+        ),
       ),
-    ),),);
+    );
   }
 
-  Widget buildSection(String title, List<Animals> animals, BuildContext context, AquariumAnimalsOverviewViewModel viewModel) {
+  Widget buildSection(String title, List<Animals> animals, BuildContext context,
+      AquariumAnimalsOverviewViewModel viewModel) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return Flexible(
       fit: FlexFit.tight,
@@ -50,23 +53,13 @@ class AquariumAnimalsOverview extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    textScaler:
-                    TextScaler.linear(textScaleFactor),
+                    textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 21, fontWeight: FontWeight.bold),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.add, color: Colors.lightGreen),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CreateOrEditAnimal(aquarium: viewModel.aquarium)),
-                      ).then((value) => viewModel.loadAnimals());
-                    },
-                  ),
+                      icon: const Icon(Icons.add, color: Colors.lightGreen),
+                      onPressed: () => viewModel.onPressedAdd(context)),
                 ],
               ),
               Expanded(
@@ -74,7 +67,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   child: ConstrainedBox(
                     constraints:
-                    const BoxConstraints(minWidth: double.infinity),
+                        const BoxConstraints(minWidth: double.infinity),
                     child: DataTable(
                       headingRowHeight: 25,
                       columnSpacing: 10,
@@ -83,87 +76,95 @@ class AquariumAnimalsOverview extends StatelessWidget {
                         DataColumn(
                           label: Text(
                             'Art',
-                            textScaler:
-                            TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(
+                                fontStyle: FontStyle.italic, fontSize: 18),
                           ),
                         ),
                         DataColumn(
                           label: Text(
                             'lat. Name',
-                            textScaler:
-                            TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(
+                                fontStyle: FontStyle.italic, fontSize: 18),
                           ),
                         ),
                         DataColumn(
                           label: Text(
                             'Anzahl',
-                            textScaler:
-                            TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(
+                                fontStyle: FontStyle.italic, fontSize: 18),
                           ),
                         ),
                       ],
                       rows: animals
                           .map((animal) => DataRow(
-                        cells: <DataCell>[
-                          DataCell(
-                            Text(animal.name,
-                              textScaler:
-                              TextScaler.linear(textScaleFactor),
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CreateOrEditAnimal(
-                                            aquarium: viewModel.aquarium,
-                                            animal: animal)),
-                              ).then((value) => viewModel.loadAnimals());
-                            },
-                          ),
-                          DataCell(
-                            Text(animal.latName,
-                              textScaler:
-                              TextScaler.linear(textScaleFactor),
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CreateOrEditAnimal(
-                                            aquarium: viewModel.aquarium,
-                                            animal: animal)),
-                              ).then((value) => viewModel.loadAnimals());
-                            },
-                          ),
-                          DataCell(
-                            Text(animal.amount.toString(),
-                              textScaler:
-                              TextScaler.linear(textScaleFactor),
-                              style: const TextStyle(fontSize: 16),),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        CreateOrEditAnimal(
-                                            aquarium: viewModel.aquarium,
-                                            animal: animal)),
-                              ).then((value) => viewModel.loadAnimals());
-                            },
-                          ),
-                        ],
-                      ))
+                                cells: <DataCell>[
+                                  DataCell(
+                                    Text(
+                                      animal.name,
+                                      textScaler:
+                                          TextScaler.linear(textScaleFactor),
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateOrEditAnimal(
+                                                  aquarium: viewModel.aquarium,
+                                                  animal: animal),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      animal.latName,
+                                      textScaler:
+                                          TextScaler.linear(textScaleFactor),
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CreateOrEditAnimal(
+                                                    aquarium:
+                                                        viewModel.aquarium,
+                                                    animal: animal)),
+                                      ).then(
+                                          (value) => viewModel.loadAnimals());
+                                    },
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      animal.amount.toString(),
+                                      textScaler:
+                                          TextScaler.linear(textScaleFactor),
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CreateOrEditAnimal(
+                                                    aquarium:
+                                                        viewModel.aquarium,
+                                                    animal: animal)),
+                                      ).then(
+                                          (value) => viewModel.loadAnimals());
+                                    },
+                                  ),
+                                ],
+                              ))
                           .toList(),
                     ),
                   ),
-
                 ),
               )
             ],
