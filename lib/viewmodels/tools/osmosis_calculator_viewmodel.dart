@@ -42,9 +42,15 @@ class OsmosisCalculatorViewModel extends ChangeNotifier {
     });
   }
 
+  setSelectedPage(int value) {
+    selectedPage = value;
+    notifyListeners();
+  }
+
   void loadAquariums() async {
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     aquariumNames = dbAquariums;
+    notifyListeners();
   }
 
   double parseTextFieldValue(String value) {
@@ -238,6 +244,7 @@ class OsmosisCalculatorViewModel extends ChangeNotifier {
 
           waterChangeLiter = double.parse((waterChangePercentage).toStringAsFixed(1));
       }
+      notifyListeners();
     }
   }
 

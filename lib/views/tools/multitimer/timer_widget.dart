@@ -1,14 +1,20 @@
-import 'package:aquahelper/viewmodels/tools/multi_timer_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../model/custom_timer.dart';
+import '../../../viewmodels/tools/multitimer/multi_timer_widget_viewmodel.dart';
+
 class TimerWidget extends StatelessWidget {
-  final int seconds;
-  const TimerWidget({super.key, required this.seconds});
+  final CustomTimer customTimer;
+  const TimerWidget({super.key, required this.customTimer});
 
   @override
-  Widget build(BuildContext context) => Consumer<MultiTimerViewModel>(
-        builder: (context, viewModel, child) => Center(
+  Widget build(BuildContext context) {
+
+   return ChangeNotifierProvider(
+  create: (context) => MultiTimerWidgetViewModel(customTimer),
+  child: Consumer<MultiTimerWidgetViewModel>(
+  builder: (context, viewModel, child) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -18,5 +24,7 @@ class TimerWidget extends StatelessWidget {
             ],
           ),
         ),
-      );
+      ),
+   );
+  }
 }

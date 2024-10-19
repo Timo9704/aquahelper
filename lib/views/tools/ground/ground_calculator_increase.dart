@@ -240,7 +240,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Du benötigst ungefähr: ${viewModel.ergebnis}",
+                        Text("Du benötigst ungefähr: ${viewModel.resultIncrease}",
                             style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black,
@@ -257,7 +257,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Colors.lightGreen)),
-                        onPressed: () => {viewModel.calculateGround(context)},
+                        onPressed: () => {viewModel.calculateGroundIncrease(context)},
                         child: const Text("Berechnen")),
                   )
                 ],

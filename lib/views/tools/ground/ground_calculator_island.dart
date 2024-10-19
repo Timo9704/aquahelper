@@ -281,7 +281,7 @@ class GroundCalculatorIsland extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Du benötigst ungefähr: ${viewModel.ergebnis}",
+                          Text("Du benötigst ungefähr: ${viewModel.resultIsland}",
                               style: const TextStyle(
                                 fontSize: 15,
                                 color: Colors.black,
@@ -298,7 +298,7 @@ class GroundCalculatorIsland extends StatelessWidget {
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.lightGreen)),
-                          onPressed: () => {viewModel.calculateGround(context)},
+                          onPressed: () => {viewModel.calculateGroundIsland(context)},
                           child: const Text("Berechnen")),
                     )
                   ],

@@ -48,7 +48,7 @@ class DashboardReminderState extends State<DashboardReminder> with TickerProvide
               Expanded(
                 child: TabBarView(
                   controller: viewModel.tabController,
-                  children: List<Widget>.generate(viewModel.aquariums!.length+1, (index) {
+                  children: List<Widget>.generate(viewModel.tabLength, (index) {
                     if(index < 1){
                       return Padding(
                         padding: const EdgeInsets.fromLTRB(2, 0, 2, 5),

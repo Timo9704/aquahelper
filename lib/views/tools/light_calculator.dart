@@ -45,7 +45,7 @@ class LightCalculator extends StatelessWidget {
                             color: Colors.black,
                             fontWeight: FontWeight.normal)),
                     onChanged: (newValue) {
-                      viewModel.selectedAquarium = newValue;
+                      viewModel.setSelectedAquarium(newValue);
                     },
                     items: viewModel.aquariumNames
                         .map<DropdownMenuItem<Aquarium>>((Aquarium value) {
@@ -140,7 +140,7 @@ class LightCalculator extends StatelessWidget {
                                 viewModel.isPremiumUser
                                     ? Colors.lightGreen
                                     : Colors.grey)),
-                        onPressed: () => viewModel.calculateLumenPerLiter,
+                        onPressed: () => viewModel.calculateLumenPerLiter(context),
                         child: const Text("Berechnen")),
                   )
                 ],

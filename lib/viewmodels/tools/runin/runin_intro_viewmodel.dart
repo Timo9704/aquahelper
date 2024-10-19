@@ -17,6 +17,7 @@ class RunInIntroViewModel extends ChangeNotifier {
   String introText = "Herzlichen Glückwunsch zu deinem neuen Aquarium! Du hast dein Aquarium schon eingerichtet und möchtest nun wissen wie es weitergeht? Dann bist du hier genau richtig! \nDas AquaHelper-Einfahrprogramm hilft dir dabei, dein Aquarium in den ersten 6 Wochen optimal zu pflegen.";
 
   RunInIntroViewModel() {
+    loadAquariums();
     isUserPremium().then((result) {
       isPremiumUser = result;
     });
@@ -27,6 +28,7 @@ class RunInIntroViewModel extends ChangeNotifier {
     aquariumNames = dbAquariums;
     selectedAquarium = dbAquariums.first;
     aquarium = selectedAquarium!;
+    notifyListeners();
   }
 
   Future<bool> isUserPremium() async {

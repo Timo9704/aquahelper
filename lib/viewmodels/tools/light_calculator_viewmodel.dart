@@ -28,7 +28,7 @@ class LightCalculatorViewModel extends ChangeNotifier {
   };
 
   LightCalculatorViewModel() {
-
+    loadAquariums();
   }
 
   void loadAquariums() async {
@@ -37,6 +37,11 @@ class LightCalculatorViewModel extends ChangeNotifier {
     isUserPremium().then((result) {
         isPremiumUser = result;
     });
+    notifyListeners();
+  }
+
+  void setSelectedAquarium(Aquarium? value) {
+    selectedAquarium = value;
     notifyListeners();
   }
 
@@ -122,6 +127,7 @@ class LightCalculatorViewModel extends ChangeNotifier {
     if (volume > 0) {
         lumenPerLiter = lumen / volume;
     }
+    print(lumenPerLiter);
     notifyListeners();
   }
 

@@ -12,21 +12,13 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 
 class GroundCalculatorViewModel extends ChangeNotifier {
-  int selectedPage = 0;
-  final pageOptions = [
-    const GroundCalculatorIncrease(),
-    const GroundCalculatorIsland(),
-  ];
-
-  bool isPremiumUser = false;
   User? user = FirebaseAuth.instance.currentUser;
-
+  int selectedPage = 0;
+  bool isPremiumUser = false;
   String? selectedGround = "Soil";
   final List<String> groundNames = ["Soil", "Kies", "Sand"];
   Aquarium? selectedAquarium;
   List<Aquarium> aquariumNames = [];
-
-  String ergebnis = "";
 
   final aquariumHeightController = TextEditingController();
   final aquariumDepthController = TextEditingController();
@@ -34,10 +26,16 @@ class GroundCalculatorViewModel extends ChangeNotifier {
   final islandWidthController = TextEditingController();
   final groundHeightController = TextEditingController();
 
-  String ergebnisIncrease = "";
-
   final startHeightController = TextEditingController();
   final endHeightController = TextEditingController();
+
+  String resultIsland = "";
+  String resultIncrease = "";
+
+  final pageOptions = [
+    const GroundCalculatorIncrease(),
+    const GroundCalculatorIsland(),
+  ];
 
   GroundCalculatorViewModel() {
     loadAquariums();
@@ -134,7 +132,7 @@ class GroundCalculatorViewModel extends ChangeNotifier {
     return double.parse(controller.text);
   }
 
-  void calculateGround(BuildContext context) {
+  void calculateGroundIsland(BuildContext context) {
     String result = "";
     double triangleVol = 0.0;
     try {
@@ -147,7 +145,7 @@ class GroundCalculatorViewModel extends ChangeNotifier {
       double topRadius = parseTextFieldValue(islandWidthController) * (1/3);
       double bottomRadius = parseTextFieldValue(islandWidthController);
 
-      if(bottomRadius > aquariumHeight){
+      if(bottomRadius < aquariumDepth){
         double islandVolume = (1/3) * pi * (parseTextFieldValue(islandHeightController)-parseTextFieldValue(groundHeightController))
             * (pow(topRadius, 2) + topRadius * bottomRadius + pow(bottomRadius, 2));
 
@@ -168,7 +166,7 @@ class GroundCalculatorViewModel extends ChangeNotifier {
       result = "${(triangleVol * 1.5).round()}kg Kies";
     }
 
-    ergebnis = result;
+    resultIsland = result;
     notifyListeners();
   }
 
@@ -229,7 +227,7 @@ class GroundCalculatorViewModel extends ChangeNotifier {
     } else if (selectedGround == "Kies") {
       result = "${(triangleVol * 1.5).round()}kg Kies";
     }
-    ergebnis = result;
+    resultIncrease = result;
     notifyListeners();
   }
 }
