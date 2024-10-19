@@ -29,6 +29,9 @@ class Datastore {
 
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
+  setFirebaseUser(User? user){
+    this.user = user;
+  }
 
   getAquariums() async {
     if (user == null) {

@@ -33,12 +33,11 @@ class DashboardViewModel extends ChangeNotifier {
   late TickerProvider vsync;
 
   DashboardViewModel(int height) {
-    loggedInOrLocal =
-        user != null ? "eingeloggt als: ${user!.email!}" : "lokaler Modus";
     heightFactor = height < 700 ? 0.35 : 0.65;
     title = height < 700
         ? "Dashboard"
         : "AquaHelper\nDashboard";
+    setUser(Datastore.db.user);
     calculateMeasurementsAmount();
     checkHealthStatus();
     fetchNews();
@@ -57,7 +56,14 @@ class DashboardViewModel extends ChangeNotifier {
     }
   }
 
+  setUser(User? user) {
+    loggedInOrLocal =
+    user != null ? "eingeloggt als: ${user!.email!}" : "lokaler Modus";
+    this.user = user;
+  }
+
   void refresh() {
+    setUser(Datastore.db.user);
     calculateMeasurementsAmount();
     checkHealthStatus();
     loadTabController();
@@ -160,6 +166,7 @@ class DashboardViewModel extends ChangeNotifier {
     loadAquariums();
 
     for (int i = 0; i < aquariums.length; i++) {
+      int previousHealthStatus = aquariums[i].healthStatus;
       DateTime now = DateTime.now();
       DateTime interval7 = now.subtract(const Duration(days: 7));
       DateTime interval14 = now.subtract(const Duration(days: 14));
@@ -180,7 +187,9 @@ class DashboardViewModel extends ChangeNotifier {
       }else{
         aquariums[i].healthStatus = 0;
       }
-      await Datastore.db.updateAquarium(aquariums[i]);
+      if(previousHealthStatus != aquariums[i].healthStatus){
+        await Datastore.db.updateAquarium(aquariums[i]);
+      }
     }
     aquariums = aquariums;
   }

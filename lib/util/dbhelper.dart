@@ -713,6 +713,7 @@ class DBHelper {
   }
 
   uploadDataToFirebase() async {
+    print('uploading data to firebase');
     final db = await openDatabase('aquarium_database.db');
     User user = FirebaseAuth.instance.currentUser!;
     await FirebaseHelper.db.initializeUser(user);

@@ -91,7 +91,7 @@ class SignUp extends StatelessWidget {
                               checkColor: Colors.black,
                               activeColor: Colors.lightGreen,
                               onChanged: (bool? value) {
-                                viewModel.isCheckboxChecked = value!;
+                                viewModel.setPrivacyPolicyCheckbox(value!);
                               }),
                           GestureDetector(
                             onTap: () {

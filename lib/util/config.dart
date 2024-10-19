@@ -49,14 +49,3 @@ const Map<String, Map<String, double>> waterValuesInterval = {
 };
 
 late UserSettings userSettings;
-
-late String _userId;
-
-
-getUserId() {
-  return _userId;
-}
-
-setUserId(String userId) {
-  _userId = userId;
-}

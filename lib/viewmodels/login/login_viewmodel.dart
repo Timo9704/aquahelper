@@ -1,10 +1,10 @@
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../util/config.dart';
 import '../../util/datastore.dart';
 import '../../util/dbhelper.dart';
 import '../../views/homepage.dart';
@@ -16,17 +16,18 @@ class LogInViewModel extends ChangeNotifier {
   bool isCheckboxChecked = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  LogInViewModel() {
+  setPrivacyPolicyCheckbox(bool value) {
+    isCheckboxChecked = value;
+    notifyListeners();
   }
 
-  void signIn(BuildContext context) async {
+  void signIn(BuildContext context, DashboardViewModel dashboardViewModel) async {
     try {
       final User? user = (await auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text))
           .user;
       if (user != null) {
-        signInSuccess(user, context);
-        Datastore.db.user = user;
+        signInSuccess(user, context, dashboardViewModel);
       } else {
         showErrorMessage("Schwerwiegender Fehler beim Anmelden!", context);
       }
@@ -39,84 +40,7 @@ class LogInViewModel extends ChangeNotifier {
     await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
   }
 
-  privacyPolicyWithGoogleSignIn(BuildContext context) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: const Text("Datenschutzrichtlinien", style: TextStyle(fontSize: 20)),
-              content: SizedBox(
-                height: 80,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Row(
-                  children: [
-                    Checkbox(
-                        value: isCheckboxChecked,
-                        checkColor: Colors.black,
-                        activeColor: Colors.lightGreen,
-                        onChanged: (bool? value) {
-                            isCheckboxChecked = value!;
-                            notifyListeners();
-                        }),
-                    GestureDetector(
-                      onTap: () {
-                        launchprivacyPolicy();
-                      },
-                      child: const Text.rich(
-                        TextSpan(
-                          text: 'Ich bestätige hiermit die \n',
-                          style: TextStyle(
-                              fontSize: 12.0, color: Colors.black),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Datenschutzbestimmungen',
-                              style: TextStyle(
-                                fontSize: 12.0,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '\ngelesen zu haben und akzeptiere diese.',
-                              style: TextStyle(
-                                  fontSize: 12.0, color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              actions: [
-                Row(children: [
-                  Expanded(child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.lightGreen)),
-                    onPressed: isCheckboxChecked
-                        ? () {
-                      Navigator.pop(context);
-                      signInWithGoogle(context);
-                    }
-                        : null,
-                    child: const Text("Weiter"),
-                  ),),
-
-                ],)
-              ],
-              elevation: 0,
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Future<User?> signInWithGoogle(BuildContext context) async {
+  Future<User?> signInWithGoogle(BuildContext context, DashboardViewModel dashboardViewModel) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
@@ -127,10 +51,14 @@ class LogInViewModel extends ChangeNotifier {
         );
         final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
         final User? user = userCredential.user;
-        signInSuccess(user!, context);
-        Datastore.db.user = user;
-        showMessageSnackbar("Erfolgreich mit Google angemeldet!", context);
-        checkForLocalData(context);
+        if(user != null) {
+          Datastore.db.user = user;
+          if(context.mounted) {
+            showMessageSnackbar("Erfolgreich mit Google angemeldet!", context);
+            signInSuccess(user!, context, dashboardViewModel);
+            checkForLocalData(context);
+          }
+        }
       }
     } catch (e) {
       showErrorMessage("Schwerwiegender Fehler beim Anmelden!", context);
@@ -160,12 +88,13 @@ class LogInViewModel extends ChangeNotifier {
     );
   }
 
-  Future<void> signInSuccess(User user, BuildContext context) async {
-    setUserId(user.uid);
+  Future<void> signInSuccess(User user, BuildContext context, DashboardViewModel dashboardViewModel) async {
+    Datastore.db.user = user;
     Purchases.logIn(user.uid);
-    showMessageSnackbar("Erfolgreich angemeldet!", context);
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
+    showMessageSnackbar("Erfolgreich angemeldet!", context);
+    dashboardViewModel.refresh();
   }
 
   void showUploadDialog(BuildContext context) {

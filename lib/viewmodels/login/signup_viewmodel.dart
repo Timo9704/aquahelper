@@ -1,3 +1,4 @@
+import 'package:aquahelper/views/homepage.dart';
 import 'package:aquahelper/views/login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,29 +10,43 @@ import '../../util/dbhelper.dart';
 class SignUpViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController passwordSecondController = TextEditingController();
+  final TextEditingController passwordSecondController =
+      TextEditingController();
   late String userEmail;
   late User user;
   bool isCheckboxChecked = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-
-  SignUpViewModel() {
+  setPrivacyPolicyCheckbox(bool value) {
+    isCheckboxChecked = value;
+    notifyListeners();
   }
 
   checkForLocalData(BuildContext context) async {
     List<Aquarium> aquariumList = await DBHelper.db.getAquariums();
     if (aquariumList.isNotEmpty) {
-      showUploadDialog(context);
+      if (context.mounted) {
+        showUploadDialog(context);
+      }
     } else {
-      returnUsertoSignIn(context);
+      if (context.mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const LogIn()),
+                (Route<dynamic> route) => false);
+        showInitialLoginMessage(context);
+      }
     }
   }
 
-  void returnUsertoSignIn(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const LogIn()),
-            (Route<dynamic> route) => false);
+  void showInitialLoginMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Row(children: <Widget>[
+        Icon(Icons.check, color: Colors.white),
+        SizedBox(width: 16),
+        Text('Bitte melde dich nun mit deinem Account an!'),
+      ]),
+      backgroundColor: Colors.green,
+    ));
   }
 
   void showUploadDialog(BuildContext context) {
@@ -52,19 +67,19 @@ class SignUpViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.grey)),
+                      MaterialStateProperty.all<Color>(Colors.grey)),
               child: const Text("Nicht hochladen"),
               onPressed: () => {
                 Navigator.pop(context),
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => const LogIn()),
-                        (Route<dynamic> route) => false),
+                    (Route<dynamic> route) => false),
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () {
                 final BuildContext currentContext = context;
@@ -75,7 +90,7 @@ class SignUpViewModel extends ChangeNotifier {
                     Navigator.pop(currentContext);
                     Navigator.of(currentContext).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => const LogIn()),
-                            (Route<dynamic> route) => false);
+                        (Route<dynamic> route) => false);
                     showUploadSuccessMessage(context);
                   }
                 }();
@@ -91,7 +106,7 @@ class SignUpViewModel extends ChangeNotifier {
   void register(BuildContext context) async {
     User? userInternal;
 
-    if(isCheckboxChecked == false){
+    if (isCheckboxChecked == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Bitte akzeptiere die Datenschutzbestimmungen!"),
@@ -108,16 +123,20 @@ class SignUpViewModel extends ChangeNotifier {
 
     try {
       userInternal = (await auth.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text))
+              email: emailController.text, password: passwordController.text))
           .user;
     } on FirebaseAuthException catch (e) {
-      failureUserCreation(e.message!, context);
+      if(context.mounted) {
+        failureUserCreation(e.message!, context);
+      }
     }
 
     if (userInternal != null) {
-      userEmail = userInternal!.email!;
+      userEmail = userInternal.email!;
       user = FirebaseAuth.instance.currentUser!;
-      successUserCreation(userEmail, context);
+      if(context.mounted) {
+        successUserCreation(userEmail, context);
+      }
     }
   }
 
@@ -151,7 +170,7 @@ class SignUpViewModel extends ChangeNotifier {
                 'Dein Account mit der Email-Adresse $mail wurde erfolgreich erstellt.'),
             actions: <Widget>[
               TextButton(
-                onPressed: checkForLocalData(context),
+                onPressed: () => checkForLocalData(context),
                 child: const Text('Weiter zum Login'),
               )
             ],
@@ -190,8 +209,7 @@ class SignUpViewModel extends ChangeNotifier {
   }
 
   Future<void> launchprivacyPolicy() async {
-    await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
+    await launchUrl(
+        Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
   }
-
-
 }

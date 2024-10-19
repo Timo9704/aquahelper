@@ -1,18 +1,18 @@
 import 'package:aquahelper/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../util/config.dart';
-import '../../util/firebasehelper.dart';
+import '../../viewmodels/dashboard_viewmodel.dart';
 import '../../viewmodels/settings/user_settings_viewmodel.dart';
-import '../../views/homepage.dart';
 
 class UserSettings extends StatelessWidget {
   const UserSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    DashboardViewModel dashboardViewModel =
+    Provider.of<DashboardViewModel>(context, listen: true);
     return ChangeNotifierProvider(
       create: (context) => UserSettingsViewModel(),
       child: Consumer<UserSettingsViewModel>(
@@ -99,7 +99,7 @@ class UserSettings extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                         ),
-                        onPressed: () => viewModel.showDeleteRequest(context),
+                        onPressed: () => viewModel.showDeleteRequest(context, dashboardViewModel),
                         child: const Text(
                           'AquaHelper-Konto löschen',
                           style: TextStyle(
@@ -114,16 +114,7 @@ class UserSettings extends StatelessWidget {
               const SizedBox(height: 10),
               viewModel.user != null
                   ? ElevatedButton(
-                      onPressed: () => {
-                        FirebaseHelper.db.signOut(),
-                        Purchases.logOut(),
-                        Navigator.pop(context),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const Homepage()))
-                      },
+                      onPressed: () => viewModel.onClickedLogOut(context, dashboardViewModel),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               Colors.grey[300]!)),

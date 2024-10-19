@@ -1,14 +1,15 @@
 import 'dart:convert';
 
+import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../model/user_settings.dart';
 import '../../util/config.dart';
+import '../../util/datastore.dart';
 import '../../util/dbhelper.dart';
 import '../../util/firebasehelper.dart';
 import '../../views/homepage.dart';
-
 
 class UserSettingsViewModel extends ChangeNotifier {
   late UserSettings us;
@@ -27,23 +28,28 @@ class UserSettingsViewModel extends ChangeNotifier {
 
   UserSettingsViewModel() {
     loadSettings();
+    isUserPremium().then((result) {
+      isPremiumUser = result;
+    });
   }
 
   void loadSettings() async {
     List<UserSettings> usList = await DBHelper.db.getUserSettings();
     List<bool> measurementItems =
-    List.generate(waterValues.length, (index) => true);
+        List.generate(waterValues.length, (index) => true);
     if (usList.isEmpty) {
       Map<String, dynamic> map = {
         'measurementItems': measurementItems.toString(),
         'measurementLimits': 1
       };
       us = UserSettings.fromMap(map);
-      measurementItemsList = json.decode(us.measurementItems).cast<bool>().toList();
+      measurementItemsList =
+          json.decode(us.measurementItems).cast<bool>().toList();
       measurementLimits = us.measurementLimits == 1;
     } else {
       us = usList.first;
-      measurementItemsList = json.decode(us.measurementItems).cast<bool>().toList();
+      measurementItemsList =
+          json.decode(us.measurementItems).cast<bool>().toList();
       measurementLimits = us.measurementLimits == 1;
     }
     notifyListeners();
@@ -65,19 +71,20 @@ class UserSettingsViewModel extends ChangeNotifier {
     }
   }
 
-  void showDeleteRequest(BuildContext context){
+  void showDeleteRequest(BuildContext context, DashboardViewModel dashboardViewModel) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text("Konto löschen"),
-          content: const Text("Möchtest du dein AquaHelper-Konto wirklich löschen? All deine Daten, Bilder und Einstellungen  werden dabei unwiderruflich gelöscht!"),
+          content: const Text(
+              "Möchtest du dein AquaHelper-Konto wirklich löschen? All deine Daten, Bilder und Einstellungen  werden dabei unwiderruflich gelöscht!"),
           actions: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
-              onPressed: () => deleteUserAccount(context),
+              onPressed: () => deleteUserAccount(context, dashboardViewModel),
               child: const Text("Ja, Konto löschen"),
             ),
             ElevatedButton(
@@ -93,17 +100,20 @@ class UserSettingsViewModel extends ChangeNotifier {
     );
   }
 
-  void deleteUserAccount(BuildContext context) {
-    FirebaseHelper.db.deleteUserAccount();
-    Navigator.push(
-        context,
+  void onClickedLogOut(BuildContext context, DashboardViewModel dashboardViewModel) {
+    Datastore.db.setFirebaseUser(null);
+    FirebaseHelper.db.signOut();
+    Purchases.logOut();
+    dashboardViewModel.refresh();
+    Navigator.pop(context);
+    Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
   }
 
+  void deleteUserAccount(BuildContext context, DashboardViewModel dashboardViewModel) {
+    FirebaseHelper.db.deleteUserAccount();
+    dashboardViewModel.refresh();
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
+  }
 }
-
-
-
-
-
-
