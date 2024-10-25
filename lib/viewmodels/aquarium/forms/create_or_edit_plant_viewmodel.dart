@@ -32,8 +32,8 @@ class CreateOrEditPlantViewModel extends ChangeNotifier {
           plantNameController.text,
           latinNameController.text,
           int.parse(amountController.text),
-          position.dx,
-          position.dy,
+          position.dx.toDouble(),
+          position.dy.toDouble(),
         );
         Datastore.db.insertPlant(plant);
         Provider.of<AquariumPlantsViewModel>(context, listen: false).refresh();
