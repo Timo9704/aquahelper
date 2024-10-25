@@ -9,10 +9,13 @@ class AquariumTechnicViewModel extends ChangeNotifier {
   Filter? filter;
   Lighting? lighting;
   Heater? heater;
-  Aquarium aquarium;
+  late Aquarium aquarium;
 
+  initAquariumTechnic(Aquarium initAquarium) {
+    aquarium = initAquarium;
+  }
 
-  AquariumTechnicViewModel(this.aquarium) {
+  void refresh() {
     loadComponents();
   }
 
@@ -56,5 +59,6 @@ class AquariumTechnicViewModel extends ChangeNotifier {
           0
       );
     }
+    notifyListeners();
   }
 }

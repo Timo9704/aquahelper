@@ -11,18 +11,24 @@ import '../tabs/heater_tab.dart';
 import '../tabs/lighting_tab.dart';
 
 class CreateOrEditComponent extends StatefulWidget {
-
   final Filter filter;
   final Lighting lighting;
   final Heater heater;
   final Aquarium aquarium;
-  const CreateOrEditComponent({super.key, required this.filter, required this.lighting, required this.heater, required this.aquarium});
+
+  const CreateOrEditComponent(
+      {super.key,
+      required this.filter,
+      required this.lighting,
+      required this.heater,
+      required this.aquarium});
 
   @override
   State<CreateOrEditComponent> createState() => _CreateOrEditComponentState();
 }
 
-class _CreateOrEditComponentState extends State<CreateOrEditComponent> with SingleTickerProviderStateMixin {
+class _CreateOrEditComponentState extends State<CreateOrEditComponent>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -40,32 +46,35 @@ class _CreateOrEditComponentState extends State<CreateOrEditComponent> with Sing
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => CreateOrEditTechnicViewModel(widget.filter, widget.lighting, widget.heater, widget.aquarium),
-        child: Consumer<CreateOrEditTechnicViewModel>(
+      create: (context) => CreateOrEditTechnicViewModel(
+          widget.filter, widget.lighting, widget.heater, widget.aquarium),
+      child: Consumer<CreateOrEditTechnicViewModel>(
         builder: (context, viewModel, child) => Scaffold(
-      appBar: AppBar(
-        title: const Text("Komponenten bearbeiten"),
-        backgroundColor: Colors.lightGreen,
-        bottom: TabBar(
-          labelColor: Colors.black,
-          indicatorColor: Colors.black,
-          unselectedLabelColor: Colors.black.withOpacity(0.6),
-          controller: _tabController,
-          tabs: const [
-            Tab(text: "Filter"),
-            Tab(text: "Beleuchtung"),
-            Tab(text: "Heizer"),
-          ],
+          appBar: AppBar(
+            title: const Text("Komponenten bearbeiten"),
+            backgroundColor: Colors.lightGreen,
+            bottom: TabBar(
+              labelColor: Colors.black,
+              indicatorColor: Colors.black,
+              unselectedLabelColor: Colors.black.withOpacity(0.6),
+              controller: _tabController,
+              tabs: const [
+                Tab(text: "Filter"),
+                Tab(text: "Beleuchtung"),
+                Tab(text: "Heizer"),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: const [
+              FilterTab(),
+              LightingTab(),
+              HeaterTab(),
+            ],
+          ),
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          FilterTab(),
-          LightingTab(),
-          HeaterTab(),
-        ],
-      ),
-    ),),);
+    );
   }
 }

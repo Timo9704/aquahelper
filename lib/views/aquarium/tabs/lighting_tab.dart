@@ -1,8 +1,6 @@
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../util/datastore.dart';
-import '../../../../views/aquarium/aquarium_overview.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
 
 class LightingTab extends StatelessWidget {
   const LightingTab({super.key});
@@ -41,7 +39,7 @@ class LightingTab extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.lightGreen),
                   ),
                   labelStyle: TextStyle(color: Colors.black),
-                  labelText: 'Helligkeit',
+                  labelText: 'Helligkeit (in Lumen)',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty || !RegExp(r'^-?\d+(\.\d+)?|(\,\d+)?$').hasMatch(value)) {
@@ -58,14 +56,14 @@ class LightingTab extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.lightGreen),
                   ),
                   labelStyle: TextStyle(color: Colors.black),
-                  labelText: 'Beleuchtungsdauer',
+                  labelText: 'Beleuchtungsdauer (in Stunden)',
                 ),
               ),
               TextFormField(
                 keyboardType: TextInputType.number,
                 controller: viewModel.lightPowerController,
                 decoration: const InputDecoration(
-                  labelText: 'Leistung',
+                  labelText: 'Leistung (in Watt)',
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.lightGreen),
                   ),
@@ -77,17 +75,7 @@ class LightingTab extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightGreen,
                 ),
-                onPressed: () {
-                  if (viewModel.lightFormKey.currentState!.validate()) {
-                    Datastore.db.updateLighting(viewModel.getEditedLighting());
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AquariumOverview(aquarium: viewModel.aquarium),
-                      ),
-                    );
-                  }
-                },
+                onPressed: () => viewModel.saveLighting(context),
                 child: const Text('Speichern'),
               ),
             ],

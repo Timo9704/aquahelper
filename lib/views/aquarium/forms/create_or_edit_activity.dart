@@ -139,12 +139,7 @@ class CreateOrEditActivity extends StatelessWidget {
                                       selectedColor: Colors.lightGreen,
                                       checkmarkColor: Colors.white,
                                       showCheckmark: false,
-                                      onSelected: (selected) {
-                                        selected
-                                            ? viewModel.selectedTags.add(tag)
-                                            : viewModel.selectedTags
-                                                .remove(tag);
-                                      },
+                                      onSelected: (selected) => viewModel.onTagSelected(tag)
                                     ))
                                 .toList(),
                           ),
@@ -171,16 +166,7 @@ class CreateOrEditActivity extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.add,
                                     color: Colors.lightGreen),
-                                onPressed: () {
-                                  if (viewModel
-                                      .customTagController.text.isNotEmpty) {
-                                    viewModel.tags.add(
-                                        viewModel.customTagController.text);
-                                    viewModel.selectedTags.add(
-                                        viewModel.customTagController.text);
-                                    viewModel.customTagController.clear();
-                                  }
-                                },
+                                onPressed: () => viewModel.onAddCustomTag(),
                               )
                             ],
                           )

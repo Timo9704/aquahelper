@@ -65,8 +65,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
                       return isSameDay(viewModel.selectedDay, day);
                     },
                     onDaySelected: (selectedDay, focusedDay) {
-                      viewModel.selectedDay = selectedDay;
-                      viewModel.focusedDay = focusedDay;
+                      viewModel.onDaySelected(selectedDay, focusedDay);
                       viewModel.selectedEvents.value =
                           viewModel.getEventsForDay(selectedDay);
                     },

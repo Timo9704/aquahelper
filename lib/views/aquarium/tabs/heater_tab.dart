@@ -1,8 +1,6 @@
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../util/datastore.dart';
-import '../../../../viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
-import '../../../../views/aquarium/aquarium_overview.dart';
 
 class HeaterTab extends StatelessWidget{
   const HeaterTab({super.key});
@@ -41,7 +39,7 @@ class HeaterTab extends StatelessWidget{
                       borderSide: BorderSide(color: Colors.lightGreen),
                     ),
                     labelStyle: TextStyle(color: Colors.black),
-                    labelText: 'Leistung',
+                    labelText: 'Leistung (in Watt)',
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -49,17 +47,7 @@ class HeaterTab extends StatelessWidget{
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.lightGreen,
                   ),
-                  onPressed: () {
-                    if (viewModel.heaterFormKey.currentState!.validate()) {
-                      Datastore.db.updateHeater(viewModel.getEditedHeater());
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AquariumOverview(aquarium: viewModel.aquarium),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: () => viewModel.saveHeater(context),
                   child: const Text('Speichern'),
                 ),
               ],

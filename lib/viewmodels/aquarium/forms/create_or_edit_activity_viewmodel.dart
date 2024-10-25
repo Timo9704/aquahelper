@@ -30,9 +30,39 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
   CreateOrEditActivityViewModel(this.activity, this.aquariumId) {
     if (activity.id.isNotEmpty) {
       selectedTags = activity.activities.split(",").toSet();
+      checkAndAddCustomTags();
       selectedDate = DateTime.fromMillisecondsSinceEpoch(activity.date);
       noteController.text = activity.notes;
       createMode = false;
+    }else{
+      selectedDate = DateTime.now();
+    }
+  }
+
+  void checkAndAddCustomTags() {
+    for (String tag in selectedTags) {
+      if (!tags.contains(tag)) {
+        tags.add(tag);
+      }
+    }
+    notifyListeners();
+  }
+
+  void onTagSelected(String tag) {
+    if (selectedTags.contains(tag)) {
+      selectedTags.remove(tag);
+    } else {
+      selectedTags.add(tag);
+    }
+    notifyListeners();
+  }
+
+  void onAddCustomTag() {
+    if (customTagController.text.isNotEmpty) {
+      tags.add(customTagController.text);
+      selectedTags.add(customTagController.text);
+      customTagController.clear();
+      notifyListeners();
     }
   }
 

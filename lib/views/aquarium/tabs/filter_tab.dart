@@ -50,7 +50,7 @@ class FilterTab extends StatelessWidget {
                                 color: Colors.black,
                                 fontWeight: FontWeight.normal)),
                         onChanged: (newValue) {
-                          viewModel.selectedFilterType = newValue!;
+                          viewModel.setFilterType(newValue!);
                         },
                         items: viewModel.filterTypes
                             .map<DropdownMenuItem<String>>((String value) {
@@ -73,7 +73,7 @@ class FilterTab extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.lightGreen),
                       ),
                       labelStyle: TextStyle(color: Colors.black),
-                      labelText: 'Fördermenge',
+                      labelText: 'Fördermenge (in L/h)',
                     ),
                   ),
                   TextFormField(
@@ -84,7 +84,7 @@ class FilterTab extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.lightGreen),
                       ),
                       labelStyle: TextStyle(color: Colors.black),
-                      labelText: 'Leistung',
+                      labelText: 'Leistung (in Watt)',
                     ),
                   ),
                   TextFormField(
@@ -116,18 +116,7 @@ class FilterTab extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.lightGreen,
                     ),
-                    onPressed: () {
-                      if (viewModel.filterFormKey.currentState!.validate()) {
-                        Datastore.db.updateFilter(viewModel.getEditedFilter());
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                AquariumOverview(aquarium: viewModel.aquarium),
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: () => viewModel.saveFilter(context),
                     child: const Text('Speichern'),
                   ),
                 ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/aquarium.dart';
-import '../../viewmodels/aquarium/aquarium_technik_viewmodel.dart';
+import '../../viewmodels/aquarium/aquarium_technic_viewmodel.dart';
 import '../../views/components/filter_item.dart';
 import '../../views/components/heater_item.dart';
 import '../../views/components/lighting_item.dart';
@@ -14,9 +14,10 @@ class AquariumTechnic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AquariumTechnicViewModel(aquarium),
-      child: Consumer<AquariumTechnicViewModel>(
+    var viewModel = Provider.of<AquariumTechnicViewModel>(context, listen: false);
+    viewModel.initAquariumTechnic(aquarium);
+    viewModel.refresh();
+    return Consumer<AquariumTechnicViewModel>(
           builder: (context, viewModel, child) {
         if (viewModel.filter == null ||
             viewModel.lighting == null ||
@@ -48,7 +49,6 @@ class AquariumTechnic extends StatelessWidget {
             const SizedBox(height: 10),
           ]);
         }
-      }),
-    );
+      });
   }
 }

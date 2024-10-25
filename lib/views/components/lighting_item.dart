@@ -55,7 +55,7 @@ class LightingItem extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text("Helligkeit",
+                  child: Text("Helligkeit:",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.start),
@@ -71,7 +71,7 @@ class LightingItem extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text("Beleuchtungsdauer",
+                  child: Text("Beleuchtungsdauer:",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.start),

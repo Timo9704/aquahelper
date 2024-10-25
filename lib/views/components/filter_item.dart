@@ -59,7 +59,7 @@ class FilterItem extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text("Filtertyp",
+                  child: Text("Filtertyp:",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.start),
@@ -75,7 +75,7 @@ class FilterItem extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text("Fördermenge",
+                  child: Text("Fördermenge:",
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       textAlign: TextAlign.start),

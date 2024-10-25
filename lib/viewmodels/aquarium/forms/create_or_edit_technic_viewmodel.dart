@@ -1,5 +1,9 @@
+import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_technic_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/aquarium_technic.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/aquarium.dart';
@@ -66,6 +70,35 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     heaterManufacturerModelNameController.dispose();
     heaterPowerController.dispose();
     super.dispose();
+  }
+
+  setFilterType(String value){
+    selectedFilterType = value;
+    notifyListeners();
+  }
+
+  saveFilter(BuildContext context) {
+    if (filterFormKey.currentState!.validate()) {
+      Datastore.db.updateFilter(getEditedFilter());
+      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+      Navigator.pop(context);
+    }
+  }
+
+  saveLighting(BuildContext context) {
+    if (lightFormKey.currentState!.validate()) {
+      Datastore.db.updateLighting(getEditedLighting());
+      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+      Navigator.pop(context);
+    }
+  }
+
+  saveHeater(BuildContext context) {
+    if (heaterFormKey.currentState!.validate()) {
+      Datastore.db.updateHeater(getEditedHeater());
+      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+      Navigator.pop(context);
+    }
   }
 
   double parseTextFieldValue(TextEditingController controller){

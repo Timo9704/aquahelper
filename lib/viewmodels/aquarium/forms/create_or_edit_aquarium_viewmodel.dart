@@ -1,8 +1,11 @@
 import 'package:aquahelper/main.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
+import 'package:aquahelper/views/dashboard.dart';
+import 'package:aquahelper/views/homepage.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:aquahelper/model/task.dart' as model;
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../model/aquarium.dart';
@@ -79,13 +82,14 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () async {
-                    viewModel.deleteAndCancelReminder(aquarium);
+                    deleteAndCancelReminder(aquarium);
                     Datastore.db.deleteAquarium(aquarium.aquariumId);
+                    Provider.of<DashboardViewModel>(context, listen: false).refresh();
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const AquaHelper()),
+                                const Homepage()),
                         (Route<dynamic> route) => false);
                   },
                   child: const Text("Ja"),
@@ -128,7 +132,6 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
       aquarium.depth =
           int.parse(depthController.text.isEmpty ? "0" : depthController.text);
       aquarium.imagePath = imagePath;
-      print("Updated Aquarium: ${aquarium.toMap().toString()}");
     }
     dashboardViewModel.refresh();
   }
