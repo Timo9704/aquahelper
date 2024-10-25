@@ -1,11 +1,11 @@
+import 'package:aquahelper/model/activity.dart';
+import 'package:aquahelper/util/scalesize.dart';
 import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_activity_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../model/activity.dart';
-import '../../../util/scalesize.dart';
 
 class CreateOrEditActivity extends StatelessWidget {
   final String aquariumId;

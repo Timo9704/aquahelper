@@ -1,9 +1,9 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_animal_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:aquahelper/model/animals.dart';
 import 'package:provider/provider.dart';
 
-import '../../../model/aquarium.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_animal_viewmodel.dart';
 
 class CreateOrEditAnimal extends StatelessWidget {
   final Aquarium aquarium;

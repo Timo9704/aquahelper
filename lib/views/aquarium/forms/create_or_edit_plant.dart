@@ -1,14 +1,10 @@
-
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_plant_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../../model/aquarium.dart';
-import '../../../model/plant.dart';
-import '../../../util/datastore.dart';
-import '../../../util/scalesize.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_plant_viewmodel.dart';
 
 class CreateOrEditPlant extends StatelessWidget {
   final Offset position;

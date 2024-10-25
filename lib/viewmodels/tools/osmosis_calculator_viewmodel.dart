@@ -107,7 +107,7 @@ class OsmosisCalculatorViewModel extends ChangeNotifier {
   Future<void> showPaywall(BuildContext context) async {
     await FirebaseAnalytics.instance
         .logEvent(name: 'openPaywall', parameters: null);
-    if (user == null) {
+    if (user == null && context.mounted) {
       showLoginRequest(context);
     } else {
       PaywallResult result = await RevenueCatUI.presentPaywallIfNeeded(

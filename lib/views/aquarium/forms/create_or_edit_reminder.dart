@@ -1,10 +1,9 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/task.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_reminder_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../../../model/aquarium.dart';
-import '../../../model/task.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_reminder_viewmodel.dart';
 
 class CreateOrEditReminder extends StatelessWidget {
   final Aquarium aquarium;

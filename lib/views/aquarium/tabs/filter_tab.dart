@@ -1,9 +1,7 @@
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import '../../../../util/datastore.dart';
-import '../../../../views/aquarium/aquarium_overview.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
 
 class FilterTab extends StatelessWidget {
   const FilterTab({super.key});

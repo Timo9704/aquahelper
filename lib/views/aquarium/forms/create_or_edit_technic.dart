@@ -1,14 +1,13 @@
+import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/components/filter.dart';
+import 'package:aquahelper/model/components/heater.dart';
+import 'package:aquahelper/model/components/lighting.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/tabs/filter_tab.dart';
+import 'package:aquahelper/views/aquarium/tabs/heater_tab.dart';
+import 'package:aquahelper/views/aquarium/tabs/lighting_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../model/aquarium.dart';
-import '../../../model/components/heater.dart';
-import '../../../model/components/lighting.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_technic_viewmodel.dart';
-import '../tabs/filter_tab.dart';
-import '../tabs/heater_tab.dart';
-import '../tabs/lighting_tab.dart';
 
 class CreateOrEditComponent extends StatefulWidget {
   final Filter filter;

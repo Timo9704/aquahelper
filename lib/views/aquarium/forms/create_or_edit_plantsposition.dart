@@ -1,12 +1,11 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_plantsposition_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/forms/create_or_edit_plant.dart';
+import 'package:aquahelper/views/widgets/aquarium_plant_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../model/aquarium.dart';
-import '../../../util/scalesize.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_plantsposition_viewmodel.dart';
-import '../../../views/widgets/aquarium_plant_card.dart';
-import 'create_or_edit_plant.dart';
 
 class CreateOrEditPlantsPosition extends StatelessWidget {
   final Aquarium aquarium;

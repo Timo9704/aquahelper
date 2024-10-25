@@ -1,4 +1,5 @@
 import 'package:aquahelper/util/image_selector.dart';
+import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_aquarium_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:aquahelper/model/aquarium.dart';
 
 import 'package:aquahelper/util/scalesize.dart';
 import 'package:provider/provider.dart';
-import '../../../viewmodels/aquarium/forms/create_or_edit_aquarium_viewmodel.dart';
 
 class CreateOrEditAquarium extends StatelessWidget {
   final Aquarium aquarium;
