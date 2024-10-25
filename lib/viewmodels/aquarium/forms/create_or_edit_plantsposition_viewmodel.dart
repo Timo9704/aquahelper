@@ -18,6 +18,7 @@ class CreateOrEditPlantsPositionViewModel extends ChangeNotifier {
 
   CreateOrEditPlantsPositionViewModel(this.aquarium){
     loadPlants();
+    plantCount = plantList.length+1;
   }
 
   loadPlants() async {
@@ -33,9 +34,15 @@ class CreateOrEditPlantsPositionViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removePlant(Plant plant, BuildContext context) async {
+  Future<void> removePlant(Plant plant, BuildContext context) async {
     Datastore.db.deletePlant(plant);
-    loadPlants();
+    await loadPlants();
+    for(int i = 0; i < plantList.length; i++) {
+      if (plantList[i].plantNumber != i + 1) {
+        plantList[i].plantNumber = i + 1;
+        Datastore.db.updatePlant(plantList[i]);
+      }
+    }
     if(context.mounted){
       Provider.of<AquariumPlantsViewModel>(context, listen: false).refresh();
       ScaffoldMessenger.of(context).showSnackBar(

@@ -985,6 +985,4 @@ class DBHelper {
         whereArgs: [plant.plantId],
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
-
-
 }

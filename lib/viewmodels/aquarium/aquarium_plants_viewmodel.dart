@@ -25,6 +25,7 @@ class AquariumPlantsViewModel extends ChangeNotifier {
     List<Plant> loadedPlants =
     await Datastore.db.getPlantsByAquarium(aquarium);
     plantList = loadedPlants;
+    notifyListeners();
   }
 
   Widget localImageCheck(String imagePath) {
