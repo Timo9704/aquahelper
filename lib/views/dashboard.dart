@@ -1,3 +1,5 @@
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:aquahelper/views/widgets/dashboard_healthstatus.dart';
 import 'package:aquahelper/views/widgets/dashboard_measurements.dart';
 import 'package:aquahelper/views/widgets/dashboard_news.dart';
@@ -5,8 +7,6 @@ import 'package:aquahelper/views/widgets/dashboard_reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../util/scalesize.dart';
-import '../viewmodels/dashboard_viewmodel.dart';
 
 class Dashboard extends StatelessWidget {
 

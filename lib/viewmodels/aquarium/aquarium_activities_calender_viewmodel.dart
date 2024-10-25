@@ -1,11 +1,12 @@
 import 'dart:collection';
 
+import 'package:aquahelper/model/activity.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../model/activity.dart';
 import '../../util/calender.dart';
-import '../../util/datastore.dart';
+
 
 class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
   late ValueNotifier<List<Event>> selectedEvents;

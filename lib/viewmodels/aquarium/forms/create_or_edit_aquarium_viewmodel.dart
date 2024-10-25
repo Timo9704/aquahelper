@@ -1,6 +1,7 @@
 import 'package:aquahelper/main.dart';
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
-import 'package:aquahelper/views/dashboard.dart';
 import 'package:aquahelper/views/homepage.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,6 @@ import 'package:aquahelper/model/task.dart' as model;
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../model/aquarium.dart';
-import '../../../util/datastore.dart';
 
 class CreateOrEditAquariumViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();

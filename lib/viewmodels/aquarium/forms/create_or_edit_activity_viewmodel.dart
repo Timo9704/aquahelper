@@ -1,9 +1,8 @@
+import 'package:aquahelper/model/activity.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../model/activity.dart';
-import '../../../util/datastore.dart';
 
 
 class CreateOrEditActivityViewModel extends ChangeNotifier {

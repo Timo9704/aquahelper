@@ -27,12 +27,18 @@ class LogInViewModel extends ChangeNotifier {
           email: emailController.text, password: passwordController.text))
           .user;
       if (user != null) {
-        signInSuccess(user, context, dashboardViewModel);
+        if(context.mounted) {
+          signInSuccess(user, context, dashboardViewModel);
+        }
       } else {
-        showErrorMessage("Schwerwiegender Fehler beim Anmelden!", context);
+        if(context.mounted) {
+          showErrorMessage("Schwerwiegender Fehler beim Anmelden!", context);
+        }
       }
     } on FirebaseAuthException catch (e) {
-      showErrorMessage(e.message!, context);
+      if(context.mounted) {
+        showErrorMessage(e.message!, context);
+      }
     }
   }
 
@@ -61,7 +67,9 @@ class LogInViewModel extends ChangeNotifier {
         }
       }
     } catch (e) {
-      showErrorMessage("Schwerwiegender Fehler beim Anmelden!", context);
+      if(context.mounted){
+        showErrorMessage("Schwerwiegender Fehler beim Anmelden!", context);
+      }
     }
     return null;
   }
@@ -150,7 +158,7 @@ class LogInViewModel extends ChangeNotifier {
 
   checkForLocalData(BuildContext context) async {
     List<Aquarium> aquariumList = await DBHelper.db.getAquariums();
-    if (aquariumList.isNotEmpty) {
+    if (aquariumList.isNotEmpty && context.mounted) {
       showUploadDialog(context);
     }
   }

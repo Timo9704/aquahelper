@@ -26,7 +26,7 @@ class OnBoardingViewModel extends ChangeNotifier {
   Future<void> checkPrivacyPolicy(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool privacyPolicyAccepted = prefs.getBool("privacyPolicyAccepted") ?? false;
-    if (!privacyPolicyAccepted) {
+    if (!privacyPolicyAccepted && context.mounted) {
       await showPrivacyPolicyDialog(context);
     }
   }
@@ -34,7 +34,7 @@ class OnBoardingViewModel extends ChangeNotifier {
   Future<void> showPrivacyPolicyDialog(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool privacyPolicyAccepted = prefs.getBool("privacyPolicyAccepted") ?? false;
-    if (!privacyPolicyAccepted) {
+    if (!privacyPolicyAccepted && context.mounted) {
       await showDialog(
         context: context,
         barrierDismissible: false,
@@ -80,8 +80,10 @@ class OnBoardingViewModel extends ChangeNotifier {
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
                 ),
                 onPressed: () async {
-                  await prefs.setBool("privacyPolicyAccepted", true);
-                  Navigator.of(context).pop();
+                    await prefs.setBool("privacyPolicyAccepted", true);
+                    if(context.mounted) {
+                      Navigator.of(context).pop();
+                  }
                 },
                 child: const Text("Weiter"),
               ),

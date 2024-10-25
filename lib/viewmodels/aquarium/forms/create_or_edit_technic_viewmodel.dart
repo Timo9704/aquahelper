@@ -1,15 +1,13 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/components/filter.dart';
+import 'package:aquahelper/model/components/heater.dart';
+import 'package:aquahelper/model/components/lighting.dart';
 import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_technic_viewmodel.dart';
-import 'package:aquahelper/views/aquarium/aquarium_technic.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../model/aquarium.dart';
-import '../../../model/components/filter.dart';
-import '../../../model/components/heater.dart';
-import '../../../model/components/lighting.dart';
 
 
 class CreateOrEditTechnicViewModel extends ChangeNotifier {

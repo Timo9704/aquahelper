@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/plant.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_plants_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../model/aquarium.dart';
-import '../../../model/plant.dart';
-import '../../../util/datastore.dart';
 
 
 class CreateOrEditPlantViewModel extends ChangeNotifier {

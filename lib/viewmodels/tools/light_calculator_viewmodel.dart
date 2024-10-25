@@ -127,7 +127,6 @@ class LightCalculatorViewModel extends ChangeNotifier {
     if (volume > 0) {
         lumenPerLiter = lumen / volume;
     }
-    print(lumenPerLiter);
     notifyListeners();
   }
 

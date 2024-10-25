@@ -1,11 +1,11 @@
+import 'package:aquahelper/model/animals.dart';
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../model/animals.dart';
-import '../../../util/datastore.dart';
 
 class CreateOrEditAnimalViewModel extends ChangeNotifier {
   Aquarium aquarium;
