@@ -1,8 +1,7 @@
+import 'package:aquahelper/model/plant.dart';
+import 'package:aquahelper/util/scalesize.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/plant.dart';
-import '../../../util/datastore.dart';
-import '../../../util/scalesize.dart';
 
 class AquariumPlantCard extends StatelessWidget {
   const AquariumPlantCard({ super.key, required this.plant, this.removeButton = false, required this.onPlantDeleted });

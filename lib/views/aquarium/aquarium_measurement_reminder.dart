@@ -10,9 +10,9 @@ import '../../views/items/reminder_item.dart';
 import 'forms/create_or_edit_aquarium.dart';
 
 class AquariumMeasurementReminder extends StatelessWidget {
-  Aquarium aquarium;
+  final Aquarium aquarium;
 
-  AquariumMeasurementReminder({super.key, required this.aquarium});
+  const AquariumMeasurementReminder({super.key, required this.aquarium});
 
   @override
   Widget build(BuildContext context) {

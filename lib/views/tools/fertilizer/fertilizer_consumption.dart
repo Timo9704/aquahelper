@@ -1,15 +1,13 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/viewmodels/tools/fertilizer_calculator_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../model/aquarium.dart';
-import '../../../util/scalesize.dart';
-import '../../../viewmodels/tools/fertilizer_calculator_viewmodel.dart';
 
 class FertilizerConsumption extends StatelessWidget {
   const FertilizerConsumption({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double textScaleFactor = ScaleSize.textScaleFactor(context);
     return Consumer<FertilizerCalculatorViewModel>(
       builder: (context, viewModel, child) =>
           ListView(padding: const EdgeInsets.all(16.0), children: <Widget>[
