@@ -51,8 +51,7 @@ class AquariumPlantCard extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () async {
-                await Datastore.db.deletePlant(plant);
-                onPlantDeleted(plant);
+                onPlantDeleted(plant, context);
               },
             ),
         ],

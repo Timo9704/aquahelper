@@ -8,14 +8,20 @@ import '../../util/datastore.dart';
 
 
 class AquariumPlantsViewModel extends ChangeNotifier {
-  Aquarium aquarium;
+  late Aquarium aquarium;
   List<Plant> plantList = [];
 
-  AquariumPlantsViewModel(this.aquarium) {
+
+  initPlants(Aquarium aquarium) {
+    this.aquarium = aquarium;
     loadPlants();
   }
 
-  loadPlants() async {
+  void refresh() {
+    loadPlants();
+  }
+
+  void loadPlants() async {
     List<Plant> loadedPlants =
     await Datastore.db.getPlantsByAquarium(aquarium);
     plantList = loadedPlants;

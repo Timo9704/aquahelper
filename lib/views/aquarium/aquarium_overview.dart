@@ -1,6 +1,7 @@
 import 'package:aquahelper/views/aquarium/aquarium_animals_overview.dart';
 import 'package:aquahelper/views/aquarium/aquarium_measurement_reminder.dart';
 import 'package:aquahelper/views/aquarium/aquarium_charts.dart';
+import 'package:aquahelper/views/aquarium/aquarium_plants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
@@ -48,11 +49,15 @@ class AquariumOverview extends StatelessWidget {
                 label: 'Tiere',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.eco),
+                label: 'Pflanzen',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.build),
                 label: 'Technik',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.bubble_chart),
+                icon: Icon(Icons.calendar_month_rounded),
                 label: 'Aktivitäten',
               ),
               BottomNavigationBarItem(
@@ -84,6 +89,7 @@ class AquariumOverview extends StatelessWidget {
             children: [
               AquariumMeasurementReminder(aquarium: aquarium),
               AquariumAnimalsOverview(aquarium: aquarium),
+              AquariumPlants(aquarium: aquarium),
               AquariumTechnic(aquarium: aquarium),
               AquariumActivitiesCalendar(aquariumId: aquarium.aquariumId),
               AquariumCharts(aquariumId: aquarium.aquariumId),

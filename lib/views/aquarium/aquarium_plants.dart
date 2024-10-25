@@ -17,9 +17,11 @@ class AquariumPlants extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    return ChangeNotifierProvider(
-      create: (context) => AquariumPlantsViewModel(aquarium),
-      child: Consumer<AquariumPlantsViewModel>(
+    var viewModel =
+    Provider.of<AquariumPlantsViewModel>(context, listen: false);
+    viewModel.initPlants(aquarium);
+    viewModel.refresh();
+    return Consumer<AquariumPlantsViewModel>(
         builder: (context, viewModel, child) => Stack(children: [
           Column(
             children: <Widget>[
@@ -112,7 +114,6 @@ class AquariumPlants extends StatelessWidget {
             ),
           ),
         ]),
-      ),
-    );
+      );
   }
 }

@@ -150,23 +150,7 @@ class CreateOrEditPlant extends StatelessWidget {
                                 minimumSize: MaterialStateProperty.all<Size>(
                                     const Size(150, 40)),
                               ),
-                              onPressed: () {
-                                if (viewModel.formKey.currentState!
-                                    .validate()) {
-                                  Plant plant = Plant(
-                                    const Uuid().v4().toString(),
-                                    viewModel.aquarium.aquariumId,
-                                    viewModel.count,
-                                    viewModel.plantNameController.text,
-                                    viewModel.latinNameController.text,
-                                    int.parse(viewModel.amountController.text),
-                                    viewModel.position.dx,
-                                    viewModel.position.dy,
-                                  );
-                                  Datastore.db.insertPlant(plant);
-                                  Navigator.pop(context);
-                                }
-                              },
+                              onPressed: () => viewModel.savePlant(context),
                               child: Text('Speichern',
                                   textScaler:
                                       TextScaler.linear(textScaleFactor),

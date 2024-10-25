@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_plants_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_technic_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:aquahelper/views/onboarding.dart';
@@ -119,6 +120,7 @@ class AquaHelper extends StatelessWidget {
             ChangeNotifierProvider<AquariumMeasurementReminderViewModel>(create: (_) => AquariumMeasurementReminderViewModel()),
             ChangeNotifierProvider<AquariumAnimalsOverviewViewModel>(create: (_) => AquariumAnimalsOverviewViewModel()),
             ChangeNotifierProvider<AquariumTechnicViewModel>(create: (_) => AquariumTechnicViewModel()),
+            ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel())
           ],
           child: MaterialApp(
             title: 'AquaHelper',

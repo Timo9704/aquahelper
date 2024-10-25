@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../model/aquarium.dart';
 import '../../../model/plant.dart';
 import '../../../util/datastore.dart';
+import '../aquarium_plants_viewmodel.dart';
 
 
 class CreateOrEditPlantsPositionViewModel extends ChangeNotifier {
@@ -31,8 +33,18 @@ class CreateOrEditPlantsPositionViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removePlant(Plant plant) {
+  void removePlant(Plant plant, BuildContext context) async {
+    Datastore.db.deletePlant(plant);
     loadPlants();
+    if(context.mounted){
+      Provider.of<AquariumPlantsViewModel>(context, listen: false).refresh();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Die Pflanze wurde gelöscht!', textAlign: TextAlign.center),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
   }
 
 
