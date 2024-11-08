@@ -32,9 +32,9 @@ class DashboardViewModel extends ChangeNotifier {
   TabController? tabController;
   late TickerProvider vsync;
 
-  DashboardViewModel(int height) {
-    heightFactor = height < 700 ? 0.35 : 0.65;
-    title = height < 700
+  initDashboard(int height){
+    heightFactor = height < 720 ? 0.35 : 0.65;
+    title = height < 720
         ? "Dashboard"
         : "AquaHelper\nDashboard";
     setUser(Datastore.db.user);

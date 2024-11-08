@@ -1,8 +1,9 @@
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:aquahelper/viewmodels/aquarium_startpage_viewmodel.dart';
 import 'package:aquahelper/views/items/aquarium_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/aquarium_startpage_viewmodel.dart';
 import 'aquarium/forms/create_or_edit_aquarium.dart';
 
 class AquariumStartPage extends StatelessWidget {
@@ -10,6 +11,7 @@ class AquariumStartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     Aquarium aquarium = Aquarium('','', 0, 0, 0, 0, 0, 0, 0, 0, 0, '');
     return ChangeNotifierProvider(
       create: (context) => AquariumStartpageViewModel(),
@@ -21,9 +23,10 @@ class AquariumStartPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const Text('Alle Aquarien:',
-                      style: TextStyle(
-                          fontSize: 20,
+                  Text('Alle Aquarien:',
+                      textScaler: TextScaler.linear(textScaleFactor),
+                      style: const TextStyle(
+                          fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   IconButton(

@@ -73,14 +73,14 @@ class AquariumItem extends StatelessWidget {
                               textScaler: TextScaler.linear(textScaleFactor),
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  fontSize: 26, color: Colors.white)),
+                                  fontSize: 20, color: Colors.white)),
                         ),
                         Flexible(
                           flex: 1,
                           child: Text("${viewModel.aquarium.liter}L",
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 26, color: Colors.white)),
+                                  fontSize: 20, color: Colors.white)),
                         ),
                         Flexible(
                           flex: 1,

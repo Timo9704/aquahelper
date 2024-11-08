@@ -116,7 +116,7 @@ class AquaHelper extends StatelessWidget {
       builder: (context, orientation, screenType) {
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider<DashboardViewModel>(create: (_) => DashboardViewModel(800)),
+            ChangeNotifierProvider<DashboardViewModel>(create: (_) => DashboardViewModel()),
             ChangeNotifierProvider<AquariumMeasurementReminderViewModel>(create: (_) => AquariumMeasurementReminderViewModel()),
             ChangeNotifierProvider<AquariumAnimalsOverviewViewModel>(create: (_) => AquariumAnimalsOverviewViewModel()),
             ChangeNotifierProvider<AquariumTechnicViewModel>(create: (_) => AquariumTechnicViewModel()),

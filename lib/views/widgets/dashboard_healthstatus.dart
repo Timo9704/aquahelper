@@ -18,18 +18,17 @@ class DashboardHealthStatus extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
-              //border: Border.all(color: Colors.grey, width: 0.5),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               children: [
                 Text('Health Status',
                     textScaler: TextScaler.linear(textScaleFactor),
-                    style: const TextStyle(fontSize: 21, color: Colors.black, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold)),
                 Text(
                     'keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ',
                     textScaler: TextScaler.linear(textScaleFactor),
-                    style: const TextStyle(fontSize: 12, color: Colors.black)),
+                    style: const TextStyle(fontSize: 9, color: Colors.black)),
                 const SizedBox(height: 5),
                 SizedBox(
                   height: 60,
@@ -39,7 +38,7 @@ class DashboardHealthStatus extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: viewModel.aquariums
-                            .map((aquarium) => buildAquariumItem(aquarium))
+                            .map((aquarium) => buildAquariumItem(aquarium, textScaleFactor))
                             .toList(),
                       ),
                     ),
@@ -52,7 +51,7 @@ class DashboardHealthStatus extends StatelessWidget {
       );
   }
 
-  Widget buildAquariumItem(Aquarium aquarium) {
+  Widget buildAquariumItem(Aquarium aquarium, double textScaleFactor) {
     List<Color> colorCodes = [
       Colors.green,
       Colors.yellow,
@@ -68,6 +67,7 @@ class DashboardHealthStatus extends StatelessWidget {
               size: 30, color: colorCodes.elementAt(aquarium.healthStatus)),
           const SizedBox(height: 3),
           Text(aquarium.name,
+              textScaler: TextScaler.linear(textScaleFactor),
               style: const TextStyle(fontSize: 12, color: Colors.black))
         ],
       ),

@@ -15,6 +15,10 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
+    var viewModel =
+    Provider.of<DashboardViewModel>(context, listen: false);
+    viewModel.initDashboard(MediaQuery.sizeOf(context).height.toInt());
+    viewModel.refresh();
     return Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) => Stack(
       children: [
@@ -53,7 +57,7 @@ class Dashboard extends StatelessWidget {
                                   textScaler: TextScaler.linear(textScaleFactor),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontSize: 45,
+                                      fontSize: 35,
                                       height: 1.2,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w800)),
@@ -61,7 +65,7 @@ class Dashboard extends StatelessWidget {
                                   textScaler: TextScaler.linear(textScaleFactor),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontSize: 15, color: Colors.white)),
+                                      fontSize: 12, color: Colors.white)),
                             ],
                           )),
                     ))

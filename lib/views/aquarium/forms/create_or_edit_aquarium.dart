@@ -115,7 +115,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           textScaler: TextScaler.linear(
                                               textScaleFactor),
                                           style: const TextStyle(
-                                            fontSize: 25,
+                                            fontSize: 18,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -138,7 +138,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           textScaler: TextScaler.linear(
                                               textScaleFactor),
                                           style: const TextStyle(
-                                            fontSize: 25,
+                                            fontSize: 18,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -159,9 +159,10 @@ class CreateOrEditAquarium extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Wie heißt das Aquarium?",
-                                    style: TextStyle(
-                                      fontSize: 15,
+                                Text("Wie heißt das Aquarium?",
+                                    textScaler: TextScaler.linear(textScaleFactor),
+                                    style: const TextStyle(
+                                      fontSize: 12,
                                       color: Colors.black,
                                     )),
                                 TextFormField(
@@ -192,9 +193,10 @@ class CreateOrEditAquarium extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Wie viel Liter hat das Aquarium?",
-                                    style: TextStyle(
-                                      fontSize: 15,
+                                Text("Wie viel Liter hat das Aquarium?",
+                                    textScaler: TextScaler.linear(textScaleFactor),
+                                    style: const TextStyle(
+                                      fontSize: 12,
                                       color: Colors.black,
                                     )),
                                 TextFormField(
@@ -225,10 +227,11 @@ class CreateOrEditAquarium extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   "Hat das Aquarium eine CO2-Versorgung?",
-                                  style: TextStyle(
-                                    fontSize: 15,
+                                  textScaler: TextScaler.linear(textScaleFactor),
+                                  style: const TextStyle(
+                                    fontSize: 12,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -251,7 +254,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           textScaler: TextScaler.linear(
                                               textScaleFactor),
                                           style: const TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 15,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -274,7 +277,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           textScaler: TextScaler.linear(
                                               textScaleFactor),
                                           style: const TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 15,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -297,7 +300,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           textScaler: TextScaler.linear(
                                               textScaleFactor),
                                           style: const TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 15,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -318,8 +321,9 @@ class CreateOrEditAquarium extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text("Welche Maße hat das Aquarium?",
-                                    style: TextStyle(
+                                Text("Welche Maße hat das Aquarium?",
+                                    textScaler: TextScaler.linear(textScaleFactor),
+                                    style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
                                     )),
@@ -341,7 +345,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           labelText: "Länge",
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide:
-                                                BorderSide(color: Colors.white),
+                                                BorderSide(color: Colors.grey),
                                           ),
                                           fillColor: Colors.grey,
                                         ),
@@ -365,7 +369,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           labelText: "Tiefe",
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide:
-                                                BorderSide(color: Colors.white),
+                                            BorderSide(color: Colors.grey),
                                           ),
                                           fillColor: Colors.grey,
                                         ),
@@ -389,7 +393,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           labelText: "Höhe",
                                           focusedBorder: UnderlineInputBorder(
                                             borderSide:
-                                                BorderSide(color: Colors.white),
+                                              BorderSide(color: Colors.grey),
                                           ),
                                           fillColor: Colors.grey,
                                         ),

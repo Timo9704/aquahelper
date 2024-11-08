@@ -25,7 +25,7 @@ class DashboardNews extends StatelessWidget {
               children: [
                 Text('Neuigkeiten',
                     textScaler: TextScaler.linear(textScaleFactor),
-                    style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold)),
                 Expanded(
                   child: Column(
                     children: [

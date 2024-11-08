@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../util/scalesize.dart';
+
 class IconTextButton extends StatelessWidget {
   final String imagePath;
   final String text;
@@ -13,6 +15,8 @@ class IconTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double textScaleFactor = 0;
 
 
     //TODO: switch to MVVM, this time just do it here
@@ -31,6 +35,7 @@ class IconTextButton extends StatelessWidget {
             Image.asset(imagePath, width: imageSize, height: imageSize),
             Text(
               text,
+              textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.w800),
             ),

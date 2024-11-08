@@ -11,7 +11,7 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = 0;
-    double textSize = 18;
+    double textSize = 12;
     textScaleFactor = ScaleSize.textScaleFactor(context);
 
     return Column(
