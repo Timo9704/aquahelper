@@ -3,11 +3,14 @@ import 'package:aquahelper/viewmodels/tools/light_calculator_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../util/scalesize.dart';
+
 class LightCalculator extends StatelessWidget {
   const LightCalculator({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
       create: (context) => LightCalculatorViewModel(),
       child: Consumer<LightCalculatorViewModel>(
@@ -23,20 +26,24 @@ class LightCalculator extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const Text("Berechne die Lichtmenge deines Aquariums:",
+                  Text("Berechne die Lichtmenge deines Aquariums:",
+                      textScaler: TextScaler.linear(textScaleFactor),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
+                      style: const TextStyle(
+                          fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(height: 20),
-                  const Text("1. Aquarium auswählen oder Volumen angeben:",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
+              ExpansionTile(
+                title: Text(
+                    '1. Aquarium auswählen oder Volumen angeben',
+                    textScaler: TextScaler.linear(textScaleFactor),
+                    style: const TextStyle(
+                        fontSize: 14,
                         color: Colors.black,
-                      )),
-                  const SizedBox(height: 10),
+                    ),
+                ),
+                children: <Widget>[
                   DropdownButton<Aquarium>(
                     value: viewModel.selectedAquarium,
                     hint: const Text('Wähle dein Aquarium',
@@ -65,48 +72,35 @@ class LightCalculator extends StatelessWidget {
                         color: Colors.black,
                       )),
                   const SizedBox(height: 10),
-                  Container(
-                    width: MediaQuery.sizeOf(context).width - 200,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Aquarium-Volumen (in Liter)",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                            )),
-                        TextFormField(
-                          keyboardType: TextInputType.number,
-                          textAlignVertical: TextAlignVertical.center,
-                          textAlign: TextAlign.center,
-                          controller: viewModel.aquariumLiterController,
-                          style: const TextStyle(fontSize: 20),
-                          decoration: const InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey),
-                            ),
-                            fillColor: Colors.grey,
-                          ),
+                  ListTile(
+                    title: TextField(
+                      controller: viewModel.aquariumLiterController,
+                      decoration: const InputDecoration(
+                        labelText: 'Aquarium-Volumen (in Liter)',
+                        border: OutlineInputBorder(
+
                         ),
-                      ],
+                      ),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  const Text("2. Lumen oder Lampe angeben:",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      )),
                   const SizedBox(height: 10),
+                  ],),
                   ExpansionTile(
-                    title: const Text('Lichtstrom (Lumen/lm)'),
-                    initiallyExpanded: true,
+                    title: Text(
+                      '2. Lumen eingeben',
+                    textScaler: TextScaler.linear(textScaleFactor),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                    ),
+                  ),
                     children: <Widget>[
+                      Text(
+                          "Der Lichtstrom (in Lumen/lm) gibt die Lichtmenge an, die von einer Lichtquelle in alle Richtungen abgestrahlt wird.",
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: TextStyle(fontSize: 12),
+                          textAlign: TextAlign.justify),
                       ListTile(
                         title: TextField(
                           controller: viewModel.lumenController,
@@ -122,11 +116,15 @@ class LightCalculator extends StatelessWidget {
                   if (viewModel.lumenPerLiter > 0) ...[
                     const SizedBox(height: 20),
                     Text(
-                        "Die Lichtmenge beträgt ${viewModel.lumenPerLiter.round()} Lumen pro Liter."),
+                        "Die Lichtmenge beträgt ${viewModel.lumenPerLiter.round()} Lumen pro Liter.",
+                        textScaler: TextScaler.linear(textScaleFactor),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
+                    ),
                     const SizedBox(height: 10),
                     Text(viewModel.getDetailsText(),
+                        textScaler: TextScaler.linear(textScaleFactor),
                         maxLines: 3,
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(fontSize: 12),
                         textAlign: TextAlign.justify),
                     const SizedBox(height: 20),
                     viewModel.getLumenIndicator(viewModel.lumenPerLiter),
