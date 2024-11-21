@@ -24,10 +24,11 @@ class AquariumPlantCard extends StatelessWidget {
         children: [
           CircleAvatar(
               backgroundColor: Colors.lightGreen,
+              foregroundColor: Colors.black,
               child: Text(
                 plant.plantNumber.toString(),
                 textScaler: TextScaler.linear(textScaleFactor),
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 16),
               )),
           const SizedBox(width: 16),
           Expanded(
@@ -38,11 +39,11 @@ class AquariumPlantCard extends StatelessWidget {
                   plant.name,
                   textScaler: TextScaler.linear(textScaleFactor),
                   style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                      fontSize: 14, fontWeight: FontWeight.bold),
                 ),
                 Text(plant.latName,
                     textScaler: TextScaler.linear(textScaleFactor),
-                    style: const TextStyle(fontSize: 16)),
+                    style: const TextStyle(fontSize: 12)),
               ],
             ),
           ),

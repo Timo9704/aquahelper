@@ -40,6 +40,16 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
     }
   }
 
+  setWaterType(int value) {
+    waterType = value;
+    notifyListeners();
+  }
+
+  setCo2Type(int value) {
+    co2Type = value;
+    notifyListeners();
+  }
+
   void saveAquarium(BuildContext context) async {
     try {
       syncValuesToObject(context);

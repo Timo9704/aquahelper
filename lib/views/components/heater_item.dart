@@ -31,7 +31,7 @@ class HeaterItem extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text("Heizer",
                   textScaler: TextScaler.linear(textScaleFactor),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black),
                   textAlign: TextAlign.start),
             ]),
             Row(
@@ -39,13 +39,13 @@ class HeaterItem extends StatelessWidget {
                 Expanded(
                   child: Text("Hersteller & Modell:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text(heater.manufacturerModelName,
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -55,13 +55,13 @@ class HeaterItem extends StatelessWidget {
                 Expanded(
                   child: Text("Leistung:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text("${heater.power} Watt",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],

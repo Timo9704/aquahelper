@@ -89,11 +89,11 @@ class CreateOrEditPlantsPosition extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
                 child: Text(
-                  'Tippe auf die Stelle im Aquarium, an der sich die Pflanze befindet, um eine Pflanze hinzuzufügen. Falls die Liste nicht aktualisiert wird, tippe auf das Aktualisieren-Symbol.',
+                  'Tippe auf die Stelle im Aquarium, an der sich die Pflanze befindet, um eine Pflanze hinzuzufügen.',
                   textAlign: TextAlign.justify,
                   textScaler: TextScaler.linear(textScaleFactor),
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 14,
                   ),
                 ),
               ),

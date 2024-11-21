@@ -1,9 +1,11 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/model/measurement.dart';
+import 'package:aquahelper/util/scalesize.dart';
 import 'package:aquahelper/views/aquarium/forms/create_or_edit_measurement.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../model/aquarium.dart';
-import '../../model/measurement.dart';
+
 
 class MeasurementItem extends StatelessWidget {
   final Measurement measurement;
@@ -14,6 +16,7 @@ class MeasurementItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     return TextButton(
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -36,13 +39,15 @@ class MeasurementItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text('Messung vom',
-              style: TextStyle(fontSize: 18, color: Colors.black)),
+          Text('Messung vom',
+              textScaler: TextScaler.linear(textScaleFactor),
+              style: const TextStyle(fontSize: 16, color: Colors.black)),
           Text(
               DateFormat('dd.MM.yyyy HH:mm').format(
                   DateTime.fromMillisecondsSinceEpoch(
                       measurement.measurementDate)),
-              style: const TextStyle(fontSize: 18, color: Colors.black)
+              textScaler: TextScaler.linear(textScaleFactor),
+              style: const TextStyle(fontSize: 16, color: Colors.black)
           ),
         ],
       ),

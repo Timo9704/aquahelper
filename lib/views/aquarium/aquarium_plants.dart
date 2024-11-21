@@ -19,8 +19,9 @@ class AquariumPlants extends StatelessWidget {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     var viewModel =
     Provider.of<AquariumPlantsViewModel>(context, listen: false);
-    viewModel.initPlants(aquarium);
-    viewModel.refresh();
+    if (viewModel.aquarium != aquarium) {
+      viewModel.initPlants(aquarium);
+    }
     return Consumer<AquariumPlantsViewModel>(
         builder: (context, viewModel, child) => Stack(children: [
           Column(
@@ -34,15 +35,15 @@ class AquariumPlants extends StatelessWidget {
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10),
                     ),
-                    child: viewModel.aquarium.imagePath.startsWith('assets/')
-                        ? Image.asset(viewModel.aquarium.imagePath,
+                    child: viewModel.aquarium!.imagePath.startsWith('assets/')
+                        ? Image.asset(viewModel.aquarium!.imagePath,
                             fit: BoxFit.fitWidth)
-                        : viewModel.aquarium.imagePath.startsWith('https://')
+                        : viewModel.aquarium!.imagePath.startsWith('https://')
                             ? CachedNetworkImage(
-                                imageUrl: viewModel.aquarium.imagePath,
+                                imageUrl: viewModel.aquarium!.imagePath,
                                 fit: BoxFit.cover)
                             : viewModel
-                                .localImageCheck(viewModel.aquarium.imagePath),
+                                .localImageCheck(viewModel.aquarium!.imagePath),
                   ),
                 ),
               ]),
@@ -93,7 +94,7 @@ class AquariumPlants extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        CreateOrEditPlantsPosition(aquarium: viewModel.aquarium),
+                        CreateOrEditPlantsPosition(aquarium: viewModel.aquarium!),
                   ),
                 ).then(
                   (value) => viewModel.loadPlants(),
@@ -108,7 +109,7 @@ class AquariumPlants extends StatelessWidget {
                 'Pflanzen bearbeiten',
                 textScaler: TextScaler.linear(textScaleFactor),
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                 ),
               ),
             ),

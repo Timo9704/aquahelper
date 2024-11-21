@@ -107,7 +107,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           activeColor: Colors.lightGreen,
                                           groupValue: viewModel.waterType,
                                           onChanged: (int? value) {
-                                            viewModel.waterType = value!;
+                                            viewModel.setWaterType(value!);
                                           },
                                         ),
                                         Text(
@@ -130,7 +130,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           activeColor: Colors.lightGreen,
                                           groupValue: viewModel.waterType,
                                           onChanged: (int? value) {
-                                            viewModel.waterType = value!;
+                                            viewModel.setWaterType(value!);
                                           },
                                         ),
                                         Text(
@@ -246,7 +246,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           activeColor: Colors.lightGreen,
                                           groupValue: viewModel.co2Type,
                                           onChanged: (int? value) {
-                                            viewModel.co2Type = value!;
+                                            viewModel.setCo2Type(value!);
                                           },
                                         ),
                                         Text(
@@ -269,7 +269,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           activeColor: Colors.lightGreen,
                                           groupValue: viewModel.co2Type,
                                           onChanged: (int? value) {
-                                            viewModel.co2Type = value!;
+                                            viewModel.setCo2Type(value!);
                                           },
                                         ),
                                         Text(
@@ -292,7 +292,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                           activeColor: Colors.lightGreen,
                                           groupValue: viewModel.co2Type,
                                           onChanged: (int? value) {
-                                            viewModel.co2Type = value!;
+                                            viewModel.setCo2Type(value!);
                                           },
                                         ),
                                         Text(

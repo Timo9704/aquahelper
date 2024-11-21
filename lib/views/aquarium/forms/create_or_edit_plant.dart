@@ -128,7 +128,7 @@ class CreateOrEditPlant extends StatelessWidget {
                             labelStyle: TextStyle(color: Colors.black),
                           ),
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
+                            if (value == null || value.isEmpty || int.tryParse(value) == null) {
                               return 'Bitte eine Zahl eingeben';
                             }
                             return null;
@@ -144,13 +144,13 @@ class CreateOrEditPlant extends StatelessWidget {
                                     MaterialStateProperty.all<Color>(
                                         Colors.lightGreen),
                                 minimumSize: MaterialStateProperty.all<Size>(
-                                    const Size(150, 40)),
+                                    const Size(200, 50)),
                               ),
                               onPressed: () => viewModel.savePlant(context),
                               child: Text('Speichern',
                                   textScaler:
                                       TextScaler.linear(textScaleFactor),
-                                  style: const TextStyle(fontSize: 20)),
+                                  style: const TextStyle(fontSize: 18)),
                             ),
                           ],
                         )

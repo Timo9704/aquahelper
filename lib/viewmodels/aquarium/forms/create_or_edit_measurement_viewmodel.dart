@@ -264,7 +264,7 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
         Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
         Navigator.pop(context);
         if (!isPremium) {
-          //viewModel.interstitialAd?.show();
+          interstitialAd?.show();
         }
       }
     } catch (e) {

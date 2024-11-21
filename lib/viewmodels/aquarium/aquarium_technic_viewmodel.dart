@@ -9,10 +9,11 @@ class AquariumTechnicViewModel extends ChangeNotifier {
   Filter? filter;
   Lighting? lighting;
   Heater? heater;
-  late Aquarium aquarium;
+  Aquarium? aquarium;
 
   initAquariumTechnic(Aquarium initAquarium) {
     aquarium = initAquarium;
+    refresh();
   }
 
   void refresh() {
@@ -20,7 +21,7 @@ class AquariumTechnicViewModel extends ChangeNotifier {
   }
 
   Future<void> loadComponents() async {
-    List<Filter> filterList = await Datastore.db.getFilterByAquarium(aquarium.aquariumId);
+    List<Filter> filterList = await Datastore.db.getFilterByAquarium(aquarium!.aquariumId);
     if(filterList.isNotEmpty) {
       filter = filterList.first;
     }else{
@@ -34,7 +35,7 @@ class AquariumTechnicViewModel extends ChangeNotifier {
         DateTime.now().millisecondsSinceEpoch,
       );
     }
-    List<Lighting> lightingList = await Datastore.db.getLightingByAquarium(aquarium.aquariumId);
+    List<Lighting> lightingList = await Datastore.db.getLightingByAquarium(aquarium!.aquariumId);
     if(lightingList.isNotEmpty) {
       lighting = lightingList.first;
     }else{
@@ -48,7 +49,7 @@ class AquariumTechnicViewModel extends ChangeNotifier {
           0
       );
     }
-    List<Heater> heaterList = await Datastore.db.getHeaterByAquarium(aquarium.aquariumId);
+    List<Heater> heaterList = await Datastore.db.getHeaterByAquarium(aquarium!.aquariumId);
     if(heaterList.isNotEmpty) {
       heater = heaterList.first;
     }else{

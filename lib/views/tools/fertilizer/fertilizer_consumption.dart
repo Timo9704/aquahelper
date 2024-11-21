@@ -3,42 +3,47 @@ import 'package:aquahelper/viewmodels/tools/fertilizer_calculator_viewmodel.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../util/scalesize.dart';
+
 class FertilizerConsumption extends StatelessWidget {
   const FertilizerConsumption({super.key});
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     return Consumer<FertilizerCalculatorViewModel>(
       builder: (context, viewModel, child) =>
           ListView(padding: const EdgeInsets.all(16.0), children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(22.0),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              const Text(
-                "Berechne den Nährstoffverbrauch deines Aquariums:",
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800),
+              Text(
+                "Berechne den Nährstoffverbrauch deines Aquariums der letzten zwei Messungen:",
+                textScaler: TextScaler.linear(textScaleFactor),
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black),
               ),
               const SizedBox(height: 10),
               Column(children: [
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
+                Text(
                   "1. Wähle das Aquarium aus:",
-                  style: TextStyle(
-                      fontSize: 18,
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w800),
                 ),
                 DropdownButton<Aquarium>(
                   value: viewModel.selectedAquarium,
-                  hint: const Text(
+                  hint: Text(
+                    textScaler: TextScaler.linear(textScaleFactor),
                     'Wähle dein Aquarium',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                   ),
                   onChanged: (newValue) {
                     viewModel.setSelectedAquarium(newValue!);
@@ -49,8 +54,9 @@ class FertilizerConsumption extends StatelessWidget {
                       value: value,
                       child: Text(
                         value.name,
+                        textScaler: TextScaler.linear(textScaleFactor),
                         style:
-                            const TextStyle(fontSize: 20, color: Colors.black),
+                            const TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     );
                   }).toList(),
@@ -58,10 +64,11 @@ class FertilizerConsumption extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
+                Text(
                   "2. Nährstoffverbrauch \n(letzten zwei Messungen):",
-                  style: TextStyle(
-                      fontSize: 18,
+                  textScaler: TextScaler.linear(textScaleFactor),
+                  style: const TextStyle(
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w800),
                 ),
@@ -72,12 +79,13 @@ class FertilizerConsumption extends StatelessWidget {
                   horizontalMargin: 0,
                   headingRowHeight: 70.0,
                   columnSpacing: 15.0,
-                  columns: const <DataColumn>[
+                  columns: <DataColumn>[
                     DataColumn(
                       label: Expanded(
                         child: Text(
+                          textScaler: TextScaler.linear(textScaleFactor),
                           'Nährstoff',
-                          style: TextStyle(fontStyle: FontStyle.italic),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),
                     ),
@@ -85,7 +93,8 @@ class FertilizerConsumption extends StatelessWidget {
                       label: Expanded(
                         child: Text(
                           'Letzte\nMessung\n(in mg/L)',
-                          style: TextStyle(fontStyle: FontStyle.italic),
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),
                     ),
@@ -93,7 +102,8 @@ class FertilizerConsumption extends StatelessWidget {
                       label: Expanded(
                         child: Text(
                           'Vorletzte\nMessung\n(in mg/L)',
-                          style: TextStyle(fontStyle: FontStyle.italic),
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),
                     ),
@@ -101,7 +111,8 @@ class FertilizerConsumption extends StatelessWidget {
                       label: Expanded(
                         child: Text(
                           'Verbrauch \n(in mg/L)',
-                          style: TextStyle(fontStyle: FontStyle.italic),
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
                       ),
                     ),
@@ -109,7 +120,7 @@ class FertilizerConsumption extends StatelessWidget {
                   rows: <DataRow>[
                     DataRow(
                       cells: <DataCell>[
-                        const DataCell(Text('Nitrat')),
+                        DataCell(Text('Nitrat', textScaler: TextScaler.linear(textScaleFactor))),
                         DataCell(
                             Text(viewModel.measurementIs1.nitrate.toString())),
                         DataCell(
@@ -120,7 +131,7 @@ class FertilizerConsumption extends StatelessWidget {
                     ),
                     DataRow(
                       cells: <DataCell>[
-                        const DataCell(Text('Phosphat')),
+                        DataCell(Text('Phosphat', textScaler: TextScaler.linear(textScaleFactor))),
                         DataCell(Text(
                             viewModel.measurementIs1.phosphate.toString())),
                         DataCell(Text(
@@ -131,7 +142,7 @@ class FertilizerConsumption extends StatelessWidget {
                     ),
                     DataRow(
                       cells: <DataCell>[
-                        const DataCell(Text('Kalium')),
+                        DataCell(Text('Kalium', textScaler: TextScaler.linear(textScaleFactor))),
                         DataCell(Text(
                             viewModel.measurementIs1.potassium.toString())),
                         DataCell(Text(
@@ -142,7 +153,7 @@ class FertilizerConsumption extends StatelessWidget {
                     ),
                     DataRow(
                       cells: <DataCell>[
-                        const DataCell(Text('Eisen')),
+                        DataCell(Text('Eisen', textScaler: TextScaler.linear(textScaleFactor))),
                         DataCell(
                             Text(viewModel.measurementIs1.iron.toString())),
                         DataCell(
@@ -160,7 +171,7 @@ class FertilizerConsumption extends StatelessWidget {
                             MaterialStateProperty.all(Colors.lightGreen),
                       ),
                       onPressed: () => {viewModel.processConsumptionResponse()},
-                      child: const Text("Berechnen")),
+                      child: Text("Berechnen", textScaler: TextScaler.linear(textScaleFactor))),
                 ),
               ]),
             ],

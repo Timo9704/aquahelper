@@ -122,7 +122,7 @@ class CreateOrEditActivity extends StatelessWidget {
                             "Welche Aufgaben hast du erledigt?",
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontSize: 20, color: Colors.black),
+                                fontSize: 18, color: Colors.black),
                           ),
                           const SizedBox(height: 10),
                           Wrap(
@@ -132,7 +132,7 @@ class CreateOrEditActivity extends StatelessWidget {
                                       label: Text(tag,
                                           textScaler: TextScaler.linear(
                                               textScaleFactor),
-                                          style: const TextStyle(fontSize: 14)),
+                                          style: const TextStyle(fontSize: 12)),
                                       selected:
                                           viewModel.selectedTags.contains(tag),
                                       backgroundColor: Colors.white,
@@ -165,7 +165,7 @@ class CreateOrEditActivity extends StatelessWidget {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.add,
-                                    color: Colors.lightGreen),
+                                    color: Colors.lightGreen, size: 30),
                                 onPressed: () => viewModel.onAddCustomTag(),
                               )
                             ],
@@ -188,7 +188,7 @@ class CreateOrEditActivity extends StatelessWidget {
                           Text("Notizen:",
                               textScaler: TextScaler.linear(textScaleFactor),
                               style: const TextStyle(
-                                  fontSize: 20, color: Colors.black)),
+                                  fontSize: 18, color: Colors.black)),
                           TextFormField(
                             maxLines: 5,
                             cursorColor: Colors.black,
@@ -208,13 +208,19 @@ class CreateOrEditActivity extends StatelessWidget {
                   const SizedBox(height: 10),
                   TextButton(
                     onPressed: () => selectDate(context, viewModel),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      padding: const EdgeInsets.all(8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),),
                     child: Text(
                       viewModel.selectedDate == null
                           ? 'Wähle ein Datum'
                           : 'Datum: ${DateFormat('dd.MM.yyyy').format(viewModel.selectedDate!)}',
                       textScaler: TextScaler.linear(textScaleFactor),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 22),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -229,7 +235,7 @@ class CreateOrEditActivity extends StatelessWidget {
                           child: Text(
                             "Aktivität speichern",
                             textScaler: TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontSize: 22),
+                            style: const TextStyle(fontSize: 18),
                           ),
                         )
                       : Row(

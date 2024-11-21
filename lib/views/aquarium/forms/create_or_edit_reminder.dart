@@ -124,8 +124,7 @@ class CreateOrEditReminder extends StatelessWidget {
                                         groupValue: viewModel.selectedSchedule,
                                         visualDensity: VisualDensity.compact,
                                         onChanged: (String? value) {
-                                          viewModel.selectedSchedule = value!;
-                                          viewModel.repeat = false;
+                                          viewModel.setRepeat(false, value!);
                                         },
                                       ),
                                     ),
@@ -145,16 +144,14 @@ class CreateOrEditReminder extends StatelessWidget {
                                         visualDensity: VisualDensity.compact,
                                         groupValue: viewModel.selectedSchedule,
                                         onChanged: (String? value) {
-                                          viewModel.selectedSchedule = value!;
-                                          viewModel.repeat = true;
+                                          viewModel.setRepeat(true, value!);
                                         },
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              if (viewModel
-                                  .repeat) // Zeige die Wochentage in einer Reihe und verberge den Button für Datum und Uhrzeit
+                              if (viewModel.repeat)
                                 Column(
                                   children: [
                                     const SizedBox(height: 5),
@@ -169,8 +166,7 @@ class CreateOrEditReminder extends StatelessWidget {
                                           selected:
                                               viewModel.selectedDays[index],
                                           onSelected: (bool selected) {
-                                            viewModel.selectedDays[index] =
-                                                selected;
+                                            viewModel.setSelectedDays(index, selected);
                                           },
                                           backgroundColor: Colors.grey,
                                           selectedColor: Colors.lightGreen,
@@ -184,8 +180,7 @@ class CreateOrEditReminder extends StatelessWidget {
                                       'Wiederholung: ${viewModel.selectedDays.every((selected) => !selected) ? 'Keine Tage ausgewählt' : '${viewModel.selectedDays.asMap().entries.where((entry) => entry.value).map((entry) => viewModel.daysOfWeek[entry.key]).join(', ')} um ${viewModel.selectedTime.hour.toString().padLeft(2, '0')}:${viewModel.selectedTime.minute.toString().padLeft(2, '0')} Uhr'}',
                                     ),
                                     const SizedBox(height: 10),
-                                    if (viewModel
-                                        .repeat) // Nur die Uhrzeit anzeigen, wenn "Einmalig" ausgewählt ist
+                                    if (viewModel.repeat)
                                       ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor:

@@ -1,14 +1,14 @@
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_overview_viewmodel.dart';
 import 'package:aquahelper/views/aquarium/aquarium_animals_overview.dart';
 import 'package:aquahelper/views/aquarium/aquarium_measurement_reminder.dart';
 import 'package:aquahelper/views/aquarium/aquarium_charts.dart';
 import 'package:aquahelper/views/aquarium/aquarium_plants.dart';
+import 'package:aquahelper/views/tools/runin/runin_calender.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/aquarium.dart';
-import '../../viewmodels/aquarium/aquarium_overview_viewmodel.dart';
-import '../tools/runin/runin_calender.dart';
 import 'aquarium_activities_calender.dart';
 import 'aquarium_technic.dart';
 

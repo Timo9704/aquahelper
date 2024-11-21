@@ -33,7 +33,7 @@ class LightingItem extends StatelessWidget {
               children: [
               Text("Beleuchtung",
                   textScaler: TextScaler.linear(textScaleFactor),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black),
                   textAlign: TextAlign.start),
             ]),
             Row(
@@ -41,13 +41,13 @@ class LightingItem extends StatelessWidget {
                 Expanded(
                   child: Text("Hersteller & Modell:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text(lighting.manufacturerModelName,
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -57,13 +57,13 @@ class LightingItem extends StatelessWidget {
                 Expanded(
                   child: Text("Helligkeit:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text("${lighting.brightness} Lumen",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -73,13 +73,13 @@ class LightingItem extends StatelessWidget {
                 Expanded(
                   child: Text("Beleuchtungsdauer:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text("${lighting.onTime} Stunden",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -89,13 +89,13 @@ class LightingItem extends StatelessWidget {
                 Expanded(
                   child: Text("Leistung:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text("${lighting.power} Watt",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],

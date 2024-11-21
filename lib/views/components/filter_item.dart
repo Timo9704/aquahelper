@@ -37,7 +37,7 @@ class FilterItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text("Filter",
                   textScaler: TextScaler.linear(textScaleFactor),
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black),
                   textAlign: TextAlign.start),
             ]),
             Row(
@@ -45,13 +45,13 @@ class FilterItem extends StatelessWidget {
                 Expanded(
                   child: Text("Hersteller & Modell:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text(filter.manufacturerModelName,
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -61,13 +61,13 @@ class FilterItem extends StatelessWidget {
                 Expanded(
                   child: Text("Filtertyp:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text(_filterTypes[filter.filterType],
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -77,13 +77,13 @@ class FilterItem extends StatelessWidget {
                 Expanded(
                   child: Text("Fördermenge:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text("${filter.flowRate} L/h",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -93,13 +93,13 @@ class FilterItem extends StatelessWidget {
                 Expanded(
                   child: Text("Leistung:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text("${filter.power} Watt",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],
@@ -109,14 +109,14 @@ class FilterItem extends StatelessWidget {
                 Expanded(
                   child: Text("letzte Reinigung:",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.start),
                 ),
                 Expanded(
                   child: Text(DateFormat('dd.MM.yyyy')
                     .format(DateTime.fromMillisecondsSinceEpoch(filter.lastMaintenance)),
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       textAlign: TextAlign.center),
                 ),
               ],

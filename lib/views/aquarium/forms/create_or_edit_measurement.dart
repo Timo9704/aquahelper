@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:provider/provider.dart';
 
+import '../../../util/scalesize.dart';
+
 class CreateOrEditMeasurement extends StatelessWidget {
   final Aquarium aquarium;
   final String measurementId;
@@ -30,6 +32,7 @@ class CreateOrEditMeasurement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
       create: (context) => CreateOrEditMeasurementViewModel(
           aquarium, measurementId, waterValuesMap),
@@ -87,17 +90,16 @@ class CreateOrEditMeasurement extends StatelessWidget {
                     Container(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                         child: viewModel.createMode
-                            ? const Text(' Neue Messung hinzufügen:',
+                            ? Text('Neue Messung hinzufügen:',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black))
-                            : const Text(' Messung bearbeiten:',
+                                textScaler: TextScaler.linear(textScaleFactor),
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.black))
+                            : Text('Messung bearbeiten:',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black))),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                                textScaler: TextScaler.linear(textScaleFactor),
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.black))),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -152,8 +154,9 @@ class CreateOrEditMeasurement extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(key,
+                                    textScaler: TextScaler.linear(textScaleFactor),
                                     style: const TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       color: Colors.black,
                                     )),
                                 TextFormField(
@@ -196,7 +199,7 @@ class CreateOrEditMeasurement extends StatelessWidget {
                     ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.lightGreen),
+                            MaterialStateProperty.all(Colors.grey),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
@@ -206,9 +209,10 @@ class CreateOrEditMeasurement extends StatelessWidget {
                         ),
                       ),
                       onPressed: () => viewModel.presentDatePicker(context),
-                      child: const Text(
-                        'Datum und Uhrzeit wählen',
-                        style: TextStyle(color: Colors.black),
+                      child: Text(
+                        textScaler: TextScaler.linear(textScaleFactor),
+                        'Datum/Uhrzeit ändern',
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                     const SizedBox(
@@ -235,9 +239,10 @@ class CreateOrEditMeasurement extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 "Löschen",
-                                style: TextStyle(color: Colors.black),
+                                textScaler: TextScaler.linear(textScaleFactor),
+                                style: const TextStyle(color: Colors.black),
                               ),
                             ),
                           ),
@@ -258,8 +263,9 @@ class CreateOrEditMeasurement extends StatelessWidget {
                               ),
                               onPressed: () => viewModel.onPressedSave(
                                   context),
-                              child: const Text("Speichern",
-                                  style: TextStyle(color: Colors.black))),
+                              child: Text("Speichern",
+                                  textScaler: TextScaler.linear(textScaleFactor),
+                                  style: const TextStyle(color: Colors.black))),
                         ),
                       ],
                     ),

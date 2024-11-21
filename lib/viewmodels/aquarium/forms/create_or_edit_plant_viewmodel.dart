@@ -25,6 +25,7 @@ class CreateOrEditPlantViewModel extends ChangeNotifier {
     try {
       if (formKey.currentState!
           .validate()) {
+        print('Plant saved');
         Plant plant = Plant(
           const Uuid().v4().toString(),
           aquarium.aquariumId,

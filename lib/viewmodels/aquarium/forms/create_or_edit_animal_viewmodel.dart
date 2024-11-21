@@ -16,7 +16,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
   final amountController = TextEditingController();
   String animalType = 'Fische';
 
-  CreateOrEditAnimalViewModel(this.aquarium, animal){
+  CreateOrEditAnimalViewModel(this.aquarium, animal, animalType) {
     if(animal != null) {
       this.animal = animal;
       animalNameController.text = animal.name;
@@ -25,6 +25,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
       animalType = animal.type;
       notifyListeners();
     }else{
+      this.animalType = animalType;
       this.animal = Animals(
         '',
         '',
@@ -33,6 +34,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
         '',
         0,
       );
+      notifyListeners();
     }
   }
 

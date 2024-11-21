@@ -163,8 +163,6 @@ class DashboardViewModel extends ChangeNotifier {
   }
 
   checkHealthStatus() async {
-    loadAquariums();
-
     for (int i = 0; i < aquariums.length; i++) {
       int previousHealthStatus = aquariums[i].healthStatus;
       DateTime now = DateTime.now();

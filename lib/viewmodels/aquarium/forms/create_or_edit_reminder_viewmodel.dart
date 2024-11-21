@@ -5,7 +5,10 @@ import 'package:aquahelper/views/aquarium/aquarium_overview.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
+
+import '../aquarium_measurements_reminder_viewmodel.dart';
 
 
 class CreateOrEditReminderViewModel extends ChangeNotifier {
@@ -63,6 +66,17 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     }
   }
 
+  setRepeat(bool repeat, String selectedSchedule) {
+    this.repeat = repeat;
+    this.selectedSchedule = selectedSchedule;
+    notifyListeners();
+  }
+
+  setSelectedDays(int index, bool value) {
+    selectedDays[index] = value;
+    notifyListeners();
+  }
+
   List<bool> stringToBoolList(String str) {
     String trimmedStr = str.substring(1, str.length - 1);
     List<String> strList = trimmedStr.split(', ');
@@ -72,7 +86,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     return boolList;
   }
 
-  void submitReminder(BuildContext context) {
+  Future<void> submitReminder(BuildContext context) async {
     if (createMode) {
       if (repeat) {
         selectedDate = DateTime(9999, 12, 31, 00, 00);
@@ -87,7 +101,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
         selectedDays.toString(),
         "${selectedTime.hour}:${selectedTime.minute}",
       );
-      Datastore.db.insertTask(task);
+      await Datastore.db.insertTask(task);
 
       if (repeat) {
         createRecurringNotification(
@@ -99,7 +113,8 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
                 .toList(),
             "${selectedTime.hour}:${selectedTime.minute}",
             task.title,
-            task.description);
+            task.description,
+            task.taskId);
       } else {
         AwesomeNotifications().createNotification(
             content: NotificationContent(
@@ -137,7 +152,8 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
                 .toList(),
             "${selectedTime.hour}:${selectedTime.minute}",
             task.title,
-            task.description);
+            task.description,
+            task.taskId);
       } else {
         AwesomeNotifications()
             .cancel(selectedDateInital.millisecondsSinceEpoch ~/ 1000);
@@ -151,6 +167,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
                 date: selectedDate, preciseAlarm: true, allowWhileIdle: true));
       }
     }
+    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -159,7 +176,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
   }
 
   void createRecurringNotification(List<int> daysOfWeek, String time,
-      String title, String description) async {
+      String title, String description, String taskId) async {
     List<String> timeParts = time.split(':');
     int hour = int.parse(timeParts[0]);
     int minute = int.parse(timeParts[1]);
@@ -167,7 +184,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     for (int dayOfWeek in daysOfWeek) {
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
-          id: (task.taskId + dayOfWeek.toString()).hashCode,
+          id: (taskId + dayOfWeek.toString()).hashCode,
           channelKey: "0",
           title: title,
           body: description,

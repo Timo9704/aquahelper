@@ -17,7 +17,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
       create: (context) => AquariumActivitiesCalenderViewModel(aquariumId),
       child: Consumer<AquariumActivitiesCalenderViewModel>(
         builder: (context, viewModel, child) => Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -27,7 +27,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
                   const Text(
                     "Aktivitäten-Kalender",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25, color: Colors.black),
+                    style: TextStyle(fontSize: 22, color: Colors.black),
                   ),
                   IconButton(
                     onPressed: () async {
@@ -44,7 +44,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
                       }
                     },
                     icon: const Icon(Icons.add_circle,
-                        size: 35, color: Colors.lightGreen),
+                        size: 30, color: Colors.lightGreen),
                   ),
                 ],
               ),

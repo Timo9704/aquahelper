@@ -15,29 +15,30 @@ class FertilizerConverter extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(22.0),
+            padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                const Text(
-                    "Nährstoffe für die Größe deines Aquariums umrechnen:",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800)),
+                Text(
+                    "Nährstoffkonzentrationen eines Düngers für die Größe deines Aquariums umrechnen:",
+                    textScaler: TextScaler.linear(textScaleFactor),
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black)),
                 const SizedBox(height: 10),
                 Column(children: [
-                  const Text("1. Wähle einen Dünger aus:",
-                      style: TextStyle(
-                          fontSize: 18,
+                  Text("1. Wähle einen Dünger aus:",
+                      textScaler: TextScaler.linear(textScaleFactor),
+                      style: const TextStyle(
+                          fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   DropdownButton<String>(
                     value: viewModel.selectedFertilizer,
                     hint: Text('Wähle deinen Dünger',
                         textScaler: TextScaler.linear(textScaleFactor),
                         style:
-                            const TextStyle(fontSize: 20, color: Colors.black)),
+                            const TextStyle(fontSize: 16, color: Colors.black)),
                     onChanged: (newValue) {
                       viewModel.setSelectedFertilizer(newValue);
                     },
@@ -48,23 +49,25 @@ class FertilizerConverter extends StatelessWidget {
                         child: Text(value,
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.black)),
+                                fontSize: 12, color: Colors.black)),
                       );
                     }).toList(),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("2. Wähle das Aquarium aus:",
-                      style: TextStyle(
-                          fontSize: 18,
+                  Text("2. Wähle das Aquarium aus:",
+                      textScaler: TextScaler.linear(textScaleFactor),
+                      style: const TextStyle(
+                          fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
                   DropdownButton<Aquarium>(
                     value: viewModel.selectedAquarium,
-                    hint: const Text('Wähle dein Aquarium',
-                        style: TextStyle(fontSize: 20, color: Colors.black)),
+                    hint: Text('Wähle dein Aquarium',
+                        textScaler: TextScaler.linear(textScaleFactor),
+                        style: const TextStyle(fontSize: 16, color: Colors.black),),
                     onChanged: (newValue) {
                       viewModel.setSelectedAquarium(newValue!);
                     },
@@ -73,29 +76,34 @@ class FertilizerConverter extends StatelessWidget {
                       return DropdownMenuItem<Aquarium>(
                         value: value,
                         child: Text(value.name,
+                            textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.black)),
+                                fontSize: 14, color: Colors.black)),
                       );
                     }).toList(),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("3. 1 ml Dünger entsprechen:",
-                      style: TextStyle(
-                          fontSize: 18,
+                  Text("3. 1 ml Dünger entsprechen:",
+                      textScaler: TextScaler.linear(textScaleFactor),
+                      style: const TextStyle(
+                          fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(
                     height: 10,
                   ),
                   DataTable(
-                    columns: const <DataColumn>[
+                    dataRowMaxHeight: 40,
+                    dataRowMinHeight: 20,
+                    columns: <DataColumn>[
                       DataColumn(
                         label: Expanded(
                           child: Text(
                             'Nährstoff',
-                            style: TextStyle(fontStyle: FontStyle.italic),
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                       ),
@@ -103,7 +111,8 @@ class FertilizerConverter extends StatelessWidget {
                         label: Expanded(
                           child: Text(
                             'Menge \n(in mg/L)',
-                            style: TextStyle(fontStyle: FontStyle.italic),
+                            textScaler: TextScaler.linear(textScaleFactor),
+                            style: const TextStyle(fontStyle: FontStyle.italic),
                           ),
                         ),
                       ),
@@ -111,35 +120,35 @@ class FertilizerConverter extends StatelessWidget {
                     rows: <DataRow>[
                       DataRow(
                         cells: <DataCell>[
-                          const DataCell(Text('Nitrat')),
+                          DataCell(Text('Nitrat', textScaler: TextScaler.linear(textScaleFactor)),),
                           DataCell(
                               Text(viewModel.fertilizer1ml.nitrate.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          const DataCell(Text('Phosphat')),
+                          DataCell(Text('Phosphat', textScaler: TextScaler.linear(textScaleFactor)),),
                           DataCell(Text(
                               viewModel.fertilizer1ml.phosphate.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          const DataCell(Text('Kalium')),
+                          DataCell(Text('Kalium',textScaler: TextScaler.linear(textScaleFactor)),),
                           DataCell(Text(
                               viewModel.fertilizer1ml.potassium.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          const DataCell(Text('Eisen')),
+                          DataCell(Text('Eisen',textScaler: TextScaler.linear(textScaleFactor)),),
                           DataCell(
                               Text(viewModel.fertilizer1ml.iron.toString())),
                         ],
                       ),
                       DataRow(
                         cells: <DataCell>[
-                          const DataCell(Text('Magnesium')),
+                          DataCell(Text('Magnesium', textScaler: TextScaler.linear(textScaleFactor)),),
                           DataCell(Text(
                               viewModel.fertilizer1ml.magnesium.toString())),
                         ],

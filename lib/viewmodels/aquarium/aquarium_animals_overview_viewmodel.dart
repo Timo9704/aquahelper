@@ -11,10 +11,12 @@ class AquariumAnimalsOverviewViewModel extends ChangeNotifier {
   List<Animals> fishes = [];
   List<Animals> shrimps = [];
   List<Animals> snails = [];
-  late Aquarium aquarium;
+  Aquarium? aquarium;
 
   initAnimalsOverview(Aquarium initAquarium) {
+    if (aquarium != null && initAquarium == aquarium) return;
     aquarium = initAquarium;
+    loadAnimals();
   }
 
   void refresh() {
@@ -23,7 +25,7 @@ class AquariumAnimalsOverviewViewModel extends ChangeNotifier {
 
   void loadAnimals() async {
     List<Animals> loadedAnimals =
-    await Datastore.db.getAnimalsByAquarium(aquarium);
+    await Datastore.db.getAnimalsByAquarium(aquarium!);
       fishes =
           loadedAnimals.where((animal) => animal.type == 'Fische').toList();
       shrimps =
@@ -33,12 +35,12 @@ class AquariumAnimalsOverviewViewModel extends ChangeNotifier {
       notifyListeners();
   }
 
-  onPressedAdd(BuildContext context) {
+  onPressedAdd(BuildContext context, String animalType) {
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) =>
-              CreateOrEditAnimal(aquarium: aquarium, animal: null)),
+              CreateOrEditAnimal(aquarium: aquarium!, animal: null, animalType: animalType)),
     );
   }
 

@@ -16,8 +16,10 @@ class AquariumAnimalsOverview extends StatelessWidget {
   Widget build(BuildContext context) {
     var viewModel =
         Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false);
-    viewModel.initAnimalsOverview(aquarium);
-    viewModel.refresh();
+    if (viewModel.aquarium != aquarium) {
+      viewModel.initAnimalsOverview(aquarium);
+    }
+
     return Consumer<AquariumAnimalsOverviewViewModel>(
       builder: (context, viewModel, child) => Padding(
         padding: const EdgeInsets.all(10),
@@ -54,11 +56,11 @@ class AquariumAnimalsOverview extends StatelessWidget {
                     title,
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(
-                        fontSize: 21, fontWeight: FontWeight.bold),
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   IconButton(
                       icon: const Icon(Icons.add, color: Colors.lightGreen),
-                      onPressed: () => viewModel.onPressedAdd(context)),
+                      onPressed: () => viewModel.onPressedAdd(context, title)),
                 ],
               ),
               Expanded(
@@ -77,7 +79,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                             'Art',
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 18),
+                                fontStyle: FontStyle.italic, fontSize: 12),
                           ),
                         ),
                         DataColumn(
@@ -85,7 +87,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                             'lat. Name',
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 18),
+                                fontStyle: FontStyle.italic, fontSize: 12),
                           ),
                         ),
                         DataColumn(
@@ -93,7 +95,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                             'Anzahl',
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 18),
+                                fontStyle: FontStyle.italic, fontSize: 12),
                           ),
                         ),
                       ],
@@ -105,7 +107,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                                       animal.name,
                                       textScaler:
                                           TextScaler.linear(textScaleFactor),
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 10),
                                     ),
                                     onTap: () {
                                       Navigator.push(
@@ -113,7 +115,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               CreateOrEditAnimal(
-                                                  aquarium: viewModel.aquarium,
+                                                  aquarium: viewModel.aquarium!,
                                                   animal: animal),
                                         ),
                                       );
@@ -124,7 +126,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                                       animal.latName,
                                       textScaler:
                                           TextScaler.linear(textScaleFactor),
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 10),
                                     ),
                                     onTap: () {
                                       Navigator.push(
@@ -133,10 +135,9 @@ class AquariumAnimalsOverview extends StatelessWidget {
                                             builder: (context) =>
                                                 CreateOrEditAnimal(
                                                     aquarium:
-                                                        viewModel.aquarium,
+                                                        viewModel.aquarium!,
                                                     animal: animal)),
-                                      ).then(
-                                          (value) => viewModel.loadAnimals());
+                                      );
                                     },
                                   ),
                                   DataCell(
@@ -144,7 +145,7 @@ class AquariumAnimalsOverview extends StatelessWidget {
                                       animal.amount.toString(),
                                       textScaler:
                                           TextScaler.linear(textScaleFactor),
-                                      style: const TextStyle(fontSize: 16),
+                                      style: const TextStyle(fontSize: 10),
                                     ),
                                     onTap: () {
                                       Navigator.push(
@@ -153,10 +154,9 @@ class AquariumAnimalsOverview extends StatelessWidget {
                                             builder: (context) =>
                                                 CreateOrEditAnimal(
                                                     aquarium:
-                                                        viewModel.aquarium,
+                                                        viewModel.aquarium!,
                                                     animal: animal)),
-                                      ).then(
-                                          (value) => viewModel.loadAnimals());
+                                      );
                                     },
                                   ),
                                 ],

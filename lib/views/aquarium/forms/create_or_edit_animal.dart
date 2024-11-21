@@ -1,4 +1,5 @@
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/scalesize.dart';
 import 'package:aquahelper/viewmodels/aquarium/forms/create_or_edit_animal_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:aquahelper/model/animals.dart';
@@ -8,13 +9,15 @@ import 'package:provider/provider.dart';
 class CreateOrEditAnimal extends StatelessWidget {
   final Aquarium aquarium;
   final Animals? animal;
+  final String? animalType;
 
-  const CreateOrEditAnimal({super.key, required this.aquarium, this.animal});
+  const CreateOrEditAnimal({super.key, required this.aquarium, this.animal, this.animalType});
 
   @override
   Widget build(BuildContext context) {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
-      create: (context) => CreateOrEditAnimalViewModel(aquarium, animal),
+      create: (context) => CreateOrEditAnimalViewModel(aquarium, animal, animalType),
       child: Consumer<CreateOrEditAnimalViewModel>(
         builder: (context, viewModel, child) => Scaffold(
           appBar: AppBar(
@@ -33,9 +36,10 @@ class CreateOrEditAnimal extends StatelessWidget {
                       decoration: const InputDecoration(
                         labelText: 'Name',
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lightGreen),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                         labelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.lightGreen),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -49,9 +53,10 @@ class CreateOrEditAnimal extends StatelessWidget {
                       decoration: const InputDecoration(
                         labelText: 'Lateinischer Name',
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lightGreen),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                         labelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.lightGreen),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -64,7 +69,7 @@ class CreateOrEditAnimal extends StatelessWidget {
                       value: viewModel.animalType,
                       decoration: const InputDecoration(
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lightGreen),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                         labelStyle: TextStyle(color: Colors.black),
                         labelText: 'Tierart',
@@ -85,9 +90,10 @@ class CreateOrEditAnimal extends StatelessWidget {
                       decoration: const InputDecoration(
                         labelText: 'Anzahl der Tiere',
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lightGreen),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                         labelStyle: TextStyle(color: Colors.black),
+                        floatingLabelStyle: TextStyle(color: Colors.lightGreen),
                       ),
                       keyboardType: TextInputType.number,
                       validator: (value) {

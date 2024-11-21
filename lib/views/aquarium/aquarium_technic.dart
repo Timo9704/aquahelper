@@ -14,9 +14,11 @@ class AquariumTechnic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     var viewModel = Provider.of<AquariumTechnicViewModel>(context, listen: false);
-    viewModel.initAquariumTechnic(aquarium);
-    viewModel.refresh();
+    if (viewModel.aquarium != aquarium) {
+      viewModel.initAquariumTechnic(aquarium);
+    }
     return Consumer<AquariumTechnicViewModel>(
           builder: (context, viewModel, child) {
         if (viewModel.filter == null ||
@@ -41,7 +43,7 @@ class AquariumTechnic extends StatelessWidget {
                           filter: viewModel.filter!,
                           lighting: viewModel.lighting!,
                           heater: viewModel.heater!,
-                          aquarium: viewModel.aquarium),
+                          aquarium: viewModel.aquarium!),
                     ),
                   );
                 },
