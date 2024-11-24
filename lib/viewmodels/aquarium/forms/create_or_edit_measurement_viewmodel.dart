@@ -94,7 +94,11 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
     if(value.isEmpty){
       return 9999;
     }
-    return double.parse(value.replaceAll(RegExp(r','), '.'));
+    try{
+      return double.parse(value.replaceAll(RegExp(r','), '.'));
+    }catch(e){
+      return 9999;
+    }
   }
 
   Measurement getNewMeasurement() {

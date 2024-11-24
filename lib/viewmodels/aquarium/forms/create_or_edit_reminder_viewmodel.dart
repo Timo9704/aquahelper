@@ -1,7 +1,9 @@
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/task.dart';
 import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:aquahelper/views/aquarium/aquarium_overview.dart';
+import 'package:aquahelper/views/dashboard.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
@@ -62,6 +64,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
           minute: int.parse(task.scheduledTime.split(":")[1]));
       selectedDate = DateTime.fromMillisecondsSinceEpoch(task.taskDate);
       selectedDateInital = DateTime.fromMillisecondsSinceEpoch(task.taskDate);
+      this.task = task;
       createMode = false;
     }
   }
@@ -167,12 +170,16 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
                 date: selectedDate, preciseAlarm: true, allowWhileIdle: true));
       }
     }
-    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>
-                AquariumOverview(aquarium: aquarium)));
+    if(context.mounted) {
+      Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false)
+          .refresh();
+      Provider.of<DashboardViewModel>(context, listen: false).refresh();
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AquariumOverview(aquarium: aquarium)));
+    }
   }
 
   void createRecurringNotification(List<int> daysOfWeek, String time,
@@ -212,6 +219,8 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
   void deleteReminder(BuildContext context) {
     Datastore.db.deleteTask(aquarium, task.taskId);
     AwesomeNotifications().cancelSchedule(task.taskDate ~/ 1000);
+    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
+    Provider.of<DashboardViewModel>(context, listen: false).refresh();
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
