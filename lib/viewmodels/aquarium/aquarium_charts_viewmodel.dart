@@ -96,8 +96,7 @@ class AquariumChartsViewModel extends ChangeNotifier {
       }
     }
     if(points.isEmpty){
-      chartPoints = [const FlSpot(0, 0)];
-
+      //chartPoints = [const FlSpot(0, 0)];
     }else {
       chartPoints = points;
       getXYMinMax();

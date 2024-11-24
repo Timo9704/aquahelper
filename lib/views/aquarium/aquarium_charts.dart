@@ -135,7 +135,7 @@ class AquariumCharts extends StatelessWidget {
                 ),
               ),
             ),
-            viewModel.chartPoints.isEmpty
+            viewModel.chartPoints.length == 0
                 ? const Text(
               "Keine Messungen vorhanden",
               style: TextStyle(
