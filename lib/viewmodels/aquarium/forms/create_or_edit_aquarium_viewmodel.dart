@@ -124,7 +124,7 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
           int.parse(
               heightController.text.isEmpty ? "0" : heightController.text),
           int.parse(depthController.text.isEmpty ? "0" : depthController.text),
-          int.parse("0"),
+          int.parse("3"),
           int.parse("0"),
           int.parse("0"),
           imagePath);

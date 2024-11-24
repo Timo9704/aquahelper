@@ -13,6 +13,10 @@ class AquariumStartpageViewModel extends ChangeNotifier {
     isUserPremium();
   }
 
+  void refresh(){
+    loadAquariums();
+  }
+
   void loadAquariums() async {
     aquariums = await Datastore.db.getAquariums();
     notifyListeners();
