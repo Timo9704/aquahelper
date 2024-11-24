@@ -97,8 +97,8 @@ class CreateOrEditAnimal extends StatelessWidget {
                       ),
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Bitte eine Anzahl eingeben';
+                        if (value == null || value.isEmpty || int.tryParse(value) == null) {
+                          return 'Bitte eine Ganzzahl eingeben';
                         }
                         return null;
                       },
@@ -107,7 +107,7 @@ class CreateOrEditAnimal extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        if (viewModel.animal != null)
+                        if (viewModel.animal?.animalId != "")
                           ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor:
@@ -116,7 +116,7 @@ class CreateOrEditAnimal extends StatelessWidget {
                                   const Size(150, 40)),
                             ),
                             onPressed: () => viewModel.onPressedDelete(context),
-                            child: const Text('Löschen'),
+                            child: Text('Löschen', textScaler: TextScaler.linear(textScaleFactor)),
                           ),
                         ElevatedButton(
                           style: ButtonStyle(
@@ -126,7 +126,7 @@ class CreateOrEditAnimal extends StatelessWidget {
                                 const Size(150, 40)),
                           ),
                           onPressed: () => viewModel.onPressedSave(context),
-                          child: const Text('Speichern'),
+                          child: Text('Speichern', textScaler: TextScaler.linear(textScaleFactor)),
                         ),
                       ],
                     )

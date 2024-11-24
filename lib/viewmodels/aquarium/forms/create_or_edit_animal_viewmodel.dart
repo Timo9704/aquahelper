@@ -22,7 +22,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
       animalNameController.text = animal.name;
       latinNameController.text = animal.latName;
       amountController.text = animal.amount.toString();
-      animalType = animal.type;
+      this.animalType = animal.type;
       notifyListeners();
     }else{
       this.animalType = animalType;
