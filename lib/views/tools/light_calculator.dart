@@ -112,7 +112,7 @@ class LightCalculator extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
+                  ), 
                   if (viewModel.lumenPerLiter > 0) ...[
                     const SizedBox(height: 20),
                     Text(

@@ -43,6 +43,7 @@ class DashboardViewModel extends ChangeNotifier {
     fetchNews();
     loadTabController();
     loadTasks();
+    loadTasksPerAquarium();
   }
 
   double getAdaptiveSizePerc(int perc, BuildContext context) {
@@ -68,6 +69,7 @@ class DashboardViewModel extends ChangeNotifier {
     checkHealthStatus();
     loadTabController();
     loadTasks();
+    loadTasksPerAquarium();
   }
 
   Future<void> fetchAnnouncement() async {
@@ -162,7 +164,7 @@ class DashboardViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  checkHealthStatus() async {
+  void checkHealthStatus() async {
     for (int i = 0; i < aquariums.length; i++) {
       int previousHealthStatus = aquariums[i].healthStatus;
       DateTime now = DateTime.now();

@@ -18,7 +18,7 @@ class ReminderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
-      create: (context) => ReminderItemViewModel(),
+      create: (context) => ReminderItemViewModel(DateTime.now().millisecondsSinceEpoch, task.taskDate),
       child: Consumer<ReminderItemViewModel>(
         builder: (context, viewModel, child) => Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),

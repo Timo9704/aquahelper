@@ -103,64 +103,66 @@ class DashboardReminderState extends State<DashboardReminder>
                         );
                       } else {
                         return Center(
-                            child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AquariumOverview(
-                                                  aquarium: viewModel.aquariums
-                                                      .elementAt(index - 1))),
+                          child: GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AquariumOverview(
+                                  aquarium:
+                                      viewModel.aquariums.elementAt(index - 1),
+                                ),
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.notifications,
+                                      color: Colors.lightGreen,
+                                      size: Adaptive.sh(viewModel
+                                          .getAdaptiveSizePerc(4, context)),
                                     ),
-                                child: Column(
-                                  children: [
-                                    Stack(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.notifications,
-                                          color: Colors.lightGreen,
-                                          size: Adaptive.sh(viewModel
-                                              .getAdaptiveSizePerc(4, context)),
-                                        ),
-                                        if (viewModel
-                                                .tasksPerAquarium.isNotEmpty &&
+                                    if (viewModel.tasksPerAquarium.isNotEmpty &&
+                                        viewModel.tasksPerAquarium
+                                                .elementAt(index - 1) >
+                                            0)
+                                      Positioned(
+                                        right: 0,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(1),
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                          ),
+                                          constraints: const BoxConstraints(
+                                            minWidth: 12,
+                                            minHeight: 12,
+                                          ),
+                                          child: Text(
                                             viewModel.tasksPerAquarium
-                                                    .elementAt(index - 1) >
-                                                0)
-                                          Positioned(
-                                            right: 0,
-                                            child: Container(
-                                              padding: const EdgeInsets.all(1),
-                                              decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(6),
-                                              ),
-                                              constraints: const BoxConstraints(
-                                                minWidth: 12,
-                                                minHeight: 12,
-                                              ),
-                                              child: Text(
-                                                viewModel.tasksPerAquarium
-                                                    .elementAt(index - 1)
-                                                    .toString(),
-                                                textScaler: TextScaler.linear(
-                                                    textScaleFactor),
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 9,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
+                                                .elementAt(index - 1)
+                                                .toString(),
+                                            textScaler: TextScaler.linear(
+                                                textScaleFactor),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9,
                                             ),
-                                          )
-                                      ],
-                                    ),
-                                    Text(viewModel.aquariums
-                                        .elementAt(index - 1)
-                                        .name)
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      )
                                   ],
-                                )));
+                                ),
+                                Text(viewModel.aquariums
+                                    .elementAt(index - 1)
+                                    .name)
+                              ],
+                            ),
+                          ),
+                        );
                       }
                     }, growable: true),
                   ),
