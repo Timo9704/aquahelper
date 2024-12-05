@@ -1,6 +1,6 @@
+import 'package:aquahelper/util/scalesize.dart';
 import 'package:flutter/material.dart';
 
-import '../../util/scalesize.dart';
 
 class IconTextButton extends StatelessWidget {
   final String imagePath;
@@ -15,9 +15,6 @@ class IconTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    double textScaleFactor = 0;
-
 
     //TODO: switch to MVVM, this time just do it here
     double imageSize = MediaQuery.sizeOf(context).height.toInt() < 700 ? 100 : 120;

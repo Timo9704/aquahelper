@@ -1,15 +1,14 @@
 import 'dart:convert';
 
+import 'package:aquahelper/model/user_settings.dart';
+import 'package:aquahelper/util/config.dart';
+import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/util/firebasehelper.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
+import 'package:aquahelper/views/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import '../../model/user_settings.dart';
-import '../../util/config.dart';
-import '../../util/datastore.dart';
-import '../../util/dbhelper.dart';
-import '../../util/firebasehelper.dart';
-import '../../views/homepage.dart';
 
 class UserSettingsViewModel extends ChangeNotifier {
   late UserSettings us;

@@ -99,7 +99,7 @@ class LightCalculator extends StatelessWidget {
                       Text(
                           "Der Lichtstrom (in Lumen/lm) gibt die Lichtmenge an, die von einer Lichtquelle in alle Richtungen abgestrahlt wird.",
                           textScaler: TextScaler.linear(textScaleFactor),
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                           textAlign: TextAlign.justify),
                       ListTile(
                         title: TextField(
