@@ -535,11 +535,14 @@ class DBHelper {
 
   //-------------------------Methods for user settings-----------------------//
 
-  Future<List<UserSettings>> getUserSettings() async {
+  Future<UserSettings> getUserSettings() async {
     final db = await openDatabase('aquarium_database.db');
     var res = await db.query("usersettings");
     List<UserSettings> list = res.isNotEmpty ? res.map((c) => UserSettings.fromMap(c)).toList() : [];
-    return list;
+    if(list.isEmpty){
+      return UserSettings.inital();
+    }
+    return list[0];
   }
 
   Future<void> saveUserSettings(UserSettings us) async {
@@ -712,10 +715,12 @@ class DBHelper {
     }
   }
 
-  uploadDataToFirebase() async {
+  uploadDataToFirebase(bool isSignUp) async {
     final db = await openDatabase('aquarium_database.db');
     User user = FirebaseAuth.instance.currentUser!;
-    await FirebaseHelper.db.initializeUser(user);
+    if(isSignUp && await FirebaseHelper.db.isInitial()){
+      await FirebaseHelper.db.initializeUser(user);
+    }
     FirebaseHelper.db.user = user;
 
     try {

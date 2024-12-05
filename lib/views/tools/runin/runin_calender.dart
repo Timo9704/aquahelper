@@ -27,14 +27,14 @@ class RunInCalender extends StatelessWidget {
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                 child: Column(
                   children: [
                     Text(
                       "Hier findest du alle wichtigen Termine und Aufgaben für die nächsten 6 Wochen deiner Einfahrphase. Klicke auf die Tage oder Aufgaben, um mehr zu erfahren.",
                       textAlign: TextAlign.left,
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
+                      style: const TextStyle(fontSize: 12, color: Colors.black),
                     ),
                     const SizedBox(height: 10),
                     Row(
@@ -56,14 +56,14 @@ class RunInCalender extends StatelessWidget {
                                     textScaler:
                                         TextScaler.linear(textScaleFactor),
                                     style: const TextStyle(
-                                        fontSize: 28, color: Colors.black)),
+                                        fontSize: 18, color: Colors.black)),
                                 CircularProgressIndicator(
                                   value: viewModel.runInDaysPercentage,
                                   backgroundColor: Colors.grey,
                                   valueColor:
                                       const AlwaysStoppedAnimation<Color>(
                                           Colors.lightGreen),
-                                  strokeWidth: 10,
+                                  strokeWidth: 8,
                                 ),
                               ],
                             ),
@@ -119,7 +119,7 @@ class RunInCalender extends StatelessWidget {
                             formatButtonVisible: false,
                             titleCentered: true,
                             titleTextStyle:
-                                TextStyle(fontSize: 25, color: Colors.black),
+                                TextStyle(fontSize: 18, color: Colors.black),
                           ),
                           eventLoader: (day) {
                             return viewModel.events[day] ?? [];
@@ -150,7 +150,7 @@ class RunInCalender extends StatelessWidget {
                             }
                           },
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                         Expanded(
                           child: ValueListenableBuilder<List<Event>>(
                             valueListenable: viewModel.selectedEvents,

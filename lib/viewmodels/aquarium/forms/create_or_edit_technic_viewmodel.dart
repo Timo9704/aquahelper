@@ -178,4 +178,34 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
       );
     }
   }
+
+  Future<void> resetComponents(BuildContext context) async {
+    Datastore.db.updateFilter(Filter(
+      filter.filterId,
+      "",
+      "",
+      0,
+      0,
+      0,
+      DateTime.now().millisecondsSinceEpoch,
+    ));
+    Datastore.db.updateLighting(Lighting(
+        lighting.lightingId,
+        "",
+        "",
+        0,
+        0,
+        0,
+        0
+    ));
+    Datastore.db.updateHeater(Heater(
+        heater.heaterId,
+        "",
+        "",
+        0
+    ));
+    notifyListeners();
+    Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+    Navigator.pop(context);
+  }
 }

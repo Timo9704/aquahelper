@@ -63,7 +63,7 @@ class FeedbackForm extends StatelessWidget {
                                 'Bug/Fehler',
                                 textScaler: TextScaler.linear(textScaleFactor),
                                 style: const TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 16,
                                   color: Colors.black,
                                 ),
                               ),
@@ -91,7 +91,7 @@ class FeedbackForm extends StatelessWidget {
                                 'Feature-Wunsch',
                                 textScaler: TextScaler.linear(textScaleFactor),
                                 style: const TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 16,
                                   color: Colors.black,
                                 ),
                               ),

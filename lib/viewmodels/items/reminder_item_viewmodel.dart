@@ -9,7 +9,6 @@ class ReminderItemViewModel extends ChangeNotifier {
   }
 
   void calculateDaysBetweenEpochs(int epoch1, int epoch2) {
-    print("Calculating days between $epoch1 and $epoch2");
     DateTime date1 = DateTime.fromMillisecondsSinceEpoch(epoch1);
     DateTime date2 = DateTime.fromMillisecondsSinceEpoch(epoch2);
 

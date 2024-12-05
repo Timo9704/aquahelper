@@ -45,11 +45,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                             color: Colors.black,
                             fontWeight: FontWeight.normal)),
                     onChanged: (newValue) {
-                      viewModel.selectedAquarium = newValue;
-                      viewModel.aquariumHeightController.text =
-                          viewModel.selectedAquarium!.width.toString();
-                      viewModel.aquariumDepthController.text =
-                          viewModel.selectedAquarium!.height.toString();
+                      viewModel.setSelectedAquarium(newValue!);
                     },
                     items: viewModel.aquariumNames
                         .map<DropdownMenuItem<Aquarium>>((Aquarium value) {
@@ -215,7 +211,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                     dropdownColor: Colors.white,
                     value: viewModel.selectedGround,
                     onChanged: (newValue) {
-                      viewModel.selectedGround = newValue;
+                      viewModel.setSelectedGround(newValue!);
                     },
                     items: viewModel.groundNames
                         .map<DropdownMenuItem<String>>((String value) {
@@ -251,12 +247,22 @@ class GroundCalculatorIncrease extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
+                  viewModel.isPremiumUser ?
                   SizedBox(
                     width: 150,
                     child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 Colors.lightGreen)),
+                        onPressed: () => {viewModel.calculateGroundIncrease(context)},
+                        child: const Text("Berechnen")),
+                  ) :
+                  SizedBox(
+                    width: 150,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.grey)),
                         onPressed: () => {viewModel.calculateGroundIncrease(context)},
                         child: const Text("Berechnen")),
                   )

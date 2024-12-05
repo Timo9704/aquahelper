@@ -3,6 +3,7 @@ import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../util/datastore.dart';
@@ -29,6 +30,7 @@ class LogInViewModel extends ChangeNotifier {
       if (user != null) {
         if(context.mounted) {
           signInSuccess(user, context, dashboardViewModel);
+          checkForLocalData(context);
         }
       } else {
         if(context.mounted) {
@@ -140,8 +142,9 @@ class LogInViewModel extends ChangeNotifier {
               child: const Text("Hochladen"),
               onPressed: () {
                 () async {
-                  bool uploadSuccess = await DBHelper.db.uploadDataToFirebase();
+                  bool uploadSuccess = await DBHelper.db.uploadDataToFirebase(false);
                   if (uploadSuccess && context.mounted) {
+                    Provider.of<DashboardViewModel>(context, listen: false).refresh();
                     showMessageSnackbar("Daten erfolgreich hochgeladen!", context);
                     DBHelper.db.deleteLocalDbAfterUpload();
                     Navigator.pop(context);
@@ -162,19 +165,4 @@ class LogInViewModel extends ChangeNotifier {
       showUploadDialog(context);
     }
   }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-

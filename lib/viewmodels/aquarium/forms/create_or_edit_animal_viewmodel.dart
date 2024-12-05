@@ -66,11 +66,38 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
     }
   }
 
-  onPressedDelete(BuildContext context){
-    if (animal != null) {
-      Datastore.db.deleteAnimal(aquarium, animal!);
-      Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
-      Navigator.pop(context);
-    }
+  void onPressedDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content:  const Text("Willst du diesen Eintrag wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Nein"),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+                  onPressed: () {
+                    Datastore.db.deleteAnimal(aquarium, animal!);
+                    Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Ja"),
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
   }
 }

@@ -23,27 +23,27 @@ class RunInIntro extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Image(image: AssetImage('assets/images/runin_intro.png')),
                 const SizedBox(height: 20),
                 Text("Einführung:",
                     textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         color: Colors.black,
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 10),
                 Text(viewModel.introText,
                     textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.left,
-                    style: const TextStyle(fontSize: 23, color: Colors.black)),
+                    style: const TextStyle(fontSize: 16, color: Colors.black)),
                 const SizedBox(height: 30),
                 Column(children: [
                   Text('Welches Aquarium möchtest du einfahren?',
                       textScaler: TextScaler.linear(textScaleFactor),
                       style:
-                          const TextStyle(fontSize: 23, color: Colors.black)),
+                          const TextStyle(fontSize: 18, color: Colors.black)),
                   DropdownButton<Aquarium>(
                     value: viewModel.selectedAquarium,
                     items: viewModel.aquariumNames
@@ -52,7 +52,7 @@ class RunInIntro extends StatelessWidget {
                         value: value,
                         child: Text(value.name,
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.black)),
+                                fontSize: 16, color: Colors.black)),
                       );
                     }).toList(),
                     onChanged: (newValue) {
@@ -82,7 +82,7 @@ class RunInIntro extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Text("Starte die Einlaufphase jetzt!",
                           textScaler: TextScaler.linear(textScaleFactor),
-                          style: const TextStyle(fontSize: 23)),
+                          style: const TextStyle(fontSize: 16)),
                     ))
               ]),
             ),

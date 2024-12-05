@@ -49,6 +49,18 @@ class GroundCalculatorViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setSelectedAquarium(Aquarium aquarium) {
+    selectedAquarium = aquarium;
+    aquariumHeightController.text = selectedAquarium!.width.toString();
+    aquariumDepthController.text = selectedAquarium!.height.toString();
+    notifyListeners();
+  }
+
+  setSelectedGround(String value) {
+    selectedGround = value;
+    notifyListeners();
+  }
+
   void loadAquariums() async {
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     aquariumNames = dbAquariums;
@@ -133,6 +145,11 @@ class GroundCalculatorViewModel extends ChangeNotifier {
   }
 
   void calculateGroundIsland(BuildContext context) {
+    if(isPremiumUser == false){
+      showPaywall(context);
+      return;
+    }
+
     String result = "";
     double triangleVol = 0.0;
     try {
@@ -198,6 +215,11 @@ class GroundCalculatorViewModel extends ChangeNotifier {
   }
 
   void calculateGroundIncrease(BuildContext context) {
+    if(isPremiumUser == false){
+      showPaywall(context);
+      return;
+    }
+
     String result = "";
     double triangleVol = 0.0;
     try {

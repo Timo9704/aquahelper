@@ -83,7 +83,7 @@ class SignUpViewModel extends ChangeNotifier {
               onPressed: () {
                 final BuildContext currentContext = context;
                 () async {
-                  bool uploadSuccess = await DBHelper.db.uploadDataToFirebase();
+                  bool uploadSuccess = await DBHelper.db.uploadDataToFirebase(true);
                   if (uploadSuccess && context.mounted) {
                     DBHelper.db.deleteLocalDbAfterUpload();
                     Navigator.pop(currentContext);

@@ -27,6 +27,7 @@ class AquariumTechnic extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else {
           return Column(children: <Widget>[
+            const SizedBox(height: 10),
             FilterItem(filter: viewModel.filter!),
             LightingItem(lighting: viewModel.lighting!),
             HeaterItem(heater: viewModel.heater!),

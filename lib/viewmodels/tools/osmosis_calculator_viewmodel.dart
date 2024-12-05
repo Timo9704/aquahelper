@@ -47,6 +47,11 @@ class OsmosisCalculatorViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setSelectedAquarium(Aquarium value) {
+    selectedAquarium = value;
+    notifyListeners();
+  }
+
   void loadAquariums() async {
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     aquariumNames = dbAquariums;
@@ -233,8 +238,9 @@ class OsmosisCalculatorViewModel extends ChangeNotifier {
       showPaywall(context);
     } else {
       if (formKeyChange.currentState!.validate()) {
+
         double currentValue = parseTextFieldValue(currentValueController.text);
-        double targetValue = parseTextFieldValue(targetValueController.text);
+        double targetValue = parseTextFieldValue(targetChangeValueController.text);
         double osmosisValue = parseTextFieldValue(osmosisValueController.text);
         int aquariumLiter = selectedAquarium!.liter;
 

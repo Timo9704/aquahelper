@@ -52,6 +52,21 @@ class _CreateOrEditComponentState extends State<CreateOrEditComponent>
           appBar: AppBar(
             title: const Text("Komponenten bearbeiten"),
             backgroundColor: Colors.lightGreen,
+            actions: [
+              PopupMenuButton<String>(
+                onSelected: (String result) {
+                  if (result == 'reset') {
+                    viewModel.resetComponents(context);
+                  }
+                },
+                itemBuilder: (BuildContext context) => [
+                  const PopupMenuItem<String>(
+                    value: 'reset',
+                    child: Text('Alles zurücksetzen'),
+                  ),
+                ],
+              ),
+            ],
             bottom: TabBar(
               labelColor: Colors.black,
               indicatorColor: Colors.black,

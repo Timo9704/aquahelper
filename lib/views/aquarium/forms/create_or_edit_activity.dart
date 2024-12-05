@@ -81,7 +81,7 @@ class CreateOrEditActivity extends StatelessWidget {
             child: const Text('OK'),
             onPressed: () {
               if (tempSelectedDate != null) {
-                viewModel.selectedDate = tempSelectedDate;
+                viewModel.setSelectedDate(tempSelectedDate!);
                 Navigator.of(context).pop();
               }
             },
@@ -220,7 +220,7 @@ class CreateOrEditActivity extends StatelessWidget {
                           : 'Datum: ${DateFormat('dd.MM.yyyy').format(viewModel.selectedDate!)}',
                       textScaler: TextScaler.linear(textScaleFactor),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -235,7 +235,7 @@ class CreateOrEditActivity extends StatelessWidget {
                           child: Text(
                             "Aktivität speichern",
                             textScaler: TextScaler.linear(textScaleFactor),
-                            style: const TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 16),
                           ),
                         )
                       : Row(
@@ -253,7 +253,7 @@ class CreateOrEditActivity extends StatelessWidget {
                               ),
                               child: const Text(
                                 "Löschen",
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 16),
                               ),
                             ),
                             ElevatedButton(
@@ -269,7 +269,7 @@ class CreateOrEditActivity extends StatelessWidget {
                               ),
                               child: const Text(
                                 "Aktualisieren",
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 16),
                               ),
                             )
                           ],

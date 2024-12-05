@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aquahelper/model/user_settings.dart';
+import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_plants_viewmodel.dart';
@@ -61,10 +62,10 @@ Future<void> main() async {
 
   // Initialize sequence for local database and user settings (sqlite)
   await DBHelper.db.initDB();
-  List<UserSettings> usList = await DBHelper.db.getUserSettings();
-  if (usList.isNotEmpty) {
+  UserSettings usList = await Datastore.db.getUserSettings();
+  if (!usList.isInitialized()) {
     List<bool> currentList =
-        json.decode(usList.first.measurementItems).cast<bool>().toList();
+        json.decode(usList.measurementItems).cast<bool>().toList();
     if (currentList.length < waterValues.length) {
       //this is needed to have same amount of items for the list of displayed measurements - loop needed if user is more than one addition behind
       int diff = waterValues.length - currentList.length;
@@ -72,9 +73,9 @@ Future<void> main() async {
         currentList.add(true);
       }
       userSettings = UserSettings(currentList.toString(), 1);
-      DBHelper.db.saveUserSettings(userSettings);
+      Datastore.db.saveUserSettings(userSettings);
     }
-    userSettings = usList.first;
+    userSettings = usList;
   } else {
     List<bool> measurementItems =
         List.generate(waterValues.length, (index) => true);

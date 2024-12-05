@@ -42,6 +42,9 @@ class LightCalculatorViewModel extends ChangeNotifier {
 
   void setSelectedAquarium(Aquarium? value) {
     selectedAquarium = value;
+    if (selectedAquarium != null) {
+      aquariumLiterController.text = selectedAquarium!.liter.toString();
+    }
     notifyListeners();
   }
 

@@ -129,6 +129,7 @@ class FertilizerCalculatorViewModel extends ChangeNotifier {
   }
 
   Future<http.Response> sendConsumptionRequest(Measurement measurementIs1, Measurement measurementIs2) {
+    int days = DateTime.fromMillisecondsSinceEpoch(measurementIs1.measurementDate).difference(DateTime.fromMillisecondsSinceEpoch(measurementIs2.measurementDate)).inDays;
     return http.post(
       Uri.parse('https://q6h486sln5.execute-api.eu-west-2.amazonaws.com/v2/consumption'),
       headers: <String, String>{
@@ -143,7 +144,7 @@ class FertilizerCalculatorViewModel extends ChangeNotifier {
         "phosphateIs2": measurementIs2.phosphate,
         "potassiumIs2": measurementIs2.potassium,
         "ironIs2": measurementIs2.iron,
-        "days":7
+        "days": days > 0 ? days : 1
       }),
     );
   }

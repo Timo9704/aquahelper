@@ -38,7 +38,7 @@ class RunInDayTask extends StatelessWidget {
                       textAlign: TextAlign.center,
                       textScaler: TextScaler.linear(textScaleFactor),
                       style: const TextStyle(
-                          fontSize: 30,
+                          fontSize: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.w800)),
                   const SizedBox(height: 10),
@@ -62,7 +62,7 @@ class RunInDayTask extends StatelessWidget {
                         Text("Deine To-Do-Liste für heute:",
                             textScaler: TextScaler.linear(textScaleFactor),
                             style: const TextStyle(
-                                fontSize: 28, color: Colors.black)),
+                                fontSize: 18, color: Colors.black)),
                         const SizedBox(height: 10),
                         ...viewModel.eventsForDay.map((event) => Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
@@ -76,7 +76,7 @@ class RunInDayTask extends StatelessWidget {
                                         textScaler:
                                             TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 14,
                                             color: Colors.black,
                                             fontWeight: FontWeight.w800)),
                                   ),

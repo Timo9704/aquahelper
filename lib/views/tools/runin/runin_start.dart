@@ -29,26 +29,26 @@ class RunInStart extends StatelessWidget {
                     textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                        fontSize: 28,
+                        fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.w800)),
                 const SizedBox(height: 10),
                 Text(RunInStartViewModel.startText,
                     textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.left,
-                    style: const TextStyle(fontSize: 23, color: Colors.black)),
+                    style: const TextStyle(fontSize: 16, color: Colors.black)),
                 const SizedBox(height: 20),
                 const Image(image: AssetImage('assets/images/runin_intro.png')),
                 const SizedBox(height: 20),
                 Text("Dein Aquarium ist gerade erst eingerichtet?",
                     textScaler: TextScaler.linear(textScaleFactor),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 23, color: Colors.black)),
+                    style: const TextStyle(fontSize: 16, color: Colors.black)),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => {
                     viewModel.setRunInData(),
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
@@ -63,7 +63,7 @@ class RunInStart extends StatelessWidget {
                     child: Text(
                       "Heute starten",
                       textScaler: TextScaler.linear(textScaleFactor),
-                      style: const TextStyle(fontSize: 23),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ),
                 ),

@@ -34,10 +34,10 @@ class UserSettingsViewModel extends ChangeNotifier {
   }
 
   void loadSettings() async {
-    List<UserSettings> usList = await DBHelper.db.getUserSettings();
+    UserSettings usList = await Datastore.db.getUserSettings();
     List<bool> measurementItems =
         List.generate(waterValues.length, (index) => true);
-    if (usList.isEmpty) {
+    if (!usList.isInitialized()) {
       Map<String, dynamic> map = {
         'measurementItems': measurementItems.toString(),
         'measurementLimits': 1
@@ -47,7 +47,7 @@ class UserSettingsViewModel extends ChangeNotifier {
           json.decode(us.measurementItems).cast<bool>().toList();
       measurementLimits = us.measurementLimits == 1;
     } else {
-      us = usList.first;
+      us = usList;
       measurementItemsList =
           json.decode(us.measurementItems).cast<bool>().toList();
       measurementLimits = us.measurementLimits == 1;
@@ -56,7 +56,7 @@ class UserSettingsViewModel extends ChangeNotifier {
   }
 
   void saveSettings() async {
-    await DBHelper.db.saveUserSettings(us);
+    await Datastore.db.saveUserSettings(us);
     userSettings = us;
     notifyListeners();
   }
@@ -112,6 +112,7 @@ class UserSettingsViewModel extends ChangeNotifier {
 
   void deleteUserAccount(BuildContext context, DashboardViewModel dashboardViewModel) {
     FirebaseHelper.db.deleteUserAccount();
+    Datastore.db.user = null;
     dashboardViewModel.refresh();
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const Homepage()));

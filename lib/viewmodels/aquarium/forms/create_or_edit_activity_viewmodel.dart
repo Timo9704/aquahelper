@@ -116,8 +116,42 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
   }
 
   void deleteActivity(BuildContext context) {
-    Datastore.db.deleteActivity(activity);
-    Navigator.pop(context, true);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Warnung"),
+          content:  const Text("Willst du diese Aktivität wirklich löschen?"),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Nein"),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+                  onPressed: () {
+                    Datastore.db.deleteActivity(activity);
+                    Navigator.pop(context);
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text("Ja"),
+                ),
+              ],
+            ),
+          ],
+          elevation: 0,
+        );
+      },
+    );
+  }
+
+  setSelectedDate(DateTime selectedDate) {
+    this.selectedDate = selectedDate;
+    notifyListeners();
   }
 
   Future<void> logEvent(String logFunction) async {

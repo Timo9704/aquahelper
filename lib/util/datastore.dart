@@ -426,7 +426,7 @@ class Datastore {
   //-------------------------Methods for UserSettings-object-----------------------//
 
 
-  Future<List<UserSettings>> getUserSettings() async {
+  Future<UserSettings> getUserSettings() async {
     if (user == null) {
       return await DBHelper.db.getUserSettings();
     } else {

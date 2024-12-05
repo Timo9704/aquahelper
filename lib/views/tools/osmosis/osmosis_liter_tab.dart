@@ -179,7 +179,7 @@ class OsmosisLiterTab extends StatelessWidget {
                           color: Colors.black,
                           fontWeight: FontWeight.normal)),
                   onChanged: (newValue) {
-                    viewModel.selectedAquarium = newValue;
+                    viewModel.setSelectedAquarium(newValue!);
                   },
                   items: viewModel.aquariumNames
                       .map<DropdownMenuItem<Aquarium>>((Aquarium value) {
@@ -260,8 +260,7 @@ class OsmosisLiterTab extends StatelessWidget {
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
                                   Colors.grey)),
-                          onPressed: () =>
-                              viewModel.calculateOsmosisRatio(context),
+                          onPressed: () => viewModel.calculateOsmosisRatio(context),
                           child: const Text("Berechnen"),
                         ),
                       ),
