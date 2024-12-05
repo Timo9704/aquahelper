@@ -16,8 +16,8 @@ class AquariumTechnicViewModel extends ChangeNotifier {
     refresh();
   }
 
-  void refresh() {
-    loadComponents();
+  Future<void> refresh() async {
+    await loadComponents();
   }
 
   Future<void> loadComponents() async {

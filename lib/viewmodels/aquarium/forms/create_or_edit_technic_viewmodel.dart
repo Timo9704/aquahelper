@@ -77,25 +77,25 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  saveFilter(BuildContext context) {
+  saveFilter(BuildContext context) async {
     if (filterFormKey.currentState!.validate()) {
-      Datastore.db.updateFilter(getEditedFilter());
+      await Datastore.db.updateFilter(getEditedFilter());
       Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
       Navigator.pop(context);
     }
   }
 
-  saveLighting(BuildContext context) {
+  saveLighting(BuildContext context) async {
     if (lightFormKey.currentState!.validate()) {
-      Datastore.db.updateLighting(getEditedLighting());
+      await Datastore.db.updateLighting(getEditedLighting());
       Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
       Navigator.pop(context);
     }
   }
 
-  saveHeater(BuildContext context) {
+  saveHeater(BuildContext context) async {
     if (heaterFormKey.currentState!.validate()) {
-      Datastore.db.updateHeater(getEditedHeater());
+      await Datastore.db.updateHeater(getEditedHeater());
       Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
       Navigator.pop(context);
     }
@@ -113,8 +113,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
   getEditedFilter() {
     DateFormat format = DateFormat("dd.MM.yyyy");
     DateTime date = format.parse(lastMaintenanceController.text);
-    int lastMaintaincaneEpoch = date.millisecondsSinceEpoch;
-
+    int lastMaintainanceEpoch = date.millisecondsSinceEpoch;
 
     if(filter.filterId == "") {
       return Filter(
@@ -124,7 +123,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
         int.parse(filtertypeController.text),
         parseTextFieldValue(powerController),
         parseTextFieldValue(flowRateController),
-        lastMaintaincaneEpoch,
+        lastMaintainanceEpoch,
       );
     }else{
       return Filter(
@@ -134,7 +133,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
         filterTypes.indexOf(selectedFilterType),
         parseTextFieldValue(powerController),
         parseTextFieldValue(flowRateController),
-        lastMaintaincaneEpoch,
+        lastMaintainanceEpoch,
       );
     }
   }
