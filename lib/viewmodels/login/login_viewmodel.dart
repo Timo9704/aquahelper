@@ -117,7 +117,7 @@ class LogInViewModel extends ChangeNotifier {
             height: 60,
             child: Column(
               children: [
-                Text("Sollen die Daten hochgeladen werden? (Empfohlen)"),
+                Text("Möchtest du die Daten hochladen, bevor sie von deinem Gerät gelöscht werden? (Empfohlen)"),
               ],
             ),
           ),
@@ -145,7 +145,7 @@ class LogInViewModel extends ChangeNotifier {
                   bool uploadSuccess = await DBHelper.db.uploadDataToFirebase(false);
                   if (uploadSuccess && context.mounted) {
                     Provider.of<DashboardViewModel>(context, listen: false).refresh();
-                    showMessageSnackbar("Daten erfolgreich hochgeladen!", context);
+                    showMessageSnackbar("Daten erfolgreich hochgeladen! App bitte neustarten.", context);
                     DBHelper.db.deleteLocalDbAfterUpload();
                     Navigator.pop(context);
                   }

@@ -51,7 +51,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     heaterManufacturerModelNameController = TextEditingController(text: heater.manufacturerModelName);
     heaterPowerController = TextEditingController(text: heater.power.toString());
 
-    this.aquarium = aquarium;
+    aquarium = aquarium;
   }
 
   @override
@@ -95,7 +95,6 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
 
   saveHeater(BuildContext context) {
     if (heaterFormKey.currentState!.validate()) {
-      print(getEditedHeater().aquariumId);
       Datastore.db.updateHeater(getEditedHeater());
       Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
       Navigator.pop(context);

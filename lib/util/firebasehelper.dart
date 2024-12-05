@@ -39,7 +39,7 @@ class FirebaseHelper{
         DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
         DataSnapshot snapshot = await ref.get();
         final data = snapshot.value;
-        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        Map<String, dynamic> items = data != null ? Map<String, dynamic>.from(data as Map) : {};
         if(!items.containsKey('email') || !items.containsKey('tanks')){
           return true;
         }else {
