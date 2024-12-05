@@ -34,7 +34,7 @@ class OnBoardingPage extends StatelessWidget {
             skip: const Text('Überspringen', style: TextStyle(fontWeight: FontWeight.w600)),
             next: const Icon(Icons.arrow_forward),
             done: const Text('Fertig', style: TextStyle(fontWeight: FontWeight.w600)),
-            pages: getPages(context),
+            pages: getPages(context, viewModel),
             onDone: () {
               viewModel.setIntroShown(true);
               Navigator.of(context).pushReplacement(
@@ -72,7 +72,7 @@ class OnBoardingPage extends StatelessWidget {
     );
   }
 
-  List<PageViewModel> getPages(BuildContext context) {
+  List<PageViewModel> getPages(BuildContext context, OnBoardingViewModel viewModel) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return [
       PageViewModel(
@@ -143,7 +143,7 @@ class OnBoardingPage extends StatelessWidget {
                   backgroundColor: Colors.lightGreen,
                 ),
                 onPressed: () => {
-                  //_onSignUpButtonClick(context)
+                  viewModel.onSignUpButtonClick(context)
                 },
                 child: const Text("Ja, mein Konto jetzt anlegen!")),
           ],

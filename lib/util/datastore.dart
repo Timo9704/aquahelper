@@ -356,7 +356,7 @@ class Datastore {
 
   insertAnimal(Aquarium aquarium, Animals animal) async {
     if (user == null) {
-      return await DBHelper.db.insertAnimal(animal);
+      await DBHelper.db.insertAnimal(animal);
     } else {
       await FirebaseHelper.db.insertAnimal(aquarium, animal);
     }

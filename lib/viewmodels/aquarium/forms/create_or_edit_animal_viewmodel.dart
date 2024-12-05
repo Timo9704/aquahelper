@@ -38,7 +38,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
     }
   }
 
-  onPressedSave(BuildContext context){
+  onPressedSave(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       if (animal?.aquariumId != "") {
         var animal = Animals(
@@ -49,7 +49,7 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
           animalType,
           int.parse(amountController.text),
         );
-        Datastore.db.updateAnimal(aquarium, animal);
+        await Datastore.db.updateAnimal(aquarium, animal);
       } else {
         var animal = Animals(
           const Uuid().v4().toString(),
@@ -59,10 +59,12 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
           animalType,
           int.parse(amountController.text),
         );
-        Datastore.db.insertAnimal(aquarium, animal);
+        await Datastore.db.insertAnimal(aquarium, animal);
       }
-      Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
-      Navigator.pop(context);
+      if(context.mounted){
+        Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
+        Navigator.pop(context);
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:aquahelper/views/login/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,6 +30,12 @@ class OnBoardingViewModel extends ChangeNotifier {
     if (!privacyPolicyAccepted && context.mounted) {
       await showPrivacyPolicyDialog(context);
     }
+  }
+
+  onSignUpButtonClick(BuildContext context) {
+    setIntroShown(true);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => const SignUp()));
   }
 
   Future<void> showPrivacyPolicyDialog(BuildContext context) async {
