@@ -125,7 +125,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
     return "$minute:$second";
   }
 
-  Widget buildTimerButton() {
+  Widget buildTimerButton(BuildContext context) {
     final isRunning = timer == null ? false: timer!.isActive;
     final isCompleted = seconds == maxSeconds || seconds == 0;
 
@@ -157,7 +157,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
       color: isPremiumUser ? Colors.white : Colors.black,
       backgroundColor: isPremiumUser ? Colors.lightGreen : Colors.grey,
       text: '  Timer starten  ',
-      onClicked: () => {startTimer()},
+      onClicked: () => {startTimer(reset: false, context: context)},
     );
   }
 
@@ -193,7 +193,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
   }
 
   void startTimer({bool reset = true, context}) {
-    if(isPremiumUser){
+    if(!isPremiumUser){
       showPaywall(context);
     } else {
       if (reset) {

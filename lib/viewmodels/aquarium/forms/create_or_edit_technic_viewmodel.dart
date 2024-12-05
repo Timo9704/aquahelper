@@ -50,6 +50,8 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
 
     heaterManufacturerModelNameController = TextEditingController(text: heater.manufacturerModelName);
     heaterPowerController = TextEditingController(text: heater.power.toString());
+
+    this.aquarium = aquarium;
   }
 
   @override
@@ -93,6 +95,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
 
   saveHeater(BuildContext context) {
     if (heaterFormKey.currentState!.validate()) {
+      print(getEditedHeater().aquariumId);
       Datastore.db.updateHeater(getEditedHeater());
       Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
       Navigator.pop(context);
@@ -151,7 +154,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     }else{
       return Lighting(
           lighting.lightingId,
-          lighting.aquariumId,
+          aquarium.aquariumId,
           lightManufacturerModelNameController.text,
           0,
           int.parse(lightBrightnessController.text),
@@ -172,7 +175,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     }else{
       return Heater(
           heater.heaterId,
-          heater.aquariumId,
+          aquarium.aquariumId,
           heaterManufacturerModelNameController.text,
           parseTextFieldValue(heaterPowerController)
       );
@@ -182,7 +185,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
   Future<void> resetComponents(BuildContext context) async {
     Datastore.db.updateFilter(Filter(
       filter.filterId,
-      "",
+      aquarium.aquariumId,
       "",
       0,
       0,
@@ -191,7 +194,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     ));
     Datastore.db.updateLighting(Lighting(
         lighting.lightingId,
-        "",
+        aquarium.aquariumId,
         "",
         0,
         0,
@@ -200,7 +203,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
     ));
     Datastore.db.updateHeater(Heater(
         heater.heaterId,
-        "",
+        aquarium.aquariumId,
         "",
         0
     ));

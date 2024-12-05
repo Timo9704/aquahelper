@@ -20,7 +20,7 @@ class TimerWidget extends StatelessWidget {
             children: [
               viewModel.buildTimer(),
               const SizedBox(height: 20),
-              viewModel.buildTimerButton(),
+              viewModel.buildTimerButton(context),
             ],
           ),
         ),

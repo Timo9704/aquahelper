@@ -81,8 +81,9 @@ class MultiTimerViewModel extends ChangeNotifier {
       builder: (context) {
         return AlertDialog(
           title: const Text("Neuen Timer hinzufügen"),
+          scrollable: true,
           content: SizedBox(
-            height: 210,
+            height: 200,
             child: Column(
               children: [
                 const Text("Um einen neuen Timer hinzuzufügen, gib bitte den Namen und die Dauer in ganzen Minuten ein."),
