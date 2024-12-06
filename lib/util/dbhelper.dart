@@ -787,6 +787,11 @@ class DBHelper {
         Aquarium aquarium = (await getAquariumById(aquariumId)).first;
         await FirebaseHelper.db.insertAnimal(aquarium, Animals.fromMap(element));
       }
+
+      List<Map<String, dynamic>> plants = await db.query('plants');
+      for (var element in plants) {
+        await FirebaseHelper.db.insertPlant(Plant.fromMap(element));
+      }
       return true;
     } catch (e) {
       return false;

@@ -80,24 +80,31 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
   saveFilter(BuildContext context) async {
     if (filterFormKey.currentState!.validate()) {
       await Datastore.db.updateFilter(getEditedFilter());
-      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
-      Navigator.pop(context);
+      if(context.mounted){
+        Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+        Navigator.pop(context);
+      }
+
     }
   }
 
   saveLighting(BuildContext context) async {
     if (lightFormKey.currentState!.validate()) {
       await Datastore.db.updateLighting(getEditedLighting());
-      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
-      Navigator.pop(context);
+      if(context.mounted){
+        Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+        Navigator.pop(context);
+      }
     }
   }
 
   saveHeater(BuildContext context) async {
     if (heaterFormKey.currentState!.validate()) {
       await Datastore.db.updateHeater(getEditedHeater());
-      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
-      Navigator.pop(context);
+      if(context.mounted){
+        Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -206,7 +213,9 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
         0
     ));
     notifyListeners();
-    Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
-    Navigator.pop(context);
+    if(context.mounted){
+      Provider.of<AquariumTechnicViewModel>(context, listen: false).refresh();
+      Navigator.pop(context);
+    }
   }
 }
