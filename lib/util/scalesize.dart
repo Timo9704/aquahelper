@@ -1,10 +1,15 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:flutter/material.dart';
 
 class ScaleSize {
   static double textScaleFactor(BuildContext context, {double maxTextScaleFactor = 2.0}) {
     final width = MediaQuery.of(context).size.width;
-    double val = (width / 1000) * maxTextScaleFactor;
+    final height = MediaQuery.of(context).size.height;
+
+    double geometricMean = sqrt((width * 0.5) * (height * 1)) / 360;
+
+    double val = geometricMean;
+
     return min(val, maxTextScaleFactor);
   }
 }

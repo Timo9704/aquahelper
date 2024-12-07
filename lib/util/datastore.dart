@@ -29,6 +29,9 @@ class Datastore {
 
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
+  setFirebaseUser(User? user){
+    this.user = user;
+  }
 
   getAquariums() async {
     if (user == null) {
@@ -353,7 +356,7 @@ class Datastore {
 
   insertAnimal(Aquarium aquarium, Animals animal) async {
     if (user == null) {
-      return await DBHelper.db.insertAnimal(animal);
+      await DBHelper.db.insertAnimal(animal);
     } else {
       await FirebaseHelper.db.insertAnimal(aquarium, animal);
     }
@@ -423,7 +426,7 @@ class Datastore {
   //-------------------------Methods for UserSettings-object-----------------------//
 
 
-  Future<List<UserSettings>> getUserSettings() async {
+  Future<UserSettings> getUserSettings() async {
     if (user == null) {
       return await DBHelper.db.getUserSettings();
     } else {

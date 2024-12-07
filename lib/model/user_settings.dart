@@ -1,3 +1,5 @@
+import '../util/config.dart';
+
 class UserSettings {
   String measurementItems;
   int measurementLimits = 1;
@@ -14,12 +16,24 @@ class UserSettings {
     );
   }
 
+  factory UserSettings.inital(){
+    return UserSettings(
+        List.generate(waterValues.length, (index) => true).toString(),
+        1
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'measurementItems': measurementItems,
       'measurementLimits': measurementLimits
     };
   }
+
+  bool isInitialized() {
+    return measurementItems.isNotEmpty;
+  }
+
 }
 
 
