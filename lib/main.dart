@@ -4,6 +4,7 @@ import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/screens/general/onboarding_page.dart';
 import 'package:aquahelper/widget/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -12,6 +13,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:aquahelper/util/dbhelper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 import 'config.dart';
@@ -30,6 +32,8 @@ Future<void> main() async {
       : await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
+
 
   // Initialize sequence for AwesomeNotification (push notifications)
   await AwesomeNotifications().initialize(null, [
@@ -55,7 +59,11 @@ Future<void> main() async {
   if(usList.isNotEmpty){
     List<bool> currentList = json.decode(usList.first.measurementItems).cast<bool>().toList();
     if(currentList.length < waterValues.length){
-      currentList.add(true);
+      //this is needed to have same amount of items for the list of displayed measurements - loop needed if user is more than one addition behind
+      int diff = waterValues.length - currentList.length;
+      for(int i = 0; i < diff; i++){
+        currentList.add(true);
+      }
       userSettings = UserSettings(currentList.toString(), 1);
       DBHelper.db.saveUserSettings(userSettings);
     }
@@ -66,6 +74,8 @@ Future<void> main() async {
     DBHelper.db.saveUserSettings(userSettings);
   }
   configureRevenueCat();
+  MobileAds.instance.initialize();
+
   runApp(const AquaHelper());
 }
 
@@ -85,6 +95,7 @@ Future<void> configureRevenueCat() async {
   if(configuration != null) {
     await Purchases.configure(configuration);
   }
+
 }
 
 class AquaHelper extends StatelessWidget {

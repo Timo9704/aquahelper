@@ -1,6 +1,8 @@
+import 'package:aquahelper/model/measurement.dart';
 import 'package:flutter/material.dart';
 import '../../model/aquarium.dart';
 import '../../util/datastore.dart';
+import '../../util/scalesize.dart';
 
 class DashboardHealthStatus extends StatefulWidget {
   const DashboardHealthStatus({super.key});
@@ -11,6 +13,7 @@ class DashboardHealthStatus extends StatefulWidget {
 
 class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
   List<Aquarium> aquariums = [];
+  double textScaleFactor = 0;
 
   @override
   void initState() {
@@ -23,10 +26,41 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
     setState(() {
       aquariums = dbAquariums;
     });
+    checkHealthStatus();
+  }
+
+  checkHealthStatus() async {
+    for (int i = 0; i < aquariums.length; i++) {
+      DateTime now = DateTime.now();
+      DateTime interval7 = now.subtract(const Duration(days: 7));
+      DateTime interval14 = now.subtract(const Duration(days: 14));
+      DateTime interval30 = now.subtract(const Duration(days: 30));
+      List<Measurement> list = await Datastore.db.getMeasurementsByInterval(aquariums[i].aquariumId, now.millisecondsSinceEpoch, interval7.millisecondsSinceEpoch);
+      if(list.isEmpty){
+        list = await Datastore.db.getMeasurementsByInterval(aquariums[i].aquariumId, now.millisecondsSinceEpoch, interval14.millisecondsSinceEpoch);
+        if(list.isEmpty) {
+          list = await Datastore.db.getMeasurementsByInterval(aquariums[i].aquariumId, now.millisecondsSinceEpoch, interval30.millisecondsSinceEpoch);
+          if(list.isEmpty){
+            aquariums[i].healthStatus = 3;
+          }else {
+            aquariums[i].healthStatus = 2;
+          }
+        }else{
+          aquariums[i].healthStatus = 1;
+        }
+      }else{
+        aquariums[i].healthStatus = 0;
+      }
+      await Datastore.db.updateAquarium(aquariums[i]);
+    }
+    setState(() {
+      aquariums = aquariums;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
       child: Container(
@@ -39,9 +73,11 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
         ),
         child: Column(
           children: [
-            const Text('Health Status', style: TextStyle(fontSize: 17, color: Colors.black)),
+            Text('Health Status', textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 21, color: Colors.black)),
+            Text('keine Messung in den letzten 7 Tagen (gelb) / 14 (orange) / 30 (rot) ', textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 12, color: Colors.black)),
+            const SizedBox(height: 5),
             SizedBox(
-              height: 70, // Festgelegte Höhe für den scrollbaren Bereich
+              height: 60,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: IntrinsicHeight(
@@ -65,8 +101,8 @@ class _DashboardHealthStatusState extends State<DashboardHealthStatus> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.lightbulb, size: 35, color: colorCodes.elementAt(aquarium.healthStatus)),
-          const SizedBox(height: 10),
+          Icon(Icons.lightbulb, size: 30, color: colorCodes.elementAt(aquarium.healthStatus)),
+          const SizedBox(height: 3),
           Text(aquarium.name, style: const TextStyle(fontSize: 12, color: Colors.black))
         ],
       ),

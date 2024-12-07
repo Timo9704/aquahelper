@@ -6,6 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../model/activity.dart';
 import '../../../util/datastore.dart';
+import '../../../util/scalesize.dart';
 
 class CreateOrEditActivities extends StatefulWidget {
   final String aquariumId;
@@ -19,9 +20,11 @@ class CreateOrEditActivities extends StatefulWidget {
 }
 
 class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
+  double textScaleFactor = 0;
   Set<String> selectedTags = <String>{};
   DateTime? selectedDate;
   final TextEditingController _noteController = TextEditingController();
+  final TextEditingController _customTagController = TextEditingController();
   bool createMode = true;
   List<String> tags = [
     'Wasserwechsel',
@@ -188,6 +191,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Aktivität erstellen"),
@@ -195,7 +199,7 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -209,14 +213,16 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Welche Aufgaben hast du erledigt?",
-                          style: TextStyle(fontSize: 20, color: Colors.black)),
+                      Text("Welche Aufgaben hast du erledigt?",
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(fontSize: 20, color: Colors.black)),
                       const SizedBox(height: 10),
                       Wrap(
-                        spacing: 10.0,
+                        spacing: 5.0,
                         children: tags
                             .map((tag) => FilterChip(
                                   label: Text(tag,
+                                      textScaler: TextScaler.linear(textScaleFactor),
                                       style: const TextStyle(fontSize: 14)),
                                   selected: selectedTags.contains(tag),
                                   backgroundColor: Colors.white,
@@ -233,6 +239,41 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                                 ))
                             .toList(),
                       ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child:
+                          TextFormField(
+                            keyboardType: TextInputType.text,
+                            textAlignVertical: TextAlignVertical.center,
+                            controller: _customTagController,
+                            cursorColor: Colors.black,
+                            style: const TextStyle(fontSize: 20),
+                            decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              hintText:
+                              "eigene Aufgabe hinzufügen",
+                              hintStyle: TextStyle(fontSize: 18),
+                              fillColor: Colors.white,
+                            ),
+                          ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add, color: Colors.lightGreen),
+                            onPressed: () {
+                              if (_customTagController.text.isNotEmpty) {
+                                setState(() {
+                                  tags.add(_customTagController.text);
+                                  selectedTags.add(_customTagController.text);
+                                  _customTagController.clear();
+                                });
+                              }
+                            },
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -248,8 +289,9 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Notizen:",
-                          style: TextStyle(fontSize: 20, color: Colors.black)),
+                      Text("Notizen:",
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(fontSize: 20, color: Colors.black)),
                       TextFormField(
                         maxLines: 5,
                         cursorColor: Colors.black,
@@ -273,8 +315,9 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                   selectedDate == null
                       ? 'Wähle ein Datum'
                       : 'Datum: ${DateFormat('dd.MM.yyyy').format(selectedDate!)}',
+                  textScaler: TextScaler.linear(textScaleFactor),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 22),
                 ),
               ),
               const SizedBox(height: 20),
@@ -286,8 +329,9 @@ class _CreateOrEditActivitiesState extends State<CreateOrEditActivities> {
                           padding: const EdgeInsets.all(8),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
-                      child: const Text("Aktivität speichern",
-                          style: TextStyle(fontSize: 18)))
+                      child: Text("Aktivität speichern",
+                          textScaler: TextScaler.linear(textScaleFactor),
+                          style: const TextStyle(fontSize: 22)))
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

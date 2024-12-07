@@ -1,8 +1,10 @@
 import 'package:aquahelper/screens/general/dashboard.dart';
 import 'package:aquahelper/screens/settings/settings.dart';
 import 'package:aquahelper/screens/tools/tools_startpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../util/datastore.dart';
 import 'aquarium_startpage.dart';
 
 
@@ -16,6 +18,7 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   int selectedPage = 0;
+  User? user = Datastore.db.user;
 
   final _pageOptions = [
     const Dashboard(),
@@ -72,6 +75,18 @@ class _HomepageState extends State<Homepage> {
         },
       ),
       body: _pageOptions[selectedPage],
+      /*floatingActionButton: selectedPage == 1 && user?.email == "test.account@aquaristik-kosmos.de" ? ElevatedButton(
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all<double>(20),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(10)),
+            backgroundColor:
+            MaterialStateProperty.all<Color>(Colors.lightGreen)),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AiAssistantIntro()),
+        ),
+        child: const Text('KI\nAssistent', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600), textAlign: TextAlign.center),
+      ) : null,*/
     );
   }
 }

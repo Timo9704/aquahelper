@@ -13,56 +13,53 @@ class Event {
   @override
   String toString() => title;
 }
+LinkedHashMap<DateTime, List<Event>> allRunInEvents(DateTime startDate){
+  DateTime kToday = startDate;
 
-/// Example events.
-///
-/// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
-final kEvents = LinkedHashMap<DateTime, List<Event>>(
-  equals: isSameDay,
-  hashCode: getHashCode,
-)..addAll(_kEventSource);
+  final Map<DateTime, List<Event>> kEventSource = {
+    DateTime.utc(kToday.year, kToday.month, kToday.day): [
+      const Event('Aquarium einrichten'),
+      const Event('Filter anschließen und einschalten'),
+      const Event('Beleuchtung auf 6 Stunden einstellen und einschalten'),
+      const Event('ggf. Filter-Bakterien hinzufügen'),
+    ],
+    DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 7)): [
+      const Event('Reinigung von Scheiben'),
+      const Event('40 % Wasserwechsel'),
+      const Event('ggf. erste Algen in Form von Schwebealgen oder Grünbelag'),
+    ],
+    DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 14)): [
+      const Event('Wasserwerte messen (pH, KH, GH, NO2, NO3)'),
+      const Event('40 % Wasserwechsel'),
+      const Event('Beleuchtung auf 6,5 Stunden erhöhen'),
+      const Event('ggf. Schnecken einsetzbar'),
+    ],
+    DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 21)): [
+      const Event('Nitritwert messen'),
+      const Event('Scheiben reinigen'),
+      const Event('erste gut wachsende Pflanzen zurückschneiden'),
+      const Event('ggf. vorsichtig düngen (Eisenvolldünger/NPK-Dünger)'),
+      const Event('Beleuchtung auf 7 Stunden erhöhen'),
+    ],
+    DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 28)): [
+      const Event('Nitritwert messen'),
+      const Event('40 % Wasserwechsel'),
+      const Event('Beleuchtung auf 7,5 Stunden erhöhen'),
+      const Event('ggf. Garnelen einsetzen'),
+      const Event('ggf. weitere Algen im Aquarium'),
+    ],
+  };
 
-final Map<DateTime, List<Event>> _kEventSource = {
-  DateTime.utc(kToday.year, kToday.month, kToday.day): [
-    const Event('Aquarium einrichten'),
-    const Event('Filter anschließen und einschalten'),
-    const Event('Beleuchtung auf 6 Stunden einstellen und einschalten'),
-    const Event('ggf. Filter-Bakterien hinzufügen'),
-  ],
-  DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 7)): [
-    const Event('Reinigung von Scheiben'),
-    const Event('40 % Wasserwechsel'),
-    const Event('ggf. erste Algen in Form von Schwebealgen oder Grünbelag'),
-  ],
-  DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 14)): [
-    const Event('Wasserwerte messen (pH, KH, GH, NO2, NO3)'),
-    const Event('40 % Wasserwechsel'),
-    const Event('Beleuchtung auf 6,5 Stunden erhöhen'),
-    const Event('ggf. Schnecken einsetzbar'),
-  ],
-  DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 21)): [
-    const Event('Nitritwert messen'),
-    const Event('Scheiben reinigen'),
-    const Event('erste gut wachsende Pflanzen zurückschneiden'),
-    const Event('ggf. vorsichtig düngen (Eisenvolldünger/NPK-Dünger)'),
-    const Event('Beleuchtung auf 7 Stunden erhöhen'),
-  ],
-  DateTime.utc(kToday.year, kToday.month, kToday.day).add(const Duration(days: 28)): [
-    const Event('Nitritwert messen'),
-    const Event('40 % Wasserwechsel'),
-    const Event('Beleuchtung auf 7,5 Stunden erhöhen'),
-    const Event('ggf. Garnelen einsetzen'),
-    const Event('ggf. weitere Algen im Aquarium'),
-  ],
-};
+  int getHashCode(DateTime key) {
+    return key.day * 1000000 + key.month * 10000 + key.year;
+  }
 
-int getHashCode(DateTime key) {
-  return key.day * 1000000 + key.month * 10000 + key.year;
+  return LinkedHashMap<DateTime, List<Event>>(
+    equals: isSameDay,
+    hashCode: getHashCode,
+  )..addAll(kEventSource);
 }
 
-final kToday = DateTime.now();
-final kFirstDay = DateTime.now();
-final kLastDay = DateTime(kToday.year, kToday.month + 2, kToday.day);
 
 final List<RunInDayTaskModel> dayTasksData = [
   RunInDayTaskModel(

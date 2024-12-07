@@ -1,9 +1,11 @@
 import 'package:aquahelper/screens/settings/feedback_form.dart';
 import 'package:aquahelper/screens/settings/user_settings.dart';
-import 'package:aquahelper/util/dbhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../util/premium.dart';
+import '../../util/scalesize.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -13,6 +15,9 @@ class Settings extends StatefulWidget {
 }
 
 class SettingsState extends State<Settings> {
+  Premium premium = Premium();
+  bool _isPremium = false;
+  double textScaleFactor = 0;
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -29,6 +34,7 @@ class SettingsState extends State<Settings> {
   }
 
   Future<void> _initPackageInfo() async {
+    _isPremium = await premium.isUserPremium();
     final info = await PackageInfo.fromPlatform();
     setState(() {
       _packageInfo = info;
@@ -52,7 +58,7 @@ class SettingsState extends State<Settings> {
     await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
   }
 
-  void _exportOrImport() {
+  /*void _exportOrImport() {
     showDialog(
       context: context,
       builder: (context) {
@@ -114,7 +120,7 @@ class SettingsState extends State<Settings> {
         );
       },
     );
-  }
+  }*/
 
   void _version() {
     showDialog(
@@ -147,15 +153,18 @@ class SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return ListView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(10.0),
       children: <Widget>[
-        const Text('Über diese App',
+        Text('Über diese App',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
+            textScaler: TextScaler.linear(textScaleFactor),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 5),
         Text(infoText,
-            textAlign: TextAlign.justify, style: const TextStyle(fontSize: 16)),
+            textScaler: TextScaler.linear(textScaleFactor),
+            textAlign: TextAlign.justify, style: const TextStyle(fontSize: 18)),
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -177,6 +186,28 @@ class SettingsState extends State<Settings> {
             child: const Text("Benutzereinstellungen", style: TextStyle(color: Colors.black)),
           ),
         ),
+        if(!_isPremium)
+          Column(
+            children: [
+              const SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    shape:
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onPressed: () => premium.showPaywall(context),
+                  child: const Text("AquaHelper-Premium (werbefrei)", style: TextStyle(color: Colors.black)),
+                ),
+              ),
+            ],
+          ),
         const SizedBox(height: 10),
         SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -229,7 +260,7 @@ class SettingsState extends State<Settings> {
           ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
+        /*SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,
           child: ElevatedButton(
@@ -246,7 +277,7 @@ class SettingsState extends State<Settings> {
             child: const Text("Export/Import von Daten", style: TextStyle(color: Colors.black)),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 10),*/
         SizedBox(
           width: MediaQuery.of(context).size.width,
           height: 50,

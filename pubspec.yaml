@@ -3,7 +3,7 @@ description: Dein Helfer wenn es um die Wasserwerte deines Aquariums geht!
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.18.0+65
+version: 1.22.12+86
 
 
 environment:
@@ -23,8 +23,8 @@ dependencies:
   photo_manager: ^3.0.0
   intl: ^0.19.0
   uuid: ^4.4.0
-  fl_chart: 0.68.0
-  flutter_launcher_icons: ^0.13.1
+  fl_chart: 0.69.0
+  flutter_launcher_icons: ^0.14.0
   http: ^1.0.0
   awesome_notifications: ^0.9.3
   flutter_datetime_picker_plus: ^2.2.0
@@ -43,13 +43,14 @@ dependencies:
   shared_preferences: ^2.2.3
   firebase_analytics: ^11.0.0
   firebase_crashlytics: ^4.0.0
-  purchases_flutter: ^7.0.0
-  purchases_ui_flutter: ^7.0.0
+  purchases_flutter: ^8.0.0
+  purchases_ui_flutter: ^8.0.0
   table_calendar: ^3.1.1
   flutter_ringtone_player: ^4.0.0+1
   gal: ^2.3.0
   rate_my_app: ^2.2.0
   flutter_markdown: ^0.7.3+1
+  google_mobile_ads: ^5.1.0
 
 
 dependency_overrides:
@@ -77,10 +78,12 @@ flutter:
     - assets/soil.png
     - assets/quader.png
     - assets/buttons/fertilizer_calculator.png
-    - assets/buttons/soil_calculator.png
+    - assets/buttons/soil_calculator_activated.png
+    - assets/buttons/soil_calculator_deactivated.png
     - assets/buttons/explorer.png
     - assets/buttons/ai_assistant.png
-    - assets/buttons/light_calculator.png
+    - assets/buttons/light_calculator_activated.png
+    - assets/buttons/light_calculator_deactivated.png
     - assets/buttons/stopwatch_deactivated.png
     - assets/buttons/stopwatch_activated.png
     - assets/buttons/osmosis_deactivated.png
@@ -91,3 +94,6 @@ flutter:
     - assets/images/island_ground.jpg
     - assets/images/increase.jpg
     - assets/images/island.jpg
+    - assets/ai_assistant/ai_assistant.png
+    - assets/buttons/runin_activated.png
+    - assets/buttons/runin_deactivated.png

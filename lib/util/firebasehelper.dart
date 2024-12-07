@@ -4,12 +4,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../model/activity.dart';
+import '../model/animals.dart';
 import '../model/aquarium.dart';
+import '../model/assistant_preferences.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
 import '../model/custom_timer.dart';
 import '../model/measurement.dart';
+import '../model/plant.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
 import 'datastore.dart';
@@ -22,23 +25,35 @@ class FirebaseHelper{
 
     User? user = FirebaseAuth.instance.currentUser;
 
-    initializeUser(User user) {
+    initializeUser(User user) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user.uid}');
-      ref.onValue.listen((DatabaseEvent event) {
-        final data = event.snapshot.value;
-        if (data == null) {
-          ref.set({
-            "email": user.email,
-            "created": DateTime.now().millisecondsSinceEpoch,
-            "privacypolicy": DateTime.now().millisecondsSinceEpoch,
-          });
-        }
+      await ref.set({
+        "email": user.email,
+        "created": DateTime.now().millisecondsSinceEpoch,
+        "privacypolicy": DateTime.now().millisecondsSinceEpoch,
       });
     }
 
+    checkInitStatus() async {
+      if(user != null){
+        DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+        DataSnapshot snapshot = await ref.get();
+        final data = snapshot.value;
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        if(!items.containsKey('email')){
+          await ref.update({
+            "email": user?.email,
+            "created": DateTime.now().millisecondsSinceEpoch,
+            "privacypolicy": DateTime.now().millisecondsSinceEpoch,
+          });
+          }
+        }
+      }
+
+
     updateLastLogin() async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
-      ref.update({
+      await ref.update({
         "lastlogin": DateTime.now().millisecondsSinceEpoch,
       });
     }
@@ -61,7 +76,7 @@ class FirebaseHelper{
 
     updateLatestPrivacyPolicy() async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
-      ref.update({
+      await ref.update({
         "privacypolicy": DateTime.now().millisecondsSinceEpoch,
       });
     }
@@ -97,6 +112,18 @@ class FirebaseHelper{
     deleteAquarium(String aquariumId) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tanks/$aquariumId');
       await ref.remove();
+    }
+
+    getAquariumById(String aquariumId) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/tanks/$aquariumId');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items['aquariumId'] = aquariumId;
+        return Aquarium.fromMap(Map<String, dynamic>.from(items));
+      }
+      throw Exception('Aquarium not found');
     }
 
 
@@ -387,6 +414,7 @@ class FirebaseHelper{
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
       await ref.remove();
       FirebaseAuth.instance.currentUser?.delete();
+      FirebaseHelper.db.signOut();
     }
 
     //-------------------------Methods for customTimer-object-----------------------//
@@ -545,6 +573,90 @@ class FirebaseHelper{
 
     deleteActivity(Activity activity) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/activities/${activity.aquariumId}/${activity.id}');
+      await ref.remove();
+    }
+
+    //-------------------------Methods for AI-functions-----------------------//
+
+    getAIAssistantPreferences() async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/ai/assistant/preferences');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        return AssistantPreferences.fromMap(Map<String, dynamic>.from(items));
+      }
+    }
+
+    saveAIAssistantPreferences(AssistantPreferences assistantPreferences) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/ai/assistant/preferences');
+      await ref.set(assistantPreferences.toFirebaseMap());
+    }
+
+    //-------------------------Methods for Animals----------------------------//
+
+    getAnimalsByAquarium(Aquarium aquarium) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${aquarium.aquariumId}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Animals> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['animalId'] = key;
+          Animals animal = Animals.fromMap(Map<String, dynamic>.from(value));
+          list.add(animal);
+        });
+      }
+      return list;
+    }
+
+    insertAnimal(Aquarium aquarium, Animals animal) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
+      await ref.set(animal.toFirebaseMap());
+    }
+
+    updateAnimal(Aquarium aquarium, Animals animal) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
+      await ref.update(animal.toFirebaseMap());
+    }
+
+    deleteAnimal(Aquarium aquarium, Animals animal) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/animals/${animal.aquariumId}/${animal.animalId}');
+      await ref.remove();
+    }
+
+    //-------------------------Methods for Plants----------------------------//
+
+    getPlantsByAquarium(Aquarium aquarium) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${aquarium.aquariumId}');
+      DataSnapshot snapshot = await ref.get();
+      final data = snapshot.value;
+      List<Plant> list = [];
+      if (data != null) {
+        Map<String, dynamic> items = Map<String, dynamic>.from(data as Map);
+        items.forEach((key, value) {
+          value['plantId'] = key;
+          Plant plant = Plant.fromMap(Map<String, dynamic>.from(value));
+          list.add(plant);
+        });
+        list.sort((a, b) => a.plantNumber.compareTo(b.plantNumber));
+      }
+      return list;
+    }
+
+    insertPlant(Plant plant) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${plant.aquariumId}/${plant.plantId}');
+      await ref.set(plant.toFirebaseMap());
+    }
+
+    updatePlant(Plant plant) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${plant.aquariumId}/${plant.plantId}');
+      await ref.update(plant.toFirebaseMap());
+    }
+
+    deletePlant(Plant plant) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}/plants/${plant.aquariumId}/${plant.plantId}');
       await ref.remove();
     }
 

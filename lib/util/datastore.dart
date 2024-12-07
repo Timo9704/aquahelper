@@ -6,11 +6,14 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
+import '../model/animals.dart';
 import '../model/aquarium.dart';
+import '../model/assistant_preferences.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
 import '../model/measurement.dart';
+import '../model/plant.dart';
 import '../model/task.dart';
 import '../model/user_settings.dart';
 import 'dbhelper.dart';
@@ -57,6 +60,14 @@ class Datastore {
       await DBHelper.db.deleteAquarium(aquariumId);
     } else {
       await FirebaseHelper.db.deleteAquarium(aquariumId);
+    }
+  }
+
+  getAquariumById(String aquariumId) async {
+    if (user == null) {
+      return null;
+    } else {
+      return await FirebaseHelper.db.getAquariumById(aquariumId);
     }
   }
 
@@ -330,6 +341,84 @@ class Datastore {
     }
   }
 
+  //-------------------------Methods for Animals----------------------------//
+
+  getAnimalsByAquarium(Aquarium aquarium) async {
+    if (user == null) {
+      return await DBHelper.db.getAnimalsByAquarium(aquarium);
+    } else {
+      return await FirebaseHelper.db.getAnimalsByAquarium(aquarium);
+    }
+  }
+
+  insertAnimal(Aquarium aquarium, Animals animal) async {
+    if (user == null) {
+      return await DBHelper.db.insertAnimal(animal);
+    } else {
+      await FirebaseHelper.db.insertAnimal(aquarium, animal);
+    }
+  }
+
+  updateAnimal(Aquarium aquarium, Animals animal) async {
+    if (user == null) {
+      await DBHelper.db.updateAnimal(animal);
+    } else {
+      await FirebaseHelper.db.updateAnimal(aquarium, animal);
+    }
+  }
+
+  deleteAnimal(Aquarium aquarium, Animals animal) async {
+    if (user == null) {
+      await DBHelper.db.deleteAnimal(animal);
+    } else {
+      await FirebaseHelper.db.deleteAnimal(aquarium, animal);
+    }
+  }
+
+  //-------------------------Methods for Plants----------------------------//
+
+  getPlantsByAquarium(Aquarium aquarium) async {
+    if (user == null) {
+      return await DBHelper.db.getPlantsByAquarium(aquarium);
+    } else {
+      return await FirebaseHelper.db.getPlantsByAquarium(aquarium);
+    }
+  }
+
+  insertPlant(Plant plant) async {
+    if (user == null) {
+      return await DBHelper.db.insertPlant(plant);
+    } else {
+      await FirebaseHelper.db.insertPlant(plant);
+    }
+  }
+
+  updatePlant(Plant plant) async {
+    if (user == null) {
+      await DBHelper.db.updatePlant(plant);
+    } else {
+      await FirebaseHelper.db.updatePlant(plant);
+    }
+  }
+
+  deletePlant(Plant plant) async {
+    if (user == null) {
+      await DBHelper.db.deletePlant(plant);
+    } else {
+      await FirebaseHelper.db.deletePlant(plant);
+    }
+  }
+
+  //-------------------------Methods for AI-functions-----------------------//
+
+  getAIAssistantPreferences(){
+    return FirebaseHelper.db.getAIAssistantPreferences();
+  }
+
+  saveAIAssistantPreferences(AssistantPreferences preferences){
+    FirebaseHelper.db.saveAIAssistantPreferences(preferences);
+  }
+
 
   //-------------------------Methods for UserSettings-object-----------------------//
 
@@ -379,6 +468,7 @@ class Datastore {
   void updateLastLogin() {
     if (user != null) {
       FirebaseHelper.db.updateLastLogin();
+      FirebaseHelper.db.checkInitStatus();
     }
   }
 

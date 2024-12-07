@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,8 +12,10 @@ import 'package:aquahelper/model/measurement.dart';
 import 'package:aquahelper/screens/aquarium/aquarium_overview.dart';
 import 'package:aquahelper/config.dart';
 
+import '../../ad_helper.dart';
 import '../../util/datastore.dart';
 import '../../util/image_selector.dart';
+import '../../util/premium.dart';
 
 class MeasurementForm extends StatefulWidget {
   final Aquarium aquarium;
@@ -28,13 +31,15 @@ class MeasurementForm extends StatefulWidget {
 class MeasurementFormState extends State<MeasurementForm> {
   final _formKey = GlobalKey<FormState>();
   int activeItems = 0;
-
+  Premium premium = Premium();
+  bool _isPremium = false;
   String imagePath = "assets/images/aquarium.jpg";
   bool createMode = true;
   late Measurement measurement;
   int pageCount = 0;
   DateTime selectedDate = DateTime.now();
   Map<String, Map<String, TextEditingController>> allWaterValuesWithController = {};
+  InterstitialAd? interstitialAd;
 
 
   Map<String, TextEditingController> waterValuesMap = {
@@ -50,6 +55,7 @@ class MeasurementFormState extends State<MeasurementForm> {
     'magnesium': TextEditingController(),
     'conductance': TextEditingController(),
     'silicate': TextEditingController(),
+    'ammonium': TextEditingController(),
   };
 
   @override
@@ -73,6 +79,7 @@ class MeasurementFormState extends State<MeasurementForm> {
       initExistingMeasurement();
       createMode = false;
     }
+    createInterstitalAd();
   }
 
   Future<void> initExistingMeasurement() async {
@@ -145,6 +152,7 @@ class MeasurementFormState extends State<MeasurementForm> {
         imagePath,
         9999,
         9999,
+        9999
     );
 
     mes.updateMeasurement(updateValues);
@@ -256,6 +264,21 @@ class MeasurementFormState extends State<MeasurementForm> {
       return Colors.red[300]; // Alle anderen Fälle
     }
   }
+  
+  void createInterstitalAd() async {
+    _isPremium = await premium.isUserPremium();
+      InterstitialAd.load(
+          adUnitId: AdHelper.interstitalAdUnitId,
+          request: const AdRequest(),
+          adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) {
+              interstitialAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {
+              debugPrint('InterstitialAd failed to load: $error');
+            },
+          ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,7 +358,7 @@ class MeasurementFormState extends State<MeasurementForm> {
                   String identifier = allWaterValuesWithController.entries.elementAt(index).key;
                   double currentValue = 9999;
                   if(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text.isNotEmpty){
-                    currentValue = double.parse(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text);
+                    currentValue = parseTextFieldValue(allWaterValuesWithController.entries.elementAt(index).value.entries.elementAt(0).value.text);
                   }
                   return Card(
                     elevation: 10,
@@ -445,6 +468,9 @@ class MeasurementFormState extends State<MeasurementForm> {
                                       AquariumOverview(
                                           aquarium: widget.aquarium)),
                             );
+                            if (!_isPremium){
+                              interstitialAd?.show();
+                            }
                           } catch (e) {
                             createMeasurementFailure();
                           }
@@ -452,7 +478,10 @@ class MeasurementFormState extends State<MeasurementForm> {
                         child: const Text("Speichern", style: TextStyle(color: Colors.black))),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 10,
+              ),
             ],
           ),
         ),

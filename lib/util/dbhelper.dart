@@ -15,14 +15,16 @@ import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/model/measurement.dart';
 
 import '../model/activity.dart';
+import '../model/animals.dart';
 import '../model/components/filter.dart';
 import '../model/components/heater.dart';
 import '../model/components/lighting.dart';
 import '../model/custom_timer.dart';
+import '../model/plant.dart';
 import '../model/task.dart';
 
 class DBHelper {
-  static const newDbVersion = 11;
+  static const newDbVersion = 16;
 
   static final DBHelper db = DBHelper._();
   DBHelper._();
@@ -104,6 +106,23 @@ class DBHelper {
           if (version >= 11) {
             await _databaseVersion11(db);
           }
+          if (version >= 12) {
+            await _databaseVersion12(db);
+          }
+          if (version >= 13) {
+            await _databaseVersion13(db);
+          }
+          if (version >= 14) {
+            //use v13 due to missconfiguration
+            //remove exec of v13, because it is already executed one before (18.09.2024)
+            //await _databaseVersion13(db);
+          }
+          if (version >= 15) {
+            await _databaseVersion15(db);
+          }
+          if (version >= 16) {
+            await _databaseVersion16(db);
+          }
     },
     onUpgrade: _upgradeDb
     );
@@ -146,6 +165,22 @@ class DBHelper {
         break;
       case 11:
         await _databaseVersion11(db);
+        break;
+      case 12:
+        await _databaseVersion12(db);
+        break;
+      case 13:
+        await _databaseVersion13(db);
+        break;
+      case 14:
+        //use v13 due to missconfiguration
+        await _databaseVersion13(db);
+        break;
+      case 15:
+        await _databaseVersion15(db);
+        break;
+      case 16:
+        await _databaseVersion16(db);
         break;
     }
   }
@@ -253,6 +288,44 @@ class DBHelper {
     db.execute("UPDATE usersettings SET measurementLimits = 1");
   }
 
+  _databaseVersion12(Database db) {
+    db.execute("ALTER TABLE measurement ADD ammonium REAL");
+    db.execute("UPDATE measurement SET ammonium = 9999.0");
+  }
+
+  _databaseVersion13(Database db) {
+    db.execute("ALTER TABLE tank ADD runInStatus INTEGER");
+    db.execute("ALTER TABLE tank ADD runInStartDate INTEGER");
+    db.execute("UPDATE tank SET runInStatus = 0");
+    db.execute("UPDATE tank SET runInStartDate = 0");
+  }
+
+  _databaseVersion15(Database db) {
+    db.execute('''CREATE TABLE animals(
+        animalId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        name TEXT,
+        latName TEXT,
+        type TEXT,
+        amount INTEGER,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+  }
+
+  _databaseVersion16(Database db) {
+    db.execute('''CREATE TABLE plants(
+        plantId TEXT PRIMARY KEY,
+        aquariumId TEXT,
+        plantNumber INTEGER,
+        name TEXT,
+        latName TEXT,
+        amount INTEGER,
+        xPosition REAL,
+        yPosition REAL,
+        FOREIGN KEY(aquariumId) REFERENCES tank(aquariumId) ON DELETE CASCADE
+    )''');
+  }
+
   //-------------------------Methods for Aquarium-object-----------------------//
 
   Future<List<Aquarium>> getAquariums() async {
@@ -286,6 +359,13 @@ class DBHelper {
     await db.delete("tank",
         where: "aquariumId = ?",
         whereArgs: [aquariumId]);
+  }
+
+  Future<List<Aquarium>> getAquariumById(String aquariumId) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("tank", where: 'aquariumId = ?', whereArgs: [aquariumId]);
+    List<Aquarium> list = res.isNotEmpty ? res.map((c) => Aquarium.fromMap(c)).toList() : [];
+    return list;
   }
 
   //-------------------------Methods for Measurement-object-----------------------//
@@ -639,15 +719,16 @@ class DBHelper {
     FirebaseHelper.db.user = user;
 
     try {
-      List<Map<String, dynamic>> tanks = await db.query('tank');
-      for (var element in tanks) {
-        Aquarium aquarium = Aquarium.fromMap(element);
-        if(aquarium.imagePath != 'assets/images/aquarium.jpg'){
-          String newImagePath = await uploadImageToFirebase(user, aquarium.imagePath);
-          aquarium.imagePath = newImagePath;
+        List<Map<String, dynamic>> tanks = await db.query('tank');
+        for (var element in tanks) {
+          Aquarium aquarium = Aquarium.fromMap(element);
+          if (aquarium.imagePath != 'assets/images/aquarium.jpg') {
+            String newImagePath = await uploadImageToFirebase(
+                user, aquarium.imagePath);
+            aquarium.imagePath = newImagePath;
+          }
+          await FirebaseHelper.db.insertAquarium(aquarium);
         }
-        FirebaseHelper.db.insertAquarium(aquarium);
-      }
 
       List<Map<String, dynamic>> measurements = await db.query('measurement');
       for (var element in measurements) {
@@ -657,27 +738,49 @@ class DBHelper {
               user, measurement.imagePath);
           measurement.imagePath = newImagePath;
         }
-        FirebaseHelper.db.insertMeasurement(measurement);
+        await FirebaseHelper.db.insertMeasurement(measurement);
       }
 
       List<Map<String, dynamic>> tasks = await db.query('tasks');
       for (var element in tasks) {
-        FirebaseHelper.db.insertTask(Task.fromMap(element));
+        await FirebaseHelper.db.insertTask(Task.fromMap(element));
       }
 
       List<Map<String, dynamic>> userSettings = await db.query('usersettings');
       for (var element in userSettings) {
-        FirebaseHelper.db.saveUserSettings(UserSettings.fromMap(element));
+        await FirebaseHelper.db.saveUserSettings(UserSettings.fromMap(element));
       }
 
       List<Map<String, dynamic>> customTimers = await db.query('customtimer');
       for (var element in customTimers) {
-        FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
+        await FirebaseHelper.db.insertCustomTimer(CustomTimer.fromMap(element));
       }
 
       List<Map<String, dynamic>> activities = await db.query('activities');
       for (var element in activities) {
-        FirebaseHelper.db.addActivity(Activity.fromMap(element));
+        await FirebaseHelper.db.addActivity(Activity.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> filter = await db.query('filter');
+      for (var element in filter) {
+        await FirebaseHelper.db.updateFilter(Filter.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> lighting = await db.query('lighting');
+      for (var element in lighting) {
+        await FirebaseHelper.db.updateLighting(Lighting.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> heater = await db.query('heater');
+      for (var element in heater) {
+        await FirebaseHelper.db.updateHeater(Heater.fromMap(element));
+      }
+
+      List<Map<String, dynamic>> animals = await db.query('animals');
+      for (var element in animals) {
+        String aquariumId = Animals.fromMap(element).aquariumId;
+        Aquarium aquarium = (await getAquariumById(aquariumId)).first;
+        await FirebaseHelper.db.insertAnimal(aquarium, Animals.fromMap(element));
       }
       return true;
     } catch (e) {
@@ -702,6 +805,11 @@ class DBHelper {
     await db.delete("tasks");
     await db.delete("usersettings");
     await db.delete("customtimer");
+    await db.delete("activities");
+    await db.delete("filter");
+    await db.delete("lighting");
+    await db.delete("heater");
+    await db.delete("animals");
   }
 
 //-------------------------Methods for custom-timer-----------------------//
@@ -818,5 +926,64 @@ class DBHelper {
         whereArgs: [activity.id],
         conflictAlgorithm: ConflictAlgorithm.rollback);
   }
+
+  getAnimalsByAquarium(Aquarium aquarium) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("animals", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId]);
+    List<Animals> list = res.isNotEmpty ? res.map((c) => Animals.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertAnimal(Animals animal) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'animals',
+        animal.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deleteAnimal(Animals animal) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("animals", where: "animalId = ?", whereArgs: [animal.animalId]);
+  }
+
+  updateAnimal(Animals animal) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("animals",
+        animal.toMap(),
+        where: 'animalId = ?',
+        whereArgs: [animal.animalId],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
+  getPlantsByAquarium(Aquarium aquarium) async {
+    final db = await openDatabase('aquarium_database.db');
+    var res = await db.query("plants", where: 'aquariumId = ?', whereArgs: [aquarium.aquariumId], orderBy: 'plantNumber ASC');
+    List<Plant> list = res.isNotEmpty ? res.map((c) => Plant.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  insertPlant(Plant plant) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.insert(
+        'plants',
+        plant.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  deletePlant(Plant plant) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.delete("plants", where: "plantId = ?", whereArgs: [plant.plantId]);
+  }
+
+  updatePlant(Plant plant) async {
+    final db = await openDatabase('aquarium_database.db');
+    await db.update("plants",
+        plant.toMap(),
+        where: 'plantId = ?',
+        whereArgs: [plant.plantId],
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
 
 }

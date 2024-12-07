@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -5,8 +7,10 @@ import '../../model/runin_daytask.dart';
 import '../../util/runin_calender.dart';
 import '../../util/scalesize.dart';
 class RunInDayTask extends StatefulWidget {
+  final DateTime startDate;
   final int day;
-  const RunInDayTask({super.key, required this.day});
+  final LinkedHashMap<DateTime, List<Event>> events;
+  const RunInDayTask({super.key, required this.day, required this.events, required this.startDate});
 
   @override
   State<RunInDayTask> createState() => _RunInDayTaskState();
@@ -26,12 +30,11 @@ class _RunInDayTaskState extends State<RunInDayTask> {
     infoText = task.runInDayDescription;
     detailedInfoText = task.runInDayDetailedDescription;
 
-    // Lade die Events für den spezifischen Tag
-    DateTime selectedDate = kToday.add(Duration(days: widget.day)); //
+    DateTime selectedDate = widget.startDate.add(Duration(days: widget.day)); //
     if(widget.day == 1){
-      selectedDate = kToday;
+      selectedDate = DateTime.now();
     }
-    eventsForDay = kEvents[selectedDate] ?? [];
+    eventsForDay = widget.events[selectedDate] ?? [];
   }
 
 

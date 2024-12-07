@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../util/datastore.dart';
+import '../../util/scalesize.dart';
 
 class DashboardMeasurements extends StatefulWidget {
 
@@ -12,7 +13,7 @@ class DashboardMeasurements extends StatefulWidget {
 }
 
 class DashboardMeasurementsState extends State<DashboardMeasurements> {
-
+  double textScaleFactor = 0;
   String measurementsAll = "0";
   String measurements30days = "0";
 
@@ -35,6 +36,7 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -44,11 +46,12 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(children: [
-            const FittedBox(
+            FittedBox(
             fit: BoxFit.scaleDown,
             child: Text('Messungen',
-              style: TextStyle(
-                fontSize: 17,
+                textScaler: TextScaler.linear(textScaleFactor),
+              style: const TextStyle(
+                fontSize: 21,
                 color: Colors.black,
               ))),
           Padding(
@@ -59,18 +62,20 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                  const FittedBox(
+                  FittedBox(
                   fit: BoxFit.scaleDown,
                     child: Text('Messungen\n(in 30 Tage)',
+                        textScaler: TextScaler.linear(textScaleFactor),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: const TextStyle(
+                          fontSize: 14,
                           color: Colors.black,
                         ))),
                     const Icon(Icons.check_box_outlined, color: Colors.green),
                     Text('${measurements30days}x',
+                        textScaler: TextScaler.linear(textScaleFactor),
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           color: Colors.black,
                         )),
                   ],
@@ -85,16 +90,18 @@ class DashboardMeasurementsState extends State<DashboardMeasurements> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text('Messungen\n(gesamt)',
+                    Text('Messungen\n(gesamt)',
+                        textScaler: TextScaler.linear(textScaleFactor),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
+                        style: const TextStyle(
+                          fontSize: 14,
                           color: Colors.black,
                         )),
                     const Icon(Icons.check_box_outlined, color: Colors.green),
                     Text('${measurementsAll}x',
+                        textScaler: TextScaler.linear(textScaleFactor),
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 12,
                           color: Colors.black,
                         )),
                   ],

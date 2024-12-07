@@ -19,13 +19,12 @@ class OnBoardingPage extends StatefulWidget {
 
 class OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
-  bool _isCheckboxChecked = false;
 
   @override
   initState(){
     super.initState();
     Datastore.db.updateLastLogin();
-    checkPrivacyPolicy();
+    //checkPrivacyPolicy();
     showRateAppDialog();
     checkIntroShown();
   }
@@ -50,15 +49,6 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Row(
                   children: [
-                    Checkbox(
-                        value: _isCheckboxChecked,
-                        checkColor: Colors.black,
-                        activeColor: Colors.lightGreen,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isCheckboxChecked = value!;
-                          });
-                        }),
                     GestureDetector(
                       onTap: () {
                         _launchprivacyPolicy();
@@ -95,12 +85,10 @@ class OnBoardingPageState extends State<OnBoardingPage> {
                     style: ButtonStyle(
                         backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.lightGreen)),
-                    onPressed: _isCheckboxChecked
-                        ? () {
+                    onPressed: () {
                       Datastore.db.updateLatestPrivacyPolicy();
                       Navigator.pop(context);
-                    }
-                        : null,
+                    },
                     child: const Text("Weiter"),
                   ),),
 

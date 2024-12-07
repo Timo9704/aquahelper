@@ -3,6 +3,7 @@ import '../../model/aquarium.dart';
 import '../../model/task.dart';
 import '../../screens/aquarium/aquarium_overview.dart';
 import '../../util/datastore.dart';
+import '../../util/scalesize.dart';
 
 class DashboardReminder extends StatefulWidget {
   const DashboardReminder({super.key});
@@ -71,6 +72,7 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = ScaleSize.textScaleFactor(context);
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -81,11 +83,12 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
         ),
         child: Column(
           children: [
-            const FittedBox(
+            FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
               'Erinnerungen',
-              style: TextStyle(fontSize: 17, color: Colors.black),
+              textScaler: TextScaler.linear(textScaleFactor),
+              style: const TextStyle(fontSize: 21, color: Colors.black),
             )),
             const SizedBox(height: 5),
             if(_tabController != null && aquariums != null)
@@ -100,22 +103,25 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           taskList.isEmpty ?
-                          const FittedBox(
+                          FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text('Für heute keine Erinnerungen!',
+                              textScaler: TextScaler.linear(textScaleFactor),
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 12, color: Colors.black))):
+                              style: const TextStyle(fontSize: 14, color: Colors.black))):
                           taskList.length >= 2 ?
                           FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text('Noch ${taskList.length} Aufgaben zu erledigen!',
+                              textScaler: TextScaler.linear(textScaleFactor),
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 12, color: Colors.black))):
+                              style: const TextStyle(fontSize: 14, color: Colors.black))):
                           FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text('Noch ${taskList.length} Aufgabe zu erledigen!',
+                              textScaler: TextScaler.linear(textScaleFactor),
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 12, color: Colors.black))),
+                                style: const TextStyle(fontSize: 14, color: Colors.black))),
                         ],
                       ),
                     );
@@ -150,6 +156,7 @@ class DashboardReminderState extends State<DashboardReminder> with SingleTickerP
                                       ),
                                       child: Text(
                                         tasksPerAquarium.elementAt(index-1).toString(),
+                                        textScaler: TextScaler.linear(textScaleFactor),
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontSize: 8,
