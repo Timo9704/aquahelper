@@ -34,6 +34,20 @@ class FirebaseHelper{
       });
     }
 
+    isInitial() async {
+      if(user != null){
+        DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
+        DataSnapshot snapshot = await ref.get();
+        final data = snapshot.value;
+        Map<String, dynamic> items = data != null ? Map<String, dynamic>.from(data as Map) : {};
+        if(!items.containsKey('email') || !items.containsKey('tanks')){
+          return true;
+        }else {
+          return false;
+        }
+      }
+    }
+
     checkInitStatus() async {
       if(user != null){
         DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user?.uid}');
@@ -397,7 +411,7 @@ class FirebaseHelper{
       if (data != null) {
         return UserSettings.fromMap(Map<String, dynamic>.from(data as Map));
       }
-      return null;
+      return UserSettings.inital();
     }
 
    saveUserSettings(UserSettings userSettings) async {

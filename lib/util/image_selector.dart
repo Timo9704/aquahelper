@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:aquahelper/util/scalesize.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,7 @@ class ImageSelector {
   }
 
   Future<ImageSource> pickImageFromCameraOrGallery(BuildContext context) async {
+    double textScaleFactor = ScaleSize.textScaleFactor(context);
     final completer = Completer<ImageSource>();
     showDialog(
       context: context,
@@ -84,8 +86,8 @@ class ImageSelector {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
-                  child: const Text("Bild mit Kamera aufnehmen", style: TextStyle(fontSize: 15)),
+                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  child: Text("Bild mit Kamera aufnehmen", textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 15)),
                   onPressed: () {
                     Navigator.pop(context);
                     completer.complete(ImageSource.camera);
@@ -97,8 +99,8 @@ class ImageSelector {
                   child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
-                  child: const Text("Bild aus Galerie auswählen", style: TextStyle(fontSize: 15)),
+                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  child: Text("Bild aus Galerie auswählen", textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 15)),
                   onPressed: () {
                     Navigator.pop(context);
                     completer.complete(ImageSource.gallery);

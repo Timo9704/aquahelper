@@ -1,4 +1,18 @@
+import '../util/datastore.dart';
+import 'aquarium.dart';
+
 class Task {
+  static final Task task = Task(
+    '',
+    '',
+    '',
+    '',
+    0,
+    '',
+    '',
+    '',
+  );
+
   String taskId;
   String aquariumId;
   String title;
@@ -7,19 +21,12 @@ class Task {
   String scheduled;
   String scheduledDays;
   String scheduledTime;
+  List<Task> taskList = [];
 
-  Task(
-      this.taskId,
-      this.aquariumId,
-      this.title,
-      this.description,
-      this.taskDate,
-      this.scheduled,
-      this.scheduledDays,
-      this.scheduledTime
-  );
+  Task(this.taskId, this.aquariumId, this.title, this.description,
+      this.taskDate, this.scheduled, this.scheduledDays, this.scheduledTime);
 
-  factory Task.fromMap(Map<String, dynamic> json){
+  factory Task.fromMap(Map<String, dynamic> json) {
     return Task(
         json["taskId"],
         json["aquariumId"],
@@ -28,8 +35,7 @@ class Task {
         json["taskDate"],
         json["scheduled"],
         json["scheduledDays"],
-        json["scheduledTime"]
-    );
+        json["scheduledTime"]);
   }
 
   Map<String, dynamic> toMap() {
@@ -55,5 +61,10 @@ class Task {
       'scheduledDays': scheduledDays,
       'scheduledTime': scheduledTime
     };
+  }
+
+  Future<List<Task>> getTaskListByAquarium(Aquarium aquarium) async {
+    List<Task> list = await Datastore.db.getTasksForAquarium(aquarium);
+    return list;
   }
 }

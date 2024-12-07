@@ -37,10 +37,10 @@ packages:
     dependency: "direct main"
     description:
       name: awesome_notifications
-      sha256: d9e46ce7f5171ee1e9b1c5bc6dc40bd77528561f592842ce97ce3a0a9ae155ef
+      sha256: d051ffb694a53da216ff13d02c8ec645d75320048262f7e6b3c1d95a4f54c902
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3+1"
+    version: "0.10.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -832,6 +832,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   octo_image:
     dependency: transitive
     description:
@@ -992,6 +1000,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.2"
   purchases_flutter:
     dependency: "direct main"
     description:
@@ -1088,6 +1104,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1"
+  sizer:
+    dependency: "direct main"
+    description:
+      name: sizer
+      sha256: "50bf5f2ea676d1509532ccb2196b45cfb3921d80c71620e9e7cb61dc0b501b88"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
