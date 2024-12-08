@@ -10,6 +10,7 @@ class OnBoardingViewModel extends ChangeNotifier {
 
   bool _introShown = false;
   bool get introShown => _introShown;
+  bool privacyPolicyOpened = false;
 
   Future<void> checkIntroShown() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,7 +28,8 @@ class OnBoardingViewModel extends ChangeNotifier {
   Future<void> checkPrivacyPolicy(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool privacyPolicyAccepted = prefs.getBool("privacyPolicyAccepted") ?? false;
-    if (!privacyPolicyAccepted && context.mounted) {
+    if (!privacyPolicyAccepted && context.mounted && !privacyPolicyOpened) {
+      privacyPolicyOpened = true;
       await showPrivacyPolicyDialog(context);
     }
   }
@@ -36,6 +38,18 @@ class OnBoardingViewModel extends ChangeNotifier {
     setIntroShown(true);
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const SignUp()));
+  }
+
+  acceptPrivacyPolicy(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("privacyPolicyAccepted", true);
+    if(context.mounted){
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> launchPrivacyPolicy() async {
+    await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
   }
 
   Future<void> showPrivacyPolicyDialog(BuildContext context) async {
@@ -71,7 +85,7 @@ class OnBoardingViewModel extends ChangeNotifier {
                             ),
                           ),
                           TextSpan(
-                            text: '\ngelesen zu haben und \n akzeptiere diese.',
+                            text: '\ngelesen zu haben und \nakzeptiere diese.',
                             style: TextStyle(fontSize: 12.0, color: Colors.black),
                           ),
                         ],
@@ -86,12 +100,7 @@ class OnBoardingViewModel extends ChangeNotifier {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
                 ),
-                onPressed: () async {
-                    await prefs.setBool("privacyPolicyAccepted", true);
-                    if(context.mounted) {
-                      Navigator.of(context).pop();
-                  }
-                },
+                onPressed: () => acceptPrivacyPolicy(context),
                 child: const Text("Weiter"),
               ),
             ],
@@ -99,9 +108,5 @@ class OnBoardingViewModel extends ChangeNotifier {
         },
       );
     }
-  }
-
-  Future<void> launchPrivacyPolicy() async {
-    await launchUrl(Uri.parse('https://www.iubenda.com/privacy-policy/11348794'));
   }
 }
