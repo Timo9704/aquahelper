@@ -498,10 +498,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: "9e8c3858111da373efc5aa341de011d9bd23e2c5c5e0c62bccf32438e192d7b1"
+      sha256: "5398f14efa795ffb7a33e9b6a08798b26a180edac4ad7db3f231e40f82ce11e1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.2"
+    version: "5.0.0"
   flutter_markdown:
     dependency: "direct main"
     description:
@@ -530,10 +530,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_ringtone_player
-      sha256: bdbf0ba551fd81cf02fab5c45800dc0006fc51167a1ed252321046fd8ac2bce3
+      sha256: d0277a04e629a6582d776f5dcc2a879a733f7326ba073b872a9ccfbff9d9b51f
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0+2"
+    version: "4.0.0+3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -788,10 +788,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: cbf8d4b858bb0134ef3ef87841abdf8d63bfc255c266b7bf6b39daa1085c4290
+      sha256: "3315600f3fb3b135be672bf4a178c55f274bebe368325ae18462c89ac1e3b413"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "5.0.0"
   markdown:
     dependency: transitive
     description:
@@ -1398,5 +1398,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.3.0 <4.0.0"
+  dart: ">=3.5.0 <4.0.0"
   flutter: ">=3.19.0"
