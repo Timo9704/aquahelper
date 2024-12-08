@@ -59,7 +59,8 @@ class MultiTimer extends StatelessWidget {
                                     {
                                       Datastore.db.insertCustomTimer(
                                           viewModel.timerList[i]),
-                                    }
+                                    },
+                                    viewModel.showMessageSnackbar("Timer erfolgreich gespeichert", context),
                                 },
                             style: ButtonStyle(
                               backgroundColor:
