@@ -24,6 +24,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
   MultiTimerWidgetViewModel(this.customTimer) {
     maxSeconds = customTimer.seconds;
     seconds = maxSeconds;
+    isUserPremium().then((value) => isPremiumUser = value);
   }
 
   void showFailureDialog(BuildContext context){
