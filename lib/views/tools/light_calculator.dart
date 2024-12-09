@@ -134,7 +134,7 @@ class LightCalculator extends StatelessWidget {
                     width: 150,
                     child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 viewModel.isPremiumUser
                                     ? Colors.lightGreen
                                     : Colors.grey)),

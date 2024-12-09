@@ -168,7 +168,7 @@ class FertilizerConsumption extends StatelessWidget {
                   child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.lightGreen),
+                            WidgetStateProperty.all(Colors.lightGreen),
                       ),
                       onPressed: () => {viewModel.processConsumptionResponse()},
                       child: Text("Berechnen", textScaler: TextScaler.linear(textScaleFactor))),

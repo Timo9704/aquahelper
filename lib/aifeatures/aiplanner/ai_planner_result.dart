@@ -348,8 +348,8 @@ class _AiPlannerResultState extends State<AiPlannerResult> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.lightGreen),
-                        minimumSize: MaterialStateProperty.all<Size>(
+                            WidgetStateProperty.all<Color>(Colors.lightGreen),
+                        minimumSize: WidgetStateProperty.all<Size>(
                             const Size(300, 70)),
                       ),
                       child: const Text("Planung finalisieren & Links suchen",

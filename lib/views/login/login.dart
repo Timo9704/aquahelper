@@ -57,9 +57,8 @@ class LogIn extends StatelessWidget {
                   Expanded(child: ElevatedButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                        WidgetStateProperty.all<Color>(Colors.lightGreen)),
                     onPressed: () {
-                      Navigator.pop(context);
                       viewModel.signInWithGoogle(context, dashboardViewModel);
                     },
                     child: const Text("Weiter"),

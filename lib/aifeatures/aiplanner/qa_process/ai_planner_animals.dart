@@ -297,9 +297,9 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                   widget.aiPlannerObject.planningMode == 1
                       ? ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.lightGreen),
-                            minimumSize: MaterialStateProperty.all<Size>(
+                            minimumSize: WidgetStateProperty.all<Size>(
                                 const Size(200, 40)),
                           ),
                           onPressed: () async {
@@ -316,9 +316,9 @@ class _AiPlannerAnimalsState extends State<AiPlannerAnimals> {
                         )
                       : ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.lightGreen),
-                            minimumSize: MaterialStateProperty.all<Size>(
+                            minimumSize: WidgetStateProperty.all<Size>(
                                 const Size(200, 40)),
                           ),
                           onPressed: () async {

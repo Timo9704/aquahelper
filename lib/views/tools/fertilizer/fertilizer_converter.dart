@@ -160,7 +160,7 @@ class FertilizerConverter extends StatelessWidget {
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.lightGreen)),
+                              WidgetStateProperty.all(Colors.lightGreen)),
                       onPressed: () => {viewModel.processResponse()},
                       child: const Text("Berechnen"),
                     ),

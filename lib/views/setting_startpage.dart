@@ -1,10 +1,10 @@
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:aquahelper/viewmodels/settings_startpage_viewmodel.dart';
 import 'package:aquahelper/views/settings/feedback_form.dart';
 import 'package:aquahelper/views/settings/user_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../util/scalesize.dart';
-import '../viewmodels/settings_startpage_viewmodel.dart';
 
 class SettingsStartPage extends StatelessWidget {
   const SettingsStartPage({super.key});

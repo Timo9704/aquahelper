@@ -51,7 +51,7 @@ class CreateOrEditMeasurement extends StatelessWidget {
                       onTap: () async {
                         String futurePath =
                             await ImageSelector().getImage(context);
-                        viewModel.imagePath = futurePath;
+                        viewModel.updateImagePath(futurePath);
                       },
                       child: ClipRRect(
                           borderRadius: const BorderRadius.only(
@@ -199,9 +199,9 @@ class CreateOrEditMeasurement extends StatelessWidget {
                     ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(Colors.grey),
+                            WidgetStateProperty.all(Colors.grey),
                         shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                            WidgetStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 5.0), // Radius anpassen für stärkere Abrundung
@@ -229,9 +229,9 @@ class CreateOrEditMeasurement extends StatelessWidget {
                                   viewModel.deleteMeasurement(context),
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                    WidgetStateProperty.all<Color>(
                                         Colors.grey),
-                                shape: MaterialStateProperty.all<
+                                shape: WidgetStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
@@ -251,9 +251,9 @@ class CreateOrEditMeasurement extends StatelessWidget {
                           child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                    WidgetStateProperty.all<Color>(
                                         Colors.lightGreen),
-                                shape: MaterialStateProperty.all<
+                                shape: WidgetStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(

@@ -253,7 +253,7 @@ class _AiAssistantChatState extends State<AiAssistantChat> {
                 IconButton(
                   onPressed: _sendMessage,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         Colors.lightGreen),
                   ),
                   icon: const Icon(Icons.send),

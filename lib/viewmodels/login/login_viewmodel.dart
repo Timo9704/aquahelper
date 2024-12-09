@@ -64,6 +64,7 @@ class LogInViewModel extends ChangeNotifier {
           if(context.mounted) {
             showMessageSnackbar("Erfolgreich mit Google angemeldet!", context);
             signInSuccess(user, context, dashboardViewModel);
+            Navigator.pop(context);
             checkForLocalData(context);
           }
         }
@@ -125,7 +126,7 @@ class LogInViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.grey)),
+                  WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Nicht hochladen"),
               onPressed: () => {
                 Navigator.pop(context),
@@ -138,7 +139,7 @@ class LogInViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  WidgetStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () {
                 () async {

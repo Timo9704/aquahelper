@@ -63,8 +63,8 @@ class _AiPlannerIntroState extends State<AiPlannerIntro> {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen),
-                      minimumSize: MaterialStateProperty.all<Size>(const Size(250, 70)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen),
+                      minimumSize: WidgetStateProperty.all<Size>(const Size(250, 70)),
                   ),
                   onPressed: () => Navigator.push(
                     context,

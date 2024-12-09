@@ -35,12 +35,16 @@ class CreateOrEditPlantViewModel extends ChangeNotifier {
           position.dx.toDouble(),
           position.dy.toDouble(),
         );
-        Datastore.db.insertPlant(plant);
-        Provider.of<AquariumPlantsViewModel>(context, listen: false).refresh();
-        Navigator.pop(context);
+        await Datastore.db.insertPlant(plant);
+        if(context.mounted) {
+          Provider.of<AquariumPlantsViewModel>(context, listen: false).refresh();
+          Navigator.pop(context);
+        }
       }
     } catch (e) {
-      createPlantFailure(context);
+      if(context.mounted) {
+        createPlantFailure(context);
+      }
     }
   }
 

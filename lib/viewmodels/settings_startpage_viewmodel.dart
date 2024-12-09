@@ -64,7 +64,7 @@ class SettingsStartPageViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                      WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),

@@ -1,10 +1,10 @@
 import 'package:aquahelper/model/activity.dart';
 import 'package:aquahelper/util/calender.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_activities_calender_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/forms/create_or_edit_activity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'forms/create_or_edit_activity.dart';
 
 class AquariumActivitiesCalendar extends StatelessWidget {
   final String aquariumId;
@@ -13,8 +13,14 @@ class AquariumActivitiesCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double rowHeight = MediaQuery.sizeOf(context).height / 22;
+    var viewModel = Provider.of<AquariumActivitiesCalenderViewModel>(context,
+        listen: false);
+    if (viewModel.aquariumId != aquariumId) {
+      viewModel.init(aquariumId);
+    }
     return ChangeNotifierProvider(
-      create: (context) => AquariumActivitiesCalenderViewModel(aquariumId),
+      create: (context) => AquariumActivitiesCalenderViewModel(),
       child: Consumer<AquariumActivitiesCalenderViewModel>(
         builder: (context, viewModel, child) => Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -57,7 +63,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TableCalendar(
-                    rowHeight: 40,
+                    rowHeight: rowHeight,
                     firstDay: DateTime.utc(2010, 1, 1),
                     lastDay: DateTime.utc(2030, 1, 1),
                     focusedDay: viewModel.focusedDay,

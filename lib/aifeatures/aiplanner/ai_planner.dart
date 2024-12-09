@@ -87,8 +87,8 @@ class _AiPlannerState extends State<AiPlanner> {
                   },
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen),
+                    minimumSize: WidgetStateProperty.all<Size>(const Size(300, 70)),
                   ),
                     child: Text(
                       "Gesamtes Aquarium planen",
@@ -108,8 +108,8 @@ class _AiPlannerState extends State<AiPlanner> {
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
+                    WidgetStateProperty.all<Color>(Colors.lightGreen),
+                    minimumSize: WidgetStateProperty.all<Size>(const Size(300, 70)),
                   ),
                   child: Text(
                       "Besatz planen",
@@ -129,8 +129,8 @@ class _AiPlannerState extends State<AiPlanner> {
                   },
                   style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
-                    minimumSize: MaterialStateProperty.all<Size>(const Size(300, 70)),
+                    WidgetStateProperty.all<Color>(Colors.lightGreen),
+                    minimumSize: WidgetStateProperty.all<Size>(const Size(300, 70)),
                   ),
                   child: Text(
                       "Bepflanzung planen",
