@@ -141,9 +141,9 @@ class CreateOrEditPlant extends StatelessWidget {
                             ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                    WidgetStateProperty.all<Color>(
                                         Colors.lightGreen),
-                                minimumSize: MaterialStateProperty.all<Size>(
+                                minimumSize: WidgetStateProperty.all<Size>(
                                     const Size(200, 50)),
                               ),
                               onPressed: () => viewModel.savePlant(context),

@@ -415,7 +415,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                     onPressed: () => viewModel.deleteAquarium(context, viewModel),
                                     style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                               Colors.grey),
                                     ),
                                     child: const Text("Löschen"),
@@ -427,7 +427,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                                     onPressed: () => viewModel.saveAquarium(context),
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all<Color>(
+                                            WidgetStateProperty.all<Color>(
                                                 Colors.lightGreen)),
                                     child: const Text("Speichern")),
                               )

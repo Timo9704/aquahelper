@@ -80,12 +80,12 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
                   onPressed: () {
                     Datastore.db.deleteAnimal(aquarium, animal!);
                     Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();

@@ -112,14 +112,14 @@ class GroundCalculatorViewModel extends ChangeNotifier {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey)),
+                    WidgetStateProperty.all<Color>(Colors.grey)),
                 child: const Text("Zurück!"),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                    WidgetStateProperty.all<Color>(Colors.lightGreen)),
                 child: const Text("Jetzt anmelden!"),
                 onPressed: () => {
                   Navigator.pop(context),
@@ -203,7 +203,7 @@ class GroundCalculatorViewModel extends ChangeNotifier {
           ),
           actions: [
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+              style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),

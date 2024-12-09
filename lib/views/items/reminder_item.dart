@@ -24,8 +24,8 @@ class ReminderItem extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: TextButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                elevation: MaterialStateProperty.all(2.0)),
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                elevation: WidgetStateProperty.all(2.0)),
             onPressed: () {
               Navigator.pushReplacement(
                   context,

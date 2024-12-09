@@ -51,7 +51,7 @@ class RunInCalenderViewModel extends ChangeNotifier {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey)),
+                    WidgetStateProperty.all<Color>(Colors.grey)),
                 child: const Text("Zurück zur Übersicht"),
                 onPressed: () =>
                 {

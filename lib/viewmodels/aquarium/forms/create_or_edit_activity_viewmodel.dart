@@ -135,12 +135,12 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
                   onPressed: () async {
                     await Datastore.db.deleteActivity(activity);
                     if(context.mounted) {

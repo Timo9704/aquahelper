@@ -139,14 +139,14 @@ class MultiTimerViewModel extends ChangeNotifier {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.grey)),
+                          WidgetStateProperty.all<Color>(Colors.grey)),
                   child: const Text("Schließen"),
                   onPressed: () => Navigator.pop(context),
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                          WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   child: const Text("Hinzufügen"),
                   onPressed: () {
                     if (nameController.value.text.isNotEmpty &&
@@ -188,7 +188,7 @@ class MultiTimerViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                      WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),

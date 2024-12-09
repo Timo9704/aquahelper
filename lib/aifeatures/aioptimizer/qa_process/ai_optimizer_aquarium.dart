@@ -243,8 +243,8 @@ class _AiOptimizerAquariumState extends State<AiOptimizerAquarium> {
           child: Column(children: [
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
-                minimumSize: MaterialStateProperty.all<Size>(const Size(200, 40)),
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.lightGreen),
+                minimumSize: WidgetStateProperty.all<Size>(const Size(200, 40)),
               ),
               onPressed: () {
                 if (_formKey.currentState?.validate() ?? false) {

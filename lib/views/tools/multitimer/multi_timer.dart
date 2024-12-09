@@ -64,7 +64,7 @@ class MultiTimer extends StatelessWidget {
                                 },
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.grey),
+                                  WidgetStateProperty.all<Color>(Colors.grey),
                             ),
                             child: const Text("Timer als Vorlage speichern")),
                       ],

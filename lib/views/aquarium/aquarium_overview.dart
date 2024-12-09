@@ -99,11 +99,11 @@ class AquariumOverview extends StatelessWidget {
                   viewModel.aquarium.runInStatus == 1
               ? ElevatedButton(
                   style: ButtonStyle(
-                      elevation: MaterialStateProperty.all<double>(20),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      elevation: WidgetStateProperty.all<double>(20),
+                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                           const EdgeInsets.all(10)),
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                          WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -283,9 +283,9 @@ class _AiOptimizerPlantsState extends State<AiOptimizerPlants> {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
+                    WidgetStateProperty.all<Color>(Colors.lightGreen),
                 minimumSize:
-                    MaterialStateProperty.all<Size>(const Size(200, 40)),
+                    WidgetStateProperty.all<Size>(const Size(200, 40)),
               ),
               onPressed: () async {
                 if (_formKey.currentState?.validate() ?? false) {

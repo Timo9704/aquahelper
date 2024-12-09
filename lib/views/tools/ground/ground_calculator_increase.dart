@@ -252,7 +252,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                     width: 150,
                     child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.lightGreen)),
                         onPressed: () => {viewModel.calculateGroundIncrease(context)},
                         child: const Text("Berechnen")),
@@ -261,7 +261,7 @@ class GroundCalculatorIncrease extends StatelessWidget {
                     width: 150,
                     child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.grey)),
                         onPressed: () => {viewModel.calculateGroundIncrease(context)},
                         child: const Text("Berechnen")),

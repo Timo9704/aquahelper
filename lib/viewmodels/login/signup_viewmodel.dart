@@ -66,7 +66,7 @@ class SignUpViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                      WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Nicht hochladen"),
               onPressed: () => {
                 Navigator.pop(context),
@@ -78,7 +78,7 @@ class SignUpViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () {
                 final BuildContext currentContext = context;

@@ -81,14 +81,14 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.grey)),
+                          WidgetStateProperty.all<Color>(Colors.grey)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                          WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () async {
                     deleteAndCancelReminder(aquarium);
                     Datastore.db.deleteAquarium(aquarium.aquariumId);
@@ -203,7 +203,7 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                      WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),
