@@ -13,6 +13,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double rowHeight = MediaQuery.sizeOf(context).height / 22;
     return ChangeNotifierProvider(
       create: (context) => AquariumActivitiesCalenderViewModel(aquariumId),
       child: Consumer<AquariumActivitiesCalenderViewModel>(
@@ -57,7 +58,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TableCalendar(
-                    rowHeight: 40,
+                    rowHeight: rowHeight,
                     firstDay: DateTime.utc(2010, 1, 1),
                     lastDay: DateTime.utc(2030, 1, 1),
                     focusedDay: viewModel.focusedDay,

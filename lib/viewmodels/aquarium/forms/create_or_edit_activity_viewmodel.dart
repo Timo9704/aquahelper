@@ -65,7 +65,7 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
     }
   }
 
-  void saveActivity(BuildContext context) {
+  Future<void> saveActivity(BuildContext context) async {
     if (selectedTags.isEmpty || selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -87,11 +87,13 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
 
     logEvent("Activity_Created");
 
-    Datastore.db.addActivity(activity);
-    Navigator.pop(context, true);
+    await Datastore.db.addActivity(activity);
+    if(context.mounted){
+      Navigator.pop(context, true);
+    }
   }
 
-  void updateActivity(BuildContext context) {
+  Future<void> updateActivity(BuildContext context) async {
     if (selectedTags.isEmpty || selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -111,8 +113,10 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
       noteController.text,
     );
 
-    Datastore.db.updateActivity(activity);
-    Navigator.pop(context, true);
+    await Datastore.db.updateActivity(activity);
+    if(context.mounted){
+      Navigator.pop(context, true);
+    }
   }
 
   void deleteActivity(BuildContext context) {
@@ -133,10 +137,12 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
-                  onPressed: () {
-                    Datastore.db.deleteActivity(activity);
-                    Navigator.pop(context);
-                    Navigator.pop(context, true);
+                  onPressed: () async {
+                    await Datastore.db.deleteActivity(activity);
+                    if(context.mounted) {
+                      Navigator.pop(context);
+                      Navigator.pop(context, true);
+                    }
                   },
                   child: const Text("Ja"),
                 ),
