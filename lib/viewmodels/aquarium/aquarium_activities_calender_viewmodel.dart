@@ -1,11 +1,11 @@
 import 'dart:collection';
 
 import 'package:aquahelper/model/activity.dart';
+import 'package:aquahelper/util/calender.dart';
 import 'package:aquahelper/util/datastore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../util/calender.dart';
 
 
 class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
@@ -15,10 +15,7 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
   late LinkedHashMap<DateTime, List<Event>> kEvents;
   String aquariumId = "";
 
-  AquariumActivitiesCalenderViewModel();
-
-  void init(String aquariumId) {
-    this.aquariumId = aquariumId;
+  AquariumActivitiesCalenderViewModel(){
     kEvents = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: (key) {
@@ -27,6 +24,10 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
     );
     selectedDay = focusedDay;
     selectedEvents = ValueNotifier(getEventsForDay(selectedDay!));
+  }
+
+  void init(String aquariumId) {
+    this.aquariumId = aquariumId;
     getActivitiesFromDb();
   }
 
