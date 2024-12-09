@@ -1,7 +1,9 @@
 import 'package:aquahelper/model/activity.dart';
 import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_activities_calender_viewmodel.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 
@@ -89,6 +91,7 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
 
     await Datastore.db.addActivity(activity);
     if(context.mounted){
+      Provider.of<AquariumActivitiesCalenderViewModel>(context, listen: false).refresh();
       Navigator.pop(context, true);
     }
   }
@@ -115,6 +118,7 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
 
     await Datastore.db.updateActivity(activity);
     if(context.mounted){
+      Provider.of<AquariumActivitiesCalenderViewModel>(context, listen: false).refresh();
       Navigator.pop(context, true);
     }
   }
@@ -140,6 +144,7 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
                   onPressed: () async {
                     await Datastore.db.deleteActivity(activity);
                     if(context.mounted) {
+                      Provider.of<AquariumActivitiesCalenderViewModel>(context, listen: false).refresh();
                       Navigator.pop(context);
                       Navigator.pop(context, true);
                     }

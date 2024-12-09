@@ -96,14 +96,14 @@ class MultiTimerViewModel extends ChangeNotifier {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Neuen Timer hinzufügen"),
+          title: const Text("Timer hinzufügen"),
           scrollable: true,
           content: SizedBox(
             height: 200,
             child: Column(
               children: [
                 const Text(
-                    "Um einen neuen Timer hinzuzufügen, gib bitte den Namen und die Dauer in ganzen Minuten ein."),
+                    "Um einen Timer hinzuzufügen, gib bitte den Namen und die Dauer in ganzen Minuten ein."),
                 TextField(
                   decoration: const InputDecoration(
                     labelText: 'Bezeichnung',
@@ -115,6 +115,7 @@ class MultiTimerViewModel extends ChangeNotifier {
                   ),
                   controller: nameController,
                 ),
+                const SizedBox(width: 5),
                 TextField(
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(

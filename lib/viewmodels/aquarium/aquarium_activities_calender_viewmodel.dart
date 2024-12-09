@@ -15,7 +15,10 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
   late LinkedHashMap<DateTime, List<Event>> kEvents;
   String aquariumId = "";
 
-  AquariumActivitiesCalenderViewModel(this.aquariumId) {
+  AquariumActivitiesCalenderViewModel();
+
+  void init(String aquariumId) {
+    this.aquariumId = aquariumId;
     kEvents = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: (key) {
@@ -24,6 +27,10 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
     );
     selectedDay = focusedDay;
     selectedEvents = ValueNotifier(getEventsForDay(selectedDay!));
+    getActivitiesFromDb();
+  }
+
+  void refresh() {
     getActivitiesFromDb();
   }
 

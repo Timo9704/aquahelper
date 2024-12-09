@@ -42,7 +42,7 @@ class CreateOrEditAquarium extends StatelessWidget {
                       onTap: () async {
                         String futurePath =
                             await ImageSelector().getImage(context);
-                        viewModel.imagePath = futurePath;
+                        viewModel.updateImagePath(futurePath);
                       },
                       child: ClipRRect(
                           borderRadius: const BorderRadius.only(

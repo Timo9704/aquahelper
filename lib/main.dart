@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_activities_calender_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_plants_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_technic_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/aquarium_activities_calender.dart';
 import 'package:aquahelper/views/onboarding.dart';
 import 'package:aquahelper/util/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -121,7 +123,8 @@ class AquaHelper extends StatelessWidget {
             ChangeNotifierProvider<AquariumMeasurementReminderViewModel>(create: (_) => AquariumMeasurementReminderViewModel()),
             ChangeNotifierProvider<AquariumAnimalsOverviewViewModel>(create: (_) => AquariumAnimalsOverviewViewModel()),
             ChangeNotifierProvider<AquariumTechnicViewModel>(create: (_) => AquariumTechnicViewModel()),
-            ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel())
+            ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel()),
+            ChangeNotifierProvider<AquariumActivitiesCalenderViewModel>(create: (_) => AquariumActivitiesCalenderViewModel()),
           ],
           child: MaterialApp(
             title: 'AquaHelper',

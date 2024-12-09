@@ -213,4 +213,9 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
       },
     );
   }
+
+  void updateImagePath(String path) {
+    imagePath = path;
+    notifyListeners();
+  }
 }

@@ -14,8 +14,13 @@ class AquariumActivitiesCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double rowHeight = MediaQuery.sizeOf(context).height / 22;
+    var viewModel = Provider.of<AquariumActivitiesCalenderViewModel>(context,
+        listen: false);
+    if (viewModel.aquariumId != aquariumId) {
+      viewModel.init(aquariumId);
+    }
     return ChangeNotifierProvider(
-      create: (context) => AquariumActivitiesCalenderViewModel(aquariumId),
+      create: (context) => AquariumActivitiesCalenderViewModel(),
       child: Consumer<AquariumActivitiesCalenderViewModel>(
         builder: (context, viewModel, child) => Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
