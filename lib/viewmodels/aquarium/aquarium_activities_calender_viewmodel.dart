@@ -63,6 +63,7 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
       }
     });
     selectedEvents = ValueNotifier(getEventsForDay(selectedDay!));
+    notifyListeners();
   }
 
   List<Event> getEventsForDay(DateTime day) {
