@@ -35,7 +35,7 @@ class CreateOrEditPlantsPositionViewModel extends ChangeNotifier {
   }
 
   Future<void> removePlant(Plant plant, BuildContext context) async {
-    Datastore.db.deletePlant(plant);
+    await Datastore.db.deletePlant(plant);
     await loadPlants();
     for(int i = 0; i < plantList.length; i++) {
       if (plantList[i].plantNumber != i + 1) {

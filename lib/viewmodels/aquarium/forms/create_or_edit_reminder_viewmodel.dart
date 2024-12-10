@@ -213,12 +213,15 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     }
   }
 
-  void deleteReminder(BuildContext context) {
-    Datastore.db.deleteTask(aquarium, task.taskId);
+  Future<void> deleteReminder(BuildContext context) async {
+    await Datastore.db.deleteTask(aquarium, task.taskId);
     AwesomeNotifications().cancelSchedule(task.taskDate ~/ 1000);
-    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
-    Provider.of<DashboardViewModel>(context, listen: false).refresh();
-    Navigator.pop(context);
+    if(context.mounted) {
+      Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false)
+          .refresh();
+      Provider.of<DashboardViewModel>(context, listen: false).refresh();
+      Navigator.pop(context);
+    }
   }
 
   void presentDatePicker(BuildContext context) {

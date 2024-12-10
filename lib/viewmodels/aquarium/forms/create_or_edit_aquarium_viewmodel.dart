@@ -58,10 +58,8 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
       } else {
         Datastore.db.updateAquarium(aquarium);
       }
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => const AquaHelper()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+          builder: (context) => const AquaHelper()), (Route route) => false);
     } catch (e) {
       createAquariumFailure(context);
     }
@@ -93,12 +91,8 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
                     deleteAndCancelReminder(aquarium);
                     Datastore.db.deleteAquarium(aquarium.aquariumId);
                     Provider.of<DashboardViewModel>(context, listen: false).refresh();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const AquaHelper()),
-                        (Route<dynamic> route) => false);
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                        builder: (context) => const AquaHelper()), (Route route) => false);
                   },
                   child: const Text("Ja"),
                 ),

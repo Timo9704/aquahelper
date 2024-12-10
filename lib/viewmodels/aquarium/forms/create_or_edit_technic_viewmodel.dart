@@ -188,7 +188,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
   }
 
   Future<void> resetComponents(BuildContext context) async {
-    Datastore.db.updateFilter(Filter(
+    await Datastore.db.updateFilter(Filter(
       filter.filterId,
       aquarium.aquariumId,
       "",
@@ -197,7 +197,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
       0,
       DateTime.now().millisecondsSinceEpoch,
     ));
-    Datastore.db.updateLighting(Lighting(
+    await Datastore.db.updateLighting(Lighting(
         lighting.lightingId,
         aquarium.aquariumId,
         "",
@@ -206,7 +206,7 @@ class CreateOrEditTechnicViewModel extends ChangeNotifier {
         0,
         0
     ));
-    Datastore.db.updateHeater(Heater(
+    await Datastore.db.updateHeater(Heater(
         heater.heaterId,
         aquarium.aquariumId,
         "",

@@ -194,19 +194,23 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
-                  onPressed: () {
-                    Datastore.db.deleteMeasurement(aquarium.aquariumId, measurementId);
-                    Provider.of<DashboardViewModel>(context, listen: false).refresh();
-                    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
-                    Navigator.pop(context);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            AquariumOverview(
-                                aquarium: aquarium),
-                      ),
-                    );
+                  onPressed: () async {
+                    await Datastore.db.deleteMeasurement(aquarium.aquariumId, measurementId);
+                    if(context.mounted) {
+                      Provider.of<DashboardViewModel>(context, listen: false)
+                          .refresh();
+                      Provider.of<AquariumMeasurementReminderViewModel>(
+                          context, listen: false).refresh();
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              AquariumOverview(
+                                  aquarium: aquarium),
+                        ),
+                      );
+                    }
                   },
                   child: const Text("Ja"),
                 ),

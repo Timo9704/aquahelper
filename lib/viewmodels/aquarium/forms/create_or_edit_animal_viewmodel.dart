@@ -86,11 +86,13 @@ class CreateOrEditAnimalViewModel extends ChangeNotifier {
                 ),
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
-                  onPressed: () {
-                    Datastore.db.deleteAnimal(aquarium, animal!);
-                    Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    await Datastore.db.deleteAnimal(aquarium, animal!);
+                    if(context.mounted){
+                      Provider.of<AquariumAnimalsOverviewViewModel>(context, listen: false).refresh();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
                   },
                   child: const Text("Ja"),
                 ),
