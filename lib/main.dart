@@ -8,6 +8,7 @@ import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_vi
 import 'package:aquahelper/viewmodels/aquarium/aquarium_plants_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_technic_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
+import 'package:aquahelper/viewmodels/items/reminder_item_viewmodel.dart';
 import 'package:aquahelper/views/onboarding.dart';
 import 'package:aquahelper/util/rate_app_init_widget.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -124,6 +125,7 @@ class AquaHelper extends StatelessWidget {
             ChangeNotifierProvider<AquariumTechnicViewModel>(create: (_) => AquariumTechnicViewModel()),
             ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel()),
             ChangeNotifierProvider<AquariumActivitiesCalenderViewModel>(create: (_) => AquariumActivitiesCalenderViewModel()),
+            ChangeNotifierProvider<ReminderItemViewModel>(create: (_) => ReminderItemViewModel()),
           ],
           child: MaterialApp(
             title: 'AquaHelper',

@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 
 class ReminderItemViewModel extends ChangeNotifier {
   int daysBetween = 0;
+  int epoch1 = 0;
+  int epoch2 = 0;
 
-  ReminderItemViewModel(int epoch1, int epoch2) {
+  void init(int epoch1, int epoch2) {
+    this.epoch1 = epoch1;
+    this.epoch2 = epoch2;
     calculateDaysBetweenEpochs(epoch1, epoch2);
   }
 
