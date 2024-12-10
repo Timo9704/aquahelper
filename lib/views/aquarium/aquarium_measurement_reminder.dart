@@ -1,6 +1,7 @@
 import 'package:aquahelper/model/aquarium.dart';
 import 'package:aquahelper/util/scalesize.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
+import 'package:aquahelper/views/aquarium/forms/create_or_edit_aquarium.dart';
 import 'package:aquahelper/views/aquarium/forms/create_or_edit_measurement.dart';
 import 'package:aquahelper/views/aquarium/forms/create_or_edit_reminder.dart';
 import 'package:aquahelper/views/items/measurement_item.dart';
@@ -8,7 +9,6 @@ import 'package:aquahelper/views/items/reminder_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'forms/create_or_edit_aquarium.dart';
 
 class AquariumMeasurementReminder extends StatelessWidget {
   final Aquarium aquarium;
