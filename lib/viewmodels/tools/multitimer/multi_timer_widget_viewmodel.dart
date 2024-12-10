@@ -189,7 +189,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
     String formattedSeconds = formattedTime(timeInSecond: seconds);
     return Text(
       formattedSeconds,
-      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
     );
   }
 
