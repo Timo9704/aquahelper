@@ -58,8 +58,8 @@ class LogIn extends StatelessWidget {
                     style: ButtonStyle(
                         backgroundColor:
                         WidgetStateProperty.all<Color>(Colors.lightGreen)),
-                    onPressed: () {
-                      viewModel.signInWithGoogle(context, dashboardViewModel);
+                    onPressed: () async {
+                      await viewModel.signInWithGoogle(context, dashboardViewModel);
                     },
                     child: const Text("Weiter"),
                   ),),

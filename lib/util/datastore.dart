@@ -31,6 +31,7 @@ class Datastore {
 
   setFirebaseUser(User? user){
     this.user = user;
+    FirebaseHelper.db.setUser(user);
   }
 
   getAquariums() async {

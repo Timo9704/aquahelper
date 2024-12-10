@@ -60,12 +60,12 @@ class LogInViewModel extends ChangeNotifier {
         final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
         final User? user = userCredential.user;
         if(user != null) {
-          Datastore.db.user = user;
+          Datastore.db.setFirebaseUser(user);
           if(context.mounted) {
-            showMessageSnackbar("Erfolgreich mit Google angemeldet!", context);
-            signInSuccess(user, context, dashboardViewModel);
-            Navigator.pop(context);
-            checkForLocalData(context);
+            await signInSuccess(user, context, dashboardViewModel);
+            if(context.mounted) {
+              checkForLocalData(context);
+            }
           }
         }
       }
@@ -100,7 +100,7 @@ class LogInViewModel extends ChangeNotifier {
   }
 
   Future<void> signInSuccess(User user, BuildContext context, DashboardViewModel dashboardViewModel) async {
-    Datastore.db.user = user;
+    Datastore.db.setFirebaseUser(user);
     Purchases.logIn(user.uid);
     Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const Homepage()));
@@ -111,6 +111,7 @@ class LogInViewModel extends ChangeNotifier {
   void showUploadDialog(BuildContext context) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           title: const Text("Es sind lokale Daten vorhanden!"),
