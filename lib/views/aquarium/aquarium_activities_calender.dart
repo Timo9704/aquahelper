@@ -17,11 +17,7 @@ class AquariumActivitiesCalendar extends StatelessWidget {
     var viewModel = Provider.of<AquariumActivitiesCalenderViewModel>(context,
         listen: false);
     if (viewModel.aquariumId != aquariumId) {
-      print("AquariumActivitiesCalendar: ViewModel not initialized");
-      print("aquariumId: $aquariumId");
       viewModel.init(aquariumId);
-    } else {
-      print("AquariumActivitiesCalendar: ViewModel already initialized");
     }
     return Consumer<AquariumActivitiesCalenderViewModel>(
       builder: (context, viewModel, child) => Padding(
@@ -38,8 +34,8 @@ class AquariumActivitiesCalendar extends StatelessWidget {
                   style: TextStyle(fontSize: 22, color: Colors.black),
                 ),
                 IconButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => CreateOrEditActivity(

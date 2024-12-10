@@ -53,11 +53,9 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
   }
 
   getActivitiesFromDb() async {
-    int counter = 0;
     kEvents.clear();
     await Datastore.db.getActivitiesForAquarium(aquariumId).then((value) {
       for (Activity activity in value) {
-        counter++;
         activity.activities.split(",").forEach((element) {
           addEventToMap(DateTime.fromMillisecondsSinceEpoch(activity.date),
               Event(element, activity));
