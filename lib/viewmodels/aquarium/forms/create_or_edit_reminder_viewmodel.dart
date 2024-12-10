@@ -143,7 +143,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
         selectedDays.toString(),
         "${selectedTime.hour}:${selectedTime.minute}",
       );
-      Datastore.db.updateTask(aquarium, task);
+      await Datastore.db.updateTask(aquarium, task);
       if (repeat) {
         cancelRecurringNotifications(previousSelectedDays
             .asMap()
@@ -179,11 +179,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
       Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false)
           .refresh();
       Provider.of<DashboardViewModel>(context, listen: false).refresh();
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  AquariumOverview(aquarium: aquarium)));
+      Navigator.pop(context);
     }
   }
 
@@ -226,11 +222,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     AwesomeNotifications().cancelSchedule(task.taskDate ~/ 1000);
     Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
     Provider.of<DashboardViewModel>(context, listen: false).refresh();
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>
-                AquariumOverview(aquarium: aquarium)));
+    Navigator.pop(context);
   }
 
   void presentDatePicker(BuildContext context) {

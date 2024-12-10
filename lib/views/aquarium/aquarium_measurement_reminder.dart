@@ -106,7 +106,7 @@ class AquariumMeasurementReminder extends StatelessWidget {
                         fontWeight: FontWeight.w800)),
                 IconButton(
                   onPressed: () async {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) => CreateOrEditReminder(

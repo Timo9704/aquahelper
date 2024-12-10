@@ -27,7 +27,7 @@ class ReminderItem extends StatelessWidget {
                 backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
                 elevation: WidgetStateProperty.all(2.0)),
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
