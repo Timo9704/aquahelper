@@ -3,15 +3,11 @@ import 'package:aquahelper/model/task.dart';
 import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
-import 'package:aquahelper/views/aquarium/aquarium_overview.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-
-
-
 
 class CreateOrEditReminderViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
