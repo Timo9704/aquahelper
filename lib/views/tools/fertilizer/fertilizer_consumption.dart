@@ -110,7 +110,7 @@ class FertilizerConsumption extends StatelessWidget {
                     DataColumn(
                       label: Expanded(
                         child: Text(
-                          'Verbrauch \n(in mg/L)',
+                          'Verbrauch pro Tag\n(in mg/L)',
                           textScaler: TextScaler.linear(textScaleFactor),
                           style: const TextStyle(fontStyle: FontStyle.italic),
                         ),

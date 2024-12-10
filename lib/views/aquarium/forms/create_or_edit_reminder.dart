@@ -204,7 +204,7 @@ class CreateOrEditReminder extends StatelessWidget {
                                           if (picked != null &&
                                               picked !=
                                                   viewModel.selectedTime) {
-                                            viewModel.selectedTime = picked;
+                                            viewModel.setSelectedTime(picked);
                                           }
                                         },
                                         child: const Text('Uhrzeit wählen'),

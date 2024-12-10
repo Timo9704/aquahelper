@@ -80,6 +80,11 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setSelectedTime(TimeOfDay time) {
+    selectedTime = time;
+    notifyListeners();
+  }
+
   List<bool> stringToBoolList(String str) {
     String trimmedStr = str.substring(1, str.length - 1);
     List<String> strList = trimmedStr.split(', ');

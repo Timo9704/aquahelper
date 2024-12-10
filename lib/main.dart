@@ -157,7 +157,8 @@ class AquaHelper extends StatelessWidget {
                     foregroundColor: WidgetStateProperty.all(Colors.black),
                     backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
-                )),
+                ),
+            ),
             home: RateAppInitWidget(
                 builder: (rateMyApp) => const OnBoardingPage()),
           ),

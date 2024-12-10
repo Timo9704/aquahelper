@@ -22,6 +22,7 @@ class Explorer extends StatelessWidget {
             showSelectedLabels: true,
             type: BottomNavigationBarType.fixed,
             showUnselectedLabels: true,
+            backgroundColor: Colors.white,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.mic),

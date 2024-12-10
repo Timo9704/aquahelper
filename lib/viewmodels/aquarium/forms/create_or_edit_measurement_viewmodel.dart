@@ -198,6 +198,7 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
                     Datastore.db.deleteMeasurement(aquarium.aquariumId, measurementId);
                     Provider.of<DashboardViewModel>(context, listen: false).refresh();
                     Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
+                    Navigator.pop(context);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

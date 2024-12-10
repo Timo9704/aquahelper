@@ -22,6 +22,7 @@ class FertilizerCalculator extends StatelessWidget {
             unselectedLabelStyle: TextStyle(color: Colors.grey[700]),
             showSelectedLabels: true,
             type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
             showUnselectedLabels: true,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
