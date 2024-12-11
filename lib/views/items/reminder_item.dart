@@ -37,7 +37,7 @@ class ReminderItem extends StatelessWidget {
                 Text(task.title,
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(fontSize: 12, color: Colors.black)),
-                viewModel.daysBetween == 0
+                viewModel.getUpdatedDaysBetween() == 0
                     ? const Text('heute fällig',
                         style: TextStyle(fontSize: 8, color: Colors.black))
                     : viewModel.daysBetween == 1

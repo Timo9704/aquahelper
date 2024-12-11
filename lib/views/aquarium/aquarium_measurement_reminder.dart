@@ -136,7 +136,6 @@ class AquariumMeasurementReminder extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           itemBuilder: (context, index) {
                             return ReminderItem(
-                              key: ValueKey(viewModel.taskList.elementAt(index).taskId),
                               task: viewModel.taskList.elementAt(index),
                               aquarium: viewModel.aquarium!,
                             );

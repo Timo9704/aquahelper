@@ -25,4 +25,9 @@ class ReminderItemViewModel extends ChangeNotifier {
     daysBetween = difference.inDays;
     notifyListeners();
   }
+
+  int getUpdatedDaysBetween() {
+    calculateDaysBetweenEpochs(epoch1, epoch2);
+    return daysBetween;
+  }
 }

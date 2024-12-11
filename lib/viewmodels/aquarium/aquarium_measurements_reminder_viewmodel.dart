@@ -32,7 +32,6 @@ class AquariumMeasurementReminderViewModel extends ChangeNotifier {
   void loadTasks() async {
     if(aquarium != null) {
       taskList.clear();
-      taskAmount = 0;
       taskList = await Task.task.getTaskListByAquarium(aquarium!);
       taskAmount = taskList.length;
       notifyListeners();
