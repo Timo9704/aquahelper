@@ -12,7 +12,6 @@ class ReminderItemViewModel extends ChangeNotifier {
     epoch1 = DateTime.now().millisecondsSinceEpoch;
     epoch2 = task.taskDate;
     calculateDaysBetweenEpochs(epoch1, epoch2);
-    notifyListeners();
   }
 
   void calculateDaysBetweenEpochs(int epoch1, int epoch2) {
