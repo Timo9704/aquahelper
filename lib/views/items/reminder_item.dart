@@ -17,7 +17,7 @@ class ReminderItem extends StatelessWidget {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     var viewModel = Provider.of<ReminderItemViewModel>(context,
         listen: false);
-    if (viewModel.epoch1 != DateTime.now().millisecondsSinceEpoch) {
+    if (viewModel.epoch2 != task.taskDate) {
       viewModel.init(DateTime.now().millisecondsSinceEpoch, task.taskDate);
     }
     return Consumer<ReminderItemViewModel>(
