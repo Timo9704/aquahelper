@@ -20,5 +20,6 @@ jobs:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_PLAYSTORE_JSON }}
           packageName: com.aquarium.aquahelper
           releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          changesNotSentForReview: true
           track: internal
           status: draft
