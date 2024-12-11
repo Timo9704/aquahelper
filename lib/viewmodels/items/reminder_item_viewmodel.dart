@@ -33,7 +33,6 @@ class ReminderItemViewModel extends ChangeNotifier {
     DateTime dateOnly2 = DateTime(date2.year, date2.month, date2.day);
 
     Duration difference = dateOnly2.difference(dateOnly1);
-    print("difference: ${difference.inDays}");
     return difference.inDays;
   }
 }
