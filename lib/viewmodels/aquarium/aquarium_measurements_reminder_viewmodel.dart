@@ -31,7 +31,6 @@ class AquariumMeasurementReminderViewModel extends ChangeNotifier {
 
   void loadTasks() async {
     taskList = await Task.task.getTaskListByAquarium(aquarium!);
-    print(DateTime.fromMillisecondsSinceEpoch(taskList.elementAt(0).taskDate));
     notifyListeners();
   }
 

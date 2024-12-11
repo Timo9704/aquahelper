@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class ReminderItemViewModel extends ChangeNotifier {
   int daysBetween = 0;
   int epoch1 = 0;

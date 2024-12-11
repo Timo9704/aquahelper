@@ -6,8 +6,6 @@ import 'package:aquahelper/views/aquarium/forms/create_or_edit_reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 class ReminderItem extends StatelessWidget {
   final Task task;
   final Aquarium aquarium;
