@@ -30,10 +30,13 @@ class AquariumMeasurementReminderViewModel extends ChangeNotifier {
   }
 
   void loadTasks() async {
-    taskList.clear();
-    notifyListeners();
-    taskList = await Task.task.getTaskListByAquarium(aquarium!);
-    notifyListeners();
+    if(aquarium != null) {
+      taskList.clear();
+      taskAmount = 0;
+      taskList = await Task.task.getTaskListByAquarium(aquarium!);
+      taskAmount = taskList.length;
+      notifyListeners();
+    }
   }
 
   Widget localImageCheck(String imagePath) {
