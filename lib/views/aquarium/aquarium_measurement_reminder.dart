@@ -130,30 +130,17 @@ class AquariumMeasurementReminder extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.07,
                   width: MediaQuery.of(context).size.width,
                   child: viewModel.taskList.isNotEmpty
-                      ? NotificationListener<ScrollNotification>(
-                    onNotification: (scrollNotification) {
-                      if (scrollNotification is ScrollStartNotification ||
-                          scrollNotification is ScrollUpdateNotification ||
-                          scrollNotification is ScrollEndNotification) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          // Force a rebuild to ensure widgets are visible
-                          (context as Element).markNeedsBuild();
-                        });
-                      }
-                      return false;
-                    },
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: viewModel.taskList.length,
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      itemBuilder: (context, index) {
-                        return ReminderItem(
-                          task: viewModel.taskList.elementAt(index),
-                          aquarium: viewModel.aquarium!,
-                        );
-                      },
-                    ),
-                  )
+                      ? ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: viewModel.taskList.length,
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          itemBuilder: (context, index) {
+                            return ReminderItem(
+                              task: viewModel.taskList.elementAt(index),
+                              aquarium: viewModel.aquarium!,
+                            );
+                          },
+                        )
                       : Center(
                           child: Text(
                             'Aktuell keine Aufgaben vorhanden!',
