@@ -1,15 +1,14 @@
 import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
+import 'package:aquahelper/views/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../util/datastore.dart';
-import '../../util/dbhelper.dart';
-import '../../views/homepage.dart';
-import '../../views/login/login.dart';
 
 class LogInViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
