@@ -37,14 +37,14 @@ class ReminderItem extends StatelessWidget {
                 Text(task.title,
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(fontSize: 12, color: Colors.black)),
-                viewModel.getUpdatedDaysBetween() == 0
+                viewModel.getUpdatedDaysBetween(DateTime.now().millisecondsSinceEpoch, task.taskDate) == 0
                     ? const Text('heute fällig',
                         style: TextStyle(fontSize: 8, color: Colors.black))
                     : viewModel.daysBetween == 1
                         ? const Text('fällig in 1 Tag',
                             style: TextStyle(fontSize: 8, color: Colors.black))
                         : task.scheduled == '0'
-                            ? Text('fällig in ${viewModel.daysBetween} Tagen',
+                            ? Text('fällig in ${viewModel.getUpdatedDaysBetween(DateTime.now().millisecondsSinceEpoch, task.taskDate)} Tagen',
                                 style: const TextStyle(
                                     fontSize: 8, color: Colors.black))
                             : const Text("wiederkehrend",
