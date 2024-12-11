@@ -24,7 +24,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:sizer/sizer.dart';
-
 import 'util/config.dart';
 
 Future<void> main() async {
