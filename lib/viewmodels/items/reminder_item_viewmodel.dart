@@ -1,14 +1,18 @@
+import 'package:aquahelper/model/task.dart';
 import 'package:flutter/material.dart';
 
 class ReminderItemViewModel extends ChangeNotifier {
+  late Task task;
   int daysBetween = 0;
   int epoch1 = 0;
   int epoch2 = 0;
 
-  void init(int epoch1, int epoch2) {
-    this.epoch1 = epoch1;
-    this.epoch2 = epoch2;
+  void init(Task task) {
+    task = task;
+    epoch1 = DateTime.now().millisecondsSinceEpoch;
+    epoch2 = task.taskDate;
     calculateDaysBetweenEpochs(epoch1, epoch2);
+    notifyListeners();
   }
 
   void calculateDaysBetweenEpochs(int epoch1, int epoch2) {

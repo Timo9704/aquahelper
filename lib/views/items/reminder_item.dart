@@ -18,7 +18,7 @@ class ReminderItem extends StatelessWidget {
     var viewModel = Provider.of<ReminderItemViewModel>(context,
         listen: false);
     if (viewModel.epoch2 != task.taskDate) {
-      viewModel.init(DateTime.now().millisecondsSinceEpoch, task.taskDate);
+      viewModel.init(task);
     }
     return Consumer<ReminderItemViewModel>(
         builder: (context, viewModel, child) => Container(

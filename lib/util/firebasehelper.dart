@@ -312,6 +312,7 @@ class FirebaseHelper{
           });
         });
       }
+      list.sort((a, b) => a.taskDate.compareTo(b.taskDate));
       return list;
     }
 
