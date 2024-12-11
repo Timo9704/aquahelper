@@ -24,6 +24,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
   MultiTimerWidgetViewModel(this.customTimer) {
     maxSeconds = customTimer.seconds;
     seconds = maxSeconds;
+    isUserPremium().then((value) => isPremiumUser = value);
   }
 
   void showFailureDialog(BuildContext context){
@@ -35,7 +36,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
           content: const Text("Bitte fülle alle Felder aus und gib die Dauer in ganzen Minuten ein."),
           actions: [
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+              style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -92,14 +93,14 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey)),
+                    WidgetStateProperty.all<Color>(Colors.grey)),
                 child: const Text("Zurück!"),
                 onPressed: () => Navigator.pop(context),
               ),
               ElevatedButton(
                 style: ButtonStyle(
                     backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                    WidgetStateProperty.all<Color>(Colors.lightGreen)),
                 child: const Text("Jetzt anmelden!"),
                 onPressed: () => {
                   Navigator.pop(context),
@@ -188,7 +189,7 @@ class MultiTimerWidgetViewModel extends ChangeNotifier {
     String formattedSeconds = formattedTime(timeInSecond: seconds);
     return Text(
       formattedSeconds,
-      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
     );
   }
 

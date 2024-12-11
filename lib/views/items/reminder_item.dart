@@ -6,8 +6,6 @@ import 'package:aquahelper/views/aquarium/forms/create_or_edit_reminder.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
-
 class ReminderItem extends StatelessWidget {
   final Task task;
   final Aquarium aquarium;
@@ -18,16 +16,16 @@ class ReminderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
-      create: (context) => ReminderItemViewModel(DateTime.now().millisecondsSinceEpoch, task.taskDate),
-      child: Consumer<ReminderItemViewModel>(
+      create: (context) => ReminderItemViewModel(task),
+    child: Consumer<ReminderItemViewModel>(
         builder: (context, viewModel, child) => Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: TextButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                elevation: MaterialStateProperty.all(2.0)),
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                elevation: WidgetStateProperty.all(2.0)),
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) =>
@@ -39,14 +37,14 @@ class ReminderItem extends StatelessWidget {
                 Text(task.title,
                     textScaler: TextScaler.linear(textScaleFactor),
                     style: const TextStyle(fontSize: 12, color: Colors.black)),
-                viewModel.daysBetween == 0
+                viewModel.getUpdatedDaysBetween(DateTime.now().millisecondsSinceEpoch, task.taskDate) == 0
                     ? const Text('heute fällig',
                         style: TextStyle(fontSize: 8, color: Colors.black))
                     : viewModel.daysBetween == 1
                         ? const Text('fällig in 1 Tag',
                             style: TextStyle(fontSize: 8, color: Colors.black))
                         : task.scheduled == '0'
-                            ? Text('fällig in ${viewModel.daysBetween} Tagen',
+                            ? Text('fällig in ${viewModel.getUpdatedDaysBetween(DateTime.now().millisecondsSinceEpoch, task.taskDate)} Tagen',
                                 style: const TextStyle(
                                     fontSize: 8, color: Colors.black))
                             : const Text("wiederkehrend",
@@ -56,7 +54,6 @@ class ReminderItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      ),);
   }
 }

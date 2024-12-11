@@ -3,15 +3,11 @@ import 'package:aquahelper/model/task.dart';
 import 'package:aquahelper/util/datastore.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:aquahelper/viewmodels/dashboard_viewmodel.dart';
-import 'package:aquahelper/views/aquarium/aquarium_overview.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-
-
-
 
 class CreateOrEditReminderViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -80,6 +76,11 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setSelectedTime(TimeOfDay time) {
+    selectedTime = time;
+    notifyListeners();
+  }
+
   List<bool> stringToBoolList(String str) {
     String trimmedStr = str.substring(1, str.length - 1);
     List<String> strList = trimmedStr.split(', ');
@@ -138,7 +139,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
         selectedDays.toString(),
         "${selectedTime.hour}:${selectedTime.minute}",
       );
-      Datastore.db.updateTask(aquarium, task);
+      await Datastore.db.updateTask(aquarium, task);
       if (repeat) {
         cancelRecurringNotifications(previousSelectedDays
             .asMap()
@@ -174,11 +175,7 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
       Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false)
           .refresh();
       Provider.of<DashboardViewModel>(context, listen: false).refresh();
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  AquariumOverview(aquarium: aquarium)));
+      Navigator.pop(context);
     }
   }
 
@@ -216,16 +213,15 @@ class CreateOrEditReminderViewModel extends ChangeNotifier {
     }
   }
 
-  void deleteReminder(BuildContext context) {
-    Datastore.db.deleteTask(aquarium, task.taskId);
+  Future<void> deleteReminder(BuildContext context) async {
+    await Datastore.db.deleteTask(aquarium, task.taskId);
     AwesomeNotifications().cancelSchedule(task.taskDate ~/ 1000);
-    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
-    Provider.of<DashboardViewModel>(context, listen: false).refresh();
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) =>
-                AquariumOverview(aquarium: aquarium)));
+    if(context.mounted) {
+      Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false)
+          .refresh();
+      Provider.of<DashboardViewModel>(context, listen: false).refresh();
+      Navigator.pop(context);
+    }
   }
 
   void presentDatePicker(BuildContext context) {

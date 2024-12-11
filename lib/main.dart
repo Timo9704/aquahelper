@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:aquahelper/model/user_settings.dart';
 import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_activities_calender_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_measurements_reminder_viewmodel.dart';
 import 'package:aquahelper/viewmodels/aquarium/aquarium_plants_viewmodel.dart';
@@ -121,7 +122,8 @@ class AquaHelper extends StatelessWidget {
             ChangeNotifierProvider<AquariumMeasurementReminderViewModel>(create: (_) => AquariumMeasurementReminderViewModel()),
             ChangeNotifierProvider<AquariumAnimalsOverviewViewModel>(create: (_) => AquariumAnimalsOverviewViewModel()),
             ChangeNotifierProvider<AquariumTechnicViewModel>(create: (_) => AquariumTechnicViewModel()),
-            ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel())
+            ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel()),
+            ChangeNotifierProvider<AquariumActivitiesCalenderViewModel>(create: (_) => AquariumActivitiesCalenderViewModel())
           ],
           child: MaterialApp(
             title: 'AquaHelper',
@@ -136,26 +138,27 @@ class AquaHelper extends StatelessWidget {
                 scaffoldBackgroundColor: const Color.fromRGBO(242, 242, 242, 1),
                 textButtonTheme: TextButtonThemeData(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
-                    foregroundColor: MaterialStateProperty.all(Colors.black),
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    foregroundColor: WidgetStateProperty.all(Colors.black),
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
                 ),
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
-                    foregroundColor: MaterialStateProperty.all(Colors.black),
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    foregroundColor: WidgetStateProperty.all(Colors.black),
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
-                )),
+                ),
+            ),
             home: RateAppInitWidget(
                 builder: (rateMyApp) => const OnBoardingPage()),
           ),

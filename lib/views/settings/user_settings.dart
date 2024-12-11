@@ -116,7 +116,7 @@ class UserSettings extends StatelessWidget {
                   ? ElevatedButton(
                       onPressed: () => viewModel.onClickedLogOut(context, dashboardViewModel),
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                               Colors.grey[300]!)),
                       child: const Text(
                         'Ausloggen',
@@ -171,7 +171,7 @@ class UserSettings extends StatelessWidget {
                                 Text(key),
                                 Checkbox(
                                   checkColor: Colors.white,
-                                  fillColor: MaterialStateProperty.all(
+                                  fillColor: WidgetStateProperty.all(
                                       Colors.lightGreen),
                                   value: viewModel.measurementItemsList[index],
                                   onChanged: (bool? value) => {
@@ -201,7 +201,7 @@ class UserSettings extends StatelessWidget {
                             Checkbox(
                               checkColor: Colors.white,
                               fillColor:
-                                  MaterialStateProperty.all(Colors.lightGreen),
+                                  WidgetStateProperty.all(Colors.lightGreen),
                               value: viewModel.measurementLimits,
                               onChanged: (bool? value) {
                                 viewModel.measurementLimits = value!;

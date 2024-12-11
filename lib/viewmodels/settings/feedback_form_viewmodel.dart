@@ -57,9 +57,9 @@ class FeedbackFormViewModel extends ChangeNotifier {
     }
     if(description.isNotEmpty){
       description += "\n App-Version: ${packageInfo.version}\n Lokal: $local \n Email: $mail";
-      const idList = String.fromEnvironment('TRELLO_LIST_KEY');
-      const apiKey = String.fromEnvironment('TRELLO_API_KEY');
-      const apiToken = String.fromEnvironment('TRELLO_API_TOKEN');
+      const idList = "65d20760344a48e372e37eb6";//String.fromEnvironment('TRELLO_LIST_KEY');
+      const apiKey = "c188c3c92a0aad1e758b0b2906333e2e"; //String.fromEnvironment('TRELLO_API_KEY');
+      const apiToken = "ATTA405c2ffdd1dee47167de493aba271230aa38376af1cd1abe8de82dfd1d9aedaaA334B02A"; //String.fromEnvironment('TRELLO_API_TOKEN');
 
       final httpResponse = await  http.post(
         Uri.parse('https://api.trello.com/1/cards?idList=$idList&key=$apiKey&token=$apiToken'),

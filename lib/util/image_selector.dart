@@ -86,7 +86,7 @@ class ImageSelector {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   child: Text("Bild mit Kamera aufnehmen", textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 15)),
                   onPressed: () {
                     Navigator.pop(context);
@@ -99,7 +99,7 @@ class ImageSelector {
                   child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   child: Text("Bild aus Galerie auswählen", textScaler: TextScaler.linear(textScaleFactor), style: const TextStyle(fontSize: 15)),
                   onPressed: () {
                     Navigator.pop(context);

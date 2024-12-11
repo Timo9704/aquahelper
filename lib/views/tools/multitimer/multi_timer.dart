@@ -59,11 +59,12 @@ class MultiTimer extends StatelessWidget {
                                     {
                                       Datastore.db.insertCustomTimer(
                                           viewModel.timerList[i]),
-                                    }
+                                    },
+                                    viewModel.showMessageSnackbar("Timer erfolgreich gespeichert", context),
                                 },
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.grey),
+                                  WidgetStateProperty.all<Color>(Colors.grey),
                             ),
                             child: const Text("Timer als Vorlage speichern")),
                       ],

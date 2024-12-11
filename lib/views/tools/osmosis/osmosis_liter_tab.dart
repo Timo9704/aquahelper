@@ -248,7 +248,7 @@ class OsmosisLiterTab extends StatelessWidget {
                         child: ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                    WidgetStateProperty.all<Color>(
                                         Colors.lightGreen)),
                             onPressed: () =>
                                 viewModel.calculateOsmosisRatio(context),
@@ -258,7 +258,7 @@ class OsmosisLiterTab extends StatelessWidget {
                         width: 150,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                   Colors.grey)),
                           onPressed: () => viewModel.calculateOsmosisRatio(context),
                           child: const Text("Berechnen"),

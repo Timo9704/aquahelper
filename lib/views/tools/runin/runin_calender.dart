@@ -16,6 +16,7 @@ class RunInCalender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double rowHeight = MediaQuery.sizeOf(context).height / 22;
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return ChangeNotifierProvider(
       create: (context) => RunInCalenderViewModel(context, aquarium),
@@ -87,6 +88,7 @@ class RunInCalender extends StatelessWidget {
                     child: Column(
                       children: [
                         TableCalendar(
+                          rowHeight: rowHeight,
                           firstDay: DateTime.utc(
                               DateTime.now().year, DateTime.now().month, 1),
                           lastDay: DateTime.utc(DateTime.now().year,

@@ -1,10 +1,10 @@
+import 'package:aquahelper/model/animals.dart';
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/scalesize.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../model/animals.dart';
-import '../../../util/scalesize.dart';
-import '../../model/aquarium.dart';
-import '../../viewmodels/aquarium/aquarium_animals_overview_viewmodel.dart';
 import 'forms/create_or_edit_animal.dart';
 
 class AquariumAnimalsOverview extends StatelessWidget {

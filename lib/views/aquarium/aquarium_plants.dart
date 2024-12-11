@@ -101,10 +101,10 @@ class AquariumPlants extends StatelessWidget {
                 );
               },
               style: ButtonStyle(
-                  maximumSize: MaterialStateProperty.all<Size>(
+                  maximumSize: WidgetStateProperty.all<Size>(
                       const Size(double.infinity, 50)),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen)),
               child: Text(
                 'Pflanzen bearbeiten',
                 textScaler: TextScaler.linear(textScaleFactor),

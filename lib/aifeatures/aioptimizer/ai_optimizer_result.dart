@@ -169,9 +169,9 @@ class _AiOptimizerResultState extends State<AiOptimizerResult> {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.lightGreen),
+                    WidgetStateProperty.all<Color>(Colors.lightGreen),
                 minimumSize:
-                    MaterialStateProperty.all<Size>(const Size(200, 40)),
+                    WidgetStateProperty.all<Size>(const Size(200, 40)),
               ),
               onPressed: () {
                 String problems = widget.jsonData['identified_problems'];

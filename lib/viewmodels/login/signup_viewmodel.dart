@@ -1,10 +1,11 @@
+import 'package:aquahelper/main.dart';
+import 'package:aquahelper/model/aquarium.dart';
+import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/util/dbhelper.dart';
 import 'package:aquahelper/views/login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../model/aquarium.dart';
-import '../../util/dbhelper.dart';
 
 class SignUpViewModel extends ChangeNotifier {
   final TextEditingController emailController = TextEditingController();
@@ -30,7 +31,7 @@ class SignUpViewModel extends ChangeNotifier {
     } else {
       if (context.mounted) {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const LogIn()),
+            MaterialPageRoute(builder: (context) => const AquaHelper()),
                 (Route<dynamic> route) => false);
         showInitialLoginMessage(context);
       }
@@ -66,7 +67,7 @@ class SignUpViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                      WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Nicht hochladen"),
               onPressed: () => {
                 Navigator.pop(context),
@@ -78,7 +79,7 @@ class SignUpViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                      WidgetStateProperty.all<Color>(Colors.lightGreen)),
               child: const Text("Hochladen"),
               onPressed: () {
                 final BuildContext currentContext = context;
@@ -132,6 +133,7 @@ class SignUpViewModel extends ChangeNotifier {
 
     if (userInternal != null) {
       userEmail = userInternal.email!;
+      Datastore.db.setFirebaseUser(userInternal);
       user = FirebaseAuth.instance.currentUser!;
       if(context.mounted) {
         successUserCreation(userEmail, context);

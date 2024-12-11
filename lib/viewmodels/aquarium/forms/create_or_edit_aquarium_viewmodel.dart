@@ -58,10 +58,8 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
       } else {
         Datastore.db.updateAquarium(aquarium);
       }
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => const AquaHelper()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+          builder: (context) => const AquaHelper()), (Route route) => false);
     } catch (e) {
       createAquariumFailure(context);
     }
@@ -81,24 +79,20 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.grey)),
+                          WidgetStateProperty.all<Color>(Colors.grey)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                          WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () async {
                     deleteAndCancelReminder(aquarium);
                     Datastore.db.deleteAquarium(aquarium.aquariumId);
                     Provider.of<DashboardViewModel>(context, listen: false).refresh();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const AquaHelper()),
-                        (Route<dynamic> route) => false);
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                        builder: (context) => const AquaHelper()), (Route route) => false);
                   },
                   child: const Text("Ja"),
                 ),
@@ -203,7 +197,7 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.grey)),
+                      WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -212,5 +206,10 @@ class CreateOrEditAquariumViewModel extends ChangeNotifier {
         );
       },
     );
+  }
+
+  void updateImagePath(String path) {
+    imagePath = path;
+    notifyListeners();
   }
 }

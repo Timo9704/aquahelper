@@ -1,12 +1,9 @@
 import 'dart:collection';
-
 import 'package:aquahelper/model/activity.dart';
+import 'package:aquahelper/util/calender.dart';
 import 'package:aquahelper/util/datastore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../../util/calender.dart';
-
 
 class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
   late ValueNotifier<List<Event>> selectedEvents;
@@ -15,7 +12,7 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
   late LinkedHashMap<DateTime, List<Event>> kEvents;
   String aquariumId = "";
 
-  AquariumActivitiesCalenderViewModel(this.aquariumId) {
+  AquariumActivitiesCalenderViewModel(){
     kEvents = LinkedHashMap<DateTime, List<Event>>(
       equals: isSameDay,
       hashCode: (key) {
@@ -24,6 +21,14 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
     );
     selectedDay = focusedDay;
     selectedEvents = ValueNotifier(getEventsForDay(selectedDay!));
+  }
+
+  void init(String aquariumId) {
+    this.aquariumId = aquariumId;
+    getActivitiesFromDb();
+  }
+
+  void refresh() {
     getActivitiesFromDb();
   }
 
@@ -44,9 +49,9 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  getActivitiesFromDb() {
+  getActivitiesFromDb() async {
     kEvents.clear();
-    Datastore.db.getActivitiesForAquarium(aquariumId).then((value) {
+    await Datastore.db.getActivitiesForAquarium(aquariumId).then((value) {
       for (Activity activity in value) {
         activity.activities.split(",").forEach((element) {
           addEventToMap(DateTime.fromMillisecondsSinceEpoch(activity.date),
@@ -55,6 +60,7 @@ class AquariumActivitiesCalenderViewModel extends ChangeNotifier {
       }
     });
     selectedEvents = ValueNotifier(getEventsForDay(selectedDay!));
+    notifyListeners();
   }
 
   List<Event> getEventsForDay(DateTime day) {

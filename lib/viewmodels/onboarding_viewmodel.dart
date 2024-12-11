@@ -98,7 +98,7 @@ class OnBoardingViewModel extends ChangeNotifier {
             actions: <Widget>[
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen),
+                  backgroundColor: WidgetStateProperty.all<Color>(Colors.lightGreen),
                 ),
                 onPressed: () => acceptPrivacyPolicy(context),
                 child: const Text("Weiter"),

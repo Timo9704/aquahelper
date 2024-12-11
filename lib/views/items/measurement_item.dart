@@ -19,9 +19,9 @@ class MeasurementItem extends StatelessWidget {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
     return TextButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          elevation: MaterialStateProperty.all(2.0),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+          elevation: WidgetStateProperty.all(2.0),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0), // Radius anpassen für stärkere Abrundung
             ),

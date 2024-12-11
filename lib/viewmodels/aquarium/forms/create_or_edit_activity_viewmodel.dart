@@ -1,7 +1,9 @@
 import 'package:aquahelper/model/activity.dart';
 import 'package:aquahelper/util/datastore.dart';
+import 'package:aquahelper/viewmodels/aquarium/aquarium_activities_calender_viewmodel.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 
@@ -65,7 +67,7 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
     }
   }
 
-  void saveActivity(BuildContext context) {
+  Future<void> saveActivity(BuildContext context) async {
     if (selectedTags.isEmpty || selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -87,11 +89,14 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
 
     logEvent("Activity_Created");
 
-    Datastore.db.addActivity(activity);
-    Navigator.pop(context, true);
+    await Datastore.db.addActivity(activity);
+    if(context.mounted){
+      Provider.of<AquariumActivitiesCalenderViewModel>(context, listen: false).refresh();
+      Navigator.pop(context, true);
+    }
   }
 
-  void updateActivity(BuildContext context) {
+  Future<void> updateActivity(BuildContext context) async {
     if (selectedTags.isEmpty || selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -111,8 +116,11 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
       noteController.text,
     );
 
-    Datastore.db.updateActivity(activity);
-    Navigator.pop(context, true);
+    await Datastore.db.updateActivity(activity);
+    if(context.mounted){
+      Provider.of<AquariumActivitiesCalenderViewModel>(context, listen: false).refresh();
+      Navigator.pop(context, true);
+    }
   }
 
   void deleteActivity(BuildContext context) {
@@ -127,16 +135,19 @@ class CreateOrEditActivityViewModel extends ChangeNotifier {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
-                  onPressed: () {
-                    Datastore.db.deleteActivity(activity);
-                    Navigator.pop(context);
-                    Navigator.pop(context, true);
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
+                  onPressed: () async {
+                    await Datastore.db.deleteActivity(activity);
+                    if(context.mounted) {
+                      Provider.of<AquariumActivitiesCalenderViewModel>(context, listen: false).refresh();
+                      Navigator.pop(context);
+                      Navigator.pop(context, true);
+                    }
                   },
                   child: const Text("Ja"),
                 ),

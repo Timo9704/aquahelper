@@ -111,8 +111,8 @@ class CreateOrEditAnimal extends StatelessWidget {
                           ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.grey),
-                              minimumSize: MaterialStateProperty.all<Size>(
+                                  WidgetStateProperty.all<Color>(Colors.grey),
+                              minimumSize: WidgetStateProperty.all<Size>(
                                   const Size(150, 40)),
                             ),
                             onPressed: () => viewModel.onPressedDelete(context),
@@ -120,9 +120,9 @@ class CreateOrEditAnimal extends StatelessWidget {
                           ),
                         ElevatedButton(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.lightGreen),
-                            minimumSize: MaterialStateProperty.all<Size>(
+                            minimumSize: WidgetStateProperty.all<Size>(
                                 const Size(150, 40)),
                           ),
                           onPressed: () => viewModel.onPressedSave(context),

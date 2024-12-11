@@ -193,10 +193,10 @@ class ToolsStartPage extends StatelessWidget {
                       ElevatedButton(
                           onPressed: () => viewModel.showPaywall(context),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 Colors.lightGreen),
-                            elevation: MaterialStateProperty.all<double>(0),
-                            shape: MaterialStateProperty.all<
+                            elevation: WidgetStateProperty.all<double>(0),
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),

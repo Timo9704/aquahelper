@@ -151,7 +151,7 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
           ),
           actions: [
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
+              style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
               child: const Text("Schließen"),
               onPressed: () => Navigator.pop(context),
             ),
@@ -188,24 +188,29 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreen)),
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.lightGreen)),
                   onPressed: () => Navigator.pop(context),
                   child: const Text("Nein"),
                 ),
                 ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)),
-                  onPressed: () {
-                    Datastore.db.deleteMeasurement(aquarium.aquariumId, measurementId);
-                    Provider.of<DashboardViewModel>(context, listen: false).refresh();
-                    Provider.of<AquariumMeasurementReminderViewModel>(context, listen: false).refresh();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            AquariumOverview(
-                                aquarium: aquarium),
-                      ),
-                    );
+                  style: ButtonStyle(backgroundColor: WidgetStateProperty.all<Color>(Colors.grey)),
+                  onPressed: () async {
+                    await Datastore.db.deleteMeasurement(aquarium.aquariumId, measurementId);
+                    if(context.mounted) {
+                      Provider.of<DashboardViewModel>(context, listen: false)
+                          .refresh();
+                      Provider.of<AquariumMeasurementReminderViewModel>(
+                          context, listen: false).refresh();
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              AquariumOverview(
+                                  aquarium: aquarium),
+                        ),
+                      );
+                    }
                   },
                   child: const Text("Ja"),
                 ),
@@ -276,6 +281,11 @@ class CreateOrEditMeasurementViewModel extends ChangeNotifier {
         createMeasurementFailure(context);
       }
     }
+  }
+
+  void updateImagePath(String path) {
+    imagePath = path;
+    notifyListeners();
   }
 }
 

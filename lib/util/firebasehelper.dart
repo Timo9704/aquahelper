@@ -25,6 +25,10 @@ class FirebaseHelper{
 
     User? user = FirebaseAuth.instance.currentUser;
 
+    setUser(User? user){
+      this.user = user;
+    }
+
     initializeUser(User user) async {
       DatabaseReference ref = FirebaseDatabase.instance.ref('users/${user.uid}');
       await ref.set({
@@ -308,6 +312,7 @@ class FirebaseHelper{
           });
         });
       }
+      list.sort((a, b) => a.taskDate.compareTo(b.taskDate));
       return list;
     }
 

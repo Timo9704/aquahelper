@@ -184,7 +184,7 @@ class CreateOrEditReminder extends StatelessWidget {
                                       ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor:
-                                                MaterialStateProperty.all<
+                                                WidgetStateProperty.all<
                                                     Color>(Colors.lightGreen)),
                                         onPressed: () async {
                                           final TimeOfDay? picked =
@@ -204,7 +204,7 @@ class CreateOrEditReminder extends StatelessWidget {
                                           if (picked != null &&
                                               picked !=
                                                   viewModel.selectedTime) {
-                                            viewModel.selectedTime = picked;
+                                            viewModel.setSelectedTime(picked);
                                           }
                                         },
                                         child: const Text('Uhrzeit wählen'),
@@ -220,7 +220,7 @@ class CreateOrEditReminder extends StatelessWidget {
                       if (!viewModel.repeat)
                         ElevatedButton(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                   Colors.lightGreen)),
                           onPressed: () => viewModel.presentDatePicker(context),
                           child: const Text('Datum und Uhrzeit wählen'),
@@ -253,7 +253,7 @@ class CreateOrEditReminder extends StatelessWidget {
                               child: ElevatedButton(
                                 style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             Colors.lightGreen)),
                                 onPressed: () =>
                                     viewModel.submitReminder(context),
