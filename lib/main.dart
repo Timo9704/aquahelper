@@ -124,8 +124,7 @@ class AquaHelper extends StatelessWidget {
             ChangeNotifierProvider<AquariumAnimalsOverviewViewModel>(create: (_) => AquariumAnimalsOverviewViewModel()),
             ChangeNotifierProvider<AquariumTechnicViewModel>(create: (_) => AquariumTechnicViewModel()),
             ChangeNotifierProvider<AquariumPlantsViewModel>(create: (_) => AquariumPlantsViewModel()),
-            ChangeNotifierProvider<AquariumActivitiesCalenderViewModel>(create: (_) => AquariumActivitiesCalenderViewModel()),
-            ChangeNotifierProvider<ReminderItemViewModel>(create: (_) => ReminderItemViewModel()),
+            ChangeNotifierProvider<AquariumActivitiesCalenderViewModel>(create: (_) => AquariumActivitiesCalenderViewModel())
           ],
           child: MaterialApp(
             title: 'AquaHelper',

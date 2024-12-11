@@ -15,12 +15,9 @@ class ReminderItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double textScaleFactor = ScaleSize.textScaleFactor(context);
-    var viewModel = Provider.of<ReminderItemViewModel>(context,
-        listen: false);
-    if (viewModel.epoch2 != task.taskDate) {
-      viewModel.init(task);
-    }
-    return Consumer<ReminderItemViewModel>(
+    return ChangeNotifierProvider(
+        create: (context) => ReminderItemViewModel(task),
+    child: Consumer<ReminderItemViewModel>(
         builder: (context, viewModel, child) => Container(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: TextButton(
@@ -57,6 +54,6 @@ class ReminderItem extends StatelessWidget {
             ),
           ),
         ),
-      );
+      ),);
   }
 }

@@ -7,7 +7,7 @@ class ReminderItemViewModel extends ChangeNotifier {
   int epoch1 = 0;
   int epoch2 = 0;
 
-  void init(Task task) {
+  ReminderItemViewModel(Task task) {
     task = task;
     epoch1 = DateTime.now().millisecondsSinceEpoch;
     epoch2 = task.taskDate;
