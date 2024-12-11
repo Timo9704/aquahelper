@@ -9,7 +9,6 @@ import 'package:purchases_ui_flutter/purchases_ui_flutter.dart';
 import '../../../util/datastore.dart';
 
 class RunInIntroViewModel extends ChangeNotifier {
-  Aquarium? selectedAquarium;
   List<Aquarium> aquariumNames = [];
   bool isPremiumUser = false;
   User? user = FirebaseAuth.instance.currentUser;
@@ -26,8 +25,12 @@ class RunInIntroViewModel extends ChangeNotifier {
   void loadAquariums() async {
     List<Aquarium> dbAquariums = await Datastore.db.getAquariums();
     aquariumNames = dbAquariums;
-    selectedAquarium = dbAquariums.first;
-    aquarium = selectedAquarium!;
+    aquarium = dbAquariums.first;
+    notifyListeners();
+  }
+
+  setAquarium(Aquarium selectedAquarium) {
+    aquarium = selectedAquarium;
     notifyListeners();
   }
 

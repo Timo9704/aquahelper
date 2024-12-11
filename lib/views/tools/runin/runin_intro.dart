@@ -45,7 +45,7 @@ class RunInIntro extends StatelessWidget {
                       style:
                           const TextStyle(fontSize: 18, color: Colors.black)),
                   DropdownButton<Aquarium>(
-                    value: viewModel.selectedAquarium,
+                    value: viewModel.aquarium,
                     items: viewModel.aquariumNames
                         .map<DropdownMenuItem<Aquarium>>((Aquarium value) {
                       return DropdownMenuItem<Aquarium>(
@@ -56,8 +56,7 @@ class RunInIntro extends StatelessWidget {
                       );
                     }).toList(),
                     onChanged: (newValue) {
-                      viewModel.selectedAquarium = newValue;
-                      viewModel.aquarium = newValue!;
+                      viewModel.setAquarium(newValue!);
                     },
                   ),
                 ]),

@@ -132,7 +132,7 @@ class LogInViewModel extends ChangeNotifier {
               onPressed: () => {
                 Navigator.pop(context),
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const LogIn()),
+                    MaterialPageRoute(builder: (context) => const Homepage()),
                         (Route<dynamic> route) => false),
                 showMessageSnackbar("Keine Daten hochgeladen!", context),
               },
